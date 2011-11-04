@@ -69,7 +69,7 @@ public class LoginActivity extends Activity {
 		if((serverOutput = br.readLine()) != ""){
 			if(!serverOutput.equals("Authenticated")) {
 				AlertDialog login = new AlertDialog.Builder(LoginActivity.this).create();
-				login.setMessage("Felaktigt anvŠndarnamn eller lšsenord");
+				login.setMessage("Felaktigt anvŠändarnamn eller löšsenord");
 				login.setButton("OK", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) { 	
 					}
@@ -82,6 +82,10 @@ public class LoginActivity extends Activity {
 				startActivity(new Intent(getBaseContext(),tddd36.grupp3.ChooseUnitActivity.class));
 			}
 		}
+	}
+	
+	public void send(String str){
+		pw.println(str);
 	}
 
 	@Override

@@ -35,13 +35,15 @@
 
     <item
         android:id="@+id/menu"
-        android:title="@string/menu"/>
+        android:title="@string/menu">
+        <menu>
+            <item android:id="@+id/settings" android:title="Inställningar"/>
+        </menu>
+    </item>
 
     <item
         android:id="@+id/activity"
         android:title="@string/activity"/>
-    <item
-        android:id="@+id/other"
-        android:title="@string/other"/>
+    <item android:id="@+id/logout" android:title="Logga ut"></item>
 
 </menu>

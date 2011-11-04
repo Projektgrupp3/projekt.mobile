@@ -210,6 +210,9 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 	    case R.id.activity:
 	    	//TODO
 	    	return true;
+	    case R.id.logout:
+	    
+	    	return true;
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
