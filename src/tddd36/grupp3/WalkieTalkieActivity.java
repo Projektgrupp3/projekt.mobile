@@ -327,7 +327,7 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 			.setMessage("Please update your SIP Account Settings.")
 			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					updatePreferences();
+					//updatePreferences();
 				}
 			})
 			.setNegativeButton(
@@ -341,9 +341,9 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 		return null;
 	}
 
-	public void updatePreferences() {
-		Intent settingsActivity = new Intent(getBaseContext(),
-				SipSettings.class);
-		startActivity(settingsActivity);
-	}
+//	public void updatePreferences() {
+//		Intent settingsActivity = new Intent(getBaseContext(),
+//				SipSettings.class);
+//		startActivity(settingsActivity);
+//	}
 }
