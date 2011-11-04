@@ -46,6 +46,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 	LocationManager lm;
 	String towers;
 	GeoPoint ourLocation;
+	AlertDialog eventinfo,logout;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -202,16 +203,37 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 	        //TODO
 	        return true;
 	    case R.id.voicecall:
-	    	//TODO
+	    	startActivity(new Intent(getBaseContext(), tddd36.grupp3.WalkieTalkieActivity.class));	
 	    	return true;
 	    case R.id.eventinfo:
-	    	//TODO
+	    	eventinfo = new AlertDialog.Builder(MainMapActivity.this).create();
+	    	eventinfo.setTitle("Aktuellt larm");
+	    	eventinfo.setMessage("Här ska det komma larminformation.");
+	    	eventinfo.setButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which){
+						eventinfo.dismiss();
+					}
+				});
+	    	eventinfo.show();
 	    	return true;
 	    case R.id.activity:
 	    	//TODO
 	    	return true;
 	    case R.id.logout:
-	    
+	    	logout = new AlertDialog.Builder(MainMapActivity.this).create();
+	    	logout.setMessage("Är du säker på att du vill avsluta?");
+	    	logout.setButton("Ja", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which){
+						finish();
+					}
+				});
+	    	logout.setButton2("Nej", new DialogInterface.OnClickListener() {
+				
+				public void onClick(DialogInterface dialog, int which) {
+					logout.dismiss();					
+				}
+			});	
+	    	logout.show();
 	    	return true;
 	    default:
 	        return super.onOptionsItemSelected(item);

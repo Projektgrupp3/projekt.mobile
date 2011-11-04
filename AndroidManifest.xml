@@ -6,10 +6,18 @@
 
     <uses-sdk android:minSdkVersion="10" />
 
-    <uses-permission android:name="android.permission.INTERNET" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.USE_SIP" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    
+    <uses-feature android:name="android.hardware.sip.voip" android:required="true" />
+    <uses-feature android:name="android.hardware.wifi" android:required="true" />
+    <uses-feature android:name="android.hardware.microphone" android:required="true" />
 
     <application
         android:debuggable="true"
@@ -64,6 +72,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".SipSettings" android:label="set_preferences"/>
+
+        <receiver android:name=".IncomingCallReceiver" android:label="Call Receiver"/>
     </application>
 
 </manifest>
