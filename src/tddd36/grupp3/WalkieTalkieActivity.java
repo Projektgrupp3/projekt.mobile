@@ -19,8 +19,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Menu;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -137,22 +139,22 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 
 			manager.setRegistrationListener(me.getUriString(), new SipRegistrationListener() {
 				public void onRegistering(String localProfileUri) {
-					updateStatus("Registering with SIP Server...");
+					updateStatus("Registrerar mot SIP-server..");
 				}
 
 				public void onRegistrationDone(String localProfileUri, long expiryTime) {
-					updateStatus("Ready");
+					updateStatus("Redo");
 				}
 
 				public void onRegistrationFailed(String localProfileUri, int errorCode,
 						String errorMessage) {
-					updateStatus("Registration failed.  Please check settings.");
+					updateStatus("Registrering misslyckades. Var god se över dina inställningar.");
 				}
 			});
 		} catch (ParseException pe) {
-			updateStatus("Connection Error.");
+			updateStatus("Fel i uppkoppling.");
 		} catch (SipException se) {
-			updateStatus("Connection error.");
+			updateStatus("Fel i uppkoppling.");
 		}
 	}
 
@@ -169,7 +171,7 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 				manager.close(me.getUriString());
 			}
 		} catch (Exception ee) {
-			Log.d("WalkieTalkieActivity/onDestroy", "Failed to close local profile.", ee);
+			Log.d("WalkieTalkieActivity/onDestroy", "Misslyckades med att stänga den lokala profilen.", ee);
 		}
 	}
 
@@ -195,7 +197,7 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 
 				@Override
 				public void onCallEnded(SipAudioCall call) {
-					updateStatus("Ready.");
+					updateStatus("Redo.");
 				}
 			};
 
@@ -203,13 +205,13 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 
 		}
 		catch (Exception e) {
-			Log.i("WalkieTalkieActivity/InitiateCall", "Error when trying to close manager.", e);
+			Log.i("WalkieTalkieActivity/InitiateCall", "Fel uppstod vid försök att stänga ner manager.", e);
 			if (me != null) {
 				try {
 					manager.close(me.getUriString());
 				} catch (Exception ee) {
 					Log.i("WalkieTalkieActivity/InitiateCall",
-							"Error when trying to close manager.", ee);
+							"Fel uppstod vid försök att stänga ner manager.", ee);
 					ee.printStackTrace();
 				}
 			}
@@ -227,7 +229,7 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 		// Be a good citizen.  Make sure UI changes fire on the UI thread.
 		this.runOnUiThread(new Runnable() {
 			public void run() {
-				TextView labelView = (TextView) findViewById(R.id.textView1);
+				TextView labelView = (TextView) findViewById(R.id.sipLabel);
 				labelView.setText(status);
 			}
 		});
@@ -263,36 +265,36 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 		return false;
 	}
 
-	//    public boolean onCreateOptionsMenu(Menu menu) {
-	//        menu.add(0, CALL_ADDRESS, 0, "Call someone");
-	//        menu.add(0, SET_AUTH_INFO, 0, "Edit your SIP Info.");
-	//        menu.add(0, HANG_UP, 0, "End Current Call.");
-	//
-	//        return true;
-	//    }
-	//
-	//    public boolean onOptionsItemSelected(MenuItem item) {
-	//        switch (item.getItemId()) {
-	//            case CALL_ADDRESS:
-	//                showDialog(CALL_ADDRESS);
-	//                break;
-	//            case SET_AUTH_INFO:
-	//                updatePreferences();
-	//                break;
-	//            case HANG_UP:
-	//                if(call != null) {
-	//                    try {
-	//                      call.endCall();
-	//                    } catch (SipException se) {
-	//                        Log.d("WalkieTalkieActivity/onOptionsItemSelected",
-	//                                "Error ending call.", se);
-	//                    }
-	//                    call.close();
-	//                }
-	//                break;
-	//        }
-	//        return true;
-	//    }
+	public boolean onCreateOptionsMenu(Menu menu) {
+	        menu.add(0, CALL_ADDRESS, 0, "Ring annan klient.");
+	        menu.add(0, SET_AUTH_INFO, 0, "Ändra din SIP-information.");
+	        menu.add(0, HANG_UP, 0, "Avsluta nuvarande samtal.");
+	
+	        return true;
+	    }
+	
+	    public boolean onOptionsItemSelected(MenuItem item) {
+	        switch (item.getItemId()) {
+	            case CALL_ADDRESS:
+	                showDialog(CALL_ADDRESS);
+	                break;
+	            case SET_AUTH_INFO:
+	                updatePreferences();
+	                break;
+	            case HANG_UP:
+	                if(call != null) {
+	                    try {
+	                      call.endCall();
+	                    } catch (SipException se) {
+	                        Log.d("WalkieTalkieActivity/onOptionsItemSelected",
+	                                "Fel vid nedkopplat samtal", se);
+	                    }
+	                    call.close();
+	                }
+	                break;
+	        }
+	        return true;
+	    }
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -302,7 +304,7 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 			LayoutInflater factory = LayoutInflater.from(this);
 			final View textBoxView = factory.inflate(R.layout.call_address_dialog, null);
 			return new AlertDialog.Builder(this)
-			.setTitle("Call Someone.")
+			.setTitle("Ring")
 			.setView(textBoxView)
 			.setPositiveButton(
 					android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -324,16 +326,16 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 
 		case UPDATE_SETTINGS_DIALOG:
 			return new AlertDialog.Builder(this)
-			.setMessage("Please update your SIP Account Settings.")
+			.setMessage("Var god uppdatera ditt SIP-kontos inställningar.")
 			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					//updatePreferences();
+					updatePreferences();
 				}
 			})
 			.setNegativeButton(
 					android.R.string.cancel, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int whichButton) {
-							// Noop.
+							// No-op
 						}
 					})
 					.create();
@@ -341,9 +343,9 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 		return null;
 	}
 
-//	public void updatePreferences() {
-//		Intent settingsActivity = new Intent(getBaseContext(),
-//				SipSettings.class);
-//		startActivity(settingsActivity);
-//	}
+	public void updatePreferences() {
+		Intent settingsActivity = new Intent(getBaseContext(),
+				SipSettings.class);
+		startActivity(settingsActivity);
+	}
 }
