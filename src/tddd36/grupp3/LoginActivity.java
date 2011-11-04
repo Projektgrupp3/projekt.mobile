@@ -79,8 +79,7 @@ public class LoginActivity extends Activity {
 			}
 			else{
 				//If authenticated user travels to choosUnit
-				Intent chooseUnit = new Intent("tddd36.grupp3.CHOOSEUNIT");
-				startActivity(chooseUnit);
+				startActivity(new Intent(getBaseContext(),tddd36.grupp3.ChooseUnitActivity.class));
 			}
 		}
 	}

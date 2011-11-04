@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class chooseUnit extends Activity implements OnItemSelectedListener, OnClickListener {
+public class ChooseUnitActivity extends Activity implements OnItemSelectedListener, OnClickListener {
 	
 	Spinner spinner;
 	Button bContinue;
@@ -60,11 +60,10 @@ public class chooseUnit extends Activity implements OnItemSelectedListener, OnCl
 	}
 
 	public void onClick(View v) {
-		Intent openMenu = new Intent("tddd36.grupp3.MENU");
-		startActivity(openMenu);
+		startActivity(new Intent(getBaseContext(),tddd36.grupp3.MainMapActivity.class));
 	}
 	protected void onPause() {
-		//finishes chooseUnit activity when traveling to mainmenu
+		//finishes ChooseUnitActivity activity when traveling to mainmenu
 		super.onPause();
 		finish();
 	}
