@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:name="SIP Användarnamn"
+        android:summary="Användarnamn för ditt SIP-konto"
+        android:defaultValue=""
+        android:title="Mata in ditt användarnamn"
+        android:key="namePref" />
+    <EditTextPreference
+        android:name="SIP Domän"
+        android:summary="Domän för ditt SIP-konto"
+        android:defaultValue=""
+        android:title="Mata in din domän"
+        android:key="domainPref" />
+    <EditTextPreference
+        android:name="SIP Lösenord"
+        android:summary="Lösenord för ditt SIP-konto"
+        android:defaultValue=""
+        android:title="Mata in ditt lösenord"
+        android:key="passPref"
+        android:password="true" />
+</PreferenceScreen>
