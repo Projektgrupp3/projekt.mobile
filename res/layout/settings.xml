@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Meddelanden" >
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="checkboxMessages"
+            android:summary="Acceptera inkommande meddelanden"
+            android:title="Acceptera ink. medd." />
+
+        <RingtonePreference
+            android:dependency="checkboxMessages"
+            android:key="ringtonePref"
+            android:name="IncMsgTone"
+            android:summary="Välj ton vid inkommet meddelande"
+            android:title="Tonval" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Användare" >
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="editNamePref"
+            android:name="Name"
+            android:summary="Ditt namn"
+            android:title="Ändra ditt namn" />
+
+        <PreferenceScreen
+            android:key="PhoneSettings"
+            android:summary="Inställningar gällande telefonen"
+            android:title="Telefoninställningar" >
+
+            <EditTextPreference
+                android:key="PhoneSettingName"
+                android:name="PhoneName"
+                android:title="Ändra telefonens namn" 
+                android:summary="Ändra telefonens namn"
+                />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+</PreferenceScreen>

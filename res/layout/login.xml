@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+>
+	<TextView
+		android:text="Logga in"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:id="@+id/textView3"
+		android:layout_width="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:textSize="50px"
+	></TextView>
+	<TextView
+		android:text="Användarnamn:"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:id="@+id/textView2"
+		android:layout_width="wrap_content"
+	></TextView>
+	<EditText
+		android:id="@+id/editText1"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+	>
+		<requestFocus></requestFocus>
+	</EditText>
+	<TextView
+		android:text="Lösenord:"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:id="@+id/textView1"
+		android:layout_width="wrap_content"
+	></TextView>
+	<EditText
+		android:id="@+id/editText2"
+		android:layout_height="wrap_content"
+		android:inputType="textPassword"
+		android:layout_width="match_parent"
+	></EditText>
+	<Button
+		android:layout_height="wrap_content"
+		android:layout_gravity="right"
+		android:text="Logga in"
+		android:id="@+id/button1"
+		android:layout_width="116dp"
+	></Button>
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, androidActivity!</string>
+     <string name="app_name">Map Application</string>
+    <string name="voicecall">Röstsamtal</string>
+    <string name="eventinfo">Larminformation</string>
+    <string name="status">Status</string>
+    <string name="menu">Meny</string>
+    <string name="activity">Aktivitet</string>
+    <string name="other">Övrigt</string>
+        
+</resources>
