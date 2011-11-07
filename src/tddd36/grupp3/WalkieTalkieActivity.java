@@ -266,9 +266,9 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
-	        menu.add(0, CALL_ADDRESS, 0, "Ring annan klient.");
-	        menu.add(0, SET_AUTH_INFO, 0, "Ändra din SIP-information.");
-	        menu.add(0, HANG_UP, 0, "Avsluta nuvarande samtal.");
+	        menu.add(0, CALL_ADDRESS, 0, "Ring samtal");
+	        menu.add(0, SET_AUTH_INFO, 0, "Ändra din SIP-information");
+	        menu.add(0, HANG_UP, 0, "Avsluta nuvarande samtal");
 	
 	        return true;
 	    }
