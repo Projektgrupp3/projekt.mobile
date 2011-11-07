@@ -25,6 +25,7 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -42,7 +43,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 	int x, y,lat = 0, lon = 0;
 	GeoPoint touchedPoint;
 	Drawable d;
-	List<Overlay> overlayList;
+	static List<Overlay> overlayList;
 	LocationManager lm;
 	String towers;
 	GeoPoint ourLocation;
@@ -64,37 +65,35 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 		controller = map.getController();
 		d = getResources().getDrawable(R.drawable.pinpoint);
 
-		//Placing pinpoint at our location
+		//Puts view onto current location
 		lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		Criteria criteria = new Criteria();
-		towers = lm.getBestProvider(criteria, false);
-		Location location = lm.getLastKnownLocation(towers);
-		if(location != null){
-			lat = (int) (location.getLatitude() * 1E6);
-			lon = (int) (location.getLongitude() * 1E6);
-			ourLocation = new GeoPoint(lat, lon);
-			OverlayItem overlayItem = new OverlayItem(ourLocation,"Sträng 1", "Sträng 2");
-			CustomPinpoint custom = new CustomPinpoint(d,MainMapActivity.this);
-			custom.insertPinpoint(overlayItem);
-			overlayList.add(custom);
-		}else Toast.makeText(MainMapActivity.this, "Kunde inte hämta leverantör", Toast.LENGTH_SHORT).show();
-		
-		controller.animateTo(ourLocation);
+		criteria.setAccuracy(Criteria.ACCURACY_FINE);
+		criteria.setAltitudeRequired(false);
+		towers = lm.getBestProvider(criteria, true);		
+		Location lastKnownLocation =
+			lm.getLastKnownLocation(lm.getBestProvider(criteria, true));
+		lat = (int) (lastKnownLocation.getLatitude() * 1E6);
+		lon = (int) (lastKnownLocation.getLongitude() * 1E6);
+		GeoPoint lastKnownGeoPoint = new GeoPoint(lat,lon);
+		controller.animateTo(lastKnownGeoPoint);
 		controller.setZoom(15);
 	}
 
 	@Override
 	protected void onPause() {
 		compass.disableCompass();
-		super.onPause();
 		lm.removeUpdates(this);
+		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
 		compass.enableCompass();
 		super.onResume();
-		lm.requestLocationUpdates(towers, 500, 1, this);
+		//30000 = 5 min, 5000 = 5 kilometers
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, this);
+		super.onResume();
 	}
 
 	@Override
@@ -102,6 +101,10 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+//	public static GeoPoint getGetGeopoints(){
+//		overlayList.get
+//	}
 
 	class Touchy extends Overlay{
 		public boolean onTouchEvent(MotionEvent e, MapView m){
@@ -192,52 +195,52 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 		inflater.inflate(R.menu.mainmenu, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	    case R.id.menu:
-	    	startActivity(new Intent(getBaseContext(), tddd36.grupp3.SettingsActivity.class));	
-	        return true;
-	    case R.id.status:
-	        //TODO
-	        return true;
-	    case R.id.voicecall:
-	    	startActivity(new Intent(getBaseContext(), tddd36.grupp3.WalkieTalkieActivity.class));	
-	    	return true;
-	    case R.id.eventinfo:
-	    	eventinfo = new AlertDialog.Builder(MainMapActivity.this).create();
-	    	eventinfo.setTitle("Aktuellt larm");
-	    	eventinfo.setMessage("Här ska det komma larminformation.");
-	    	eventinfo.setButton("Ok", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which){
-						eventinfo.dismiss();
-					}
-				});
-	    	eventinfo.show();
-	    	return true;
-	    case R.id.activity:
-	    	//TODO
-	    	return true;
-	    case R.id.logout:
-	    	logout = new AlertDialog.Builder(MainMapActivity.this).create();
-	    	logout.setMessage("Är du säker på att du vill avsluta?");
-	    	logout.setButton("Ja", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which){
-						finish();
-					}
-				});
-	    	logout.setButton2("Nej", new DialogInterface.OnClickListener() {
-				
+		switch (item.getItemId()) {
+		case R.id.menu:
+			startActivity(new Intent(getBaseContext(), tddd36.grupp3.SettingsActivity.class));	
+			return true;
+		case R.id.status:
+			//TODO
+			return true;
+		case R.id.voicecall:
+			startActivity(new Intent(getBaseContext(), tddd36.grupp3.WalkieTalkieActivity.class));	
+			return true;
+		case R.id.eventinfo:
+			eventinfo = new AlertDialog.Builder(MainMapActivity.this).create();
+			eventinfo.setTitle("Aktuellt larm");
+			eventinfo.setMessage("Här ska det komma larminformation.");
+			eventinfo.setButton("Ok", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which){
+					eventinfo.dismiss();
+				}
+			});
+			eventinfo.show();
+			return true;
+		case R.id.activity:
+			//TODO
+			return true;
+		case R.id.logout:
+			logout = new AlertDialog.Builder(MainMapActivity.this).create();
+			logout.setMessage("Är du säker på att du vill avsluta?");
+			logout.setButton("Ja", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which){
+					finish();
+				}
+			});
+			logout.setButton2("Nej", new DialogInterface.OnClickListener() {
+
 				public void onClick(DialogInterface dialog, int which) {
 					logout.dismiss();					
 				}
 			});	
-	    	logout.show();
-	    	return true;
-	    default:
-	        return super.onOptionsItemSelected(item);
-	    }
+			logout.show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	public void onProviderDisabled(String provider) {

@@ -222,7 +222,7 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 	}
 
 	/**
-	 * Updates the status box at the top of the UI with a messege of your choice.
+	 * Updates the status box at the top of the UI with a message of your choice.
 	 * @param status The String to display in the status box.
 	 */
 	public void updateStatus(final String status) {
