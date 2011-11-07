@@ -57,7 +57,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 		map = (MapView)findViewById(R.id.mvMain);
 		map.setBuiltInZoomControls(true);
 
-		Touchy t = new Touchy();
+		TouchOverlay t = new TouchOverlay();
 		overlayList = map.getOverlays();
 		overlayList.add(t);		
 		compass = new MyLocationOverlay(MainMapActivity.this, map);
@@ -106,7 +106,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 //		overlayList.get
 //	}
 
-	class Touchy extends Overlay{
+	class TouchOverlay extends Overlay{
 		public boolean onTouchEvent(MotionEvent e, MapView m){
 			if (e.getAction() == MotionEvent.ACTION_DOWN){
 				start = e.getEventTime();
@@ -177,7 +177,6 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 	 * Kallas på när location uppdateras.
 	 */
 	public void onLocationChanged(Location l) {
-		// TODO Auto-generated method stub
 		lat = (int) (l.getLatitude() * 1E6);
 		lon = (int) (l.getLongitude() * 1E6);
 		GeoPoint ourLocation = new GeoPoint(lat, lon);
