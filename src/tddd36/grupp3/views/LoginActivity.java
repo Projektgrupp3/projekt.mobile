@@ -1,4 +1,4 @@
-package tddd36.grupp3;
+package tddd36.grupp3.views;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,6 +6,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import tddd36.grupp3.R;
+import tddd36.grupp3.R.id;
+import tddd36.grupp3.R.layout;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -79,7 +83,7 @@ public class LoginActivity extends Activity {
 			}
 			else{
 				//If authenticated user travels to choosUnit
-				startActivity(new Intent(getBaseContext(),tddd36.grupp3.ChooseUnitActivity.class));
+				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.ChooseUnitActivity.class));
 			}
 		}
 	}

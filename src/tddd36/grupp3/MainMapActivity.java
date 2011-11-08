@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import tddd36.grupp3.R;
-
+import tddd36.grupp3.models.MapObjectList;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -32,7 +30,11 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
-
+/**
+ * DEPRECATED! DO NOT USE!
+ * @author Emil
+ *
+ */
 public class MainMapActivity extends MapActivity implements LocationListener{
 
 	MapView map;
@@ -54,6 +56,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
 		map = (MapView)findViewById(R.id.mvMain);
 		map.setBuiltInZoomControls(true);
 
@@ -176,7 +179,6 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 		lon = (int) (l.getLongitude() * 1E6);
 		GeoPoint ourLocation = new GeoPoint(lat, lon);
 		OverlayItem currentLocation = new OverlayItem(ourLocation,"ny location","ny location");
-		
 		controller.animateTo(ourLocation);
 	}
 	/**
@@ -193,7 +195,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu:
-			startActivity(new Intent(getBaseContext(), tddd36.grupp3.SettingsActivity.class));	
+			startActivity(new Intent(getBaseContext(), tddd36.grupp3.models.SettingsModel.class));	
 			return true;
 		case R.id.status:
 			//TODO

@@ -2,6 +2,8 @@ package tddd36.grupp3;
 
 import java.text.ParseException;
 
+import tddd36.grupp3.models.SIPSettingsModel;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -345,7 +347,7 @@ public class WalkieTalkieActivity extends Activity implements View.OnTouchListen
 
 	public void updatePreferences() {
 		Intent settingsActivity = new Intent(getBaseContext(),
-				SipSettings.class);
+				SIPSettingsModel.class);
 		startActivity(settingsActivity);
 	}
 }

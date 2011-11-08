@@ -1,9 +1,11 @@
-package tddd36.grupp3;
+package tddd36.grupp3.models;
 
+import tddd36.grupp3.R;
+import tddd36.grupp3.R.layout;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsModel extends PreferenceActivity {
 	@Override
 
 	public void onCreate(Bundle savedInstanceState) {       

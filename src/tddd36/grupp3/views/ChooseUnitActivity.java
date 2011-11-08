@@ -1,6 +1,11 @@
-package tddd36.grupp3;
+package tddd36.grupp3.views;
 
 import java.io.File;
+
+import tddd36.grupp3.MainMapActivity;
+import tddd36.grupp3.R;
+import tddd36.grupp3.R.id;
+import tddd36.grupp3.R.layout;
 
 import android.app.Activity;
 import android.content.Intent;

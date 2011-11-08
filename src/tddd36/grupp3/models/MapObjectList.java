@@ -1,4 +1,4 @@
-package tddd36.grupp3;
+package tddd36.grupp3.models;
 
 import java.util.ArrayList;
 
