@@ -51,22 +51,22 @@ public class LoginActivity extends Activity implements Observer {
 	public void login() throws UnknownHostException, IOException {
 		
 		
-		""+user.getText(), ""+pass.getText());
-
-			if(ClientModel.getAuth()) {
-				AlertDialog login = new AlertDialog.Builder(LoginActivity.this).create();
-				login.setMessage("Felaktigt användarnamn eller lösenord");
-				login.setButton("OK", new DialogInterface.OnClickListener(){
-					public void onClick(DialogInterface dialog, int which) { 	
-					}
-				});
-				pass.setText("");
-				login.show();
-			}
-			else{
-				//If authenticated user travels to choosUnit
-				startActivity(new Intent(getBaseContext(),tddd36.grupp3.ChooseUnitActivity.class));
-			}
+//		//""+user.getText(), ""+pass.getText());
+//
+//			if(ClientModel.getAuth()) {
+//				AlertDialog login = new AlertDialog.Builder(LoginActivity.this).create();
+//				login.setMessage("Felaktigt användarnamn eller lösenord");
+//				login.setButton("OK", new DialogInterface.OnClickListener(){
+//					public void onClick(DialogInterface dialog, int which) { 	
+//					}
+//				});
+//				pass.setText("");
+//				login.show();
+//			}
+//			else{
+//				//If authenticated user travels to choosUnit
+//				startActivity(new Intent(getBaseContext(),tddd36.grupp3.ChooseUnitActivity.class));
+//			}
 		
 	}
 
@@ -79,6 +79,5 @@ public class LoginActivity extends Activity implements Observer {
 	}
 
 	public void update(Observable observable, Object data) {
-		instanceof
 	}
 }

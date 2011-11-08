@@ -3,8 +3,9 @@ package tddd36.grupp3.views;
 import java.util.Observable;
 import java.util.Observer;
 
-import tddd36.grupp3.LoginActivity;
+
 import tddd36.grupp3.R;
+import tddd36.grupp3.controllers.ClientController;
 import tddd36.grupp3.models.ClientModel;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ClientView extends Activity implements Observer{
 
@@ -22,6 +24,7 @@ public class ClientView extends Activity implements Observer{
 	private EditText user;
 	private EditText pass;
 	private Button login;
+	ClientController cc;
 
 	public void update(Observable observable, Object data) {
 
@@ -48,13 +51,18 @@ public class ClientView extends Activity implements Observer{
 		user = (EditText) findViewById(R.id.editText1);
 		login = (Button) findViewById(R.id.button1);
 		display = (TextView)findViewById(R.id.textView3);
-
+		
+		cc = new ClientController(this);
+		
 		login.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-
-				ClientModel.setUserName(""+user.getText());
-				ClientModel.setPassword(""+pass.getText());
+				Toast.makeText(getBaseContext(), ""+user.getText(), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), ""+pass.getText(), Toast.LENGTH_SHORT).show();
+				
+				cc.setUserName(""+user.getText());
+				cc.setPassword(""+pass.getText());
+				cc.connectToServer();	
 			};
 		});
 	}

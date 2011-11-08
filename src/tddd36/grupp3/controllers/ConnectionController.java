@@ -4,59 +4,96 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ConnectionController implements Runnable, Observer {
+import android.os.AsyncTask;
 
-	private static final String COM_IP = "130.236.226.120";
-	private static final int COM_PORT = 4040;
+import tddd36.grupp3.models.ClientModel;
+
+public class ConnectionController extends AsyncTask<String, Integer, String> implements Runnable, Observer {
+
+	private static final String COM_IP = "130.236.226.212";
+	private static final int COM_PORT = 4444;
 	private InputStreamReader isr;
 	private PrintWriter pw;
 	private BufferedReader br;
-	private boolean auth;
 	public String serverOutput;
 	private Socket s;
-	private ServerSocket serv;
+	
+	public void run(String userName, String password) {
+		try {
+			s = new Socket(COM_IP, COM_PORT);
+			isr = new InputStreamReader(s.getInputStream());
+			pw = new PrintWriter(s.getOutputStream(), true);
+			br = new BufferedReader(isr);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			pw.println(userName);
+			pw.println(password);
+			
+			if ((serverOutput = br.readLine()) != "") {
+				if (!serverOutput.equals("Authenticated")) {
+					ClientModel.setAuthenticated(true);
+				} else {
+					ClientModel.setAuthenticated(false);
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
-
-	}
-
-	public void run() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void connect() {
-		s = new Socket(COM_IP, COM_PORT);
-		// Setting up streams
-		isr = new InputStreamReader(s.getInputStream());
-		pw = new PrintWriter(s.getOutputStream(), true);
-		br = new BufferedReader(isr);
-		// Sending username and password to server
-		pw.println(user);
-		pw.println(pass);
-
-		if ((serverOutput = br.readLine()) != "") {
-			if (!serverOutput.equals("Authenticated")) {
-				auth = true;
-			} else {
-				auth = false;
-			}
-		}
 	}
 
 	protected void disconnect() throws IOException {
 		s.close();
 	}
 
-	protected void send(String str) {
-		if (auth) {
-			pw.println(str);
+	public void run() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	protected String doInBackground(String... params) {
+		try {
+			s = new Socket(COM_IP, COM_PORT);
+			isr = new InputStreamReader(s.getInputStream());
+			pw = new PrintWriter(s.getOutputStream(), true);
+			br = new BufferedReader(isr);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		try {
+			pw.println(params[0]);
+			pw.println(params[1]);
+			
+			if ((serverOutput = br.readLine()) != "") {
+				if (!serverOutput.equals("Authenticated")) {
+					ClientModel.setAuthenticated(true);
+				} else {
+					ClientModel.setAuthenticated(false);
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
