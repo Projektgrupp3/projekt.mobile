@@ -115,7 +115,7 @@
 
         <receiver
             android:label="Call Receiver"
-            android:name=".IncomingCallReceiver" />
+            android:name=".controllers.IncomingCallReceiver" />
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
-package tddd36.grupp3;
+package tddd36.grupp3.controllers;
 
+import tddd36.grupp3.WalkieTalkieActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

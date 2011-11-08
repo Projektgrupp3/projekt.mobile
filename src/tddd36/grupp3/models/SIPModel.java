@@ -3,7 +3,7 @@ package tddd36.grupp3.models;
 import java.text.ParseException;
 import java.util.Observable;
 
-import tddd36.grupp3.IncomingCallReceiver;
+import tddd36.grupp3.controllers.IncomingCallReceiver;
 import tddd36.grupp3.controllers.SIPController;
 import tddd36.grupp3.views.SIPView;
 import android.app.PendingIntent;
