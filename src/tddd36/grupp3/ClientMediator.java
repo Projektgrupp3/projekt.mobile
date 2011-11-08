@@ -10,10 +10,10 @@ import java.net.UnknownHostException;
 
 import android.os.AsyncTask;
 
-public class ClientMediator extends AsyncTask<Object, Object, Object>{
+public class ClientMediator extends AsyncTask<String, Integer, String>{
 
-	private static final String COM_IP = "130.236.227.183";
-	private static final int COM_PORT = 4444;
+	private static final String COM_IP = "130.236.226.120";
+	private static final int COM_PORT = 4040;
 	
 	private InputStreamReader isr;
 	private PrintWriter pw;
@@ -56,12 +56,14 @@ public class ClientMediator extends AsyncTask<Object, Object, Object>{
 			s = serv.accept();
 		}
 	}
+	public boolean getAuth(){
+		return auth;
+	}
 	public void disconnect() throws IOException{
 		s.close();
 	}
 	@Override
-	protected Object doInBackground(Object... params) {
-		// TODO Auto-generated method stub
+	protected String doInBackground(String... params) {
 		return null;
 	}
 
