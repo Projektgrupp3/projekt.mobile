@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -36,7 +37,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 	long stop;
 	MyLocationOverlay compass;
 	MapController controller;
-	int x, y,lat = 0, lon = 0;
+	int x, y,lat = 0, lon = 0, i=0;
 	GeoPoint touchedPoint;
 	Drawable d;
 	static List<Overlay> overlayList;
@@ -68,7 +69,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 		criteria.setAltitudeRequired(false);
 		towers = lm.getBestProvider(criteria, true);		
 		Location lastKnownLocation =
-			lm.getLastKnownLocation(lm.getBestProvider(criteria, true));
+			lm.getLastKnownLocation(towers);
 		lat = (int) (lastKnownLocation.getLatitude() * 1E6);
 		lon = (int) (lastKnownLocation.getLongitude() * 1E6);
 		GeoPoint lastKnownGeoPoint = new GeoPoint(lat,lon);
@@ -119,11 +120,11 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 				alert.setButton("Placera en markör", new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
-
-						OverlayItem overlayItem = new OverlayItem(touchedPoint,"Sträng 1", "Sträng 2");
-						CustomPinpoint custom = new CustomPinpoint(d,MainMapActivity.this);
+						OverlayItem overlayItem = new OverlayItem(touchedPoint,"Sträng "+i, "Sträng "+i);
+						MapObjectList custom = new MapObjectList(d,MainMapActivity.this);
 						custom.insertPinpoint(overlayItem);
 						overlayList.add(custom);
+						i++;
 					}
 				});
 				alert.setButton3("Hämta adress", new DialogInterface.OnClickListener() {
@@ -143,7 +144,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 						} catch (IOException e) {
 							e.printStackTrace();
 						}finally{
-
+							//no-op
 						}
 					}
 				});
@@ -155,7 +156,6 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 						}else{
 							map.setSatellite(true);
 						}
-
 					}
 				});
 				alert.show();
@@ -163,6 +163,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 			}
 			return false;
 		}
+		
 	}
 	/** 
 	 * Kallas på när location uppdateras.
@@ -171,10 +172,9 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 		lat = (int) (l.getLatitude() * 1E6);
 		lon = (int) (l.getLongitude() * 1E6);
 		GeoPoint ourLocation = new GeoPoint(lat, lon);
-		OverlayItem overlayItem = new OverlayItem(ourLocation,"Sträng 1", "Sträng 2");
-		CustomPinpoint custom = new CustomPinpoint(d,MainMapActivity.this);
-		custom.insertPinpoint(overlayItem);
-		overlayList.add(custom);
+		OverlayItem currentLocation = new OverlayItem(ourLocation,"ny location","ny location");
+		
+		controller.animateTo(ourLocation);
 	}
 	/**
 	 * Kallas på när hårdvaru-meny-knappen trycks in

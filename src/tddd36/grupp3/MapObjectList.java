@@ -2,6 +2,7 @@ package tddd36.grupp3;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.widget.Toast;
@@ -12,25 +13,20 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 
-public class CustomPinpoint extends ItemizedOverlay<OverlayItem> {
+public class MapObjectList extends ItemizedOverlay<OverlayItem> {
 
 	private ArrayList<OverlayItem> pinpoints = new ArrayList<OverlayItem>();
 	private Context c;
 	
-	public CustomPinpoint(Drawable defaultMarker) {
+	public MapObjectList(Drawable defaultMarker) {
 		super(boundCenter(defaultMarker));
 	}
 	
-	@Override
-	public boolean onTap(GeoPoint p, MapView mapView){
-		Toast.makeText(mapView.getContext(), "test", Toast.LENGTH_SHORT);
-		return false;
-	}
-	
-	public CustomPinpoint(Drawable m, Context context) {
+	public MapObjectList(Drawable m, Context context) {
 		this(m);
 		c = context;
 	}
+	
 	@Override
 	protected OverlayItem createItem(int i) {
 		return pinpoints.get(i);
@@ -47,5 +43,14 @@ public class CustomPinpoint extends ItemizedOverlay<OverlayItem> {
 		this.populate();
 	}
 	
+	@Override
+	public boolean onTap(int index){
+		OverlayItem clicked = pinpoints.get(index);
+		AlertDialog dialog = new AlertDialog.Builder(c).create();
+		dialog.setTitle(clicked.getTitle());
+		dialog.setMessage(clicked.getSnippet());
+		dialog.show();
+		return true;
+	}
 
 }
