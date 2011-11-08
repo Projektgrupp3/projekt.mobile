@@ -18,7 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class LoginActivity extends Activity {
-	private static final String COM_IP = "79.136.91.175";
+	private static final String COM_IP = "130.236.227.61";
 	private static final int COM_PORT = 4444;
 	private Socket client;
 	private InputStreamReader isr;

@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.widget.Toast;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 
@@ -16,7 +19,12 @@ public class CustomPinpoint extends ItemizedOverlay<OverlayItem> {
 	
 	public CustomPinpoint(Drawable defaultMarker) {
 		super(boundCenter(defaultMarker));
-		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public boolean onTap(GeoPoint p, MapView mapView){
+		Toast.makeText(mapView.getContext(), "test", Toast.LENGTH_SHORT);
+		return false;
 	}
 	
 	public CustomPinpoint(Drawable m, Context context) {

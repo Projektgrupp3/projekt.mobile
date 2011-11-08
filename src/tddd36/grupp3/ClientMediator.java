@@ -8,12 +8,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 
-public class ClientMediator extends AsyncTask{
+public class ClientMediator extends AsyncTask<Object, Object, Object>{
 
 	private static final String COM_IP = "130.236.227.183";
 	private static final int COM_PORT = 4444;

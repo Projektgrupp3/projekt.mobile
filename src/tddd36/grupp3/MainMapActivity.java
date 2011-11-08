@@ -25,7 +25,6 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -102,10 +101,6 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 		return false;
 	}
 
-//	public static GeoPoint getGetGeopoints(){
-//		overlayList.get
-//	}
-
 	class TouchOverlay extends Overlay{
 		public boolean onTouchEvent(MotionEvent e, MapView m){
 			if (e.getAction() == MotionEvent.ACTION_DOWN){
@@ -132,7 +127,6 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 						CustomPinpoint custom = new CustomPinpoint(d,MainMapActivity.this);
 						custom.insertPinpoint(overlayItem);
 						overlayList.add(custom);
-
 					}
 				});
 				alert.setButton3("Hämta adress", new DialogInterface.OnClickListener() {
