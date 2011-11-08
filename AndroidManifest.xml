@@ -35,9 +35,8 @@
             android:label="@string/app_name"
             android:name=".views.LoginActivity" >
             <intent-filter >
-                <action android:name="tddd36.grupp3.LOGINACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -69,6 +68,7 @@
             </intent-filter>
         </activity>
         <activity
+<<<<<<< HEAD
             android:label="@string/app_name"
             android:name="tddd36.grupp3.views.SIPView"
             android:screenOrientation="portrait" >
@@ -79,6 +79,8 @@
             </intent-filter>
         </activity>
         <activity
+=======
+>>>>>>> ws
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:name=".WalkieTalkieActivity"
@@ -94,28 +96,19 @@
             android:name="tddd36.grupp3.views.MapGUI"
             android:screenOrientation="portrait" >
             <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:label="@string/app_name"
-            android:name=".models.SettingsModel"
-            android:screenOrientation="portrait" >
-            <intent-filter >
-                <action android:name="tddd36.grupp3.SETTINGS" />
+                <action android:name="tddd36.grupp3.views.MapGUI" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:label="set_preferences"
-            android:name=".models.SIPSettingsModel" />
+            android:name=".SipSettings" />
 
         <receiver
             android:label="Call Receiver"
-            android:name=".controllers.IncomingCallReceiver" />
+            android:name=".IncomingCallReceiver" />
     </application>
 
 </manifest>

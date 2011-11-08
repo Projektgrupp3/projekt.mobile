@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import tddd36.grupp3.models.MapObjectList;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,7 +18,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -69,7 +69,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 		d = getResources().getDrawable(R.drawable.pinpoint);
 
 		//Puts view onto current location
-		lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+/*		lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		Criteria criteria = new Criteria();
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);
 		criteria.setAltitudeRequired(false);
@@ -80,13 +80,13 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 		lon = (int) (lastKnownLocation.getLongitude() * 1E6);
 		GeoPoint lastKnownGeoPoint = new GeoPoint(lat,lon);
 		controller.animateTo(lastKnownGeoPoint);
-		controller.setZoom(15);
+		controller.setZoom(15);*/
 	}
 
 	@Override
 	protected void onPause() {
 		compass.disableCompass();
-		lm.removeUpdates(this);
+//		lm.removeUpdates(this);
 		super.onPause();
 	}
 
@@ -95,7 +95,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 		compass.enableCompass();
 		super.onResume();
 		//30000 = 5 min, 5000 = 5 kilometers
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, this);
+//		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, this);
 		super.onResume();
 	}
 
@@ -184,8 +184,9 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 	/**
 	 * Kallas på när hårdvaru-meny-knappen trycks in
 	 */
+
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(android.view.Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.mainmenu, menu);
 		return true;
