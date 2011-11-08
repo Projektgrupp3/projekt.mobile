@@ -65,6 +65,10 @@ public class SIPView extends Activity implements View.OnTouchListener, Observer{
 		}
 		return false;
 	}
+	
+	public SIPController getController(){
+		return sipcontroller;
+	}
 
 	public void update(Observable observable, Object data) {
 		if(data instanceof SipAudioCall){

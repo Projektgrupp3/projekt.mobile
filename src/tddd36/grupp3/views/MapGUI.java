@@ -9,6 +9,7 @@ import java.util.Observer;
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.models.MapObjectList;
+import tddd36.grupp3.resources.MapObject;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -175,11 +176,10 @@ public class MapGUI extends MapActivity implements Observer {
 				alert.setButton("Placera en markör", new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
-						OverlayItem overlayItem = new OverlayItem(touchedPoint,"Sträng "+i, "Sträng "+i);
-						MapObjectList custom = new MapObjectList(d,MapGUI.this);
+						MapObject overlayItem = new MapObject(touchedPoint,"Sträng ", "Sträng ", getResources().getDrawable(R.drawable.ambulance));
+						MapObjectList custom = new MapObjectList(getResources().getDrawable(R.drawable.ambulance),MapGUI.this);
 						custom.insertPinpoint(overlayItem);
 						overlayList.add(custom);
-						i++;
 					}
 				});
 				alert.setButton3("Hämta adress", new DialogInterface.OnClickListener() {
