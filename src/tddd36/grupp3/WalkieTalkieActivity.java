@@ -4,7 +4,6 @@ import java.text.ParseException;
 
 import tddd36.grupp3.controllers.IncomingCallReceiver;
 import tddd36.grupp3.models.SIPSettingsModel;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -22,10 +21,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Menu;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;

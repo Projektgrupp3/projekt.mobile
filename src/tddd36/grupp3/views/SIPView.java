@@ -5,7 +5,6 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.SIPController;
-import tddd36.grupp3.models.SIPModel;
 import tddd36.grupp3.models.SIPSettingsModel;
 import android.app.Activity;
 import android.app.AlertDialog;

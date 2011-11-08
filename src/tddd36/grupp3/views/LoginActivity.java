@@ -8,9 +8,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import tddd36.grupp3.R;
-import tddd36.grupp3.R.id;
-import tddd36.grupp3.R.layout;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

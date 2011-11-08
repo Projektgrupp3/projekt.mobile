@@ -3,10 +3,9 @@ package tddd36.grupp3.controllers;
 import java.util.Observable;
 import java.util.Observer;
 
-import android.location.LocationManager;
-
 import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.views.MapGUI;
+import android.location.LocationManager;
 
 public class MapController implements Observer, Runnable{
 	

@@ -1,7 +1,6 @@
 package tddd36.grupp3.models;
 
 import tddd36.grupp3.R;
-import tddd36.grupp3.R.xml;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 

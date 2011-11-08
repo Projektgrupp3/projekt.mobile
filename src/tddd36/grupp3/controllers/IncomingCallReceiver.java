@@ -4,8 +4,8 @@ import tddd36.grupp3.WalkieTalkieActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.sip.*;
-import android.util.Log;
+import android.net.sip.SipAudioCall;
+import android.net.sip.SipProfile;
 
 /**
  * Listens for incoming SIP calls, intercepts and hands them off to WalkieTalkieActivity.
