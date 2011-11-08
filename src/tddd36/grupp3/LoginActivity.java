@@ -37,6 +37,7 @@ public class LoginActivity extends Activity {
 
 			public void onClick(View v) {
 				try {
+					
 					login();
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
