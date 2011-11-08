@@ -2,6 +2,8 @@ package tddd36.grupp3;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.Observable;
+import java.util.Observer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,14 +15,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements Observer {
 
 	private TextView display;
 	private EditText user;
 	private EditText pass;
-	private String serverOutput;
 	private Button login;
-	private ClientMediator cm;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -49,10 +49,11 @@ public class LoginActivity extends Activity {
 	}
 
 	public void login() throws UnknownHostException, IOException {
-		cm = new ClientMediator();
-		cm.connect(""+user.getText(), ""+pass.getText());
+		
+		
+		""+user.getText(), ""+pass.getText());
 
-			if(cm.getAuth()) {
+			if(ClientModel.getAuth()) {
 				AlertDialog login = new AlertDialog.Builder(LoginActivity.this).create();
 				login.setMessage("Felaktigt användarnamn eller lösenord");
 				login.setButton("OK", new DialogInterface.OnClickListener(){
@@ -75,5 +76,9 @@ public class LoginActivity extends Activity {
 		//finish login activity when traveling to mainmenu
 		super.onPause();
 		finish();
+	}
+
+	public void update(Observable observable, Object data) {
+		instanceof
 	}
 }
