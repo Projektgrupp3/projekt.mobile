@@ -1,15 +1,19 @@
-package tddd36.grupp3;
+package tddd36.grupp3.controllers;
 
+import tddd36.grupp3.views.SIPView;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.sip.*;
-import android.util.Log;
+import android.net.sip.SipAudioCall;
+import android.net.sip.SipProfile;
 
 /**
  * Listens for incoming SIP calls, intercepts and hands them off to WalkieTalkieActivity.
  */
 public class IncomingCallReceiver extends BroadcastReceiver {
+	
+	SIPController sipcontroller;
+	
     /**
      * Processes the incoming call, answers it, and hands it over to the
      * WalkieTalkieActivity.
@@ -20,7 +24,6 @@ public class IncomingCallReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         SipAudioCall incomingCall = null;
         try {
-
             SipAudioCall.Listener listener = new SipAudioCall.Listener() {
                 @Override
                 public void onRinging(SipAudioCall call, SipProfile caller) {
@@ -32,9 +35,9 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                 }
             };
 
-            WalkieTalkieActivity wtActivity = (WalkieTalkieActivity) context;
+            SIPView sipview = (SIPView) context;
 
-            incomingCall = wtActivity.manager.takeAudioCall(intent, listener);
+            incomingCall = sipview.getController().sipmodel.manager.takeAudioCall(intent, listener);
             incomingCall.answerCall(30);
             incomingCall.startAudio();
             incomingCall.setSpeakerMode(true);
@@ -42,9 +45,9 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                 incomingCall.toggleMute();
             }
 
-            wtActivity.call = incomingCall;
+            sipview.getController().sipmodel.call = incomingCall;
 
-            wtActivity.updateStatus(incomingCall);
+            sipview.updateStatus(incomingCall);
 
         } catch (Exception e) {
             if (incomingCall != null) {
