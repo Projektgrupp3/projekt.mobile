@@ -50,18 +50,7 @@ public class SIPModel extends Observable{
 		
 		initializeManager();		
 	}
-//	public static int getCallAddress() {
-//		return CALL_ADDRESS;
-//	}
-//	public static int getSetAuthInfo() {
-//		return SET_AUTH_INFO;
-//	}
-//	public static int getUpdateSettingsDialog() {
-//		return UPDATE_SETTINGS_DIALOG;
-//	}
-//	public static int getHangUp() {
-//		return HANG_UP;
-//	}
+
 	public void initializeManager() {
 		if(manager == null) {
 			manager = SipManager.newInstance(sipview.getBaseContext());

@@ -37,6 +37,7 @@ public class MapModel extends Observable implements LocationListener{
 		lat = (int) (lastKnownLocation.getLatitude() * 1E6);
 		lon = (int) (lastKnownLocation.getLongitude() * 1E6);
 		GeoPoint lastKnownGeoPoint = new GeoPoint(lat,lon);
+		
 		setChanged();
 		notifyObservers(lastKnownGeoPoint);		
 	}
