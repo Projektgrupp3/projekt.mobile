@@ -23,7 +23,8 @@ public class UnitView extends Activity implements OnItemSelectedListener, OnClic
 
 	private Spinner spinner;
 	private Button bContinue;
-	private ArrayList<String> unitNames = new ArrayList<String>();
+	//private ArrayList<String> unitNames = new ArrayList<String>();
+	private String[] unitNames = {"1","2","3"};
 	private ArrayList<String> allUnits = new ArrayList<String>();
 	private File path = null;
 	private UnitController uc;
@@ -52,7 +53,7 @@ public class UnitView extends Activity implements OnItemSelectedListener, OnClic
 
 		if(allUnits != null){
 			for(String str : allUnits){
-				unitNames.add(str);
+				//unitNames.add(str);
 			}
 		}
 	}

@@ -19,31 +19,23 @@ public class ClientModel extends Observable {
 	private ClientView cv;
 
 	public ClientModel(ClientView cv, ClientController cc){
+		this.cv = cv;
 		connectionController = new ConnectionController(this);
 		addObserver(cv);
-		this.cv = cv;
 		addObserver(cc);
 		addObserver(connectionController);
 	}
 
 	public void connectToServer(){
 		connectionController.run(userName, password); // Om man vill köra en vanligt tråd istället.
-		//String[] unPw = {userName, password};
-		//connectionController.execute(unPw);
 		setChanged();
 		notifyObservers();
-		try {
-			connectionController.listen();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	public void listen(){
 		ConnectionTask ct = new ConnectionTask(this);
 		ct.execute();
 	}
-	
+
 	public void newMessage(String str){
 		this.messageFromServer = str;
 	}
