@@ -8,7 +8,7 @@ import tddd36.grupp3.views.ClientView;
 
 public class ClientController implements Runnable, Observer {
 	ClientModel cm;
-	
+
 	public ClientController(ClientView cv){
 		cm = new ClientModel(cv, this);
 	}
@@ -19,13 +19,13 @@ public class ClientController implements Runnable, Observer {
 
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public void setUserName(String userName){
 		cm.setUserName(userName);
 	}
-	
+
 	public void setPassword(String password){
 		cm.setPassword(password);
 	}
@@ -35,5 +35,8 @@ public class ClientController implements Runnable, Observer {
 	public boolean isAuthenticated(){
 		return cm.isAuthenticated();		
 	}
-	
+	public void startListen(){
+		cm.listen();
+	}
+
 }

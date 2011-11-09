@@ -10,11 +10,13 @@ import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 
-import android.os.AsyncTask;
-
 import tddd36.grupp3.models.ClientModel;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 
-public class ConnectionController extends AsyncTask<String, Integer, String> implements Runnable, Observer {
+public class ConnectionController extends Thread implements Runnable, Observer {
 
 	private static final String COM_IP = "130.236.227.149";
 	private static final int COM_PORT = 4444;
@@ -28,38 +30,20 @@ public class ConnectionController extends AsyncTask<String, Integer, String> imp
 	private ServerSocket serverSocket;
 	private Socket socket;
 	private String input;
+	private String messageFromServer;
 
-	public ConnectionController (ClientModel cm){
+	public ConnectionController(ClientModel cm) {
 		this.cm = cm;
 	}
 
 	public void run(String userName, String password) {
-		try {
-			s = new Socket(COM_IP, COM_PORT);
-			isr = new InputStreamReader(s.getInputStream());
-			pw = new PrintWriter(s.getOutputStream(), true);
-			br = new BufferedReader(isr);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			pw.println(userName);
-			pw.println(password);
-
-			if ((serverOutput = br.readLine()) != "") {
-				if (!serverOutput.equals("Authenticated")) {
-					cm.setAuthenticated(true);
-				} else {
-					cm.setAuthenticated(false);
-				}
+		if (!cm.isAuthenticated()) {
+			try {
+				login(userName, password);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -71,33 +55,17 @@ public class ConnectionController extends AsyncTask<String, Integer, String> imp
 		s.close();
 	}
 
-	public void run() {
-		// TODO Auto-generated method stub
-	}
-	
-	protected void listen() throws IOException {
-		boolean listen;
-		
-		while(listen)
-		serverSocket =  new ServerSocket(LISTEN_PORT);
-		socket = serverSocket.accept();
-		listen = false;
-		recieveMessage();
-	}
-	
-	private void recieveMessage() throws IOException {
+	public void listen() throws IOException {
 
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(
-						socket.getInputStream()));
-		
-		while((input = in.readLine()) != ""){
-			
-		}
-		
+		boolean listen = true;
+		do {
+			serverSocket = new ServerSocket(LISTEN_PORT);
+			socket = serverSocket.accept();
+			listen = false;
+		} while (listen);
 	}
 
-	protected void login(String[] params) throws IOException{
+	protected void login(String userName, String password) throws IOException {
 		try {
 			s = new Socket(COM_IP, COM_PORT);
 			isr = new InputStreamReader(s.getInputStream());
@@ -110,16 +78,15 @@ public class ConnectionController extends AsyncTask<String, Integer, String> imp
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(!cm.isAuthenticated()){
+		if (!cm.isAuthenticated()) {
 			try {
-				pw.println(params[0]);
-				pw.println(params[1]);
+				pw.println(userName);
+				pw.println(password);
 
 				if ((serverOutput = br.readLine()) != "") {
 					if (serverOutput.equals("Authenticated")) {
 						cm.setAuthenticated(true);
-					} 
-					else {
+					} else {
 						cm.setAuthenticated(false);
 					}
 				}
@@ -129,56 +96,6 @@ public class ConnectionController extends AsyncTask<String, Integer, String> imp
 			}
 		}
 		s.close();
-	}
-	@Override
-	protected String doInBackground(String... params) {
-
-		if(!cm.isAuthenticated()){
-			try {
-				login(params);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		listen();
-		//		try {
-		//			s = new Socket(COM_IP, COM_PORT);
-		//			isr = new InputStreamReader(s.getInputStream());
-		//			pw = new PrintWriter(s.getOutputStream(), true);
-		//			br = new BufferedReader(isr);
-		//		} catch (UnknownHostException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		} catch (IOException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
-		//		if(!cm.isAuthenticated()){
-		//			try {
-		//				pw.println(params[0]);
-		//				pw.println(params[1]);
-		//
-		//				if ((serverOutput = br.readLine()) != "") {
-		//					if (serverOutput.equals("Authenticated")) {
-		//						cm.setAuthenticated(true);
-		//					} 
-		//					else {
-		//						cm.setAuthenticated(false);
-		//					}
-		//				}
-		//			} catch (IOException e) {
-		//				// TODO Auto-generated catch block
-		//				e.printStackTrace();
-		//			}
-		//		}
-		//		else {
-		//			for(String str : params){
-		//				pw.println(str);
-		//			}
-		//		}
-		return null;
 	}
 
 }
