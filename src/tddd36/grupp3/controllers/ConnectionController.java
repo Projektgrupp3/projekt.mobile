@@ -22,7 +22,12 @@ public class ConnectionController extends AsyncTask<String, Integer, String> imp
 	private BufferedReader br;
 	public String serverOutput;
 	private Socket s;
-	
+	private ClientModel cm;
+
+	public ConnectionController (ClientModel cm){
+		this.cm = cm;
+	}
+
 	public void run(String userName, String password) {
 		try {
 			s = new Socket(COM_IP, COM_PORT);
@@ -39,12 +44,12 @@ public class ConnectionController extends AsyncTask<String, Integer, String> imp
 		try {
 			pw.println(userName);
 			pw.println(password);
-			
+
 			if ((serverOutput = br.readLine()) != "") {
 				if (!serverOutput.equals("Authenticated")) {
-					ClientModel.setAuthenticated(true);
+					cm.setAuthenticated(true);
 				} else {
-					ClientModel.setAuthenticated(false);
+					cm.setAuthenticated(false);
 				}
 			}
 		} catch (IOException e) {
@@ -79,21 +84,30 @@ public class ConnectionController extends AsyncTask<String, Integer, String> imp
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			pw.println(params[0]);
-			pw.println(params[1]);
-			
-			if ((serverOutput = br.readLine()) != "") {
-				if (!serverOutput.equals("Authenticated")) {
-					ClientModel.setAuthenticated(true);
-				} else {
-					ClientModel.setAuthenticated(false);
+		if(!cm.isAuthenticated()){
+			try {
+				pw.println(params[0]);
+				pw.println(params[1]);
+
+				if ((serverOutput = br.readLine()) != "") {
+					if (serverOutput.equals("Authenticated")) {
+						cm.setAuthenticated(true);
+					} 
+					else {
+						cm.setAuthenticated(false);
+					}
 				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}
+		else {
+			for(String str : params){
+				pw.println(str);
+			}
 		}
 		return null;
 	}
+
 }

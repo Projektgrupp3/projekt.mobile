@@ -10,11 +10,11 @@ public class ClientModel extends Observable {
 
 	private String userName;
 	private String password;
-	private static boolean authenticated;
+	private boolean authenticated = false;
 	private ConnectionController connectionController;
 
 	public ClientModel(ClientView cv, ClientController cc){
-		connectionController = new ConnectionController();
+		connectionController = new ConnectionController(this);
 		addObserver(cv);
 		addObserver(cc);
 		addObserver(connectionController);
@@ -24,7 +24,7 @@ public class ClientModel extends Observable {
 		//connectionController.run(userName, password); Om man vill köra en vanligt tråd istället.
 		String[] unPw = {userName, password};
 		connectionController.execute(unPw);
-		hasChanged();
+		setChanged();
 		notifyObservers();
 	}
 
@@ -44,11 +44,11 @@ public class ClientModel extends Observable {
 		this.password = pass;
 	}
 
-	public static boolean isAuthenticated() {
+	public boolean isAuthenticated() {
 		return authenticated;
 	}
 
-	public static void setAuthenticated(boolean auth) {
-		authenticated = auth;
+	public void setAuthenticated(boolean auth) {
+		this.authenticated = auth;
 	}
 }
