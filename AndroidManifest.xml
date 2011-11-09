@@ -36,8 +36,8 @@
 
             android:name="tddd36.grupp3.views.ClientView" >
             <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="tddd36.grupp3.views.CLIENTVIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -100,14 +100,19 @@
             android:name="tddd36.grupp3.views.MapGUI"
             android:screenOrientation="portrait" >
             <intent-filter >
-                <action android:name="tddd36.grupp3.views.MapGUI" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
             android:label="set_preferences"
-            android:name=".SipSettings" />
+            android:name="tddd36.grupp3.models.SIPSettingsModel" >	
+        <intent-filter >
+                <action android:name="tddd36.grupp3.models.SIPSETTINGSMODEL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            </activity>
         <receiver
             android:label="Call Receiver"
             android:name=".IncomingCallReceiver" />

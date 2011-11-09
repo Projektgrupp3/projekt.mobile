@@ -2,6 +2,7 @@ package tddd36.grupp3.models;
 
 import java.util.ArrayList;
 
+import tddd36.grupp3.resources.MapObject;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -31,21 +32,20 @@ public class MapObjectList extends ItemizedOverlay<OverlayItem> {
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
 		return pinpoints.size();
 	}
 	
-	public void insertPinpoint(OverlayItem item){
+	public void add(OverlayItem item){
 		pinpoints.add(item);
 		this.populate();
 	}
 	
 	@Override
 	public boolean onTap(int index){
-		OverlayItem clicked = pinpoints.get(index);
+		MapObject clicked = (MapObject) pinpoints.get(index);
 		AlertDialog dialog = new AlertDialog.Builder(c).create();
 		dialog.setTitle(clicked.getTitle());
-		dialog.setMessage(clicked.getSnippet());
+		dialog.setMessage(clicked.getObjectDescription());
 		dialog.show();
 		return true;
 	}

@@ -1,22 +1,19 @@
 package tddd36.grupp3.resources;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
 public class MapObject extends OverlayItem {
-	GeoPoint gp;
-	String header, message;
-	Drawable d;
+	private GeoPoint gp;
+	private String header, message;
+	private int icon;
 
-	public MapObject(GeoPoint gp, String header, String message) {
+	public MapObject(GeoPoint gp, String header, String message, int icon){
 		super(gp, header, message);
-	}
-	public MapObject(GeoPoint gp, String header, String message, Drawable d){
-		this(gp, header, message);
-		this.d = d;
+		this.header = header;
+		this.message = message;
+		this.gp = gp;
+		this.icon = icon;
 	}
 	public int getLatE6(){
 		return gp.getLatitudeE6();
@@ -30,7 +27,13 @@ public class MapObject extends OverlayItem {
 	public String getMessage(){
 		return message;
 	}
-	public Drawable getIcon(){
-		return d;
+	public int getIcon(){
+		return icon;
+	}
+	
+	public String getObjectDescription(){
+		return "Objekt: "+getTitle()+"\n"+
+			"Meddelande: "+getMessage()+"\n"+
+			"Latitud: "+getLatE6()+" Longitud: "+getLonE6()+"\n";
 	}
 }

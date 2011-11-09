@@ -1,15 +1,23 @@
 package tddd36.grupp3.resources;
 
-import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.GeoPoint;
+import tddd36.grupp3.R;
 
 public class Event extends MapObject{
-
-	private static Drawable d;
+	private String time;
 	
-	public Event(GeoPoint gp, String header, String message) {
-		super(gp, header, message, d);
+	public Event(GeoPoint gp, String header, String message, String time){
+		super(gp, header, message, R.drawable.event_icon);
+		this.time = time;
+	}
+	public String getTime(){
+		return time;
+	}
+	@Override
+	public String getObjectDescription(){
+		super.getObjectDescription();
+		return "Tid: "+time;
 	}
 
 }

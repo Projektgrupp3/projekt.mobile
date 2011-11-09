@@ -128,7 +128,7 @@ public class MainMapActivity extends MapActivity implements LocationListener{
 					public void onClick(DialogInterface dialog, int which) {
 						OverlayItem overlayItem = new OverlayItem(touchedPoint,"Sträng "+i, "Sträng "+i);
 						MapObjectList custom = new MapObjectList(d,MainMapActivity.this);
-						custom.insertPinpoint(overlayItem);
+				//		custom.add(overlayItem);
 						overlayList.add(custom);
 						i++;
 					}
