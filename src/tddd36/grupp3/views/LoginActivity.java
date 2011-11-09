@@ -1,10 +1,6 @@
 package tddd36.grupp3.views;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.net.UnknownHostException;
 
 import tddd36.grupp3.R;
@@ -19,17 +15,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class LoginActivity extends Activity {
-	private static final String COM_IP = "130.236.227.61";
-	private static final int COM_PORT = 4444;
-	private Socket client;
-	private InputStreamReader isr;
-	private PrintWriter pw;
-	private BufferedReader br;
+
 	private TextView display;
 	private EditText user;
 	private EditText pass;
 	private String serverOutput;
 	private Button login;
+	private ClientMediator cm;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -57,20 +49,12 @@ public class LoginActivity extends Activity {
 	}
 
 	public void login() throws UnknownHostException, IOException {
-		//Connecting client with server
-		client = new Socket(COM_IP,COM_PORT);
-		//Setting up streams
-		isr = new InputStreamReader(client.getInputStream());
-		pw = new PrintWriter(client.getOutputStream(),true);
-		br = new BufferedReader(isr);
-		//Sending username and password to server
-		pw.println(user.getText());
-		pw.println(pass.getText());
-		//Checking if username & password is authenticated to login
-		if((serverOutput = br.readLine()) != ""){
-			if(!serverOutput.equals("Authenticated")) {
+		cm = new ClientMediator();
+		cm.connect(""+user.getText(), ""+pass.getText());
+
+			if(cm.getAuth()) {
 				AlertDialog login = new AlertDialog.Builder(LoginActivity.this).create();
-				login.setMessage("Felaktigt anvŠändarnamn eller löšsenord");
+				login.setMessage("Felaktigt användarnamn eller lösenord");
 				login.setButton("OK", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) { 	
 					}
@@ -82,12 +66,9 @@ public class LoginActivity extends Activity {
 				//If authenticated user travels to choosUnit
 				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.ChooseUnitActivity.class));
 			}
-		}
+		
 	}
-	
-	public void send(String str){
-		pw.println(str);
-	}
+
 
 	@Override
 	protected void onPause() {
