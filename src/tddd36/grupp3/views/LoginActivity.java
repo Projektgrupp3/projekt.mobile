@@ -3,6 +3,7 @@ package tddd36.grupp3.views;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import tddd36.grupp3.ClientMediator;
 import tddd36.grupp3.R;
 import android.app.Activity;
 import android.app.AlertDialog;

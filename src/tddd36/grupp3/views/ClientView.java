@@ -40,7 +40,7 @@ public class ClientView extends Activity implements Observer{
 		}
 		else {
 			//setContentView(R.layout.unit);
-			startActivity(new Intent(getBaseContext(),tddd36.grupp3.ChooseUnitActivity.class));
+			startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.ChooseUnitActivity.class));
 		}
 	}
 

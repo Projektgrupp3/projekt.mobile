@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import tddd36.grupp3.ClientMediator;
 import tddd36.grupp3.R;
 import android.app.Activity;
 import android.content.Intent;
@@ -43,21 +44,7 @@ public class ChooseUnitActivity extends Activity implements OnItemSelectedListen
 		//	addUnits();
 
 	}
-	protected void recieveUnits(){
 
-		try {
-			allUnits = cm.recieve();
-			cm.wait();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
-	}
 	protected void addUnits(){
 
 		if(allUnits != null){
