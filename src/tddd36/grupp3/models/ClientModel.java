@@ -20,14 +20,26 @@ public class ClientModel extends Observable {
 
 	public ClientModel(ClientView cv, ClientController cc){
 		this.cv = cv;
-		connectionController = new ConnectionController(this);
+		
+		try {
+			connectionController = new ConnectionController(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		addObserver(cv);
 		addObserver(cc);
 		addObserver(connectionController);
 	}
 
 	public void connectToServer(){
-		connectionController.run(userName, password); // Om man vill köra en vanligt tråd istället.
+		// Om man vill köra en vanligt tråd istället.
+		try {
+			connectionController.run(userName, password);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setChanged();
 		notifyObservers();
 	}

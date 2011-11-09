@@ -52,6 +52,7 @@ Runnable, Observer {
 		}
 		while (true) {
 			while ((input = br.readLine()) != "") {
+				br.close();
 				socket.close();
 				break;
 			}

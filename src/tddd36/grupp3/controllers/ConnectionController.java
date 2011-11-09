@@ -10,11 +10,8 @@ import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 
+import tddd36.grupp3.Connection;
 import tddd36.grupp3.models.ClientModel;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 
 public class ConnectionController extends Thread implements Runnable, Observer {
 
@@ -31,15 +28,40 @@ public class ConnectionController extends Thread implements Runnable, Observer {
 	private Socket socket;
 	private String input;
 	private String messageFromServer;
+	private boolean listen = true;
 
-	public ConnectionController(ClientModel cm) {
+	public ConnectionController(ClientModel cm) throws IOException {
 		this.cm = cm;
+		serverSocket =  new ServerSocket(LISTEN_PORT);
 	}
 
-	public void run(String userName, String password) {
-		if (!cm.isAuthenticated()) {
+	//	public void run(String userName, String password) {
+	//		if (!cm.isAuthenticated()) {
+	//			try {
+	//				login(userName, password);
+	//			} catch (IOException e) {
+	//				// TODO Auto-generated catch block
+	//				e.printStackTrace();
+	//			}
+	//		}	
+	//	}
+	public void run(String userName, String password) throws IOException{
+		if(!cm.isAuthenticated()){
+			login(userName, password);
+		}
+		else {
+			while (listen) {
+				try {				
+					socket =  serverSocket.accept();
+					new Connection((socket), this).start();
+
+				} catch (IOException ioException) {
+					ioException.printStackTrace();
+					System.exit(-1);
+				} 
+			}
 			try {
-				login(userName, password);
+				serverSocket.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -51,21 +73,11 @@ public class ConnectionController extends Thread implements Runnable, Observer {
 		// TODO Auto-generated method stub
 	}
 
-	protected void disconnect() throws IOException {
-		s.close();
+	protected void setMessage(){
+		
 	}
 
-	public void listen() throws IOException {
-
-		boolean listen = true;
-		do {
-			serverSocket = new ServerSocket(LISTEN_PORT);
-			socket = serverSocket.accept();
-			listen = false;
-		} while (listen);
-	}
-
-	protected void login(String userName, String password) throws IOException {
+	public void login(String userName, String password) throws IOException {
 		try {
 			s = new Socket(COM_IP, COM_PORT);
 			isr = new InputStreamReader(s.getInputStream());
@@ -95,6 +107,9 @@ public class ConnectionController extends Thread implements Runnable, Observer {
 				e.printStackTrace();
 			}
 		}
+		pw.close();
+		br.close();
+		isr.close();
 		s.close();
 	}
 
