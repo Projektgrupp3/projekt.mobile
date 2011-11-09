@@ -12,10 +12,10 @@ import android.os.Environment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 public class ChooseUnitActivity extends Activity implements OnItemSelectedListener, OnClickListener {
 
@@ -23,7 +23,6 @@ public class ChooseUnitActivity extends Activity implements OnItemSelectedListen
 	Button bContinue;
 	ArrayList<String> unitNames = new ArrayList<String>();
 	ArrayList<String> allUnits = new ArrayList<String>();
-	private ClientMediator cm;
 	File path = null;
 
 	@Override
@@ -43,21 +42,7 @@ public class ChooseUnitActivity extends Activity implements OnItemSelectedListen
 		//	addUnits();
 
 	}
-	protected void recieveUnits(){
 
-		try {
-			allUnits = cm.recieve();
-			cm.wait();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
-	}
 	protected void addUnits(){
 
 		if(allUnits != null){
@@ -65,11 +50,6 @@ public class ChooseUnitActivity extends Activity implements OnItemSelectedListen
 				unitNames.add(str);
 			}
 		}
-	}
-	protected void getUnits(){
-
-		cm.execute("getAllUnits");
-
 	}
 
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,

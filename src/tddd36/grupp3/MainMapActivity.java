@@ -4,11 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-<<<<<<< HEAD
-=======
 import tddd36.grupp3.models.MapObjectList;
-
->>>>>>> master
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
