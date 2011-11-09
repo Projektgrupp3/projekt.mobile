@@ -3,8 +3,11 @@ package tddd36.grupp3.models;
 import java.util.Observable;
 
 import tddd36.grupp3.controllers.MapController;
+import tddd36.grupp3.resources.MapObject;
+import tddd36.grupp3.resources.Vehicle;
 import tddd36.grupp3.views.MapGUI;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -17,7 +20,8 @@ import com.google.android.maps.OverlayItem;
 public class MapModel extends Observable implements LocationListener{
 	int lat, lon;
 	
-	MapObjectList mol;
+	Drawable d;
+	MapObjectList vehicles,hospital,event;
 	MapGUI mapgui;
 	private LocationManager lm;
 	
@@ -69,6 +73,15 @@ public class MapModel extends Observable implements LocationListener{
 	
 	public LocationManager getLocationManager(){
 		return lm;
+	}
+	
+	public void addMapObject(MapObject o){
+		//d = getResources().get
+		if(o instanceof Vehicle){
+			if(vehicles == null){
+				vehicles = new MapObjectList(d, mapgui);
+			}
+		}
 	}
 	
 }

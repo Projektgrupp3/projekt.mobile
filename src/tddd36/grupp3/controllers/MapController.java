@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import tddd36.grupp3.models.MapModel;
+import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.views.MapGUI;
 import android.location.LocationManager;
 
@@ -27,6 +28,10 @@ public class MapController implements Observer, Runnable{
 	
 	public MapModel getMapModel(){
 		return mapmodel;
+	}
+	
+	public void addMapObject(MapObject o){
+		mapmodel.addMapObject(o);
 	}
 	
 	public void run() {
