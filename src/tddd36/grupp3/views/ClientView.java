@@ -40,7 +40,7 @@ public class ClientView extends Activity implements Observer{
 		}
 		else {
 			//setContentView(R.layout.unit);
-			startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.ChooseUnitActivity.class));
+			startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.UnitView.class));
 		}
 	}
 
@@ -54,6 +54,9 @@ public class ClientView extends Activity implements Observer{
 		display = (TextView)findViewById(R.id.textView3);
 
 		cc = new ClientController(this);
+		
+		user.setText("test");
+		pass.setText("password");
 
 		login.setOnClickListener(new View.OnClickListener() {
 

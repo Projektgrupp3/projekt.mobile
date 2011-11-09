@@ -51,4 +51,7 @@ public class ClientModel extends Observable {
 	public void setAuthenticated(boolean auth) {
 		this.authenticated = auth;
 	}
+	public ConnectionController getConnectionController() {
+		return connectionController;
+	}
 }

@@ -1,10 +1,12 @@
 package tddd36.grupp3.views;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import tddd36.grupp3.R;
+import tddd36.grupp3.controllers.UnitController;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,14 +19,15 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class ChooseUnitActivity extends Activity implements OnItemSelectedListener, OnClickListener {
+public class UnitView extends Activity implements OnItemSelectedListener, OnClickListener, Observer {
 
-	Spinner spinner;
-	Button bContinue;
-	ArrayList<String> unitNames = new ArrayList<String>();
-	ArrayList<String> allUnits = new ArrayList<String>();
-	File path = null;
-
+	private Spinner spinner;
+	private Button bContinue;
+	private ArrayList<String> unitNames = new ArrayList<String>();
+	private ArrayList<String> allUnits = new ArrayList<String>();
+	private File path = null;
+	private UnitController uc;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,10 +40,12 @@ public class ChooseUnitActivity extends Activity implements OnItemSelectedListen
 		spinner.setAdapter(adapter);
 		spinner.setOnItemSelectedListener(this);
 
-		//	getUnits();
-		//	recieveUnits();
-		//	addUnits();
-
+		uc = new UnitController(this);
+	}
+	
+	public void update(Observable observable, Object data) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	protected void addUnits(){
@@ -73,8 +78,9 @@ public class ChooseUnitActivity extends Activity implements OnItemSelectedListen
 	}
 
 	public void onClick(View v) {
-		startActivity(new Intent(getBaseContext(),tddd36.grupp3.MainMapActivity.class));
+	//	startActivity(new Intent(getBaseContext(),tddd36.grupp3.MainMapActivity.class));
 	}
+
 	protected void onPause() {
 		//finishes ChooseUnitActivity activity when traveling to mainmapactivity
 		super.onPause();
