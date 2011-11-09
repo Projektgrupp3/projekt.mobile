@@ -43,7 +43,7 @@ public class ClientView extends Activity implements Observer{
 			}
 			else {
 				//setContentView(R.layout.unit);
-				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.UnitView.class));
+				//startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.UnitView.class));
 				Toast.makeText(getBaseContext(), "Inloggad", Toast.LENGTH_SHORT).show();
 				//cc.startListen();
 				

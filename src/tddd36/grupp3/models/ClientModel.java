@@ -20,13 +20,11 @@ public class ClientModel extends Observable {
 
 	public ClientModel(ClientView cv, ClientController cc){
 		this.cv = cv;
-		
 		try {
 			connectionController = new ConnectionController(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		addObserver(cv);
 		addObserver(cc);
 		addObserver(connectionController);
@@ -43,10 +41,10 @@ public class ClientModel extends Observable {
 		setChanged();
 		notifyObservers();
 	}
-	public void listen(){
-		ConnectionTask ct = new ConnectionTask(this);
-		ct.execute();
-	}
+//	public void listen(){
+//		ConnectionTask ct = new ConnectionTask(this);
+//		ct.execute();
+//	}
 
 	public void newMessage(String str){
 		this.messageFromServer = str;

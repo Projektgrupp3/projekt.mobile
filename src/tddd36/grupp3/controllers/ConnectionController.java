@@ -10,6 +10,8 @@ import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.util.Log;
+
 import tddd36.grupp3.Connection;
 import tddd36.grupp3.models.ClientModel;
 
@@ -28,7 +30,7 @@ public class ConnectionController extends Thread implements Runnable, Observer {
 	private Socket socket;
 	private String input;
 	private String messageFromServer;
-	private boolean listen = true;
+	private boolean listening = true;
 
 	public ConnectionController(ClientModel cm) throws IOException {
 		this.cm = cm;
@@ -50,10 +52,12 @@ public class ConnectionController extends Thread implements Runnable, Observer {
 			login(userName, password);
 		}
 		else {
-			while (listen) {
+			while (listening) {
+				Log.d("BÖGEN", "är här1");
 				try {				
 					socket =  serverSocket.accept();
-					new Connection((socket), this).start();
+					new ConnectionTask((socket),this, cm).execute();
+					//					new Connection((socket), this).start();
 
 				} catch (IOException ioException) {
 					ioException.printStackTrace();
@@ -71,10 +75,6 @@ public class ConnectionController extends Thread implements Runnable, Observer {
 
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
-	}
-
-	protected void setMessage(){
-		
 	}
 
 	public void login(String userName, String password) throws IOException {
