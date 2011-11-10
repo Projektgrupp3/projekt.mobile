@@ -26,7 +26,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	
 	eventmodel = new EventModel(this,"Trafikolycka", "Större olycka..", "Valla-rondellen", 
 					new SimpleDateFormat("HH:mm:ss").format(new Date()),5);
-	eventheader.set
+	//FORTSÄTT HÄR
 }
 
 public void update(Observable observable, Object data) {
