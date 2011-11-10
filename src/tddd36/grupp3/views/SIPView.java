@@ -5,8 +5,13 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.SIPController;
-
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
 import tddd36.grupp3.models.SIPSettingsModel;
+=======
+>>>>>>> master
+>>>>>>> davve
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -185,11 +190,19 @@ public class SIPView extends Activity implements View.OnTouchListener, Observer{
 			this.unregisterReceiver(sipcontroller.getSIPModel().callReceiver);
 		}
 	}
-
+<<<<<<< HEAD
+	public void updatePreferences() {
+		startActivity(new Intent(getBaseContext(), SIPSettingsView.class));
+=======
+<<<<<<< HEAD
 	public void updatePreferences() {
 		Intent settingsActivity = new Intent(getBaseContext(),
 				SIPSettingsModel.class);
 		startActivity(settingsActivity);
-
+=======
+	public void updatePreferences() {
+		startActivity(new Intent(getBaseContext(), SIPSettingsView.class));
+>>>>>>> master
+>>>>>>> davve
 	}
 }
