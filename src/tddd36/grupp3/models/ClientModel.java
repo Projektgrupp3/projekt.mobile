@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.concurrent.ExecutionException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import tddd36.grupp3.controllers.ClientController;
 import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.controllers.ConnectionTask;
@@ -33,10 +36,29 @@ public class ClientModel extends Observable {
 
 	public void connectToServer(){
 		//connectionController.run(userName, password);
-		String[] hej = {userName,password};
-		connectionController.execute(hej);
+		String[] usernamePassword = {userName,password};
+		connectionController.execute(usernamePassword);
 		setChanged();
-		notifyObservers();
+		notifyObservers(authenticated);
+	}
+	public Object evaluateMessage(String message){
+		Object o;
+		if(message.charAt(2) == 'a'){
+			try {
+				JSONObject alarm = new JSONObject(message);
+				
+				String[] nyttAlarm = new String[3];
+				nyttAlarm[0] = alarm.getString("adress");
+				nyttAlarm[1] = alarm.getString("numberOfInjured");
+				nyttAlarm[2] = alarm.getString("alarmID");
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		notifyObservers(message);
+		return null;
 	}
 
 	public void newMessage(String str){

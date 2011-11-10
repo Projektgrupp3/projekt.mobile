@@ -107,6 +107,7 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 
 				if ((serverOutput = br.readLine()) != "") {
 					if (serverOutput.equals("Authenticated")) {
+						Log.d("Spårutskrift",serverOutput);
 						cm.setAuthenticated(true);
 					} else {
 						cm.setAuthenticated(false);
