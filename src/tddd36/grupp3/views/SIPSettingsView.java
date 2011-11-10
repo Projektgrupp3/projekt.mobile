@@ -1,4 +1,4 @@
-package tddd36.grupp3.models;
+package tddd36.grupp3.views;
 
 import tddd36.grupp3.R;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.preference.PreferenceActivity;
 /**
  * Handles SIP authentication settings for the Walkie Talkie app.
  */
-public class SIPSettingsModel extends PreferenceActivity {
+public class SIPSettingsView extends PreferenceActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

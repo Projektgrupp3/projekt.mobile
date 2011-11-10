@@ -20,7 +20,7 @@ import tddd36.grupp3.models.ClientModel;
 //public class ConnectionController extends Thread implements Runnable, Observer {
 public class ConnectionController extends AsyncTask<String,Void,Void> implements Observer {
 
-	private static final String COM_IP = "130.236.227.149";
+	private static final String COM_IP = "130.236.227.92";
 	private static final int COM_PORT = 4444;
 	public static final int LISTEN_PORT = 4445;
 	private InputStreamReader isr;

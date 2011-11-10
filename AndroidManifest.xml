@@ -35,8 +35,8 @@
             android:label="@string/app_name"
             android:name="tddd36.grupp3.views.ClientView" >
             <intent-filter >
-                <action android:name="tddd36.grupp3.views.CLIENTVIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -49,19 +49,9 @@
         </activity>
         <activity
             android:label="@string/app_name"
-            android:name="tdd36.grupp3.views.UnitView" >
+            android:name="tddd36.grupp3.views.UnitView" >
             <intent-filter >
-                <action android:name="tddd36.grupp3.UNITVIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:label="@string/app_name"
-            android:name=".MainMapActivity"
-            android:screenOrientation="portrait" >
-            <intent-filter >
-                <action android:name="tddd36.grupp3.MAINMAPACTIVITY" />
-
+                <action android:name="tddd36.grupp3.views.UNITVIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -79,16 +69,16 @@
             android:name="tddd36.grupp3.views.MapGUI"
             android:screenOrientation="portrait" >
             <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="tddd36.grupp3.views.MAPGUI" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
             android:label="set_preferences"
-            android:name="tddd36.grupp3.models.SIPSettingsModel" >	
+            android:name="tddd36.views.SIPSettingsView" >	
         <intent-filter >
-                <action android:name="tddd36.grupp3.models.SIPSETTINGSMODEL" />
+                <action android:name="tddd36.grupp3.views.SIPSETTINGSMODEL" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             </activity>

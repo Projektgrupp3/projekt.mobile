@@ -23,7 +23,6 @@ public class ClientModel extends Observable {
 	public ClientModel(ClientView cv, ClientController cc){
 		this.cv = cv;
 		try {
-			//connectionController = new ConnectionController(this);
 			connectionController = new ConnectionController(this);
 		} catch (IOException e) {
 			e.printStackTrace();

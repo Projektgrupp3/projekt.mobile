@@ -3,10 +3,8 @@ package tddd36.grupp3.views;
 import java.util.Observable;
 import java.util.Observer;
 
-
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.ClientController;
-import tddd36.grupp3.models.ClientModel;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
