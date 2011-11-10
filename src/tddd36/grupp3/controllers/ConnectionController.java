@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
+
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 
 import android.os.AsyncTask;
+
 import android.util.Log;
 
 import tddd36.grupp3.models.ClientModel;
@@ -20,11 +22,12 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 	private static final String COM_IP = "130.236.226.149";
 	private static final int COM_PORT = 4444;
 	public static final int LISTEN_PORT = 4445;
-	
+
 	private InputStreamReader isr;
 	private PrintWriter pw;
 	private BufferedReader br;
 	public String serverOutput;
+
 	private String messageToServer;
 	private String userName;
 	private String password; 
@@ -37,6 +40,7 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 	private boolean listening = true;
 	private boolean ready = false;
 	private boolean readyToSend = false;
+
 
 	public ConnectionController(ClientModel cm) throws IOException {
 		this.cm = cm;
@@ -130,6 +134,7 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 		if(!cm.isAuthenticated()){
 			try {
 				login(params[0], params[1]);
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

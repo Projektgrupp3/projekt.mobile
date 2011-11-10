@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import tddd36.grupp3.controllers.ClientController;
 import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.controllers.ConnectionTask;
+
 import tddd36.grupp3.views.ClientView;
 
 public class ClientModel extends Observable {
@@ -18,13 +19,14 @@ public class ClientModel extends Observable {
 	private String password;
 	private boolean authenticated = false;
 	private ConnectionController connectionController;
+
 	private String messageFromServer;
 	private ClientView cv;
 
 	public ClientModel(ClientView cv, ClientController cc){
 		this.cv = cv;
 		try {
-			//connectionController = new ConnectionController(this);
+
 			connectionController = new ConnectionController(this);
 		} catch (IOException e) {
 			e.printStackTrace();

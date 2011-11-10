@@ -5,11 +5,12 @@
     <string name="voicecall">Röstsamtal</string>
     <string name="eventinfo">Larminformation</string>
     <string name="status">Status</string>
-    <string name="menu">Meny</string>
-    <string name="activity">Aktivitet</string>
+    <string name="settings">Inställningar</string>
+    <string name="centeratme">Centrera vy</string>
     <string name="other">Övrigt</string>
     <string name="sipLabel">SIP</string>
     <string name="contactAddress">SIP-Address till kontakt</string>
     <string name="talk">Tala</string>
+    <string name="empty">[tomt]</string>
         
 </resources>

@@ -3,15 +3,20 @@ package tddd36.grupp3.views;
 import java.util.Observable;
 import java.util.Observer;
 
+<<<<<<< HEAD
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.ClientController;
 import tddd36.grupp3.models.ClientModel;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +36,7 @@ public class ClientView extends Activity implements Observer{
 		if(data instanceof String){
 			Toast.makeText(getBaseContext(), (String)data, Toast.LENGTH_SHORT).show();
 			cc.getConnectionController().send("What up?");
+
 		}
 		else {
 			if(cc.isAuthenticated()) {
@@ -44,10 +50,10 @@ public class ClientView extends Activity implements Observer{
 				login.show();
 			}
 			else {
-				//setContentView(R.layout.unit);
-				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.UnitView.class));
+
+				Intent nextIntent = new Intent(getBaseContext(), tddd36.grupp3.views.UnitView.class);
+				startActivity(nextIntent);
 				//Toast.makeText(getBaseContext(), "Inloggad", Toast.LENGTH_SHORT).show();
-				
 			}
 		}
 	}
@@ -67,6 +73,7 @@ public class ClientView extends Activity implements Observer{
 		pass.setText("password");
 
 		login.setOnClickListener(new View.OnClickListener() {
+
 
 			public void onClick(View v) {
 				cc.setUserName(""+user.getText());

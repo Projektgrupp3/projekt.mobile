@@ -79,9 +79,8 @@ public class UnitView extends Activity implements OnItemSelectedListener, OnClic
 	}
 
 	public void onClick(View v) {
-		
-		
-	//startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.MapGUI.class));
+
+	startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class));
 	}
 
 	protected void onPause() {

@@ -8,7 +8,10 @@ import tddd36.grupp3.views.ClientView;
 
 public class ClientController implements Runnable, Observer {
 	ClientModel cm;
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 	public ClientController(ClientView cv){
 		cm = new ClientModel(cv, this);
 	}
@@ -35,8 +38,15 @@ public class ClientController implements Runnable, Observer {
 	public boolean isAuthenticated(){
 		return cm.isAuthenticated();		
 	}
+<<<<<<< HEAD
 	public ConnectionController getConnectionController(){
 		return cm.getConnectionController();
 	}
+=======
+
+//	public void startListen(){
+//		cm.listen();
+//	}
+>>>>>>> master
 
 }
