@@ -55,13 +55,14 @@ public class MapModel extends Observable implements LocationListener{
 		}
 	}
 
-	public void fireCurrentLocation(){
+	public GeoPoint fireCurrentLocation(){
 		lastKnownLocation = lm.getLastKnownLocation(lm.getBestProvider(criteria, true));
 		lat = (int) (lastKnownLocation.getLatitude() * 1E6);
 		lon = (int) (lastKnownLocation.getLongitude() * 1E6);
 		lastKnownGeoPoint = new GeoPoint(lat,lon);
+		
 		setChanged();
-		notifyObservers(lastKnownGeoPoint);	
+		return lastKnownGeoPoint;
 	}
 
 	public void onLocationChanged(Location location) {

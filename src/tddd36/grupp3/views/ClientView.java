@@ -10,6 +10,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,10 +43,9 @@ public class ClientView extends Activity implements Observer{
 				login.show();
 			}
 			else {
-				//setContentView(R.layout.unit);
-				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.UnitView.class));
+				Intent nextIntent = new Intent(getBaseContext(), tddd36.grupp3.views.UnitView.class);
+				startActivity(nextIntent);
 				//Toast.makeText(getBaseContext(), "Inloggad", Toast.LENGTH_SHORT).show();
-				
 			}
 		}
 	}

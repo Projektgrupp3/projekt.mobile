@@ -65,8 +65,8 @@ public class MapController implements Observer, Runnable{
 		//TODO
 	}
 
-	public void fireCurrentLocation() {
-		mapmodel.fireCurrentLocation();
+	public GeoPoint fireCurrentLocation() {
+		return mapmodel.fireCurrentLocation();
 	}
 
 }

@@ -13,16 +13,13 @@ import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.Hospital;
-import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.resources.Vehicle;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -39,15 +36,15 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 public class MapGUI extends MapActivity implements Observer {
-	long pressStart;
-	long pressStop;
+	private long pressStart;
+	private long pressStop;
 	private static final CharSequence[] points = {"Fordon", "Sjukhus","Händelse"};
-	int x, y,lat = 0, lon = 0, i=0;
+	private int x, y,lat = 0, lon = 0;
 
-	MapView map;
-	MapController mapcontroller;
+	private MapView map;
+	private MapController mapcontroller;
 
-	Drawable d;
+	private Drawable d;
 
 	static List<Overlay> overlayList;
 	GeoPoint touchedPoint;
@@ -59,7 +56,9 @@ public class MapGUI extends MapActivity implements Observer {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);		
+		setContentView(R.layout.maps);		
+		
+		d = getResources().getDrawable(R.drawable.pinpoint);
 
 		map = (MapView)findViewById(R.id.mvMain);
 		map.setBuiltInZoomControls(true);
@@ -73,14 +72,11 @@ public class MapGUI extends MapActivity implements Observer {
 		overlayList.add(compass);
 		controller = map.getController();
 		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
-
-		controller.setZoom(15);
-
-		d = getResources().getDrawable(R.drawable.pinpoint);
-
 		controller.setZoom(15);
 
 		mapcontroller = new MapController(MapGUI.this);
+
+		controller.animateTo(mapcontroller.fireCurrentLocation());
 	}
 
 	public void update(Observable observable, Object data) {
@@ -94,8 +90,8 @@ public class MapGUI extends MapActivity implements Observer {
 			if(data instanceof GeoPoint){
 				controller.animateTo((GeoPoint) data);
 			}
-			map.postInvalidate();
 		}
+		map.postInvalidate();
 	}
 	@Override
 	protected void onPause() {
@@ -110,6 +106,11 @@ public class MapGUI extends MapActivity implements Observer {
 		super.onResume();
 		//30000 = 5 min, 5000 = 5 kilometers
 		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
+	}
+	@Override
+	protected void onDestroy(){
+		
+		super.onDestroy();
 	}
 
 
@@ -126,29 +127,15 @@ public class MapGUI extends MapActivity implements Observer {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu:
-			startActivity(new Intent(getBaseContext(), tddd36.grupp3.models.SettingsModel.class));	
+		case R.id.settings:
+			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
 			return true;
 		case R.id.status:
 			//TODO
 			return true;
-		case R.id.voicecall:
-			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SIPView.class));	
-			return true;
-		case R.id.eventinfo:
-			eventinfo = new AlertDialog.Builder(MapGUI.this).create();
-			eventinfo.setTitle("Aktuellt larm");
-			eventinfo.setMessage("Här ska det komma larminformation.");
-			eventinfo.setButton("Ok", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which){
-					eventinfo.dismiss();
-				}
-			});
-			eventinfo.show();
-			return true;
-		case R.id.activity:
-			mapcontroller.fireCurrentLocation();
-			Toast.makeText(getBaseContext(), "Aktivitet kördes", Toast.LENGTH_SHORT).show();
+		case R.id.centeratme:
+			controller.setZoom(15);
+			controller.animateTo(mapcontroller.fireCurrentLocation());
 			return true;
 		case R.id.logout:
 			logout = new AlertDialog.Builder(MapGUI.this).create();
