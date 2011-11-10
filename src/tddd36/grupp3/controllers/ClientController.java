@@ -8,11 +8,6 @@ import tddd36.grupp3.views.ClientView;
 
 public class ClientController implements Runnable, Observer {
 	ClientModel cm;
-<<<<<<< HEAD
-	
-=======
-
->>>>>>> davve
 	public ClientController(ClientView cv){
 		cm = new ClientModel(cv, this);
 	}
@@ -23,15 +18,6 @@ public class ClientController implements Runnable, Observer {
 
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
-<<<<<<< HEAD
-		
-	}
-	
-	public void setUserName(String userName){
-		cm.setUserName(userName);
-	}
-	
-=======
 
 	}
 
@@ -39,7 +25,6 @@ public class ClientController implements Runnable, Observer {
 		cm.setUserName(userName);
 	}
 
->>>>>>> davve
 	public void setPassword(String password){
 		cm.setPassword(password);
 	}
@@ -49,12 +34,9 @@ public class ClientController implements Runnable, Observer {
 	public boolean isAuthenticated(){
 		return cm.isAuthenticated();		
 	}
-<<<<<<< HEAD
-	
-=======
+
 //	public void startListen(){
 //		cm.listen();
 //	}
 
->>>>>>> davve
 }
