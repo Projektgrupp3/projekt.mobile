@@ -15,6 +15,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -60,7 +61,7 @@ public class MapModel extends Observable implements LocationListener{
 		lat = (int) (lastKnownLocation.getLatitude() * 1E6);
 		lon = (int) (lastKnownLocation.getLongitude() * 1E6);
 		lastKnownGeoPoint = new GeoPoint(lat,lon);
-		
+
 		setChanged();
 		return lastKnownGeoPoint;
 	}
@@ -72,6 +73,7 @@ public class MapModel extends Observable implements LocationListener{
 
 		setChanged();
 		notifyObservers(lastKnownGeoPoint);		
+
 	}
 
 	public void onProviderDisabled(String provider) {
@@ -86,6 +88,7 @@ public class MapModel extends Observable implements LocationListener{
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
+
 
 	}
 
@@ -118,6 +121,6 @@ public class MapModel extends Observable implements LocationListener{
 			event.add(o);
 			notifyObservers(event);
 		}
-
 	}	
+
 }

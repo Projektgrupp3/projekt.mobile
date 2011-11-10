@@ -5,11 +5,15 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.ClientController;
+import tddd36.grupp3.models.ClientModel;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
@@ -30,6 +34,8 @@ public class ClientView extends Activity implements Observer{
 		
 		if(data instanceof String){
 			Toast.makeText(getBaseContext(), (String)data, Toast.LENGTH_SHORT).show();
+			cc.getConnectionController().send("What up?");
+
 		}
 		else {
 			if(cc.isAuthenticated()) {
@@ -43,6 +49,7 @@ public class ClientView extends Activity implements Observer{
 				login.show();
 			}
 			else {
+
 				Intent nextIntent = new Intent(getBaseContext(), tddd36.grupp3.views.UnitView.class);
 				startActivity(nextIntent);
 				//Toast.makeText(getBaseContext(), "Inloggad", Toast.LENGTH_SHORT).show();

@@ -37,7 +37,6 @@
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -83,17 +82,26 @@
             android:screenOrientation="portrait" >
             <intent-filter >
                 <action android:name="tddd36.grupp3.views.SIPVIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name="tddd36.grupp3.views.SIPView"
+            android:screenOrientation="portrait" >
+            <intent-filter >
+                <action android:name="tddd36.grupp3.views.SIPVIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:label="@string/app_name"
+
             android:name="tddd36.grupp3.views.MapGUI"
             android:screenOrientation="portrait" >
             <intent-filter >
                 <action android:name="tddd36.grupp3.views.MAPGUI" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

@@ -13,6 +13,7 @@ import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.Hospital;
+import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.resources.Vehicle;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -36,6 +37,7 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 public class MapGUI extends MapActivity implements Observer {
+
 	private long pressStart;
 	private long pressStop;
 	private static final CharSequence[] points = {"Fordon", "Sjukhus","Händelse"};
@@ -70,6 +72,7 @@ public class MapGUI extends MapActivity implements Observer {
 		overlayList.add(t);		
 		compass = new MyLocationOverlay(MapGUI.this, map);
 		overlayList.add(compass);
+
 		controller = map.getController();
 		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
 		controller.setZoom(15);
@@ -107,6 +110,7 @@ public class MapGUI extends MapActivity implements Observer {
 		//30000 = 5 min, 5000 = 5 kilometers
 		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
 	}
+
 	@Override
 	protected void onDestroy(){
 		
@@ -127,15 +131,19 @@ public class MapGUI extends MapActivity implements Observer {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+
 		case R.id.settings:
 			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
+
 			return true;
 		case R.id.status:
 			//TODO
 			return true;
+
 		case R.id.centeratme:
 			controller.setZoom(15);
 			controller.animateTo(mapcontroller.fireCurrentLocation());
+
 			return true;
 		case R.id.logout:
 			logout = new AlertDialog.Builder(MapGUI.this).create();
@@ -158,12 +166,12 @@ public class MapGUI extends MapActivity implements Observer {
 		}
 	}
 
+
 	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	class TouchOverlay extends Overlay{
 
 		AlertDialog.Builder builder;
@@ -183,7 +191,6 @@ public class MapGUI extends MapActivity implements Observer {
 				if(Math.abs(e.getX()-x)<10 && (Math.abs(e.getY()-y)<10)){ //Tillåter att användaren rör sitt finger lite
 					builder = new AlertDialog.Builder(m.getContext());				
 					alert = builder.create();
-
 					alert.setTitle("Kartmeny");
 					alert.setMessage("Välj något av nedanstående val:");
 					alert.setButton("Placera en markör", new DialogInterface.OnClickListener() {
