@@ -2,18 +2,18 @@ package tddd36.grupp3.models;
 
 import java.util.Observable;
 
-import tddd36.grupp3.views.EventView;
+import tddd36.grupp3.views.MissionView;
 
-public class EventModel extends Observable{
+public class MissionModel extends Observable{
 	private String eventheader;
 	private String eventdescription;
 	private String address;
 	private String time;
 	private int nmbrofinjuried;
 	
-	private EventView view;
+	private MissionView view;
 	
-	public EventModel(EventView view, String hdr, String desc, String adr, String time, int inj){
+	public MissionModel(MissionView view, String hdr, String desc, String adr, String time, int inj){
 		this.view = view;
 		eventheader = hdr;
 		eventdescription = desc;

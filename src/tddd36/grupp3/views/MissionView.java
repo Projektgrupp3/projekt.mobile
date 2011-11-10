@@ -6,14 +6,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 import tddd36.grupp3.R;
-import tddd36.grupp3.models.EventModel;
+import tddd36.grupp3.models.MissionModel;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class EventView extends Activity implements Observer{
+public class MissionView extends Activity implements Observer{
 	
-	EventModel eventmodel;
+	MissionModel eventmodel;
 	TextView eventheader, eventdescription, eventaddress;
 	
 @Override
@@ -24,7 +24,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	eventdescription = (TextView)findViewById(R.id.eventdescription2);
 	eventaddress = (TextView)findViewById(R.id.eventaddress2);
 	
-	eventmodel = new EventModel(this,"Trafikolycka", "Större olycka..", "Valla-rondellen", 
+	eventmodel = new MissionModel(this,"Trafikolycka", "Större olycka..", "Valla-rondellen", 
 					new SimpleDateFormat("HH:mm:ss").format(new Date()),5);
 	//FORTSÄTT HÄR
 }

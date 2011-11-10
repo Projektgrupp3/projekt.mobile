@@ -23,25 +23,27 @@ public class MainView extends TabActivity implements OnTabChangeListener{
         intent = new Intent().setClass(this, MapGUI.class);
 
         // Initialize a TabSpec for each tab and add it to the TabHost
-        spec = tabHost.newTabSpec("Map").setIndicator("Karta",
+        spec = tabHost.newTabSpec("map").setIndicator("Karta",
                           res.getDrawable(R.drawable.ic_tab_menu_item))
                       .setContent(intent);
         tabHost.addTab(spec);
 
         // Do the same for the other tabs
-        intent = new Intent().setClass(this, EventView.class);
-        spec = tabHost.newTabSpec("event").setIndicator("Händelse",
+        intent = new Intent().setClass(this, MissionView.class);
+        spec = tabHost.newTabSpec("mission").setIndicator("Uppdrag",
                           res.getDrawable(R.drawable.ic_tab_menu_item))
                       .setContent(intent);
         tabHost.addTab(spec);
 
         intent = new Intent().setClass(this, SIPView.class);
-        spec = tabHost.newTabSpec("Call").setIndicator("Samtal",
+        spec = tabHost.newTabSpec("call").setIndicator("Samtal",
                           res.getDrawable(R.drawable.ic_tab_menu_item))
                       .setContent(intent);
         tabHost.addTab(spec);
 
+        tabHost.setCurrentTab(2);
         tabHost.setCurrentTab(1);
+		tabHost.setCurrentTab(0);
     }
 
 	public void onTabChanged(String arg0) {
