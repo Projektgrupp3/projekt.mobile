@@ -10,12 +10,13 @@ import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
-import tddd36.grupp3.Connection;
 import tddd36.grupp3.models.ClientModel;
 
-public class ConnectionController extends Thread implements Runnable, Observer {
+//public class ConnectionController extends Thread implements Runnable, Observer {
+public class ConnectionController extends AsyncTask<String,Void,Void> implements Observer {
 
 	private static final String COM_IP = "130.236.227.149";
 	private static final int COM_PORT = 4444;
@@ -28,53 +29,15 @@ public class ConnectionController extends Thread implements Runnable, Observer {
 	private ClientModel cm;
 	private ServerSocket serverSocket;
 	private Socket socket;
-	private String input;
-	private String messageFromServer;
 	private boolean listening = true;
+	private boolean ready = false;
 
 	public ConnectionController(ClientModel cm) throws IOException {
 		this.cm = cm;
 		serverSocket =  new ServerSocket(LISTEN_PORT);
 	}
 
-	//	public void run(String userName, String password) {
-	//		if (!cm.isAuthenticated()) {
-	//			try {
-	//				login(userName, password);
-	//			} catch (IOException e) {
-	//				// TODO Auto-generated catch block
-	//				e.printStackTrace();
-	//			}
-	//		}	
-	//	}
-	public void run(String userName, String password) throws IOException{
-		if(!cm.isAuthenticated()){
-			login(userName, password);
-		}
-		else {
-			while (listening) {
-				Log.d("BÖGEN", "är här1");
-				try {				
-					socket =  serverSocket.accept();
-					new ConnectionTask((socket),this, cm).execute();
-					//					new Connection((socket), this).start();
-
-				} catch (IOException ioException) {
-					ioException.printStackTrace();
-					System.exit(-1);
-				} 
-			}
-			try {
-				serverSocket.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
 	public void update(Observable observable, Object data) {
-		// TODO Auto-generated method stub
 	}
 
 	public void login(String userName, String password) throws IOException {
@@ -113,4 +76,49 @@ public class ConnectionController extends Thread implements Runnable, Observer {
 		s.close();
 	}
 
+	public void setReady(boolean ready){
+		this.ready = ready;
+	}
+
+	@Override
+	protected Void doInBackground(String... params) {
+		if(!cm.isAuthenticated()){
+			try {
+				login(params[0], params[1]);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		while (listening) {
+			Log.d("Loop", "Lyssnar efter inkommande server connections");
+			try {				
+				socket =  serverSocket.accept();
+				new ConnectionTask((socket),this, cm).execute();
+
+			} catch (IOException ioException) {
+				ioException.printStackTrace();
+				System.exit(-1);
+			} 
+
+
+		}
+		try {
+			while(!ready){
+				Log.d("Loop", "Väntar på async task");
+			}
+			serverSocket.close();
+			Log.d("Avslutar","ServerSocket socket stängd.");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@Override
+	protected void onPostExecute(Void result) {
+		super.onPostExecute(result);
+	}
 }

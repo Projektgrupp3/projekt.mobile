@@ -27,11 +27,12 @@ public class ClientView extends Activity implements Observer{
 	ClientController cc;
 
 	public void update(Observable observable, Object data) {
+		
 		if(data instanceof String){
 			Toast.makeText(getBaseContext(), (String)data, Toast.LENGTH_SHORT).show();
 		}
 		else {
-			if(!cc.isAuthenticated()) {
+			if(cc.isAuthenticated()) {
 				AlertDialog login = new AlertDialog.Builder(ClientView.this).create();
 				login.setMessage("Felaktigt användarnamn eller lösenord");
 				login.setButton("OK", new DialogInterface.OnClickListener(){
@@ -43,9 +44,8 @@ public class ClientView extends Activity implements Observer{
 			}
 			else {
 				//setContentView(R.layout.unit);
-				//startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.UnitView.class));
-				Toast.makeText(getBaseContext(), "Inloggad", Toast.LENGTH_SHORT).show();
-				//cc.startListen();
+				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.UnitView.class));
+				//Toast.makeText(getBaseContext(), "Inloggad", Toast.LENGTH_SHORT).show();
 				
 			}
 		}

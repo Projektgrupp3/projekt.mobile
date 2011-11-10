@@ -21,6 +21,7 @@ public class ClientModel extends Observable {
 	public ClientModel(ClientView cv, ClientController cc){
 		this.cv = cv;
 		try {
+			//connectionController = new ConnectionController(this);
 			connectionController = new ConnectionController(this);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -31,13 +32,9 @@ public class ClientModel extends Observable {
 	}
 
 	public void connectToServer(){
-		// Om man vill köra en vanligt tråd istället.
-		try {
-			connectionController.run(userName, password);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//connectionController.run(userName, password);
+		String[] hej = {userName,password};
+		connectionController.execute(hej);
 		setChanged();
 		notifyObservers();
 	}

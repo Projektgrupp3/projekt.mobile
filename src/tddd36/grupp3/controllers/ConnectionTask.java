@@ -29,7 +29,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> implements 
 		this.socket = socket;
 		this.cc = cc;
 		this.cm = cm;
-		Log.d("BÖGEN", "är här289789978");
+		Log.d("Initiering", "Connection task skapad");
 	}
 
 	public void update(Observable observable, Object data) {
@@ -41,10 +41,10 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> implements 
 		try{
 			while(true){
 				if((input = in.readLine()) != ""){
-					Log.d("BÖGEN", "är här1");
-					msg = input;
-					return msg;
-				}
+					Log.d("Loop", "Meddelade mottaget från server");
+					Log.d("Meddelande", input);
+					return input;
+					}
 			}
 		} catch(NullPointerException e){
 		}
@@ -61,62 +61,27 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> implements 
 							socket.getInputStream()));
 
 			while(listening){
-				Log.d("BÖGEN", "är här2");
+				Log.d("Do in Backgrounds", "while loop innan androp till meddelande funktion");
 				message = listen();
 				break;
 			}
-
+			cc.setReady(false);
 			out.close();
 			in.close();
 			socket.close();
+			Log.d("Avslutar", "Socket stängd");
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return message;
 	}
-	
-	protected void onPreExecute(String result) {
+
+	@Override
+	protected void onPostExecute(String result) {
+		super.onPostExecute(result);
 		cm.executeChange();
 		cm.notifyObservers(result);
+		Log.d("Avslutar","Task redo");
 	}
-
-//	public String listen() throws IOException {
-//		try {
-//			serverSocket = new ServerSocket(LISTEN_PORT);
-//			socket = serverSocket.accept();
-//			br = new BufferedReader(new InputStreamReader(socket
-//					.getInputStream()));
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		while (true) {
-//			while ((input = br.readLine()) != "") {
-//				br.close();
-//				socket.close();
-//				break;
-//			}
-//			break;
-//		}
-//		return input;
-//	}
-//
-//	@Override
-//	protected String doInBackground(Void... params) {
-//		String str = null;
-//		try {
-//			str = listen();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return str;
-//	}
-//
-//	@Override
-//	protected void onPostExecute(String result) {
-//		cm.executeChange();
-//		cm.notifyObservers(result);
-//	}
 }
