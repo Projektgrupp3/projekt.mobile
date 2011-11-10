@@ -30,6 +30,7 @@ public class ClientView extends Activity implements Observer{
 		
 		if(data instanceof String){
 			Toast.makeText(getBaseContext(), (String)data, Toast.LENGTH_SHORT).show();
+			cc.getConnectionController().send("What up?");
 		}
 		else {
 			if(cc.isAuthenticated()) {

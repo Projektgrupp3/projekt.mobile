@@ -34,7 +34,6 @@
         <activity
             android:label="@string/app_name"
             android:name="tddd36.grupp3.views.ClientView" >
-
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -64,7 +63,6 @@
             android:screenOrientation="portrait" >
             <intent-filter >
                 <action android:name="tddd36.grupp3.MAINMAPACTIVITY" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -79,10 +77,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="tddd36.grupp3.views.MapGUI"
             android:screenOrientation="portrait" >
             <intent-filter >
-                <action android:name="tddd36.grupp3.views.MapGUI" />
+                <action android:name="tddd36.grupp3.views.MAPGUI" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

@@ -35,8 +35,8 @@ public class ClientController implements Runnable, Observer {
 	public boolean isAuthenticated(){
 		return cm.isAuthenticated();		
 	}
-//	public void startListen(){
-//		cm.listen();
-//	}
+	public ConnectionController getConnectionController(){
+		return cm.getConnectionController();
+	}
 
 }

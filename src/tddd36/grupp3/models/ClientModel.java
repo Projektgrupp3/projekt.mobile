@@ -38,10 +38,6 @@ public class ClientModel extends Observable {
 		setChanged();
 		notifyObservers();
 	}
-//	public void listen(){
-//		ConnectionTask ct = new ConnectionTask(this);
-//		ct.execute();
-//	}
 
 	public void newMessage(String str){
 		this.messageFromServer = str;
