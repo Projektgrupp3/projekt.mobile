@@ -36,7 +36,7 @@ import com.google.android.maps.Overlay;
 public class MapGUI extends MapActivity implements Observer {
 	long pressStart;
 	long pressStop;
-	CharSequence[] points = {"Fordon", "Sjukhus","Händelse"};
+	private static final CharSequence[] points = {"Fordon", "Sjukhus","Händelse"};
 	int x, y,lat = 0, lon = 0, i=0;
 
 	MapView map;
@@ -48,6 +48,7 @@ public class MapGUI extends MapActivity implements Observer {
 	com.google.android.maps.MapController controller;
 	LocationManager lm;
 	AlertDialog eventinfo,logout; 
+	Geocoder geocoder;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class MapGUI extends MapActivity implements Observer {
 		compass = new MyLocationOverlay(MapGUI.this, map);
 		overlayList.add(compass);
 		controller = map.getController();
+		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
 
 		controller.setZoom(15);
 
@@ -187,15 +189,12 @@ public class MapGUI extends MapActivity implements Observer {
 									switch(which){
 									case 0: 
 										mapcontroller.addMapObject(new Vehicle(touchedPoint,"Ambulans", "Här kommer ambulansen", 2));
-
 										return;
 									case 1:
 										mapcontroller.addMapObject(new Hospital(touchedPoint,"Sjukhus", "Här är ett sjukhus", 20));
-										Toast.makeText(getBaseContext(), "Sjukhus", Toast.LENGTH_SHORT).show();
 										return;
 									case 2:
 										mapcontroller.addMapObject(new Event(touchedPoint,"Händelse", "Här är en händelse", new SimpleDateFormat("HH:mm:ss").format(new Date())));
-										Toast.makeText(getBaseContext(), "Händelse", Toast.LENGTH_SHORT).show();
 										return;
 									}								
 								}
@@ -206,7 +205,6 @@ public class MapGUI extends MapActivity implements Observer {
 					alert.setButton3("Hämta adress", new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int which) {
-							Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
 							try{
 								List<Address> address = geocoder.getFromLocation(touchedPoint.getLatitudeE6() / 1E6, touchedPoint.getLongitudeE6() / 1E6, 1);
 								if(address.size() > 0){

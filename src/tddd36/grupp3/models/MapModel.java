@@ -15,7 +15,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 
@@ -76,8 +75,9 @@ public class MapModel extends Observable implements LocationListener{
 		return lm;
 	}
 	
-	public void addMapObject(MapObject o){
+	public void addMapObject(MapObject o, String address){
 		d = mapgui.getResources().getDrawable(o.getIcon());
+		o.setAdress(address);
 		setChanged();
 		if(o instanceof Vehicle){
 			if(vehicles == null){
@@ -88,7 +88,6 @@ public class MapModel extends Observable implements LocationListener{
 		}
 		else if(o instanceof Hospital){
 			if(hospital == null){
-				Toast.makeText(mapgui.getBaseContext(), "SjukhusBajs", Toast.LENGTH_SHORT).show();
 				hospital = new MapObjectList(d, mapgui);
 			}
 			hospital.add(o);

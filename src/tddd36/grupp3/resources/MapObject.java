@@ -7,6 +7,7 @@ public class MapObject extends OverlayItem {
 	private GeoPoint gp;
 	private String header, message;
 	private int icon;
+	private String address;
 
 	public MapObject(GeoPoint gp, String header, String message, int icon){
 		super(gp, header, message);
@@ -15,6 +16,7 @@ public class MapObject extends OverlayItem {
 		this.gp = gp;
 		this.icon = icon;
 	}
+	
 	public int getLatE6(){
 		return gp.getLatitudeE6();
 	}
@@ -31,9 +33,19 @@ public class MapObject extends OverlayItem {
 		return icon;
 	}
 	
+	public void setAdress(String address){
+		this.address = address;
+	}
+	
+	public String getAddress(){
+		return address;
+	}
+	
 	public String getObjectDescription(){
 		return "Objekt: "+getTitle()+"\n"+
 			"Meddelande: "+getMessage()+"\n"+
-			"Latitud: "+getLatE6()+" Longitud: "+getLonE6()+"\n";
+			"Latitud: "+getLatE6()+"\n"+
+			"Longitud: "+getLonE6()+"\n"+
+			"Adress: "+ getAddress()+"\n";
 	}
 }

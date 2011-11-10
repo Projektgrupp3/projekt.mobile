@@ -42,10 +42,9 @@
         </activity>
         <activity
             android:label="@string/app_name"
-            android:name=".Menu" >
+            android:name="tddd36.grupp3.models.SettingsModel" >
             <intent-filter >
-                <action android:name="tddd36.grupp3.MENU" />
-
+                <action android:name="tddd36.grupp3.models.SETTINGSMODEL" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

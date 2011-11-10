@@ -18,8 +18,8 @@ public class Hospital extends MapObject {
 	}
 	@Override
 	public String getObjectDescription(){
-		super.getObjectDescription();
-		return "Kapacitet: "+capacity;
+		String objectDesc = super.getObjectDescription();
+		return objectDesc +"Kapacitet: "+capacity;
 	}
 
 }

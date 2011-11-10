@@ -16,8 +16,8 @@ public class Event extends MapObject{
 	}
 	@Override
 	public String getObjectDescription(){
-		super.getObjectDescription();
-		return "Tid: "+time;
+		String objectDesc = super.getObjectDescription();
+		return objectDesc+"Tid: "+time;
 	}
 
 }
