@@ -101,6 +101,5 @@ public class MapModel extends Observable implements LocationListener{
 			notifyObservers(event);
 		}
 		
-	}
-	
+	}	
 }
