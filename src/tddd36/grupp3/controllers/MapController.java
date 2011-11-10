@@ -60,7 +60,7 @@ public class MapController implements Observer, Runnable{
 		}		
 		return addressString;
 	}
-	
+
 	public void run() {
 		//TODO
 	}

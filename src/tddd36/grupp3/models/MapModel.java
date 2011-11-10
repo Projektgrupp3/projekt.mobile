@@ -18,11 +18,13 @@ import android.os.Bundle;
 
 import com.google.android.maps.GeoPoint;
 
+
 public class MapModel extends Observable implements LocationListener{
 	int lat, lon;
-	
+
 	private Drawable d;
 	private MapObjectList vehicles,hospital,event;
+
 	MapGUI mapgui;
 	private LocationManager lm;
 	
@@ -51,7 +53,9 @@ public class MapModel extends Observable implements LocationListener{
 		lat = (int) (location.getLatitude() * 1E6);
 		lon = (int) (location.getLongitude() * 1E6);
 		GeoPoint ourLocation = new GeoPoint(lat, lon);
+
 		Vehicle currentLocation = new Vehicle(ourLocation,"Min plats","Här är jag",2);
+
 		setChanged();
 		notifyObservers(currentLocation);		
 	}

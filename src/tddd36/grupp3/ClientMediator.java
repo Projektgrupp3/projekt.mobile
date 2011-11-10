@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import android.os.AsyncTask;
-
 public class ClientMediator extends AsyncTask<String, Integer, String>{
 
 	private static final String COM_IP = "130.236.226.120";
@@ -70,3 +69,4 @@ public class ClientMediator extends AsyncTask<String, Integer, String>{
 	}
 
 }
+

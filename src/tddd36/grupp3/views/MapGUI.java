@@ -3,20 +3,17 @@ package tddd36.grupp3.views;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
-
-import tddd36.grupp3.R;
-import tddd36.grupp3.controllers.MapController;
-import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.Hospital;
 import tddd36.grupp3.resources.Vehicle;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import tddd36.grupp3.resources.MapObject;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -42,6 +39,12 @@ public class MapGUI extends MapActivity implements Observer {
 	MapView map;
 	MapController mapcontroller;
 
+	int x, y,lat = 0, lon = 0, i=0;
+	Drawable d;
+	
+	MapView map;
+	MapController mapcontroller;
+	
 	static List<Overlay> overlayList;
 	GeoPoint touchedPoint;
 	MyLocationOverlay compass;
@@ -57,7 +60,9 @@ public class MapGUI extends MapActivity implements Observer {
 
 		map = (MapView)findViewById(R.id.mvMain);
 		map.setBuiltInZoomControls(true);
-
+		map = (MapView)findViewById(R.id.mvMain);
+		map.setBuiltInZoomControls(true);
+	
 		TouchOverlay t = new TouchOverlay();
 		overlayList = map.getOverlays();
 		overlayList.add(t);		
@@ -68,12 +73,20 @@ public class MapGUI extends MapActivity implements Observer {
 
 		controller.setZoom(15);
 
+		d = getResources().getDrawable(R.drawable.pinpoint);
+		
+		controller.setZoom(15);
+
 		mapcontroller = new MapController(MapGUI.this);
 	}
 
 	public void update(Observable observable, Object data) {
+
 		if(data instanceof MapObjectList){
 			overlayList.add((MapObjectList) data);
+
+		if(data instanceof OverlayItem){
+			controller.animateTo(((OverlayItem) data).getPoint());
 		}
 		if(data instanceof GeoPoint){
 			controller.animateTo((GeoPoint) data);
@@ -94,11 +107,13 @@ public class MapGUI extends MapActivity implements Observer {
 		//30000 = 5 min, 5000 = 5 kilometers
 		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
 	}
+
 //	@Override
 //	protected void onDestroy(){
 //		mapcontroller.saveInstance();
 //		super.onDestroy();
 //	}
+
 	/**
 	 * Kallas på när hårdvaru-meny-knappen trycks in
 	 */
@@ -156,10 +171,77 @@ public class MapGUI extends MapActivity implements Observer {
 		}
 	}
 
+
 	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	class TouchOverlay extends Overlay{
+		public boolean onTouchEvent(MotionEvent e, MapView m){
+			if (e.getAction() == MotionEvent.ACTION_DOWN){
+				pressStart = e.getEventTime();
+				x = (int) e.getX();
+				y = (int) e.getY();
+				touchedPoint = map.getProjection().fromPixels(x,y);
+			}
+			if (e.getAction() == MotionEvent.ACTION_UP){
+				pressStop = e.getEventTime();
+				if(!((int)e.getX() == x) && !((int)e.getY() == y)){
+					pressStart = pressStop;
+				}
+			}
+			if (pressStop - pressStart > 200){
+				AlertDialog alert = new AlertDialog.Builder(MapGUI.this).create();
+				alert.setTitle("Kartmeny");
+				alert.setMessage("Välj något av nedanstående val:");
+				alert.setButton("Placera en markör", new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which) {
+						MapObject overlayItem = new MapObject(touchedPoint,"Sträng ", "Sträng ", getResources().getDrawable(R.drawable.ambulance));
+						MapObjectList custom = new MapObjectList(getResources().getDrawable(R.drawable.ambulance),MapGUI.this);
+						custom.insertPinpoint(overlayItem);
+						overlayList.add(custom);
+					}
+				});
+				alert.setButton3("Hämta adress", new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which) {
+						Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
+						try{
+							List<Address> address = geocoder.getFromLocation(touchedPoint.getLatitudeE6() / 1E6, touchedPoint.getLongitudeE6() / 1E6, 1);
+							if(address.size() > 0){
+								String display = "";
+								for(int i = 0;i<address.get(0).getMaxAddressLineIndex();i++){
+									display += address.get(0).getAddressLine(i) + "\n";
+								}
+								Toast t = Toast.makeText(getBaseContext(), display, Toast.LENGTH_LONG);
+								t.show();
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+						}finally{
+							//no-op
+						}
+					}
+				});
+				alert.setButton2("Satellit/Karta", new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which) {
+						if(map.isSatellite()){
+							map.setSatellite(false);
+						}else{
+							map.setSatellite(true);
+						}
+					}
+				});
+				alert.show();
+				return true;
+			}
+			return false;
+		}
+		
 	}
 
 	class TouchOverlay extends Overlay{

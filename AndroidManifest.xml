@@ -33,7 +33,6 @@
 
         <activity
             android:label="@string/app_name"
-
             android:name="tddd36.grupp3.views.ClientView" >
             <intent-filter >
                 <action android:name="tddd36.grupp3.views.CLIENTVIEW" />
@@ -50,10 +49,9 @@
         </activity>
         <activity
             android:label="@string/app_name"
-            android:name=".views.ChooseUnitActivity" >
+            android:name="tdd36.grupp3.views.UnitView" >
             <intent-filter >
-                <action android:name="tddd36.grupp3.CHOOSEUNITACTIVITY" />
-
+                <action android:name="tddd36.grupp3.UNITVIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -68,24 +66,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:label="@string/app_name"
-            android:name="tddd36.grupp3.views.SIPView"
-            android:screenOrientation="portrait" >
-            <intent-filter >
-                <action android:name="tddd36.grupp3.views.SIPVIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/app_name"
-            android:name=".WalkieTalkieActivity"
-            android:screenOrientation="portrait" >
-            <intent-filter >
-                <action android:name="tddd36.grupp3.WALKIETALKIEACTIVITY" />
-            </intent-filter>
-        </activity>
-        <activity
+<<<<<<< HEAD
             android:label="@string/app_name"
             android:name="tddd36.grupp3.views.SIPView"
             android:screenOrientation="portrait" >
@@ -112,6 +93,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             </activity>
+
         <receiver
             android:label="Call Receiver"
             android:name=".IncomingCallReceiver" />
