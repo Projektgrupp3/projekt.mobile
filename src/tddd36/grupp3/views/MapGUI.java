@@ -20,7 +20,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -51,7 +53,6 @@ public class MapGUI extends MapActivity implements Observer {
 	GeoPoint touchedPoint;
 	MyLocationOverlay compass;
 	com.google.android.maps.MapController controller;
-	LocationManager lm;
 	AlertDialog eventinfo,logout; 
 	Geocoder geocoder;
 
@@ -111,11 +112,6 @@ public class MapGUI extends MapActivity implements Observer {
 		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
 	}
 
-	//	@Override
-	//	protected void onDestroy(){
-	//		mapcontroller.saveInstance();
-	//		super.onDestroy();
-	//	}
 
 	/**
 	 * Kallas på när hårdvaru-meny-knappen trycks in
@@ -151,7 +147,8 @@ public class MapGUI extends MapActivity implements Observer {
 			eventinfo.show();
 			return true;
 		case R.id.activity:
-			//TODO
+			mapcontroller.fireCurrentLocation();
+			Toast.makeText(getBaseContext(), "Aktivitet kördes", Toast.LENGTH_SHORT).show();
 			return true;
 		case R.id.logout:
 			logout = new AlertDialog.Builder(MapGUI.this).create();

@@ -17,6 +17,9 @@ public class MapObject extends OverlayItem {
 		this.icon = icon;
 	}
 	
+	public void setGeoPoint(GeoPoint gp){
+		this.gp = gp;
+	}
 
 	public int getLatE6(){
 		return gp.getLatitudeE6();

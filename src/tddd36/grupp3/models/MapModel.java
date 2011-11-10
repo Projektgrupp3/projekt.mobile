@@ -15,6 +15,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 
@@ -27,58 +28,70 @@ public class MapModel extends Observable implements LocationListener{
 
 	MapGUI mapgui;
 	private LocationManager lm;
-	
-	GeoPoint ourLocation, touchedLocation;
-	
+	private Location lastKnownLocation;
+	private Criteria criteria;
+
+	GeoPoint ourLocation, touchedLocation, lastKnownGeoPoint;
+
 	public MapModel(MapGUI mapgui, MapController mc){
 		this.mapgui = mapgui;
 		this.addObserver(mc);
 		this.addObserver(mapgui);
-		
+
 		lm = (LocationManager) mapgui.getSystemService(Context.LOCATION_SERVICE);
-		Criteria criteria = new Criteria();
+		criteria = new Criteria();
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);
 		criteria.setAltitudeRequired(false);
-		Location lastKnownLocation =
+		lastKnownLocation =
 			lm.getLastKnownLocation(lm.getBestProvider(criteria, true));
+		if(lastKnownLocation != null){
+			lat = (int) (lastKnownLocation.getLatitude() * 1E6);
+			lon = (int) (lastKnownLocation.getLongitude() * 1E6);
+			lastKnownGeoPoint = new GeoPoint(lat,lon);		
+			setChanged();
+			notifyObservers(lastKnownGeoPoint);		
+		}else{
+			Toast.makeText(mapgui.getBaseContext(), "Kunde inte hämta leverantör", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	public void fireCurrentLocation(){
+		lastKnownLocation = lm.getLastKnownLocation(lm.getBestProvider(criteria, true));
 		lat = (int) (lastKnownLocation.getLatitude() * 1E6);
 		lon = (int) (lastKnownLocation.getLongitude() * 1E6);
-		GeoPoint lastKnownGeoPoint = new GeoPoint(lat,lon);
-		
+		lastKnownGeoPoint = new GeoPoint(lat,lon);
 		setChanged();
-		notifyObservers(lastKnownGeoPoint);		
+		notifyObservers(lastKnownGeoPoint);	
 	}
-	
+
 	public void onLocationChanged(Location location) {
 		lat = (int) (location.getLatitude() * 1E6);
 		lon = (int) (location.getLongitude() * 1E6);
-		GeoPoint ourLocation = new GeoPoint(lat, lon);
-
-		Vehicle currentLocation = new Vehicle(ourLocation,"Min plats","Här är jag",2);
+		lastKnownGeoPoint= new GeoPoint(lat, lon);
 
 		setChanged();
-		notifyObservers(currentLocation);		
+		notifyObservers(lastKnownGeoPoint);		
 	}
 
 	public void onProviderDisabled(String provider) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void onProviderEnabled(String provider) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public LocationManager getLocationManager(){
 		return lm;
 	}
-	
+
 	public void addMapObject(MapObject o, String address){
 		d = mapgui.getResources().getDrawable(o.getIcon());
 		o.setAdress(address);
@@ -104,6 +117,6 @@ public class MapModel extends Observable implements LocationListener{
 			event.add(o);
 			notifyObservers(event);
 		}
-		
+
 	}	
 }
