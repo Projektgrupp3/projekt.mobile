@@ -3,6 +3,7 @@ package tddd36.grupp3.controllers;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 
@@ -45,6 +46,7 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 	public ConnectionController(ClientModel cm) throws IOException {
 		this.cm = cm;
 		serverSocket =  new ServerSocket(LISTEN_PORT);
+
 	}
 
 	public void update(Observable observable, Object data) {
@@ -122,6 +124,7 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 				e.printStackTrace();
 			}
 		}
+
 		closeConnection();
 	}
 
@@ -134,11 +137,11 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 		if(!cm.isAuthenticated()){
 			try {
 				login(params[0], params[1]);
-
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 		}
 		while (listening) {
 			Log.d("Loop", "Lyssnar efter inkommande server connections");
@@ -150,6 +153,7 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 				ioException.printStackTrace();
 				System.exit(-1);
 			} 
+
 			//send metod
 			if(readyToSend){
 				send(messageToServer);
@@ -165,6 +169,7 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		
 		return null;
 	}

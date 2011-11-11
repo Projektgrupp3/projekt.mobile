@@ -13,6 +13,13 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 
+import tddd36.grupp3.models.MapModel;
+import tddd36.grupp3.resources.MapObject;
+import tddd36.grupp3.views.MapGUI;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.LocationManager;
+
 import com.google.android.maps.GeoPoint;
 
 public class MapController implements Observer, Runnable{
@@ -37,7 +44,6 @@ public class MapController implements Observer, Runnable{
 	public MapModel getMapModel(){
 		return mapmodel;
 	}
-
 	
 	public void addMapObject(MapObject o){
 		mapmodel.addMapObject(o, getAddress(o.getPoint()));
@@ -68,6 +74,7 @@ public class MapController implements Observer, Runnable{
 
 	public GeoPoint fireCurrentLocation() {
 		return mapmodel.fireCurrentLocation();
+
 	}
 
 }

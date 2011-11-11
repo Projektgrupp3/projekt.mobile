@@ -1,5 +1,7 @@
 package tddd36.grupp3.resources;
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -20,6 +22,7 @@ public class MapObject extends OverlayItem {
 		this.d = d;
 	}
 =======
+>>>>>>> davve
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
@@ -42,7 +45,10 @@ public class MapObject extends OverlayItem {
 		this.gp = gp;
 	}
 
+<<<<<<< HEAD
+=======
 >>>>>>> master
+>>>>>>> davve
 	public int getLatE6(){
 		return gp.getLatitudeE6();
 	}
@@ -55,10 +61,13 @@ public class MapObject extends OverlayItem {
 	public String getMessage(){
 		return message;
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 	}
 	public Drawable getIcon(){
 		return d;
 =======
+>>>>>>> davve
 	}
 	public int getIcon(){
 		return icon;
@@ -78,6 +87,9 @@ public class MapObject extends OverlayItem {
 			"Latitud: "+getLatE6()+"\n"+
 			"Longitud: "+getLonE6()+"\n"+
 			"Adress: "+ getAddress()+"\n";
+<<<<<<< HEAD
+=======
 >>>>>>> master
+>>>>>>> davve
 	}
 }

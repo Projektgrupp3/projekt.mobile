@@ -2,7 +2,6 @@ package tddd36.grupp3.models;
 
 import java.util.Observable;
 
-
 import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.Hospital;
@@ -40,7 +39,6 @@ public class MapModel extends Observable implements LocationListener{
 		this.addObserver(mc);
 		this.addObserver(mapgui);
 
-
 		lm = (LocationManager) mapgui.getSystemService(Context.LOCATION_SERVICE);
 		criteria = new Criteria();
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);
@@ -63,7 +61,7 @@ public class MapModel extends Observable implements LocationListener{
 		lat = (int) (lastKnownLocation.getLatitude() * 1E6);
 		lon = (int) (lastKnownLocation.getLongitude() * 1E6);
 		lastKnownGeoPoint = new GeoPoint(lat,lon);
-		
+
 		setChanged();
 		return lastKnownGeoPoint;
 	}
@@ -123,6 +121,6 @@ public class MapModel extends Observable implements LocationListener{
 			event.add(o);
 			notifyObservers(event);
 		}
-
 	}	
+
 }

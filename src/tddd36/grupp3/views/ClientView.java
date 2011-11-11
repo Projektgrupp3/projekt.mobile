@@ -3,8 +3,6 @@ package tddd36.grupp3.views;
 import java.util.Observable;
 import java.util.Observer;
 
-<<<<<<< HEAD
-
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.ClientController;
 import tddd36.grupp3.models.ClientModel;
@@ -14,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -73,7 +72,6 @@ public class ClientView extends Activity implements Observer{
 		pass.setText("password");
 
 		login.setOnClickListener(new View.OnClickListener() {
-
 
 			public void onClick(View v) {
 				cc.setUserName(""+user.getText());

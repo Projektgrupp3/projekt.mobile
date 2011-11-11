@@ -1,5 +1,7 @@
 package tddd36.grupp3.resources;
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 
 import android.graphics.drawable.Drawable;
 
@@ -12,6 +14,7 @@ public class Event extends MapObject{
 	public Event(GeoPoint gp, String header, String message) {
 		super(gp, header, message, d);
 =======
+>>>>>>> davve
 
 
 import com.google.android.maps.GeoPoint;
@@ -31,7 +34,10 @@ public class Event extends MapObject{
 	public String getObjectDescription(){
 		String objectDesc = super.getObjectDescription();
 		return objectDesc+"Tid: "+time;
+<<<<<<< HEAD
+=======
 >>>>>>> master
+>>>>>>> davve
 	}
 
 }
