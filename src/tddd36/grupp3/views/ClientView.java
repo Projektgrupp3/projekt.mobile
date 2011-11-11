@@ -3,8 +3,6 @@ package tddd36.grupp3.views;
 import java.util.Observable;
 import java.util.Observer;
 
-<<<<<<< HEAD
-
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.ClientController;
 import tddd36.grupp3.models.ClientModel;

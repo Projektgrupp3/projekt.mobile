@@ -15,6 +15,7 @@ import tddd36.grupp3.models.MapObjectList;
 
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.Hospital;
+import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.resources.Vehicle;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -173,72 +174,6 @@ public class MapGUI extends MapActivity implements Observer {
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-	
-	class TouchOverlay extends Overlay{
-		public boolean onTouchEvent(MotionEvent e, MapView m){
-			if (e.getAction() == MotionEvent.ACTION_DOWN){
-				pressStart = e.getEventTime();
-				x = (int) e.getX();
-				y = (int) e.getY();
-				touchedPoint = map.getProjection().fromPixels(x,y);
-			}
-			if (e.getAction() == MotionEvent.ACTION_UP){
-				pressStop = e.getEventTime();
-				if(!((int)e.getX() == x) && !((int)e.getY() == y)){
-					pressStart = pressStop;
-				}
-			}
-			if (pressStop - pressStart > 200){
-				AlertDialog alert = new AlertDialog.Builder(MapGUI.this).create();
-				alert.setTitle("Kartmeny");
-				alert.setMessage("Välj något av nedanstående val:");
-				alert.setButton("Placera en markör", new DialogInterface.OnClickListener() {
-
-					public void onClick(DialogInterface dialog, int which) {
-						MapObject overlayItem = new MapObject(touchedPoint,"Sträng ", "Sträng ", getResources().getDrawable(R.drawable.ambulance));
-						MapObjectList custom = new MapObjectList(getResources().getDrawable(R.drawable.ambulance),MapGUI.this);
-						custom.insertPinpoint(overlayItem);
-						overlayList.add(custom);
-					}
-				});
-				alert.setButton3("Hämta adress", new DialogInterface.OnClickListener() {
-
-					public void onClick(DialogInterface dialog, int which) {
-						Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
-						try{
-							List<Address> address = geocoder.getFromLocation(touchedPoint.getLatitudeE6() / 1E6, touchedPoint.getLongitudeE6() / 1E6, 1);
-							if(address.size() > 0){
-								String display = "";
-								for(int i = 0;i<address.get(0).getMaxAddressLineIndex();i++){
-									display += address.get(0).getAddressLine(i) + "\n";
-								}
-								Toast t = Toast.makeText(getBaseContext(), display, Toast.LENGTH_LONG);
-								t.show();
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-						}finally{
-							//no-op
-						}
-					}
-				});
-				alert.setButton2("Satellit/Karta", new DialogInterface.OnClickListener() {
-
-					public void onClick(DialogInterface dialog, int which) {
-						if(map.isSatellite()){
-							map.setSatellite(false);
-						}else{
-							map.setSatellite(true);
-						}
-					}
-				});
-				alert.show();
-				return true;
-			}
-			return false;
-		}
-		
 	}
 
 	class TouchOverlay extends Overlay{

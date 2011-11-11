@@ -35,20 +35,13 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> implements 
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> master
 	
 	public String listen() throws IOException {
 		String input;
 		try{
 			while(true){
 				if((input = in.readLine()) != ""){
-<<<<<<< HEAD
-=======
-					Log.d("Loop", "Meddelade mottaget från server");
->>>>>>> master
 					Log.d("Meddelande", input);
 					return input;
 					}
@@ -88,12 +81,8 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> implements 
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
 		cm.executeChange();
-<<<<<<< HEAD
 		cm.evaluateMessage(result);
 		//cm.notifyObservers(result);
-=======
-		cm.notifyObservers(result);
->>>>>>> master
 		Log.d("Avslutar","Task redo");
 	}
 }
