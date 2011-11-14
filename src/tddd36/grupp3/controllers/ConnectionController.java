@@ -134,6 +134,9 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 		if(!cm.isAuthenticated()){
 			try {
 				login(params[0], params[1]);
+				if(!cm.isAuthenticated()){
+					this.cancel(true);
+				}
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -165,7 +168,6 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return null;
 	}
 

@@ -26,7 +26,6 @@ public class ClientModel extends Observable {
 	public ClientModel(ClientView cv, ClientController cc){
 		this.cv = cv;
 		try {
-
 			connectionController = new ConnectionController(this);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -43,6 +42,7 @@ public class ClientModel extends Observable {
 		setChanged();
 		notifyObservers(authenticated);
 	}
+	
 	public Object evaluateMessage(String message){
 		Object o;
 		if(message.charAt(2) == 'a'){

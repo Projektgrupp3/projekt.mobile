@@ -15,6 +15,7 @@ import android.os.Bundle;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,7 +35,6 @@ public class ClientView extends Activity implements Observer{
 		if(data instanceof String){
 			Toast.makeText(getBaseContext(), (String)data, Toast.LENGTH_SHORT).show();
 			cc.getConnectionController().send("What up?");
-
 		}
 		else {
 			if(cc.isAuthenticated()) {
