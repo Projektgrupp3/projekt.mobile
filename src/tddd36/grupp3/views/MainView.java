@@ -1,6 +1,7 @@
 package tddd36.grupp3.views;
 
 import tddd36.grupp3.R;
+import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -21,8 +22,6 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 
         // Create an Intent to launch an Activity for the tab (to be reused)
         intent = new Intent().setClass(this, MapGUI.class);
-
-        // Initialize a TabSpec for each tab and add it to the TabHost
         spec = tabHost.newTabSpec("map").setIndicator("Karta",
                           res.getDrawable(R.drawable.ic_tab_menu_item))
                       .setContent(intent);
@@ -47,7 +46,9 @@ public class MainView extends TabActivity implements OnTabChangeListener{
     }
 
 	public void onTabChanged(String arg0) {
-		// TODO Auto-generated method stub
-		
+		Activity MyActivity = this.getCurrentActivity();
+		if(MyActivity instanceof MissionView){
+			
+		}
 	}
 }

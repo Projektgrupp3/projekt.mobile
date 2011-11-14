@@ -188,7 +188,7 @@ public class SIPView extends Activity implements View.OnTouchListener, Observer{
 
 	public void updatePreferences() {
 		Intent settingsActivity = new Intent(getBaseContext(),
-				SIPSettingsModel.class);
+				SIPSettingsView.class);
 		startActivity(settingsActivity);
 
 	}

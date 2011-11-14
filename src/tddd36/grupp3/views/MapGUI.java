@@ -13,7 +13,6 @@ import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.Hospital;
-import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.resources.Vehicle;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -21,6 +20,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -49,7 +49,7 @@ public class MapGUI extends MapActivity implements Observer {
 	private Drawable d;
 
 	static List<Overlay> overlayList;
-	GeoPoint touchedPoint;
+	GeoPoint touchedPoint, myLocation;
 	MyLocationOverlay compass;
 	com.google.android.maps.MapController controller;
 	AlertDialog eventinfo,logout; 
@@ -79,7 +79,7 @@ public class MapGUI extends MapActivity implements Observer {
 
 		mapcontroller = new MapController(MapGUI.this);
 
-		controller.animateTo(mapcontroller.fireCurrentLocation());
+		//controller.animateTo(mapcontroller.fireCurrentLocation());
 	}
 
 	public void update(Observable observable, Object data) {
@@ -137,13 +137,16 @@ public class MapGUI extends MapActivity implements Observer {
 
 			return true;
 		case R.id.status:
-			//TODO
+			//noop
 			return true;
-
 		case R.id.centeratme:
-			controller.setZoom(15);
-			controller.animateTo(mapcontroller.fireCurrentLocation());
-
+			myLocation = mapcontroller.fireCurrentLocation();
+			if(myLocation!=null){
+				controller.setZoom(15);
+				controller.animateTo(myLocation);
+			}else{
+				Toast.makeText(getBaseContext(), "Kunde inte hämta leverantör", Toast.LENGTH_SHORT).show();
+			}			
 			return true;
 		case R.id.logout:
 			logout = new AlertDialog.Builder(MapGUI.this).create();
@@ -208,7 +211,7 @@ public class MapGUI extends MapActivity implements Observer {
 										mapcontroller.addMapObject(new Hospital(touchedPoint,"Sjukhus", "Här är ett sjukhus", 20));
 										return;
 									case 2:
-										mapcontroller.addMapObject(new Event(touchedPoint,"Händelse", "Här är en händelse", new SimpleDateFormat("HH:mm:ss").format(new Date())));
+										mapcontroller.addMapObject(new Event(touchedPoint,"Händelse", "Här är en händelse", new SimpleDateFormat("HH:mm:ss").format(new Date()),"2"));
 										return;
 									}								
 								}

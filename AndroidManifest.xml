@@ -107,9 +107,9 @@
         </activity>
         <activity
             android:label="set_preferences"
-            android:name="tddd36.views.SIPSettingsView" >
+            android:name="tddd36.grupp3.views.SIPSettingsView" >
             <intent-filter >
-                <action android:name="tddd36.grupp3.views.SIPSETTINGSMODEL" />
+                <action android:name="tddd36.grupp3.views.SIPSETTINGSVIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

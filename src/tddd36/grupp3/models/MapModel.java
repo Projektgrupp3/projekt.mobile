@@ -57,13 +57,18 @@ public class MapModel extends Observable implements LocationListener{
 	}
 
 	public GeoPoint fireCurrentLocation(){
-		lastKnownLocation = lm.getLastKnownLocation(lm.getBestProvider(criteria, true));
-		lat = (int) (lastKnownLocation.getLatitude() * 1E6);
-		lon = (int) (lastKnownLocation.getLongitude() * 1E6);
-		lastKnownGeoPoint = new GeoPoint(lat,lon);
-
-		setChanged();
-		return lastKnownGeoPoint;
+		lastKnownLocation =
+			lm.getLastKnownLocation(lm.getBestProvider(criteria, true));
+		if(lastKnownLocation != null){
+			lat = (int) (lastKnownLocation.getLatitude() * 1E6);
+			lon = (int) (lastKnownLocation.getLongitude() * 1E6);
+			lastKnownGeoPoint = new GeoPoint(lat,lon);		
+			setChanged();
+			return lastKnownGeoPoint;	
+		}else{
+			Toast.makeText(mapgui.getBaseContext(), "Kunde inte hämta leverantör", Toast.LENGTH_SHORT).show();
+			return null;
+		}		
 	}
 
 	public void onLocationChanged(Location location) {

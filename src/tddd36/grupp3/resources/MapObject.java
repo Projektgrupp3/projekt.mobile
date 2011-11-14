@@ -1,9 +1,6 @@
 package tddd36.grupp3.resources;
 
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
