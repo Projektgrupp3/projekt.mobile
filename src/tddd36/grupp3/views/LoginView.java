@@ -4,8 +4,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import tddd36.grupp3.R;
-import tddd36.grupp3.controllers.ClientController;
-import tddd36.grupp3.models.ClientModel;
+import tddd36.grupp3.controllers.LoginController;
+import tddd36.grupp3.models.LoginModel;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,23 +22,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ClientView extends Activity implements Observer{
+public class LoginView extends Activity implements Observer{
 
 	private TextView display;
 	private EditText user;
 	private EditText pass;
 	private Button login;
-	ClientController cc;
+	LoginController cc;
 
 	public void update(Observable observable, Object data) {
 		
 		if(data instanceof String){
 			Toast.makeText(getBaseContext(), (String)data, Toast.LENGTH_SHORT).show();
-			cc.getConnectionController().send("What up?");
+			cc.getConnectionController().send("newuser");
 		}
 		else {
 			if(cc.isAuthenticated()) {
-				AlertDialog login = new AlertDialog.Builder(ClientView.this).create();
+				AlertDialog login = new AlertDialog.Builder(LoginView.this).create();
 				login.setMessage("Felaktigt användarnamn eller lösenord");
 				login.setButton("OK", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) { 	
@@ -65,9 +65,9 @@ public class ClientView extends Activity implements Observer{
 		login = (Button) findViewById(R.id.button1);
 		display = (TextView)findViewById(R.id.textView3);
 
-		cc = new ClientController(this);
+		cc = new LoginController(this);
 
-		user.setText("test");
+		user.setText("hej");
 		pass.setText("password");
 
 		login.setOnClickListener(new View.OnClickListener() {

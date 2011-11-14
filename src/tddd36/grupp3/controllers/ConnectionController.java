@@ -15,11 +15,11 @@ import android.os.AsyncTask;
 
 import android.util.Log;
 
-import tddd36.grupp3.models.ClientModel;
+import tddd36.grupp3.models.LoginModel;
 
 public class ConnectionController extends AsyncTask<String,Void,Void> implements Observer {
 
-	private static final String COM_IP = "130.236.227.7";
+	private static final String COM_IP = "130.236.227.49";
 	private static final int COM_PORT = 4444;
 	public static final int LISTEN_PORT = 4445;
 
@@ -33,7 +33,7 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 	private String password; 
 	
 	private Socket s;
-	private ClientModel cm;
+	private LoginModel cm;
 	private ServerSocket serverSocket;
 	private Socket socket;
 	
@@ -42,7 +42,7 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 	private boolean readyToSend = false;
 
 
-	public ConnectionController(ClientModel cm) throws IOException {
+	public ConnectionController(LoginModel cm) throws IOException {
 		this.cm = cm;
 		serverSocket =  new ServerSocket(LISTEN_PORT);
 	}

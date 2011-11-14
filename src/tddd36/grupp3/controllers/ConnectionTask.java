@@ -8,24 +8,24 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
-import tddd36.grupp3.models.ClientModel;
+import tddd36.grupp3.models.LoginModel;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class ConnectionTask extends AsyncTask<Void, Integer, String> implements Observer {
 
 	public static final int LISTEN_PORT = 4445;
-	private ClientModel cm;
+	private LoginModel cm;
 	private Socket socket = null;
 	private boolean listening = true;
 	private BufferedReader in;
 	private String msg;
 	private ConnectionController cc;
 
-	public ConnectionTask(ClientModel cm) {
+	public ConnectionTask(LoginModel cm) {
 		this.cm = cm;
 	}
-	public ConnectionTask(Socket socket, ConnectionController cc, ClientModel cm) {
+	public ConnectionTask(Socket socket, ConnectionController cc, LoginModel cm) {
 		this.socket = socket;
 		this.cc = cc;
 		this.cm = cm;
@@ -81,7 +81,9 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> implements 
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
 		cm.executeChange();
+		//För evaluate
 		cm.evaluateMessage(result);
+		//För MYSQL databasen
 		//cm.notifyObservers(result);
 		Log.d("Avslutar","Task redo");
 	}

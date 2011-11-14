@@ -7,13 +7,13 @@ import java.util.concurrent.ExecutionException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import tddd36.grupp3.controllers.ClientController;
+import tddd36.grupp3.controllers.LoginController;
 import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.controllers.ConnectionTask;
 
-import tddd36.grupp3.views.ClientView;
+import tddd36.grupp3.views.LoginView;
 
-public class ClientModel extends Observable {
+public class LoginModel extends Observable {
 
 	private String userName;
 	private String password;
@@ -21,9 +21,9 @@ public class ClientModel extends Observable {
 	private ConnectionController connectionController;
 
 	private String messageFromServer;
-	private ClientView cv;
+	private LoginView cv;
 
-	public ClientModel(ClientView cv, ClientController cc){
+	public LoginModel(LoginView cv, LoginController cc){
 		this.cv = cv;
 		try {
 			connectionController = new ConnectionController(this);
@@ -45,7 +45,10 @@ public class ClientModel extends Observable {
 	
 	public Object evaluateMessage(String message){
 		Object o;
-		if(message.charAt(2) == 'a'){
+		if(message.equals("user"))
+			notifyObservers(message);
+		else{
+		//if(message.charAt(2) == 'a'){
 			try {
 				JSONObject alarm = new JSONObject(message);
 				
