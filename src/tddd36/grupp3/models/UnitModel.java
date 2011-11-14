@@ -14,5 +14,4 @@ public class UnitModel extends Observable {
 		addObserver(uv);
 		addObserver(uc);
 	}
-
 }

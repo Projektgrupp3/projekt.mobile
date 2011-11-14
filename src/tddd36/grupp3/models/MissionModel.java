@@ -42,6 +42,9 @@ public class MissionModel extends Observable{
 		setChanged();
 		notifyObservers(currentmission);
 	}
+	public GeoPoint getCurrentGeoPoint(){
+		return gp;
+	}
 
 	public String getEventheader() {
 		return eventheader;

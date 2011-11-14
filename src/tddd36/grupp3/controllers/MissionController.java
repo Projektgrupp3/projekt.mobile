@@ -21,14 +21,19 @@ public class MissionController implements Observer {
 	public MissionController(MissionView mv){
 		this.mv = mv;
 		mm = new MissionModel(mv, this);
-		Event ev = new Event(new GeoPoint(5823837, 1534663), "Trafikolycka", text, 
-				new SimpleDateFormat("HH:mm:ss").format(new Date()),"5");
-		mm.setCurrentMission(ev);
-		
+//		Event ev = new Event(new GeoPoint(58395730, 15573080), "Trafikolycka", text, 
+//				new SimpleDateFormat("HH:mm:ss").format(new Date()),"5");
+//		mm.setCurrentMission(ev);	
 	}
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
 		
+	}
+	public GeoPoint getCurrentMissionAddress(){
+		return mm.getCurrentGeoPoint();
+	}
+	public void setCurrentMission(Event ev){
+		mm.setCurrentMission(ev);
 	}
 
 }

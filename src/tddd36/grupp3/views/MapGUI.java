@@ -15,12 +15,12 @@ import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.Hospital;
 import tddd36.grupp3.resources.Vehicle;
 import android.app.AlertDialog;
+import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -42,9 +42,10 @@ public class MapGUI extends MapActivity implements Observer {
 	private long pressStop;
 	private static final CharSequence[] points = {"Fordon", "Sjukhus","Händelse"};
 	private int x, y,lat = 0, lon = 0;
+	private Event o;
 
 	private MapView map;
-	private MapController mapcontroller;
+	private static MapController mapcontroller;
 
 	private Drawable d;
 
@@ -59,7 +60,7 @@ public class MapGUI extends MapActivity implements Observer {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maps);		
-		
+
 		d = getResources().getDrawable(R.drawable.pinpoint);
 
 		map = (MapView)findViewById(R.id.mvMain);
@@ -113,7 +114,7 @@ public class MapGUI extends MapActivity implements Observer {
 
 	@Override
 	protected void onDestroy(){
-		
+
 		super.onDestroy();
 	}
 
@@ -134,7 +135,6 @@ public class MapGUI extends MapActivity implements Observer {
 
 		case R.id.settings:
 			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
-
 			return true;
 		case R.id.status:
 			//noop
@@ -196,6 +196,7 @@ public class MapGUI extends MapActivity implements Observer {
 					alert = builder.create();
 					alert.setTitle("Kartmeny");
 					alert.setMessage("Välj något av nedanstående val:");
+
 					alert.setButton("Placera en markör", new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int which) {
@@ -211,7 +212,12 @@ public class MapGUI extends MapActivity implements Observer {
 										mapcontroller.addMapObject(new Hospital(touchedPoint,"Sjukhus", "Här är ett sjukhus", 20));
 										return;
 									case 2:
-										mapcontroller.addMapObject(new Event(touchedPoint,"Händelse", "Här är en händelse", new SimpleDateFormat("HH:mm:ss").format(new Date()),"2"));
+										o = new Event(touchedPoint,"Händelse", "Här är en händelse", new SimpleDateFormat("HH:mm:ss").format(new Date()),"2");
+										mapcontroller.addMapObject(o);
+										TabActivity parentTabActivity = (TabActivity) getParent();   
+										parentTabActivity.getTabHost().setCurrentTab(1);
+										MissionView act = (MissionView) parentTabActivity.getCurrentActivity();
+										act.mc.setCurrentMission(o);
 										return;
 									}								
 								}
@@ -255,5 +261,20 @@ public class MapGUI extends MapActivity implements Observer {
 			}
 			return false;
 		}
+	}
+	public void onBackPressed(){
+		AlertDialog logout = new AlertDialog.Builder(this).create();
+		logout.setMessage("Är du säker på att du vill avsluta?");
+		logout.setButton("Ja", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which){
+				finish();
+			}
+		});
+		logout.setButton2("Nej", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();					
+			}
+		});	
+		logout.show();
 	}
 }

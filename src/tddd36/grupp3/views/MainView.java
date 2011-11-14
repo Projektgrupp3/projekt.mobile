@@ -2,7 +2,9 @@ package tddd36.grupp3.views;
 
 import tddd36.grupp3.R;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.TabActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -10,13 +12,15 @@ import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 
 public class MainView extends TabActivity implements OnTabChangeListener{
-    @Override
+	TabHost tabHost;
+	
+	@Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
         Resources res = getResources(); // Resource object to get Drawables
-        TabHost tabHost = getTabHost();  // The activity TabHost
+        tabHost = getTabHost();  // The activity TabHost
         TabHost.TabSpec spec;  // Resusable TabSpec for each tab
         Intent intent;  // Reusable Intent for each tab
 
@@ -50,5 +54,8 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		if(MyActivity instanceof MissionView){
 			
 		}
+	}
+	public void switchTab(int index){
+		tabHost.setCurrentTab(index);
 	}
 }

@@ -160,12 +160,12 @@ public class SIPModel extends Observable{
 
 		}
 		catch (Exception e) {
-			Log.i("WalkieTalkieActivity/InitiateCall", "Fel uppstod vid försök att stänga ner manager.", e);
+			Log.i("SIPModel/InitiateCall", "Fel uppstod vid försök att stänga ner manager.", e);
 			if (me != null) {
 				try {
 					manager.close(me.getUriString());
 				} catch (Exception ee) {
-					Log.i("WalkieTalkieActivity/InitiateCall",
+					Log.i("SIPModel/InitiateCall",
 							"Fel uppstod vid försök att stänga ner manager.", ee);
 					ee.printStackTrace();
 				}

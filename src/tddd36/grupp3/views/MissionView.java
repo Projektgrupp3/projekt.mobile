@@ -6,6 +6,9 @@ import java.util.Observer;
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.MissionController;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.TabActivity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,12 +16,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MissionView extends Activity implements Observer{
+import com.google.android.maps.GeoPoint;
+
+public class MissionView extends Activity implements Observer, OnClickListener{
 
 	MissionController mc;
 	private TextView missionheader, missiondescription, missionaddress, 
 	missiontime, missioninjuries;
-	private Button changedesc, gotoadress;
+	private Button changedescbtn, gotoaddressbtn;
 	private String[] mission;
 
 	@Override
@@ -30,22 +35,22 @@ public class MissionView extends Activity implements Observer{
 		missionaddress = (TextView)findViewById(R.id.missionaddress2);
 		missiontime = (TextView)findViewById(R.id.missiontime2);
 		missioninjuries = (TextView)findViewById(R.id.missioninjuries2);
+
+		gotoaddressbtn = (Button)findViewById(R.id.gotoaddressbtn);
+		gotoaddressbtn.setOnClickListener(this);
+		changedescbtn = (Button)findViewById(R.id.changemissionbtn);
+		changedescbtn.setOnClickListener(this);
 		
-		changedesc = (Button)findViewById(R.id.gotoaddress);
-		changedesc.setOnClickListener(new OnClickListener() {			
-			public void onClick(View v) {
-			}
-		}); 
 		mc = new MissionController(MissionView.this);
 	}
 
 	public void update(Observable observable, Object data) {
 		if(data instanceof String[]){
 			mission = (String[]) data;
-			updateView(mission);
+			updateMissionView(mission);
 		}
 	}
-	public void updateView(String[] missiontext){
+	public void updateMissionView(String[] missiontext){
 		missionheader.setText(missiontext[0]);
 		missiondescription.setText(missiontext[1]);
 		missionaddress.setText(missiontext[2]);
@@ -53,4 +58,32 @@ public class MissionView extends Activity implements Observer{
 		missioninjuries.setText(missiontext[4]);
 	}
 
+	public void onClick(View v) {
+		if(v == gotoaddressbtn){
+			TabActivity parentTabActivity = (TabActivity) getParent();
+			GeoPoint gp = mc.getCurrentMissionAddress();   
+			if(gp!=null){
+				parentTabActivity.getTabHost().setCurrentTab(0);
+				MapGUI act = (MapGUI) parentTabActivity.getCurrentActivity();
+				act.controller.animateTo(gp);
+			}else{
+				Toast.makeText(getBaseContext(), "Du har inget uppdrag.", Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+	public void onBackPressed(){
+		AlertDialog logout = new AlertDialog.Builder(this).create();
+		logout.setMessage("Är du säker på att du vill avsluta?");
+		logout.setButton("Ja", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which){
+				finish();
+			}
+		});
+		logout.setButton2("Nej", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();					
+			}
+		});	
+		logout.show();
+	}
 }

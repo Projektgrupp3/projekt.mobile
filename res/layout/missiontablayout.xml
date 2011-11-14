@@ -117,13 +117,13 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/changemission"
+            android:id="@+id/changemissionbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ändra uppdragsbeskrivning" />
 
         <Button
-            android:id="@+id/gotoaddress"
+            android:id="@+id/gotoaddressbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Gå till adress" />

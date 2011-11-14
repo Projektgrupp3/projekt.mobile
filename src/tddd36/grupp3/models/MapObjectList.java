@@ -3,6 +3,7 @@ package tddd36.grupp3.models;
 import java.util.ArrayList;
 
 import tddd36.grupp3.resources.MapObject;
+import tddd36.grupp3.views.MapGUI;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
