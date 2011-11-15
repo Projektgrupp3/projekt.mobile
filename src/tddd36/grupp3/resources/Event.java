@@ -9,7 +9,7 @@ public class Event extends MapObject{
 	private String injuried;
 	
 	public Event(GeoPoint gp, String header, String message, String time, String injuried){
-		super(gp, header, message, R.drawable.event_icon);
+		super(gp, header, message, R.drawable.event_icon, ObjectType.EVENT);
 		this.time = time;
 		this.injuried = injuried;
 	}

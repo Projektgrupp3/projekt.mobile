@@ -15,7 +15,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -32,9 +31,11 @@ public class MapModel extends Observable implements LocationListener{
 	private Location lastKnownLocation;
 	private Criteria criteria;
 
+
 	GeoPoint ourLocation, touchedLocation, lastKnownGeoPoint;
 
 	public MapModel(MapGUI mapgui, MapController mc){
+		
 		this.mapgui = mapgui;
 		this.addObserver(mc);
 		this.addObserver(mapgui);

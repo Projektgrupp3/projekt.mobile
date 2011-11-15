@@ -45,7 +45,7 @@ public class MapGUI extends MapActivity implements Observer {
 	private Event o;
 
 	private MapView map;
-	private static MapController mapcontroller;
+	public static MapController mapcontroller;
 
 	private Drawable d;
 
@@ -59,7 +59,7 @@ public class MapGUI extends MapActivity implements Observer {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.maps);		
+		setContentView(R.layout.maps);
 
 		d = getResources().getDrawable(R.drawable.pinpoint);
 
@@ -191,7 +191,7 @@ public class MapGUI extends MapActivity implements Observer {
 				pressStop = e.getEventTime();
 			}
 			if (pressStop - pressStart > 200){
-				if(Math.abs(e.getX()-x)<10 && (Math.abs(e.getY()-y)<10)){ //Tillåter att användaren rör sitt finger lite
+				if(Math.abs(e.getX()-x)<10 && (Math.abs(e.getY()-y)<10)){ //Tillåter att användaren "darrar" på handen.
 					builder = new AlertDialog.Builder(m.getContext());				
 					alert = builder.create();
 					alert.setTitle("Kartmeny");

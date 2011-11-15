@@ -14,7 +14,7 @@ public class Hospital extends MapObject {
 	private static Drawable d;
 
 	public Hospital(GeoPoint gp, String header, String message, int capacity) {
-		super(gp, header, message, R.drawable.hospital_icon);
+		super(gp, header, message, R.drawable.hospital_icon, ObjectType.HOSPITAL);
 		this.capacity = capacity;		
 	}	
 

@@ -1,0 +1,76 @@
+<class-diagram version="1.0.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" corner="BOTTOM_RIGHT" language="java" name="tddd36.grupp3.views.MapGUI" project="projekt.android" 
+    file="/projekt.android/src/tddd36/grupp3/views/MapGUI.java" binary="false">    
+    <position height="515" width="227" x="69" y="-76"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="2" corner="BOTTOM_RIGHT" language="java" name="tddd36.grupp3.views.MapGUI.TouchOverlay" 
+    project="projekt.android" file="/projekt.android/src/tddd36/grupp3/views/MapGUI.java" binary="false">    
+    <position height="115" width="247" x="69" y="479"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="3" corner="BOTTOM_RIGHT" language="java" name="tddd36.grupp3.models.MapModel" project="projekt.android" 
+    file="/projekt.android/src/tddd36/grupp3/models/MapModel.java" binary="false">    
+    <position height="371" width="218" x="468" y="-218"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="4" corner="BOTTOM_RIGHT" language="java" name="tddd36.grupp3.controllers.MapController" 
+    project="projekt.android" file="/projekt.android/src/tddd36/grupp3/controllers/MapController.java" binary="false">    
+    <position height="-1" width="-1" x="955" y="198"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <nesting>    
+    <end type="SOURCE" nodeId="1"/>    
+    <end type="TARGET" nodeId="2"/>  
+  </nesting>  
+  <association>    
+    <end type="SOURCE" nodeId="3" navigable="false">      
+      <attribute name="mapgui"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <end type="SOURCE" nodeId="1" navigable="false">      
+      <attribute name="mapcontroller"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <end type="SOURCE" nodeId="4" navigable="false">      
+      <attribute name="mapgui"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <end type="SOURCE" nodeId="4" navigable="false">      
+      <attribute name="mapmodel"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

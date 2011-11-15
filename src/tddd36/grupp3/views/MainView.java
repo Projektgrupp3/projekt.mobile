@@ -2,9 +2,7 @@ package tddd36.grupp3.views;
 
 import tddd36.grupp3.R;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.TabActivity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -18,6 +16,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
 
         Resources res = getResources(); // Resource object to get Drawables
         tabHost = getTabHost();  // The activity TabHost
