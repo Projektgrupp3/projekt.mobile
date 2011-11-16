@@ -10,9 +10,11 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.MapController;
+import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.Hospital;
+import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.resources.Vehicle;
 import android.app.AlertDialog;
 import android.app.TabActivity;
@@ -94,6 +96,12 @@ public class MapGUI extends MapActivity implements Observer {
 			if(data instanceof GeoPoint){
 				controller.animateTo((GeoPoint) data);
 			}
+		}else if(data instanceof MapObject[]){
+			for(MapObject o: (MapObject[]) data){
+				if(o != null){
+				mapcontroller.addMapObject(o);
+				}
+			}
 		}
 		map.postInvalidate();
 	}
@@ -111,6 +119,7 @@ public class MapGUI extends MapActivity implements Observer {
 		//30000 = 5 min, 5000 = 5 kilometers
 		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
 	}
+	
 	/**
 	 * Kallas på när hårdvaru-meny-knappen trycks in
 	 */
@@ -137,7 +146,7 @@ public class MapGUI extends MapActivity implements Observer {
 				controller.setZoom(15);
 				controller.animateTo(myLocation);
 			}else{
-				Toast.makeText(getBaseContext(), "Kunde inte hämta leverantör", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), MapModel.GPS_FAILED, Toast.LENGTH_SHORT).show();
 			}			
 			return true;
 		case R.id.logout:

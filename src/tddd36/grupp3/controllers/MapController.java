@@ -40,7 +40,7 @@ public class MapController implements Observer, Runnable{
 	}
 	
 	public void addMapObject(MapObject o){
-		mapmodel.addMapObject(o, getAddress(o.getPoint()));
+		mapmodel.addMapObject(o);
 		MainView.db.addRow(o);
 		;
 	}

@@ -248,7 +248,6 @@ public class ClientDatabaseManager {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						dataList.add(cursor.getString(0));
 						dataList.add(gson.fromJson(cursor.getString(1), c));
 					}
 					// move the cursor's pointer up one position.
