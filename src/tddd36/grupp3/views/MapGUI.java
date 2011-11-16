@@ -111,14 +111,6 @@ public class MapGUI extends MapActivity implements Observer {
 		//30000 = 5 min, 5000 = 5 kilometers
 		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
 	}
-
-	@Override
-	protected void onDestroy(){
-
-		super.onDestroy();
-	}
-
-
 	/**
 	 * Kallas på när hårdvaru-meny-knappen trycks in
 	 */

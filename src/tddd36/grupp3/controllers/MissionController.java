@@ -1,15 +1,14 @@
 package tddd36.grupp3.controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.google.android.maps.GeoPoint;
-
 import tddd36.grupp3.models.MissionModel;
 import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MissionView;
+
+import com.google.android.maps.GeoPoint;
 
 public class MissionController implements Observer {
 	MissionView mv;
@@ -34,6 +33,7 @@ public class MissionController implements Observer {
 	}
 	public void setCurrentMission(Event ev){
 		mm.setCurrentMission(ev);
+		MainView.db.addRow(ev);
 	}
 
 }

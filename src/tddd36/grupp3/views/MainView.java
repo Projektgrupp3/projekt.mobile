@@ -1,6 +1,8 @@
 package tddd36.grupp3.views;
 
 import tddd36.grupp3.R;
+import tddd36.grupp3.database.ClientDatabaseManager;
+import tddd36.grupp3.resources.Contact;
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -12,11 +14,17 @@ import android.widget.TabHost.OnTabChangeListener;
 public class MainView extends TabActivity implements OnTabChangeListener{
 	TabHost tabHost;
 	
+	public static ClientDatabaseManager db;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+//        this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
+        db = new ClientDatabaseManager(this);
+//        db.addRow(new Contact("Emil", "bayhill@iptel.org"));
+//        db.addRow(new Contact("Thomas", "thomas@domain.org"));
+//        db.addRow(new Contact("Patrik","patrik@iptel.org"));
 
         Resources res = getResources(); // Resource object to get Drawables
         tabHost = getTabHost();  // The activity TabHost
@@ -53,6 +61,12 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		if(MyActivity instanceof MissionView){
 			
 		}
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		db.close();
 	}
 	public void switchTab(int index){
 		tabHost.setCurrentTab(index);

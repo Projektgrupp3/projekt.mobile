@@ -8,13 +8,7 @@ import java.util.Observer;
 
 import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.resources.MapObject;
-import tddd36.grupp3.views.MapGUI;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.LocationManager;
-
-import tddd36.grupp3.models.MapModel;
-import tddd36.grupp3.resources.MapObject;
+import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import android.location.Address;
 import android.location.Geocoder;
@@ -47,6 +41,7 @@ public class MapController implements Observer, Runnable{
 	
 	public void addMapObject(MapObject o){
 		mapmodel.addMapObject(o, getAddress(o.getPoint()));
+		MainView.db.addRow(o);
 		;
 	}
 	

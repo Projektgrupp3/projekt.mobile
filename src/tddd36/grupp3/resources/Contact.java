@@ -1,6 +1,6 @@
 package tddd36.grupp3.resources;
 
-public class Contact {
+public class Contact{
 	private String name;
 	private String sipaddress;
 	
