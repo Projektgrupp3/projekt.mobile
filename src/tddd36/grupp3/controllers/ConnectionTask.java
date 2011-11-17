@@ -59,6 +59,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> implements 
 							socket.getInputStream()));
 
 			message = getInput();
+			
 			in.close();
 			socket.close();
 			Log.d("Avslutar", "Socket stängd");

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.json.JSONException;
+
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.controllers.LoginController;
@@ -31,6 +33,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	private Button login;
 	LoginController cc;
 	private boolean authenticated;
+	public int counter = 0;
 
 	//Unit variabler
 	private Spinner spinner;
@@ -60,9 +63,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 			}
 			else {
 				Toast.makeText(getBaseContext(), "true", Toast.LENGTH_SHORT).show();
-				cc.getConnectionController().setMessageToServer("HEJHOPP GUMMISNOPP");
 				chooseUnit();
-				
 			}
 		}
 	}
@@ -96,11 +97,15 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		spinner.setAdapter(adapter);
 		spinner.setOnItemSelectedListener(this);
 		
-		//cc.getConnectionController().setMessageToServer("WHAAT UP???");
-		
 		bContinue.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class));
+				//startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class));
+				try {
+					cc.getConnectionController().send("halloj");
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			};
 		});
 	}
@@ -121,9 +126,18 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		
 		login.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				if(counter == 0){
 				cc.setUserName(""+user.getText());
 				cc.setPassword(""+pass.getText());
+				counter++;
 				cc.connectToServer();
+				} else
+					try {
+						cc.getConnectionController().send(""+user.getText(), ""+pass.getText(), null);
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			};
 		});
 	}
@@ -136,6 +150,11 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 
 	@Override
 	protected void onPause() {
+		super.onPause();
+		finish();
+	}
+	@Override
+	protected void onStop() {
 		super.onPause();
 		finish();
 	}

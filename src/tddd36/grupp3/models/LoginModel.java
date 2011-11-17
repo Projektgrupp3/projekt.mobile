@@ -46,20 +46,18 @@ public class LoginModel extends Observable {
 			connectAttempts = 1;
 			connectionController.execute(usernamePassword);
 		} 
-		else
-			connectionController.setLogin(true);
+		//else
+			//connectionController.setLogin(true);
 	}
 
 	public void evaluateMessage(String message){
 		setChanged();
 		if(message.equals("authenticated")){
 			authenticated = true;
-			connectionController.setLogin(false);
 			notifyObservers(authenticated);
 		}
 		if(message.equals("authfailed")){
 			authenticated = false;
-			connectionController.setLogin(false);
 			notifyObservers(authenticated);
 		}
 		//		else{

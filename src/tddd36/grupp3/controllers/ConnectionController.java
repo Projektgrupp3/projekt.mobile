@@ -5,21 +5,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
-
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 
-import android.os.AsyncTask;
-
-import android.util.Log;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import tddd36.grupp3.models.LoginModel;
+import android.os.AsyncTask;
+import android.util.Log;
 
 public class ConnectionController extends AsyncTask<String,Void,Boolean> implements Observer {
 
-	private static final String COM_IP = "130.236.227.72";
+	private static final String COM_IP = "130.236.227.7";
 	private static final int COM_PORT = 4444;
 	public static final int LISTEN_PORT = 4445;
 
@@ -27,6 +27,7 @@ public class ConnectionController extends AsyncTask<String,Void,Boolean> impleme
 	private PrintWriter pw;
 	private BufferedReader br;
 	public String serverOutput;
+	private JSONObject jsonobject;
 
 	private String messageToServer;
 	private String userName;
@@ -38,9 +39,8 @@ public class ConnectionController extends AsyncTask<String,Void,Boolean> impleme
 	private Socket socket;
 
 	private boolean listening = true;
-	private boolean readyToSend = false;
-	private boolean login = true;
-	private static boolean authenticated = false;
+	private boolean readyToSend = true;
+	private boolean authenticated = false;
 
 	public ConnectionController(LoginModel cm) throws IOException {
 		this.cm = cm;
@@ -48,17 +48,13 @@ public class ConnectionController extends AsyncTask<String,Void,Boolean> impleme
 	}
 
 	public void update(Observable observable, Object data) {
-		if(data instanceof Boolean){
-			authenticated = (Boolean)data;
-			if(authenticated)
-				listening = true;
-			else 
-				listening = false;
-		}
-	}
-
-	public void setLogin(boolean login){
-		this.login = login;
+//		if(data instanceof Boolean){
+//			authenticated = (Boolean)data;
+//			if(authenticated)
+//				listening = true;
+//			else 
+//				listening = false;
+//		}
 	}
 
 	public void establishConnection(){
@@ -83,64 +79,77 @@ public class ConnectionController extends AsyncTask<String,Void,Boolean> impleme
 		}
 	}
 
-	public void send(String str){
+	public void send(String str) throws JSONException{
+		this.messageToServer = str;
+		
+		jsonobject = new JSONObject();
+		jsonobject.put("user",userName);
+		jsonobject.put("pass",password);
+		jsonobject.put("msg", messageToServer);
+
+		String jsonString = jsonobject.toString();
+
 		establishConnection();
-		if(!authenticated){
-			pw.println(userName);
-			pw.println(password);
-		}
-		pw.println(str);
+
+		pw.println(jsonString);
+
 		closeConnection();
+		
 		readyToSend = false;
 	}
 
-	public void login(String userName, String password) throws IOException {
-		this.userName = userName;
-		this.password = password;
+	public void send(String user, String pass, String message) throws JSONException {
+		this.userName = user;
+		this.password = pass;
+		this.messageToServer = message;
+
+		jsonobject = new JSONObject();
+		jsonobject.put("user",userName);
+		jsonobject.put("pass",password);
+		jsonobject.put("msg", messageToServer);
+
+		String jsonString = jsonobject.toString();
 
 		establishConnection();
 
-		pw.println(userName);
-		pw.println(password);
+		pw.println(jsonString);
 
 		closeConnection();
+		readyToSend = false;
 
-	}
-
-	public void setMessageToServer(String msg){
-		messageToServer = msg;
-		readyToSend = true;
 	}
 
 	@Override
 	protected Boolean doInBackground(String... params) {
-		userName = params[0];
-		password = params[1];
+		this.userName = params[0];
+		this.password = params[1];
 
 		while (listening) {
-			if(login){
-				Log.d("Auth", "Ej inloggad");
+
+			if(readyToSend){
+				readyToSend = false;
+				Log.d("Login", "Skicka");
 				try {
-					login(userName, password);
-					Log.d("Auth", "Login försök avslutat");
-				} catch (IOException e) {
+					if(authenticated)
+						send(messageToServer);
+					else
+						send(userName,password,messageToServer);
+
+				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} 
-				login = false;
-			}
-			Log.d("Loop", "Lyssnar efter inkommande server connections");
-			try {				
-				socket =  serverSocket.accept();
-				new ConnectionTask((socket),this, cm).execute();
+				}
 
-			} catch (IOException ioException) {
-				ioException.printStackTrace();
-				System.exit(-1);
-			} 
-			//send metod
-			if(readyToSend){
-				send(messageToServer);
+			}
+			else {
+				Log.d("Loop", "Lyssnar efter inkommande server connections");
+				try {				
+					socket =  serverSocket.accept();
+					new ConnectionTask((socket),this, cm).execute();
+				} catch (IOException ioException) {
+					ioException.printStackTrace();
+					System.exit(-1);
+				}
 			}
 		}
 		return false;
