@@ -17,9 +17,9 @@ import android.util.Log;
 
 import tddd36.grupp3.models.LoginModel;
 
-public class ConnectionController extends AsyncTask<String,Void,Void> implements Observer {
+public class ConnectionController extends AsyncTask<String,Void,Boolean> implements Observer {
 
-	private static final String COM_IP = "130.236.227.49";
+	private static final String COM_IP = "130.236.227.72";
 	private static final int COM_PORT = 4444;
 	public static final int LISTEN_PORT = 4445;
 
@@ -31,16 +31,16 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 	private String messageToServer;
 	private String userName;
 	private String password; 
-	
+
 	private Socket s;
 	private LoginModel cm;
 	private ServerSocket serverSocket;
 	private Socket socket;
-	
-	private boolean listening = true;
-	private boolean ready = false;
-	private boolean readyToSend = false;
 
+	private boolean listening = true;
+	private boolean readyToSend = false;
+	private boolean login = true;
+	private static boolean authenticated = false;
 
 	public ConnectionController(LoginModel cm) throws IOException {
 		this.cm = cm;
@@ -48,14 +48,23 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 	}
 
 	public void update(Observable observable, Object data) {
+		if(data instanceof Boolean){
+			authenticated = (Boolean)data;
+			if(authenticated)
+				listening = true;
+			else 
+				listening = false;
+		}
 	}
-	
+
+	public void setLogin(boolean login){
+		this.login = login;
+	}
+
 	public void establishConnection(){
 		try {
 			s = new Socket(COM_IP, COM_PORT);
-			isr = new InputStreamReader(s.getInputStream());
 			pw = new PrintWriter(s.getOutputStream(), true);
-			br = new BufferedReader(isr);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,83 +76,59 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 	public void closeConnection(){
 		try {
 			pw.close();
-			br.close();
-			isr.close();
 			s.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void send(String str){
 		establishConnection();
-		try {
+		if(!authenticated){
 			pw.println(userName);
 			pw.println(password);
-
-			if ((serverOutput = br.readLine()) != "") {
-				if (serverOutput.equals("Authenticated")) {
-					cm.setAuthenticated(true);
-					pw.println(str);
-					closeConnection();
-					readyToSend = false;
-				} else {
-					cm.setAuthenticated(false);
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		pw.println(str);
+		closeConnection();
+		readyToSend = false;
 	}
 
 	public void login(String userName, String password) throws IOException {
 		this.userName = userName;
 		this.password = password;
+
 		establishConnection();
 
-		
-		if (!cm.isAuthenticated()) {
-			try {
-				pw.println(userName);
-				pw.println(password);
+		pw.println(userName);
+		pw.println(password);
 
-				if ((serverOutput = br.readLine()) != "") {
-					if (serverOutput.equals("Authenticated")) {
-						Log.d("Spårutskrift",serverOutput);
-						cm.setAuthenticated(true);
-					} else {
-						cm.setAuthenticated(false);
-					}
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		closeConnection();
+
 	}
 
-	public void setReady(boolean ready){
-		this.ready = ready;
+	public void setMessageToServer(String msg){
+		messageToServer = msg;
+		readyToSend = true;
 	}
 
 	@Override
-	protected Void doInBackground(String... params) {
-		if(!cm.isAuthenticated()){
-			try {
-				login(params[0], params[1]);
-				if(!cm.isAuthenticated()){
-					this.cancel(true);
-				}
+	protected Boolean doInBackground(String... params) {
+		userName = params[0];
+		password = params[1];
 
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		while (listening) {
+			if(login){
+				Log.d("Auth", "Ej inloggad");
+				try {
+					login(userName, password);
+					Log.d("Auth", "Login försök avslutat");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+				login = false;
+			}
 			Log.d("Loop", "Lyssnar efter inkommande server connections");
 			try {				
 				socket =  serverSocket.accept();
@@ -158,21 +143,6 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 				send(messageToServer);
 			}
 		}
-		try {
-			while(!ready){
-				Log.d("Loop", "Väntar på async task");
-			}
-			serverSocket.close();
-			Log.d("Avslutar","ServerSocket socket stängd.");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@Override
-	protected void onPostExecute(Void result) {
-		super.onPostExecute(result);
+		return false;
 	}
 }

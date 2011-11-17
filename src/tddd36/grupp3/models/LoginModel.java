@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.concurrent.ExecutionException;
 
+import javax.security.auth.login.LoginException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,8 +19,9 @@ public class LoginModel extends Observable {
 
 	private String userName;
 	private String password;
-	private boolean authenticated = false;
+	private static boolean authenticated = false;
 	private ConnectionController connectionController;
+	private int connectAttempts = 0;
 
 	private String messageFromServer;
 	private LoginView cv;
@@ -28,6 +31,7 @@ public class LoginModel extends Observable {
 		try {
 			connectionController = new ConnectionController(this);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		addObserver(cv);
@@ -35,35 +39,46 @@ public class LoginModel extends Observable {
 		addObserver(connectionController);
 	}
 
-	public void connectToServer(){
-		//connectionController.run(userName, password);
-		String[] usernamePassword = {userName,password};
-		connectionController.execute(usernamePassword);
-		setChanged();
-		notifyObservers(authenticated);
-	}
-	
-	public Object evaluateMessage(String message){
-		Object o;
-		if(message.equals("user"))
-			notifyObservers(message);
-		else{
-		//if(message.charAt(2) == 'a'){
-			try {
-				JSONObject alarm = new JSONObject(message);
-				
-				String[] nyttAlarm = new String[3];
-				nyttAlarm[0] = alarm.getString("adress");
-				nyttAlarm[1] = alarm.getString("numberOfInjured");
-				nyttAlarm[2] = alarm.getString("alarmID");
+	public void connectToServer() {
 
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		String[] usernamePassword = {userName,password};
+		if(connectAttempts == 0){
+			connectAttempts = 1;
+			connectionController.execute(usernamePassword);
+		} 
+		else
+			connectionController.setLogin(true);
+	}
+
+	public void evaluateMessage(String message){
+		setChanged();
+		if(message.equals("authenticated")){
+			authenticated = true;
+			connectionController.setLogin(false);
+			notifyObservers(authenticated);
 		}
-		notifyObservers(message);
-		return null;
+		if(message.equals("authfailed")){
+			authenticated = false;
+			connectionController.setLogin(false);
+			notifyObservers(authenticated);
+		}
+		//		else{
+		//			//if(message.charAt(2) == 'a'){
+		//			try {
+		//				JSONObject alarm = new JSONObject(message);
+		//
+		//				String[] nyttAlarm = new String[3];
+		//				nyttAlarm[0] = alarm.getString("adress");
+		//				nyttAlarm[1] = alarm.getString("numberOfInjured");
+		//				nyttAlarm[2] = alarm.getString("alarmID");
+		//
+		//			} catch (JSONException e) {
+		//				// TODO Auto-generated catch block
+		//				e.printStackTrace();
+		//			}
+		//		}
+		else
+			notifyObservers(message);
 	}
 
 	public void newMessage(String str){
