@@ -20,9 +20,6 @@ public class MissionController implements Observer {
 	public MissionController(MissionView mv){
 		this.mv = mv;
 		mm = new MissionModel(mv, this);
-//		Event ev = new Event(new GeoPoint(58395730, 15573080), "Trafikolycka", text, 
-//				new SimpleDateFormat("HH:mm:ss").format(new Date()),"5");
-//		mm.setCurrentMission(ev);	
 	}
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub

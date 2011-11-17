@@ -24,12 +24,12 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		// this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
+		//this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
-		//        db.addRow(new Contact("Emil", "bayhill@iptel.org"));
-		//        db.addRow(new Contact("Thomas", "thomas@domain.org"));
-		//        db.addRow(new Contact("Patrik","patrik@iptel.org"));
-		//db.addRow(new Vehicle(new GeoPoint(1929393838,2100101901),"Hej","hå",5));
+//		db.addRow(new Contact("Emil", "bayhill@iptel.org"));
+//		db.addRow(new Contact("Thomas", "thomas@domain.org"));
+//		db.addRow(new Contact("Patrik","patrik@iptel.org"));
+		//        db.addRow(new Vehicle(new GeoPoint(1929393838,2100101901),"Hej","hå",5));
 
 		Resources res = getResources(); // Resource object to get Drawables
 		tabHost = getTabHost();  // The activity TabHost

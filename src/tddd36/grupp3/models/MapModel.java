@@ -52,7 +52,6 @@ public class MapModel extends Observable implements LocationListener{
 		
 		insertMapObjectsFromDB();
 
-
 		lm = (LocationManager) mapgui.getSystemService(Context.LOCATION_SERVICE);
 		criteria = new Criteria();
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);

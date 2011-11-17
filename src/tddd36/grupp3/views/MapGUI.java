@@ -57,7 +57,10 @@ public class MapGUI extends MapActivity implements Observer {
 	com.google.android.maps.MapController controller;
 	AlertDialog eventinfo,logout; 
 	Geocoder geocoder;
-
+/**
+ * onCreate for MapGUI 
+ * Sets up the MapView and intiates MapController.
+ */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,8 +68,6 @@ public class MapGUI extends MapActivity implements Observer {
 
 		d = getResources().getDrawable(R.drawable.pinpoint);
 
-		map = (MapView)findViewById(R.id.mvMain);
-		map.setBuiltInZoomControls(true);
 		map = (MapView)findViewById(R.id.mvMain);
 		map.setBuiltInZoomControls(true);
 

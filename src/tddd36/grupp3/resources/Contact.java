@@ -1,8 +1,8 @@
 package tddd36.grupp3.resources;
 
 public class Contact{
-	private String name;
-	private String sipaddress;
+	public String name;
+	public String sipaddress;
 	
 	public Contact(String name, String sipaddress){
 		this.name = name;

@@ -24,7 +24,7 @@ public class ClientDatabaseManager {
 	// the names for our database columns
 	private final String[] TABLE_NAME = {"map","mission","contacts"};
 	private final String[] TABLE_MAP = {"type","mapobject"};
-	private final String[] TABLE_MISSION = {"header", "message", "address", "time","injuried"};
+	private final String[] TABLE_MISSION = {"type","event"};
 	private final String[] TABLE_CONTACT = {"name","address"};
 
 	public ClientDatabaseManager(Context context){
@@ -59,18 +59,16 @@ public class ClientDatabaseManager {
 		}
 	}
 	/**
-	 * Method for adding contact to database
+	 * Method for adding current mission to database
 	 * @param c
 	 */
 	public void addRow(Event ev)
 	{
 		ContentValues values = new ContentValues();
+		Gson gson = new Gson();
 
-		values.put(TABLE_MISSION[0], ev.getHeader());
-		values.put(TABLE_MISSION[1], ev.getMessage());
-		values.put(TABLE_MISSION[2], ev.getAddress());
-		values.put(TABLE_MISSION[3], ev.getTime());
-		values.put(TABLE_MISSION[4], ev.getInjuried());
+		values.put(TABLE_MISSION[0], ev.getClass().getName());
+		values.put(TABLE_MISSION[0], gson.toJson(ev));
 
 		try
 		{
@@ -261,18 +259,20 @@ public class ClientDatabaseManager {
 						TABLE_MISSION,
 						null, null, null, null, null
 				);
-
+				Gson gson = new Gson();
 				cursor.moveToFirst();
 				if (!cursor.isAfterLast())
 				{
 					do
-					{
-						dataList.add(cursor.getString(0));
-						dataList.add(cursor.getString(1));
-						dataList.add(cursor.getString(2));
-						dataList.add(cursor.getString(3));
-						dataList.add(cursor.getString(4));
-
+					{ 
+						Class c = null;
+						try {
+							c = Class.forName(cursor.getString(0));
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						dataList.add(gson.fromJson(cursor.getString(1), c));
 					}
 					// move the cursor's pointer up one position.
 					while (cursor.moveToNext());
@@ -304,19 +304,10 @@ public class ClientDatabaseManager {
 			Log.e("DB Error", e.toString());
 			e.printStackTrace();
 		}
-
 		// return the ArrayList that holds the data collected from
 		// the database.
 		cursor.close();
 		return dataList;
-	}
-	
-	public Cursor getContactList(){
-		return db.query(TABLE_NAME[2], TABLE_CONTACT, null, null, null, null, null);
-	}
-	
-	public int getContactListSize(){
-		return db.query(TABLE_NAME[2], TABLE_CONTACT, null, null, null, null, null).getCount();
 	}
 
 	// the beginnings our SQLiteOpenHelper class
@@ -350,10 +341,7 @@ public class ClientDatabaseManager {
 				TABLE_NAME[1] +
 				" (" +
 				TABLE_MISSION[0] + " TEXT," +
-				TABLE_MISSION[1] + " TEXT," +
-				TABLE_MISSION[2] + " TEXT," +
-				TABLE_MISSION[3] + " TEXT," +
-				TABLE_MISSION[4] + " TEXT" +
+				TABLE_MISSION[1] + " TEXT" +
 				");";
 			String contactTableQueryString = 	
 				"CREATE TABLE " +
