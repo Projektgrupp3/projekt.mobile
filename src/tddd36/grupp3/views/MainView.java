@@ -41,11 +41,11 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		this.registerReceiver(callReceiver, filter);
 		initializeManager();
 		
-		//this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
+		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
-//		db.addRow(new Contact("Emil", "bayhill@iptel.org"));
-//		db.addRow(new Contact("Thomas", "thomas@domain.org"));
-//		db.addRow(new Contact("Patrik","patrik@iptel.org"));
+		db.addRow(new Contact("Ambulans 1", "ambulans1@ekiga.net"));
+		db.addRow(new Contact("Thomas", "thomas@domain.org"));
+		db.addRow(new Contact("Patrik","patrik@iptel.org"));
 		//        db.addRow(new Vehicle(new GeoPoint(1929393838,2100101901),"Hej","hå",5));
 		Resources res = getResources(); // Resource object to get Drawables
 		tabHost = getTabHost();  // The activity TabHost
@@ -110,7 +110,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
     	}
 
     	try {
-    		SipProfile.Builder builder = new SipProfile.Builder("mrananas","ekiga.net");
+    		SipProfile.Builder builder = new SipProfile.Builder("ambulans2","ekiga.net");
     		builder.setPassword("password");
     		me = builder.build();
     		Intent i = new Intent();

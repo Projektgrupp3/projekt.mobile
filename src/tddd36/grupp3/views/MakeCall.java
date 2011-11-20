@@ -55,12 +55,26 @@ public class MakeCall extends Activity implements OnClickListener {
 
 				@Override
 				public void onCallEnded(SipAudioCall call) {
+					super.onCallEnded(call);
+					try {
+						call.endCall();
+					} catch (SipException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					finish();
 				}
 
 				@Override
 				public void onError(SipAudioCall call, int errorCode,
 						String errorMessage) {
+					super.onError(call, errorCode, errorMessage);
+					try {
+						call.endCall();
+					} catch (SipException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					finish();
 				}
 
@@ -69,11 +83,15 @@ public class MakeCall extends Activity implements OnClickListener {
 			SipSession.Listener sessionListener = new SipSession.Listener() {
 				@Override
 				public void onCallBusy(SipSession session) {
+					super.onCallBusy(session);
+					session.endCall();
 					finish();
 				}
 
 				@Override
 				public void onCallEnded(SipSession session) {
+					super.onCallEnded(session);
+					session.endCall();
 					finish();
 				}
 			};

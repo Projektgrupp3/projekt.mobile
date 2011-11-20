@@ -38,6 +38,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 			SipAudioCall.Listener listener = new SipAudioCall.Listener() {
 				@Override 
 				public void onRinging(SipAudioCall call, SipProfile caller) {
+					super.onRinging(call, caller);
 					try {
 						call.answerCall(30);
 					} catch (Exception e) {
@@ -46,6 +47,8 @@ public class IncomingCall extends Activity implements OnClickListener{
 				}
 				@Override 
 				public void onCallEnded(SipAudioCall call) {
+					super.onCallEnded(call);
+					session.endCall();
 					finish();
 				}
 
