@@ -51,10 +51,10 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 	public void onListItemClick(ListView parent, View v, int position, long id){
 		String[] contact = contactNames[position].split(" @ ",2);
 		Toast.makeText(getBaseContext(), "Name: "+ contact[0]+"\nAddress: "+contact[1], Toast.LENGTH_SHORT).show();
-//		Gson gson = new Gson();
-//		Intent callIntent = new Intent(getBaseContext(), Call.class);
-//		callIntent.putExtra("info", contact);
-//		startActivity(callIntent);
+		Gson gson = new Gson();
+		Intent callIntent = new Intent(getBaseContext(), MakeCall.class);
+		callIntent.putExtra("info", contact);
+		startActivity(callIntent);
 	}
 	
 	public void update(Observable arg0, Object arg1) {

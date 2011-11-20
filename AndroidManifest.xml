@@ -88,6 +88,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:label="@string/app_name" 
+            android:name="tddd36.grupp3.views.MakeCall" 
+            android:screenOrientation="portrait">
+             </activity>
+         <activity
+            android:label="@string/app_name" 
+            android:name="tddd36.grupp3.views.IncomingCall" 
+            android:screenOrientation="portrait">
+             </activity>
+        
+        <activity
             android:label="@string/app_name"
             android:name="tddd36.grupp3.views.SIPView"
             android:screenOrientation="portrait">
