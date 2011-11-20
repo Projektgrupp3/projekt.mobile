@@ -8,8 +8,11 @@ import tddd36.grupp3.resources.Contact;
 import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.resources.Vehicle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.TabActivity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
@@ -23,7 +26,10 @@ import android.widget.TabHost.OnTabChangeListener;
 import com.google.android.maps.GeoPoint;
 
 public class MainView extends TabActivity implements OnTabChangeListener{
-	TabHost tabHost;
+	public static TabHost tabHost;
+	public static TabHost.TabSpec spec;
+	public static Context context;
+	public static Resources res;
 
 	public static ClientDatabaseManager db;
 	public static SipManager manager = null;
@@ -34,6 +40,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		context = getBaseContext();
 		// Sipstuff
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.SipDemo.INCOMING_CALL");
@@ -46,10 +53,10 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		db.addRow(new Contact("Ambulans 1", "ambulans1@ekiga.net"));
 		db.addRow(new Contact("Thomas", "thomas@domain.org"));
 		db.addRow(new Contact("Patrik","patrik@iptel.org"));
-		//        db.addRow(new Vehicle(new GeoPoint(1929393838,2100101901),"Hej","hå",5));
-		Resources res = getResources(); // Resource object to get Drawables
+		
+		res = getResources(); // Resource object to get Drawables
 		tabHost = getTabHost();  // The activity TabHost
-		TabHost.TabSpec spec;  // Resusable TabSpec for each tab
+		//TabHost.TabSpec spec;  // Resusable TabSpec for each tab
 		Intent intent;  // Reusable Intent for each tab
 
 		// Create an Intent to launch an Activity for the tab (to be reused)
@@ -66,8 +73,8 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 				.setContent(intent);
 		tabHost.addTab(spec);
 
-		intent = new Intent().setClass(this, SIPView.class);
-		spec = tabHost.newTabSpec("call").setIndicator("Samtal",
+		intent = new Intent().setClass(this, SIPGroupActivity.class);
+		spec = tabHost.newTabSpec("contacts").setIndicator("Kontakter",
 				res.getDrawable(R.drawable.ic_tab_menu_item))
 				.setContent(intent);
 		tabHost.addTab(spec);
@@ -87,10 +94,8 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		unregisterReceiver(callReceiver);
 		db.close();
-	}
-	public void switchTab(int index){
-		tabHost.setCurrentTab(index);
 	}
 	
     public void initializeManager() {
@@ -137,4 +142,5 @@ public class MainView extends TabActivity implements OnTabChangeListener{
     		Log.d("WalkieTalkieActivity/onDestroy", "Failed to close local profile.", ee);
     	}
     }
+
 }

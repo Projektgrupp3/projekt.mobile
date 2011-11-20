@@ -8,6 +8,7 @@ import android.net.sip.SipAudioCall;
 import android.net.sip.SipException;
 import android.net.sip.SipSession;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,7 +56,7 @@ public class MakeCall extends Activity implements OnClickListener {
 
 				@Override
 				public void onCallEnded(SipAudioCall call) {
-					super.onCallEnded(call);
+
 					try {
 						call.endCall();
 					} catch (SipException e) {
@@ -68,7 +69,6 @@ public class MakeCall extends Activity implements OnClickListener {
 				@Override
 				public void onError(SipAudioCall call, int errorCode,
 						String errorMessage) {
-					super.onError(call, errorCode, errorMessage);
 					try {
 						call.endCall();
 					} catch (SipException e) {
@@ -83,14 +83,12 @@ public class MakeCall extends Activity implements OnClickListener {
 			SipSession.Listener sessionListener = new SipSession.Listener() {
 				@Override
 				public void onCallBusy(SipSession session) {
-					super.onCallBusy(session);
 					session.endCall();
 					finish();
 				}
 
 				@Override
 				public void onCallEnded(SipSession session) {
-					super.onCallEnded(session);
 					session.endCall();
 					finish();
 				}
@@ -121,21 +119,27 @@ public class MakeCall extends Activity implements OnClickListener {
 		});
 	}
 
-	public void onPause(){
-		super.onPause();
-		try {
-			if (call != null) {
-				call.close();
-				call.endCall();
-			}
-		} catch (SipException e) {
-			e.printStackTrace();
-		}
-		finish();
-	}
+	//	public void onPause(){
+	//		super.onPause();
+	//		try {
+	//			if (call != null) {
+	//				call.close();
+	//				call.endCall();
+	//			}
+	//		} catch (SipException e) {
+	//			e.printStackTrace();
+	//		}
+	//		finish();
+	//	}
 
 	public void onClick(View v) {
+		try {
+			call.endCall();
+		} catch (SipException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		call.close();
 		finish();
-
 	}
 }
