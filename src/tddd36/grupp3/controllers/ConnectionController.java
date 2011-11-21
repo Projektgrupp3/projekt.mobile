@@ -16,7 +16,6 @@ import org.json.JSONObject;
 import tddd36.grupp3.models.LoginModel;
 import android.os.AsyncTask;
 import android.util.Log;
-import tddd36.grupp3.models.ClientModel;
 
 public class ConnectionController extends AsyncTask<Void,Void,Boolean> implements Observer {
 
