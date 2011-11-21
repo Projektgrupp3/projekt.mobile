@@ -2,8 +2,6 @@ package tddd36.grupp3.database;
 
 import java.util.ArrayList;
 
-import com.google.gson.Gson;
-
 import tddd36.grupp3.resources.Contact;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.MapObject;
@@ -14,6 +12,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.google.gson.Gson;
 
 public class ClientDatabaseManager {
 	private SQLiteDatabase db; // a reference to the database manager class.
@@ -29,7 +29,7 @@ public class ClientDatabaseManager {
 
 	public ClientDatabaseManager(Context context){
 		ClientDatabaseManager.context = context;
-		
+
 		// create or open the database
 		CustomSQLiteOpenHelper helper = new CustomSQLiteOpenHelper(context);
 		db = helper.getWritableDatabase();
@@ -43,7 +43,7 @@ public class ClientDatabaseManager {
 	{
 		ContentValues values = new ContentValues();
 		Gson gson = new Gson();
-		
+
 		values.put(TABLE_MAP[0], o.getClass().getName());
 		values.put(TABLE_MAP[1], gson.toJson(o));		
 
@@ -218,7 +218,7 @@ public class ClientDatabaseManager {
 		// the cursor object store the information collected from the
 		// database and is used to iterate through the data.
 		Cursor cursor = null;
-		
+
 		try
 		{	
 			//Request map table
