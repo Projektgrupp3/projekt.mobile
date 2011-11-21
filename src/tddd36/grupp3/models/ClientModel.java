@@ -43,6 +43,7 @@ public class ClientModel extends Observable {
 		setChanged();
 		notifyObservers(authenticated);
 	}//hej
+	
 	public Object evaluateMessage(String message){
 		Object o;
 		if(message.charAt(2) == 'a'){
