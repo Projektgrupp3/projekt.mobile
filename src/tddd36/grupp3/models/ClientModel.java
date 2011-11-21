@@ -42,7 +42,7 @@ public class ClientModel extends Observable {
 		connectionController.execute(usernamePassword);
 		setChanged();
 		notifyObservers(authenticated);
-	}
+	}//hej
 	public Object evaluateMessage(String message){
 		Object o;
 		if(message.charAt(2) == 'a'){
