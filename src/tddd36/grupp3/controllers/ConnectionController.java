@@ -17,7 +17,7 @@ import tddd36.grupp3.models.LoginModel;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class ConnectionController extends AsyncTask<String,Void,Boolean> implements Observer {
+public class ConnectionController extends AsyncTask<Void,Void,Boolean> implements Observer {
 
 	private static final String COM_IP = "130.236.227.7";
 	private static final int COM_PORT = 4444;
@@ -39,7 +39,7 @@ public class ConnectionController extends AsyncTask<String,Void,Boolean> impleme
 	private Socket socket;
 
 	private boolean listening = true;
-	private boolean readyToSend = true;
+	private boolean readyToSend = false;
 	private boolean authenticated = false;
 
 	public ConnectionController(LoginModel cm) throws IOException {
@@ -82,6 +82,8 @@ public class ConnectionController extends AsyncTask<String,Void,Boolean> impleme
 	public void send(String str) throws JSONException{
 		this.messageToServer = str;
 		
+		readyToSend = true;
+		
 		jsonobject = new JSONObject();
 		jsonobject.put("user",userName);
 		jsonobject.put("pass",password);
@@ -102,6 +104,8 @@ public class ConnectionController extends AsyncTask<String,Void,Boolean> impleme
 		this.userName = user;
 		this.password = pass;
 		this.messageToServer = message;
+		
+		readyToSend = true;
 
 		jsonobject = new JSONObject();
 		jsonobject.put("user",userName);
@@ -120,9 +124,7 @@ public class ConnectionController extends AsyncTask<String,Void,Boolean> impleme
 	}
 
 	@Override
-	protected Boolean doInBackground(String... params) {
-		this.userName = params[0];
-		this.password = params[1];
+	protected Boolean doInBackground(Void... params) {
 
 		while (listening) {
 

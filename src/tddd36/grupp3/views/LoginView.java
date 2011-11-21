@@ -67,26 +67,6 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 			}
 		}
 	}
-	//		if(data instanceof String){
-	//			Toast.makeText(getBaseContext(), (String)data, Toast.LENGTH_SHORT).show();
-	//			cc.getConnectionController().send("newuser");
-	//		}
-	//		else {
-	//			if(cc.isAuthenticated()) {
-	//				AlertDialog login = new AlertDialog.Builder(LoginView.this).create();
-	//				login.setMessage("Felaktigt användarnamn eller lösenord");
-	//				login.setButton("OK", new DialogInterface.OnClickListener(){
-	//					public void onClick(DialogInterface dialog, int which) { 	
-	//					}
-	//				});
-	//				pass.setText("");
-	//				login.show();
-	//			}
-	//			else {
-	//				chooseUnit();
-	//			}
-	//		}
-	//	}
 
 	public void chooseUnit(){
 		setContentView(R.layout.unit);
@@ -99,13 +79,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		
 		bContinue.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				//startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class));
-				try {
-					cc.getConnectionController().send("halloj");
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class));
 			};
 		});
 	}
@@ -126,18 +100,12 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		
 		login.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if(counter == 0){
-				cc.setUserName(""+user.getText());
-				cc.setPassword(""+pass.getText());
-				counter++;
-				cc.connectToServer();
-				} else
-					try {
-						cc.getConnectionController().send(""+user.getText(), ""+pass.getText(), null);
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				
+				try {
+				cc.getConnectionController().send(""+user.getText(), ""+pass.getText(), null);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 			};
 		});
 	}

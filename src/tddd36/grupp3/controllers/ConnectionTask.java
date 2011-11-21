@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.json.JSONException;
+
 import tddd36.grupp3.models.LoginModel;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -73,7 +75,12 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> implements 
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		cm.evaluateMessage(result);
+		try {
+			cm.evaluateMessage(result);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Log.d("Avslutar","Task redo");
 	}
 }

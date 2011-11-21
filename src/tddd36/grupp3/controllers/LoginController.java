@@ -29,9 +29,7 @@ public class LoginController implements Runnable, Observer {
 	public void setPassword(String password){
 		cm.setPassword(password);
 	}
-	public void connectToServer(){
-		cm.connectToServer();
-	}
+
 	public boolean isAuthenticated(){
 		return cm.isAuthenticated();		
 	}
