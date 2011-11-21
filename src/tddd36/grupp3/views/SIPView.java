@@ -5,13 +5,7 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.SIPController;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 import tddd36.grupp3.models.SIPSettingsModel;
-=======
->>>>>>> master
->>>>>>> davve
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -32,15 +26,15 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class SIPView extends Activity implements View.OnTouchListener, Observer{
-	
+
 	SIPController sipcontroller;
 	SipAudioCall call;
-	
+
 	private static final int CALL_ADDRESS = 1;
 	private static final int SET_AUTH_INFO = 2;
 	private static final int UPDATE_SETTINGS_DIALOG = 3;
 	private static final int HANG_UP = 4;
-	
+
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
@@ -48,10 +42,10 @@ public class SIPView extends Activity implements View.OnTouchListener, Observer{
 
 		ToggleButton pushToTalkButton = (ToggleButton) findViewById(R.id.pushToTalk);
 		pushToTalkButton.setOnTouchListener(this);
-		
+
 		sipcontroller = new SIPController(this);
 		call = sipcontroller.getSIPModel().call;
-		
+
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
 	/**
@@ -71,7 +65,7 @@ public class SIPView extends Activity implements View.OnTouchListener, Observer{
 		}
 		return false;
 	}
-	
+
 	public SIPController getController(){
 		return sipcontroller;
 	}
@@ -88,7 +82,7 @@ public class SIPView extends Activity implements View.OnTouchListener, Observer{
 			updateStatus(data);
 		}		
 	}
-	
+
 	public void updateStatus(Object data){
 		TextView labelView = (TextView) findViewById(R.id.sipLabel);
 		labelView.setText((CharSequence) data);
@@ -100,36 +94,36 @@ public class SIPView extends Activity implements View.OnTouchListener, Observer{
 		// settings have changed, and re-login with new auth info.
 		sipcontroller.getSIPModel().initializeManager();
 	}
-	
+
 	public boolean onCreateOptionsMenu(Menu menu) {
-        sipcontroller.getSIPModel();
+		sipcontroller.getSIPModel();
 		menu.add(0, CALL_ADDRESS, 0, "Ring samtal");
-        menu.add(0, SET_AUTH_INFO, 0, "Ändra din SIP-information");
-        menu.add(0, HANG_UP, 0, "Avsluta nuvarande samtal");
-        return true;
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case CALL_ADDRESS:
-                showDialog(CALL_ADDRESS);
-                break;
-            case SET_AUTH_INFO:
-                updatePreferences();
-                break;
-            case HANG_UP:
-                if(call != null) {
-                    try {
-                      call.endCall();
-                    } catch (SipException se) {
-                        Log.d("WalkieTalkieActivity/onOptionsItemSelected",
-                                "Fel vid nedkopplat samtal", se);
-                    }
-                    call.close();
-                }
-                break;
-        }
-        return true;
-    }
+		menu.add(0, SET_AUTH_INFO, 0, "Ändra din SIP-information");
+		menu.add(0, HANG_UP, 0, "Avsluta nuvarande samtal");
+		return true;
+	}
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case CALL_ADDRESS:
+			showDialog(CALL_ADDRESS);
+			break;
+		case SET_AUTH_INFO:
+			updatePreferences();
+			break;
+		case HANG_UP:
+			if(call != null) {
+				try {
+					call.endCall();
+				} catch (SipException se) {
+					Log.d("WalkieTalkieActivity/onOptionsItemSelected",
+							"Fel vid nedkopplat samtal", se);
+				}
+				call.close();
+			}
+			break;
+		}
+		return true;
+	}
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
@@ -189,20 +183,5 @@ public class SIPView extends Activity implements View.OnTouchListener, Observer{
 		if (sipcontroller.getSIPModel().callReceiver != null) {
 			this.unregisterReceiver(sipcontroller.getSIPModel().callReceiver);
 		}
-	}
-<<<<<<< HEAD
-	public void updatePreferences() {
-		startActivity(new Intent(getBaseContext(), SIPSettingsView.class));
-=======
-<<<<<<< HEAD
-	public void updatePreferences() {
-		Intent settingsActivity = new Intent(getBaseContext(),
-				SIPSettingsModel.class);
-		startActivity(settingsActivity);
-=======
-	public void updatePreferences() {
-		startActivity(new Intent(getBaseContext(), SIPSettingsView.class));
->>>>>>> master
->>>>>>> davve
 	}
 }
