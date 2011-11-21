@@ -34,7 +34,6 @@ public class MapObject extends OverlayItem {
 	}
 	public String getMessage(){
 		return message;
-
 	}
 	public int getIcon(){
 		return icon;

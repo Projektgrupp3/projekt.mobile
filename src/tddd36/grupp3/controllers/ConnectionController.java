@@ -3,24 +3,24 @@ package tddd36.grupp3.controllers;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import java.io.PrintWriter;
 import java.net.ServerSocket;
-
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import tddd36.grupp3.models.LoginModel;
 import android.os.AsyncTask;
-
 import android.util.Log;
-
 import tddd36.grupp3.models.ClientModel;
 
-public class ConnectionController extends AsyncTask<String,Void,Void> implements Observer {
+public class ConnectionController extends AsyncTask<Void,Void,Boolean> implements Observer {
 
-	private static final String COM_IP = "130.236.226.149";
+	private static final String COM_IP = "130.236.227.7";
 	private static final int COM_PORT = 4444;
 	public static final int LISTEN_PORT = 4445;
 
@@ -28,36 +28,40 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 	private PrintWriter pw;
 	private BufferedReader br;
 	public String serverOutput;
+	private JSONObject jsonobject;
 
 	private String messageToServer;
 	private String userName;
 	private String password; 
-	
+
 	private Socket s;
-	private ClientModel cm;
+	private LoginModel cm;
 	private ServerSocket serverSocket;
 	private Socket socket;
-	
+
 	private boolean listening = true;
-	private boolean ready = false;
 	private boolean readyToSend = false;
+	private boolean authenticated = false;
 
-
-	public ConnectionController(ClientModel cm) throws IOException {
+	public ConnectionController(LoginModel cm) throws IOException {
 		this.cm = cm;
 		serverSocket =  new ServerSocket(LISTEN_PORT);
 
 	}
 
 	public void update(Observable observable, Object data) {
+		//		if(data instanceof Boolean){
+		//			authenticated = (Boolean)data;
+		//			if(authenticated)
+		//				listening = true;
+		//			else 
+		//				listening = false;
+		//		}
 	}
-	
 	public void establishConnection(){
 		try {
 			s = new Socket(COM_IP, COM_PORT);
-			isr = new InputStreamReader(s.getInputStream());
 			pw = new PrintWriter(s.getOutputStream(), true);
-			br = new BufferedReader(isr);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,113 +73,86 @@ public class ConnectionController extends AsyncTask<String,Void,Void> implements
 	public void closeConnection(){
 		try {
 			pw.close();
-			br.close();
-			isr.close();
 			s.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	public void send(String str){
-		establishConnection();
-		try {
-			pw.println(userName);
-			pw.println(password);
 
-			if ((serverOutput = br.readLine()) != "") {
-				if (serverOutput.equals("Authenticated")) {
-					cm.setAuthenticated(true);
-					pw.println(str);
-					closeConnection();
-					readyToSend = false;
-				} else {
-					cm.setAuthenticated(false);
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void send(String str) throws JSONException{
+		this.messageToServer = str;
+
+		readyToSend = true;
+
+		jsonobject = new JSONObject();
+		jsonobject.put("user",userName);
+		jsonobject.put("pass",password);
+		jsonobject.put("msg", messageToServer);
+
+		String jsonString = jsonobject.toString();
+
+		establishConnection();
+
+		pw.println(jsonString);
+
+		readyToSend = false;
 	}
 
-	public void login(String userName, String password) throws IOException {
-		this.userName = userName;
-		this.password = password;
+	public void send(String user, String pass, String message) throws JSONException {
+		this.userName = user;
+		this.password = pass;
+		this.messageToServer = message;
+
+		readyToSend = true;
+
+		jsonobject = new JSONObject();
+		jsonobject.put("user",userName);
+		jsonobject.put("pass",password);
+		jsonobject.put("msg", messageToServer);
+
+		String jsonString = jsonobject.toString();
+
 		establishConnection();
 
-		
-		if (!cm.isAuthenticated()) {
-			try {
-				pw.println(userName);
-				pw.println(password);
-
-				if ((serverOutput = br.readLine()) != "") {
-					if (serverOutput.equals("Authenticated")) {
-						Log.d("Spårutskrift",serverOutput);
-						cm.setAuthenticated(true);
-					} else {
-						cm.setAuthenticated(false);
-					}
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		pw.println(jsonString);
 
 		closeConnection();
-	}
+		readyToSend = false;
 
-	public void setReady(boolean ready){
-		this.ready = ready;
 	}
 
 	@Override
-	protected Void doInBackground(String... params) {
-		if(!cm.isAuthenticated()){
-			try {
-				login(params[0], params[1]);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	protected Boolean doInBackground(Void... params) {
 
-		}
 		while (listening) {
-			Log.d("Loop", "Lyssnar efter inkommande server connections");
-			try {				
-				socket =  serverSocket.accept();
-				new ConnectionTask((socket),this, cm).execute();
 
-			} catch (IOException ioException) {
-				ioException.printStackTrace();
-				System.exit(-1);
-			} 
-
-			//send metod
 			if(readyToSend){
-				send(messageToServer);
+				readyToSend = false;
+				Log.d("Login", "Skicka");
+				try {
+					if(authenticated)
+						send(messageToServer);
+					else
+						send(userName,password,messageToServer);
+
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			else {
+				Log.d("Loop", "Lyssnar efter inkommande server connections");
+				try {				
+					socket =  serverSocket.accept();
+					new ConnectionTask((socket),this, cm).execute();
+				} catch (IOException ioException) {
+					ioException.printStackTrace();
+					System.exit(-1);
+				}
 			}
 		}
-		try {
-			while(!ready){
-				Log.d("Loop", "Väntar på async task");
-			}
-			serverSocket.close();
-			Log.d("Avslutar","ServerSocket socket stängd.");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		
-		return null;
-	}
-
-	@Override
-	protected void onPostExecute(Void result) {
-		super.onPostExecute(result);
+		return false;
 	}
 }

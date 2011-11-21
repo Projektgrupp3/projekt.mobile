@@ -1,8 +1,6 @@
 package tddd36.grupp3.resources;
 
 import tddd36.grupp3.R;
-
-
 import com.google.android.maps.GeoPoint;
 
 public class Hospital extends MapObject {
@@ -14,7 +12,6 @@ public class Hospital extends MapObject {
 		this.capacity = capacity;		
 	}	
 
-
 	public int getCapacity(){
 		return capacity;
 	}
@@ -24,5 +21,4 @@ public class Hospital extends MapObject {
 		String objectDesc = super.getObjectDescription();
 		return objectDesc +"Kapacitet: "+capacity;
 	}
-
 }

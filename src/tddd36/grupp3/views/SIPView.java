@@ -7,6 +7,7 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.resources.Contact;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -54,7 +55,7 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 	public void onListItemClick(ListView parent, View v, int position, long id){
 		String[] contact = contactNames[position].split(" @ ",2);
 		Toast.makeText(getBaseContext(), "Name: "+ contact[0]+"\nAddress: "+contact[1], Toast.LENGTH_SHORT).show();
-	//	Gson gson = new Gson();
+		//	Gson gson = new Gson();
 		//		Intent callIntent = new Intent(getBaseContext(), MakeCall.class);
 
 		//		startActivity(callIntent);

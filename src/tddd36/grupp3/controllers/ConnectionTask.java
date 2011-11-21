@@ -8,66 +8,59 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
-import tddd36.grupp3.models.ClientModel;
+import org.json.JSONException;
+
+import tddd36.grupp3.models.LoginModel;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class ConnectionTask extends AsyncTask<Void, Integer, String> implements Observer {
 
 	public static final int LISTEN_PORT = 4445;
-	private ClientModel cm;
+	private LoginModel cm;
 	private Socket socket = null;
-	private boolean listening = true;
 	private BufferedReader in;
 	private String msg;
 	private ConnectionController cc;
 
-	public ConnectionTask(ClientModel cm) {
+	public ConnectionTask(LoginModel cm) {
 		this.cm = cm;
 	}
-	public ConnectionTask(Socket socket, ConnectionController cc, ClientModel cm) {
+	public ConnectionTask(Socket socket, ConnectionController cc, LoginModel cm) {
 		this.socket = socket;
 		this.cc = cc;
 		this.cm = cm;
-		Log.d("Initiering", "Connection task skapad");
+		Log.d("Connection Task", "Connection task skapad");
 	}
 
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
 	}
-	
-	public String listen() throws IOException {
+
+	public String getInput() throws IOException {
 		String input;
 		try{
 			while(true){
 				if((input = in.readLine()) != ""){
-					Log.d("Loop", "Meddelade mottaget från server");
-
-					Log.d("Meddelande", input);
+					Log.d("Meddelande", "Servern:" +input);
 					return input;
-					}
+				}
 			}
 		} catch(NullPointerException e){
 		}
 		return null;
 	}
-	
+
 	protected String doInBackground(Void... params) {
 		String message = null;
 		try 
 		{
-			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 			in = new BufferedReader(
 					new InputStreamReader(
 							socket.getInputStream()));
 
-			while(listening){
-				Log.d("Do in Backgrounds", "while loop innan androp till meddelande funktion");
-				message = listen();
-				break;
-			}
-			cc.setReady(false);
-			out.close();
+			message = getInput();
+
 			in.close();
 			socket.close();
 			Log.d("Avslutar", "Socket stängd");
@@ -81,10 +74,12 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> implements 
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		cm.executeChange();
-		cm.evaluateMessage(result);
-		//cm.notifyObservers(result);
-
+		try {
+			cm.evaluateMessage(result);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Log.d("Avslutar","Task redo");
 	}
 }
