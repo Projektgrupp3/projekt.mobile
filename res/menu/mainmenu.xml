@@ -8,23 +8,28 @@
 
             <item
                 android:id="@+id/recieved"
-                android:title="Kvitterat"/>
+                android:title="Kvitterat"
+                android:checkable="true"/>
 
             <item
                 android:id="@+id/there"
-                android:title="Framme"/>
+                android:title="Framme"
+                android:checkable="true"/>
 
             <item
                 android:id="@+id/loaded"
-                android:title="Lastat"/>
+                android:title="Lastat"
+                android:checkable="true"/>
 
             <item
                 android:id="@+id/depart"
-                android:title="Lämnar"/>
+                android:title="Lämnar"
+                android:checkable="true"/>
 
             <item
                 android:id="@+id/home"
-                android:title="Hemåt"/>
+                android:title="Hemåt"
+                android:checkable="true"/>
         </menu></item>
 
     <item

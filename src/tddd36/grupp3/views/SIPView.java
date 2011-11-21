@@ -1,187 +1,168 @@
 package tddd36.grupp3.views;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import tddd36.grupp3.R;
-import tddd36.grupp3.controllers.SIPController;
-import tddd36.grupp3.models.SIPSettingsModel;
-import android.app.Activity;
+import tddd36.grupp3.resources.Contact;
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.sip.SipAudioCall;
-import android.net.sip.SipException;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
+import android.widget.Toast;
 
-public class SIPView extends Activity implements View.OnTouchListener, Observer{
 
-	SIPController sipcontroller;
-	SipAudioCall call;
+public class SIPView extends ListActivity implements View.OnTouchListener, Observer{
 
-	private static final int CALL_ADDRESS = 1;
-	private static final int SET_AUTH_INFO = 2;
-	private static final int UPDATE_SETTINGS_DIALOG = 3;
-	private static final int HANG_UP = 4;
+	public Cursor cur;
+	private ArrayList<Contact> contactList;
+	private String[] contactNames;
 
+	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.walkietalkie);
-
-		ToggleButton pushToTalkButton = (ToggleButton) findViewById(R.id.pushToTalk);
-		pushToTalkButton.setOnTouchListener(this);
-
-		sipcontroller = new SIPController(this);
-		call = sipcontroller.getSIPModel().call;
-
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	}
-	/**
-	 * Updates whether or not the user's voice is muted, depending on whether the button is pressed.
-	 * @param v The View where the touch event is being fired.
-	 * @param event The motion to act on.
-	 * @return boolean Returns false to indicate that the parent view should handle the touch event
-	 * as it normally would.
-	 */
-	public boolean onTouch(View v, MotionEvent event) {
-		if (call == null) {
-			return false;
-		} else if (event.getAction() == MotionEvent.ACTION_DOWN && call != null && call.isMuted()) {
-			call.toggleMute();
-		} else if (event.getAction() == MotionEvent.ACTION_UP && !call.isMuted()) {
-			call.toggleMute();
+		setContentView(R.layout.contactlist);
+		contactList = new ArrayList<Contact>();
+		contactList = MainView.db.getAllRowsAsArrayList("contacts");
+		contactNames = new String[contactList.size()];
+		int index = 0;
+		for(Contact c : contactList){
+			contactNames[index] = c.getName()+ " @ "+ c.getSipaddress();
+			index++;
 		}
+
+		ContactAdapter adapter = new ContactAdapter(this.getBaseContext(), R.layout.contactitem,contactList);
+		setListAdapter(adapter);
+	}
+
+	public void onListItemClick(ListView parent, View v, int position, long id){
+		String[] contact = contactNames[position].split(" @ ",2);
+		Toast.makeText(getBaseContext(), "Name: "+ contact[0]+"\nAddress: "+contact[1], Toast.LENGTH_SHORT).show();
+	//	Gson gson = new Gson();
+		//		Intent callIntent = new Intent(getBaseContext(), MakeCall.class);
+
+		//		startActivity(callIntent);
+
+		Intent callIntent = new Intent(getParent(), MakeCall.class);
+		TabGroupActivity parentActivity = (TabGroupActivity)getParent();
+		callIntent.putExtra("info", contact);
+		parentActivity.startChildActivity("MakeCall", callIntent);
+	}
+
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean onTouch(View arg0, MotionEvent arg1) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public SIPController getController(){
-		return sipcontroller;
-	}
+	public class ContactAdapter extends ArrayAdapter<Contact>{
+		private Context context;
+		private TextView contactName;
+		private TextView contactAddress;
+		private List<Contact> contacts = new ArrayList<Contact>();
 
-	public void update(Observable observable, Object data) {
-		if(data instanceof SipAudioCall){
-			String useName = ((SipAudioCall) data).getPeerProfile().getDisplayName();
-			if(useName == null) {
-				useName = ((SipAudioCall) data).getPeerProfile().getUserName();
-			}
-			updateStatus(useName + "@" + ((SipAudioCall) data).getPeerProfile().getSipDomain());
+		public ContactAdapter(Context context, int textViewResourceId,
+				List<Contact> objects) {
+			super(context, textViewResourceId, objects);
+			this.context = context;
+			this.contacts = objects;
 		}
-		if(data instanceof String){
-			updateStatus(data);
-		}		
-	}
 
-	public void updateStatus(Object data){
-		TextView labelView = (TextView) findViewById(R.id.sipLabel);
-		labelView.setText((CharSequence) data);
+		public int getCount() {
+			return this.contacts.size();
+		}
+
+		public Contact getItem(int index) {
+			return this.contacts.get(index);
+		}
+
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View row = convertView;
+			if (row == null) {
+				// ROW INFLATION
+				LayoutInflater inflater = (LayoutInflater) this.getContext()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				row = inflater.inflate(R.layout.contactitem, parent, false);
+			}
+
+			// Get item
+			Contact contact = getItem(position);
+
+			// Get reference to TextView - contactname
+			contactName = (TextView) row.findViewById(R.id.contactName);
+
+			// Get reference to TextView - contactaddress
+			contactAddress = (TextView) row.findViewById(R.id.contactAddress);
+
+			//Set contact name
+			contactName.setText(contact.name);
+
+			// Set contact sip address
+			contactAddress.setText(contact.sipaddress);
+			return row;
+		}
 	}
+	/**
+	 * Kallas på när hårdvaru-meny-knappen trycks in
+	 */
 	@Override
-	public void onStart() {
-		super.onStart();
-		// When we get back from the preference setting Activity, assume
-		// settings have changed, and re-login with new auth info.
-		sipcontroller.getSIPModel().initializeManager();
-	}
-
 	public boolean onCreateOptionsMenu(Menu menu) {
-		sipcontroller.getSIPModel();
-		menu.add(0, CALL_ADDRESS, 0, "Ring samtal");
-		menu.add(0, SET_AUTH_INFO, 0, "Ändra din SIP-information");
-		menu.add(0, HANG_UP, 0, "Avsluta nuvarande samtal");
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.mainmenu, menu);
 		return true;
 	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case CALL_ADDRESS:
-			showDialog(CALL_ADDRESS);
-			break;
-		case SET_AUTH_INFO:
-			updatePreferences();
-			break;
-		case HANG_UP:
-			if(call != null) {
-				try {
-					call.endCall();
-				} catch (SipException se) {
-					Log.d("WalkieTalkieActivity/onOptionsItemSelected",
-							"Fel vid nedkopplat samtal", se);
+
+		case R.id.settings:
+			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
+			return true;
+		case R.id.status:
+			//noop
+			return true;
+		case R.id.logout:
+			final AlertDialog logout = new AlertDialog.Builder(SIPView.this).create();
+			logout.setMessage("Är du säker på att du vill avsluta?");
+			logout.setButton("Ja", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which){
+					finish();
 				}
-				call.close();
-			}
-			break;
-		}
-		return true;
-	}
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		switch (id) {
-		case CALL_ADDRESS:
-
-			LayoutInflater factory = LayoutInflater.from(this);
-			final View textBoxView = factory.inflate(R.layout.call_address_dialog, null);
-			return new AlertDialog.Builder(this)
-			.setTitle("Ring")
-			.setView(textBoxView)
-			.setPositiveButton(
-					android.R.string.ok, new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
-							EditText textField = (EditText)
-							(textBoxView.findViewById(R.id.calladdress_edit));
-							sipcontroller.getSIPModel().sipAddress = textField.getText().toString();
-							sipcontroller.getSIPModel().initiateCall();
-
-						}
-					})
-					.setNegativeButton(
-							android.R.string.cancel, new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int whichButton) {
-									// Noop.
-								}
-							})
-							.create();
-
-		case UPDATE_SETTINGS_DIALOG:
-			return new AlertDialog.Builder(this)
-			.setMessage("Var god uppdatera ditt SIP-kontos inställningar.")
-			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					updatePreferences();
+			});
+			logout.setButton2("Nej", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					logout.dismiss();					
 				}
-			})
-			.setNegativeButton(
-					android.R.string.cancel, new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
-							// No-op
-						}
-					})
-					.create();
-		}
-		return null;
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (sipcontroller.getSIPModel().call != null) {
-			sipcontroller.getSIPModel().call.close();
-		}
-
-		sipcontroller.getSIPModel().closeLocalProfile();
-
-		if (sipcontroller.getSIPModel().callReceiver != null) {
-			this.unregisterReceiver(sipcontroller.getSIPModel().callReceiver);
+			});	
+			logout.show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
+	public void onBackPressed(){
+		getParent().onBackPressed();
+	}
+
 }

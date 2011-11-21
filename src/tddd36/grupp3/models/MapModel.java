@@ -1,5 +1,9 @@
 package tddd36.grupp3.models;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Observable;
 
 import tddd36.grupp3.controllers.MapController;
@@ -7,15 +11,17 @@ import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.Hospital;
 import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.resources.Vehicle;
+import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -26,18 +32,25 @@ public class MapModel extends Observable implements LocationListener{
 
 	private Drawable d;
 	private MapObjectList vehicles,hospital,event;
+	public static final String GPS_FAILED = "Kunde inte hämta GPS-status";
 
 	MapGUI mapgui;
 	private LocationManager lm;
 	private Location lastKnownLocation;
 	private Criteria criteria;
+	private MapObject[] mapObjectArray;
+	ArrayList<MapObject> mapObjectsFromDB;
+
 
 	GeoPoint ourLocation, touchedLocation, lastKnownGeoPoint;
 
 	public MapModel(MapGUI mapgui, MapController mc){
+		
 		this.mapgui = mapgui;
 		this.addObserver(mc);
 		this.addObserver(mapgui);
+		
+		insertMapObjectsFromDB();
 
 		lm = (LocationManager) mapgui.getSystemService(Context.LOCATION_SERVICE);
 		criteria = new Criteria();
@@ -52,18 +65,34 @@ public class MapModel extends Observable implements LocationListener{
 			setChanged();
 			notifyObservers(lastKnownGeoPoint);		
 		}else{
-			Toast.makeText(mapgui.getBaseContext(), "Kunde inte hämta leverantör", Toast.LENGTH_SHORT).show();
+			Toast.makeText(mapgui.getBaseContext(), GPS_FAILED, Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void insertMapObjectsFromDB(){
+		mapObjectsFromDB = new ArrayList<MapObject>();
+		mapObjectsFromDB = MainView.db.getAllRowsAsArrayList("map");
+		for(MapObject o: mapObjectsFromDB){
+			if(o != null){
+			addMapObject(o);
+			}else return;
 		}
 	}
 
 	public GeoPoint fireCurrentLocation(){
-		lastKnownLocation = lm.getLastKnownLocation(lm.getBestProvider(criteria, true));
-		lat = (int) (lastKnownLocation.getLatitude() * 1E6);
-		lon = (int) (lastKnownLocation.getLongitude() * 1E6);
-		lastKnownGeoPoint = new GeoPoint(lat,lon);
-
-		setChanged();
-		return lastKnownGeoPoint;
+		lastKnownLocation =
+			lm.getLastKnownLocation(lm.getBestProvider(criteria, true));
+		if(lastKnownLocation != null){
+			lat = (int) (lastKnownLocation.getLatitude() * 1E6);
+			lon = (int) (lastKnownLocation.getLongitude() * 1E6);
+			lastKnownGeoPoint = new GeoPoint(lat,lon);		
+			setChanged();
+			return lastKnownGeoPoint;	
+		}else{
+			Toast.makeText(mapgui.getBaseContext(), GPS_FAILED, Toast.LENGTH_SHORT).show();
+			return null;
+		}		
 	}
 
 	public void onLocationChanged(Location location) {
@@ -96,9 +125,9 @@ public class MapModel extends Observable implements LocationListener{
 		return lm;
 	}
 
-	public void addMapObject(MapObject o, String address){
+	public void addMapObject(MapObject o){
 		d = mapgui.getResources().getDrawable(o.getIcon());
-		o.setAdress(address);
+		o.setAdress(getAddress(o.getPoint()));
 		setChanged();
 		if(o instanceof Vehicle){
 			if(vehicles == null){
@@ -121,6 +150,24 @@ public class MapModel extends Observable implements LocationListener{
 			event.add(o);
 			notifyObservers(event);
 		}
-	}	
+	}
+	
+	public String getAddress(GeoPoint gp){
+		String addressString = "";
+		Geocoder gc = new Geocoder(mapgui.getBaseContext(), Locale.getDefault());
+		try{
+			List<Address> address = gc.getFromLocation(gp.getLatitudeE6()/1E6,gp.getLongitudeE6()/1E6, 1);
+			if(address.size() > 0){
+				for(int i = 0;i<address.get(0).getMaxAddressLineIndex();i++){
+					addressString += address.get(0).getAddressLine(i) + "\n";
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			//no-op
+		}		
+		return addressString;
+	}
 
 }

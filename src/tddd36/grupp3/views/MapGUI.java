@@ -10,12 +10,14 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.MapController;
+import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.Hospital;
 import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.resources.Vehicle;
 import android.app.AlertDialog;
+import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -42,28 +44,30 @@ public class MapGUI extends MapActivity implements Observer {
 	private long pressStop;
 	private static final CharSequence[] points = {"Fordon", "Sjukhus","Händelse"};
 	private int x, y,lat = 0, lon = 0;
+	private Event o;
 
 	private MapView map;
-	private MapController mapcontroller;
+	public static MapController mapcontroller;
 
 	private Drawable d;
 
 	static List<Overlay> overlayList;
-	GeoPoint touchedPoint;
+	GeoPoint touchedPoint, myLocation;
 	MyLocationOverlay compass;
 	com.google.android.maps.MapController controller;
 	AlertDialog eventinfo,logout; 
 	Geocoder geocoder;
-
+/**
+ * onCreate for MapGUI 
+ * Sets up the MapView and intiates MapController.
+ */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.maps);		
-		
+		setContentView(R.layout.maps);
+
 		d = getResources().getDrawable(R.drawable.pinpoint);
 
-		map = (MapView)findViewById(R.id.mvMain);
-		map.setBuiltInZoomControls(true);
 		map = (MapView)findViewById(R.id.mvMain);
 		map.setBuiltInZoomControls(true);
 
@@ -79,7 +83,7 @@ public class MapGUI extends MapActivity implements Observer {
 
 		mapcontroller = new MapController(MapGUI.this);
 
-		controller.animateTo(mapcontroller.fireCurrentLocation());
+		//controller.animateTo(mapcontroller.fireCurrentLocation());
 	}
 
 	public void update(Observable observable, Object data) {
@@ -92,6 +96,12 @@ public class MapGUI extends MapActivity implements Observer {
 			}
 			if(data instanceof GeoPoint){
 				controller.animateTo((GeoPoint) data);
+			}
+		}else if(data instanceof MapObject[]){
+			for(MapObject o: (MapObject[]) data){
+				if(o != null){
+				mapcontroller.addMapObject(o);
+				}
 			}
 		}
 		map.postInvalidate();
@@ -110,14 +120,7 @@ public class MapGUI extends MapActivity implements Observer {
 		//30000 = 5 min, 5000 = 5 kilometers
 		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
 	}
-
-	@Override
-	protected void onDestroy(){
-		
-		super.onDestroy();
-	}
-
-
+	
 	/**
 	 * Kallas på när hårdvaru-meny-knappen trycks in
 	 */
@@ -134,16 +137,18 @@ public class MapGUI extends MapActivity implements Observer {
 
 		case R.id.settings:
 			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
-
 			return true;
 		case R.id.status:
-			//TODO
+			//noop
 			return true;
-
 		case R.id.centeratme:
-			controller.setZoom(15);
-			controller.animateTo(mapcontroller.fireCurrentLocation());
-
+			myLocation = mapcontroller.fireCurrentLocation();
+			if(myLocation!=null){
+				controller.setZoom(15);
+				controller.animateTo(myLocation);
+			}else{
+				Toast.makeText(getBaseContext(), MapModel.GPS_FAILED, Toast.LENGTH_SHORT).show();
+			}			
 			return true;
 		case R.id.logout:
 			logout = new AlertDialog.Builder(MapGUI.this).create();
@@ -166,7 +171,6 @@ public class MapGUI extends MapActivity implements Observer {
 		}
 	}
 
-
 	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
@@ -188,11 +192,12 @@ public class MapGUI extends MapActivity implements Observer {
 				pressStop = e.getEventTime();
 			}
 			if (pressStop - pressStart > 200){
-				if(Math.abs(e.getX()-x)<10 && (Math.abs(e.getY()-y)<10)){ //Tillåter att användaren rör sitt finger lite
+				if(Math.abs(e.getX()-x)<10 && (Math.abs(e.getY()-y)<10)){ //Tillåter att användaren "darrar" på handen.
 					builder = new AlertDialog.Builder(m.getContext());				
 					alert = builder.create();
 					alert.setTitle("Kartmeny");
 					alert.setMessage("Välj något av nedanstående val:");
+
 					alert.setButton("Placera en markör", new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int which) {
@@ -208,7 +213,12 @@ public class MapGUI extends MapActivity implements Observer {
 										mapcontroller.addMapObject(new Hospital(touchedPoint,"Sjukhus", "Här är ett sjukhus", 20));
 										return;
 									case 2:
-										mapcontroller.addMapObject(new Event(touchedPoint,"Händelse", "Här är en händelse", new SimpleDateFormat("HH:mm:ss").format(new Date())));
+										o = new Event(touchedPoint,"Händelse", "Här är en händelse", new SimpleDateFormat("HH:mm:ss").format(new Date()),"2");
+										mapcontroller.addMapObject(o);
+										TabActivity parentTabActivity = (TabActivity) getParent();   
+										parentTabActivity.getTabHost().setCurrentTab(1);
+										MissionView act = (MissionView) parentTabActivity.getCurrentActivity();
+										act.mc.setCurrentMission(o);
 										return;
 									}								
 								}
@@ -252,5 +262,20 @@ public class MapGUI extends MapActivity implements Observer {
 			}
 			return false;
 		}
+	}
+	public void onBackPressed(){
+		AlertDialog logout = new AlertDialog.Builder(this).create();
+		logout.setMessage("Är du säker på att du vill avsluta?");
+		logout.setButton("Ja", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which){
+				finish();
+			}
+		});
+		logout.setButton2("Nej", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();					
+			}
+		});	
+		logout.show();
 	}
 }

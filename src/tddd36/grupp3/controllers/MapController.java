@@ -8,13 +8,7 @@ import java.util.Observer;
 
 import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.resources.MapObject;
-import tddd36.grupp3.views.MapGUI;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.LocationManager;
-
-import tddd36.grupp3.models.MapModel;
-import tddd36.grupp3.resources.MapObject;
+import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import android.location.Address;
 import android.location.Geocoder;
@@ -46,26 +40,9 @@ public class MapController implements Observer, Runnable{
 	}
 	
 	public void addMapObject(MapObject o){
-		mapmodel.addMapObject(o, getAddress(o.getPoint()));
+		mapmodel.addMapObject(o);
+		MainView.db.addRow(o);
 		;
-	}
-	
-	public String getAddress(GeoPoint gp){
-		String addressString = "";
-		Geocoder gc = new Geocoder(mapgui.getBaseContext(), Locale.getDefault());
-		try{
-			List<Address> address = gc.getFromLocation(gp.getLatitudeE6()/1E6,gp.getLongitudeE6()/1E6, 1);
-			if(address.size() > 0){
-				for(int i = 0;i<address.get(0).getMaxAddressLineIndex();i++){
-					addressString += address.get(0).getAddressLine(i) + "\n";
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}finally{
-			//no-op
-		}		
-		return addressString;
 	}
 
 	public void run() {
@@ -74,7 +51,5 @@ public class MapController implements Observer, Runnable{
 
 	public GeoPoint fireCurrentLocation() {
 		return mapmodel.fireCurrentLocation();
-
 	}
-
 }
