@@ -171,7 +171,6 @@ public class MapGUI extends MapActivity implements Observer {
 		}
 	}
 
-
 	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
