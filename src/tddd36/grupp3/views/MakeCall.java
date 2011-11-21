@@ -8,6 +8,7 @@ import android.net.sip.SipAudioCall;
 import android.net.sip.SipException;
 import android.net.sip.SipSession;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,31 +56,43 @@ public class MakeCall extends Activity implements OnClickListener {
 
 				@Override
 				public void onCallEnded(SipAudioCall call) {
-					finish();
+					Log.d("endCall","lolsa");
+				//Looper.prepare();
+					endCall();
 				}
 
 				@Override
 				public void onError(SipAudioCall call, int errorCode,
 						String errorMessage) {
-					finish();
+					endCall();
+				}
+				@Override
+				public void onCallBusy(SipAudioCall call) {
+					endCall();
 				}
 
 			};
 
-			SipSession.Listener sessionListener = new SipSession.Listener() {
-				@Override
-				public void onCallBusy(SipSession session) {
-					finish();
-				}
-
-				@Override
-				public void onCallEnded(SipSession session) {
-					finish();
-				}
-			};
+			//			SipSession.Listener sessionListener = new SipSession.Listener() {
+			//				@Override
+			//				public void onCallBusy(SipSession session) {
+			//					endCall();
+			//				}
+			//
+			//				@Override
+			//				public void onCallEnded(SipSession session) {
+			//					session.endCall();
+			//					endCall();
+			//				}
+			//				@Override
+			//				public void onError(SipSession session, int errorCode,
+			//						String errorMessage) {
+			//				endCall();
+			//				}
+			//			};
 
 			call = MainView.manager.makeAudioCall(MainView.me.getUriString(), SIPAddress, audioListener, 30);
-			MainView.manager.createSipSession(MainView.me, sessionListener);
+			//MainView.manager.createSipSession(MainView.me, sessionListener);
 
 			Log.d("Makes Call!!!","ble");
 		}
@@ -105,19 +118,36 @@ public class MakeCall extends Activity implements OnClickListener {
 
 	public void onPause(){
 		super.onPause();
+		//		try {
+		//			if (call != null) {
+		//				call.close();
+		//				call.endCall();
+		//			}
+		//		} catch (SipException e) {
+		//			e.printStackTrace();
+		//		}
+		//finish();
+	}
+
+	public void onClick(View v) {
+		endCall();
+	}
+
+	public void endCall(){
 		try {
 			if (call != null) {
-				call.close();
 				call.endCall();
+				call.close();
+
 			}
 		} catch (SipException e) {
 			e.printStackTrace();
 		}
-		finish();
-	}
-
-	public void onClick(View v) {
-		finish();
-
+		runOnUiThread(new Runnable(){
+			public void run() {
+				TabGroupActivity parentActivity = (TabGroupActivity)getParent();
+				parentActivity.onBackPressed();
+			}
+		});
 	}
 }

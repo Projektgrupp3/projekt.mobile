@@ -168,19 +168,7 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		}
 	}
 	public void onBackPressed(){
-		AlertDialog logout = new AlertDialog.Builder(this).create();
-		logout.setMessage("Är du säker på att du vill avsluta?");
-		logout.setButton("Ja", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which){
-				finish();
-			}
-		});
-		logout.setButton2("Nej", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();					
-			}
-		});	
-		logout.show();
+		getParent().onBackPressed();
 	}
 
 }
