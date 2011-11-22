@@ -6,11 +6,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import tddd36.grupp3.R;
-import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.resources.Contact;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,11 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
 
 
 public class SIPView extends ListActivity implements View.OnTouchListener, Observer{
@@ -59,15 +55,15 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 	public void onListItemClick(ListView parent, View v, int position, long id){
 		String[] contact = contactNames[position].split(" @ ",2);
 		Toast.makeText(getBaseContext(), "Name: "+ contact[0]+"\nAddress: "+contact[1], Toast.LENGTH_SHORT).show();
-		Gson gson = new Gson();
-//		Intent callIntent = new Intent(getBaseContext(), MakeCall.class);
+		//	Gson gson = new Gson();
+		//		Intent callIntent = new Intent(getBaseContext(), MakeCall.class);
 
-//		startActivity(callIntent);
-		
+		//		startActivity(callIntent);
+
 		Intent callIntent = new Intent(getParent(), MakeCall.class);
- 		TabGroupActivity parentActivity = (TabGroupActivity)getParent();
+		TabGroupActivity parentActivity = (TabGroupActivity)getParent();
 		callIntent.putExtra("info", contact);
- 		parentActivity.startChildActivity("MakeCall", callIntent);
+		parentActivity.startChildActivity("MakeCall", callIntent);
 	}
 
 	public void update(Observable arg0, Object arg1) {
@@ -156,7 +152,6 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 				}
 			});
 			logout.setButton2("Nej", new DialogInterface.OnClickListener() {
-
 				public void onClick(DialogInterface dialog, int which) {
 					logout.dismiss();					
 				}

@@ -3,14 +3,14 @@ package tddd36.grupp3.controllers;
 import java.util.Observable;
 import java.util.Observer;
 
-import tddd36.grupp3.models.ClientModel;
-import tddd36.grupp3.views.ClientView;
+import tddd36.grupp3.models.LoginModel;
+import tddd36.grupp3.views.LoginView;
 
-public class ClientController implements Runnable, Observer {
-	ClientModel cm;
+public class LoginController implements Runnable, Observer {
+	LoginModel cm;
 
-	public ClientController(ClientView cv){
-		cm = new ClientModel(cv, this);
+	public LoginController(LoginView cv){
+		cm = new LoginModel(cv, this);
 	}
 
 	public void run() {
@@ -29,19 +29,13 @@ public class ClientController implements Runnable, Observer {
 	public void setPassword(String password){
 		cm.setPassword(password);
 	}
-	public void connectToServer(){
-		cm.connectToServer();
-	}
+
 	public boolean isAuthenticated(){
 		return cm.isAuthenticated();		
 	}
-	
+
 	public ConnectionController getConnectionController(){
 		return cm.getConnectionController();
 	}
-
-//	public void startListen(){
-//		cm.listen();
-//	}
 
 }

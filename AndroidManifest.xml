@@ -34,17 +34,18 @@
         <activity
             android:label="@string/app_name"
             android:name="tddd36.grupp3.views.MainView"
-            android:theme="@android:style/Theme.NoTitleBar" 
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                 <action android:name="tddd36.grupp3.views.MAINVIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:label="@string/app_name"
             android:name=".views.MissionView"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter >
                 <action android:name="tddd36.grupp3.views.EVENTVIEW" />
 
@@ -53,11 +54,11 @@
         </activity>
         <activity
             android:label="@string/app_name"
-            android:name="tddd36.grupp3.views.ClientView" >
+            android:name="tddd36.grupp3.views.LoginView" >
             <intent-filter >
-                <action android:name="tddd36.grupp3.views.CLIENTVIEW" />
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -71,37 +72,8 @@
         </activity>
         <activity
             android:label="@string/app_name"
-            android:name="tddd36.grupp3.views.UnitView" >
-            <intent-filter >
-                <action android:name="tddd36.grupp3.views.UNITVIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:label="@string/app_name"
-            android:name="tddd36.grupp3.views.MissionView"
-            android:screenOrientation="portrait" >
-            <intent-filter >
-                <action android:name="tddd36.grupp3.views.MISSIONVIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:label="@string/app_name" 
-            android:name="tddd36.grupp3.views.MakeCall" 
-            android:screenOrientation="portrait">
-             </activity>
-         <activity
-            android:label="@string/app_name" 
-            android:name="tddd36.grupp3.views.IncomingCall" 
-            android:screenOrientation="portrait">
-             </activity>
-        
-        <activity
-            android:label="@string/app_name"
             android:name="tddd36.grupp3.views.SIPView"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter >
                 <action android:name="tddd36.grupp3.views.SIPVIEW" />
 
@@ -110,11 +82,31 @@
         </activity>
         <activity
             android:label="@string/app_name"
+            android:name="tddd36.grupp3.views.MakeCall"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name="tddd36.grupp3.views.IncomingCall"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name="tddd36.grupp3.views.SIPView"
+            android:screenOrientation="portrait" >
+            <intent-filter >
+                <action android:name="tddd36.grupp3.views.SIPVIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/app_name"
             android:name="tddd36.grupp3.views.MapGUI"
             android:screenOrientation="portrait" >
             <intent-filter >
                 <action android:name="tddd36.grupp3.views.MAPGUI" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -127,7 +119,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-                <activity
+        <activity
             android:label="@string/app_name"
             android:name="tddd36.grupp3.views.SIPGroupActivity" >
             <intent-filter >
@@ -136,7 +128,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
 
         <receiver
             android:label="Call Receiver"

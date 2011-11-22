@@ -1,9 +1,7 @@
 package tddd36.grupp3.resources;
 
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
-
 
 public class MapObject extends OverlayItem {
 	private GeoPoint gp;
@@ -20,7 +18,7 @@ public class MapObject extends OverlayItem {
 		this.icon = icon;
 		this.type = type;
 	}
-	
+
 	public void setGeoPoint(GeoPoint gp){
 		this.gp = gp;
 	}
@@ -40,11 +38,11 @@ public class MapObject extends OverlayItem {
 	public int getIcon(){
 		return icon;
 	}
-	
+
 	public void setAdress(String address){
 		this.address = address;
 	}
-	
+
 	public String getAddress(){
 		return address;
 	}
@@ -56,12 +54,12 @@ public class MapObject extends OverlayItem {
 	public void setType(ObjectType type) {
 		this.type = type;
 	}
-	
+
 	public String getObjectDescription(){
 		return "Objekt: "+getTitle()+"\n"+
-			"Meddelande: "+getMessage()+"\n"+
-			"Latitud: "+getLatE6()+"\n"+
-			"Longitud: "+getLonE6()+"\n"+
-			"Adress: "+ getAddress()+"\n";
+		"Meddelande: "+getMessage()+"\n"+
+		"Latitud: "+getLatE6()+"\n"+
+		"Longitud: "+getLonE6()+"\n"+
+		"Adress: "+ getAddress()+"\n";
 	}
 }
