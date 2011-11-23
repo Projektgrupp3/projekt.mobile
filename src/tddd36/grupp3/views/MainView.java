@@ -51,9 +51,9 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 
 		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
-		db.addRow(new Contact("Enhet 1","haxxorgunnar@ekiga.net"));
-		db.addRow(new Contact("Enhet 2", "ambulans1@ekiga.net"));
-		db.addRow(new Contact("Enhet 3", "thomas@domain.org"));
+		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
+		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
+		db.addRow(new Contact("Enhet 3", "enhet3@ekiga.net"));
 
 		res = getResources(); // Resource object to get Drawables
 		tabHost = getTabHost();  // The activity TabHost
@@ -116,7 +116,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		}
 
 		try {
-			SipProfile.Builder builder = new SipProfile.Builder("Ambulans1","ekiga.net");
+			SipProfile.Builder builder = new SipProfile.Builder("Enhet1","ekiga.net");
 			builder.setPassword("password");
 			me = builder.build();
 			Intent i = new Intent();
