@@ -239,7 +239,7 @@ public class MapGUI extends MapActivity implements Observer {
 									t.show();
 								}
 							} catch (IOException e) {
-								e.printStackTrace();
+
 							}finally{
 								//no-op
 							}

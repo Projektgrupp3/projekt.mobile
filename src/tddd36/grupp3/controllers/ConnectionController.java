@@ -46,18 +46,11 @@ public class ConnectionController extends AsyncTask<Void,Void,Boolean> implement
 	public ConnectionController(LoginModel cm) throws IOException {
 		this.cm = cm;
 		serverSocket =  new ServerSocket(LISTEN_PORT);
-
 	}
 
 	public void update(Observable observable, Object data) {
-		//		if(data instanceof Boolean){
-		//			authenticated = (Boolean)data;
-		//			if(authenticated)
-		//				listening = true;
-		//			else 
-		//				listening = false;
-		//		}
 	}
+	
 	public void establishConnection(){
 		try {
 			s = new Socket(COM_IP, COM_PORT);
@@ -135,12 +128,10 @@ public class ConnectionController extends AsyncTask<Void,Void,Boolean> implement
 						send(messageToServer);
 					else
 						send(userName,password,messageToServer);
-
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 			else {
 				Log.d("Loop", "Lyssnar efter inkommande server connections");

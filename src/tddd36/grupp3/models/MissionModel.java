@@ -22,7 +22,6 @@ public class MissionModel extends Observable{
 	private String nmbrofinjuried;
 	ArrayList<Event> currentMissionFromDB;
 
-
 	private MissionView mv;
 	private MissionController mc;
 

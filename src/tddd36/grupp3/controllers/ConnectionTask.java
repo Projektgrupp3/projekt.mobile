@@ -9,32 +9,34 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import tddd36.grupp3.models.LoginModel;
+import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.views.MapGUI;
+import tddd36.grupp3.views.MissionView;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class ConnectionTask extends AsyncTask<Void, Integer, String> implements Observer {
+public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 
 	public static final int LISTEN_PORT = 4445;
-	private LoginModel cm;
+	private LoginModel loginModel;
 	private Socket socket = null;
 	private BufferedReader in;
 	private String msg;
 	private ConnectionController cc;
+	private JSONObject messageFromServer;
+	private boolean authenticated;
 
-	public ConnectionTask(LoginModel cm) {
-		this.cm = cm;
+	public ConnectionTask(LoginModel lm) {
+		this.loginModel = lm;
 	}
-	public ConnectionTask(Socket socket, ConnectionController cc, LoginModel cm) {
+	public ConnectionTask(Socket socket, ConnectionController cc, LoginModel lm) {
 		this.socket = socket;
 		this.cc = cc;
-		this.cm = cm;
+		this.loginModel = lm;
 		Log.d("Connection Task", "Connection task skapad");
-	}
-
-	public void update(Observable observable, Object data) {
-		// TODO Auto-generated method stub
 	}
 
 	public String getInput() throws IOException {
@@ -71,15 +73,44 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> implements 
 		return message;
 	}
 
-	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
+
 		try {
-			cm.evaluateMessage(result);
+
+			String message;
+			messageFromServer = new JSONObject(result);
+
+			if(messageFromServer.has("msg")){
+				message = messageFromServer.getString("msg");
+				if(message.equals("authenticated")){
+					authenticated = true;
+					loginModel.executeChange();
+					loginModel.notify(authenticated);
+				}
+				if(message.equals("authfailed")){
+					authenticated = false;
+					loginModel.executeChange();
+					loginModel.notify(authenticated);
+				}
+				else{
+					loginModel.executeChange();
+					loginModel.notify(message);
+				}
+			}
+			else if(messageFromServer.has("event")){
+				try {
+					Event incomingEvent = new Event(messageFromServer);
+					MapGUI.mapcontroller.addMapObject(incomingEvent);
+					MissionView.mc.setCurrentMission(incomingEvent);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.d("Avslutar","Task redo");
+		Log.d("Avslutar","Task färdig");
 	}
 }
