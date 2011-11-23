@@ -20,7 +20,7 @@ import com.google.android.maps.GeoPoint;
 
 public class MissionView extends Activity implements Observer, OnClickListener{
 
-	MissionController mc;
+	public static MissionController mc;
 	private TextView missionheader, missiondescription, missionaddress, 
 	missiontime, missioninjuries;
 	private Button changedescbtn, gotoaddressbtn;
@@ -29,7 +29,7 @@ public class MissionView extends Activity implements Observer, OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.missiontablayout);
+		setContentView(R.layout.currentmissiontab);
 		missionheader = (TextView)findViewById(R.id.missionheader2);
 		missiondescription = (TextView)findViewById(R.id.missiondescription2);
 		missionaddress = (TextView)findViewById(R.id.missionaddress2);
@@ -60,12 +60,10 @@ public class MissionView extends Activity implements Observer, OnClickListener{
 
 	public void onClick(View v) {
 		if(v == gotoaddressbtn){
-			TabActivity parentTabActivity = (TabActivity) getParent();
 			GeoPoint gp = mc.getCurrentMissionAddress();   
 			if(gp!=null){
-				parentTabActivity.getTabHost().setCurrentTab(0);
-				MapGUI act = (MapGUI) parentTabActivity.getCurrentActivity();
-				act.controller.animateTo(gp);
+				MainView.tabHost.setCurrentTab(0);
+				MapGUI.controller.animateTo(gp);
 			}else{
 				Toast.makeText(getBaseContext(), "Du har inget uppdrag.", Toast.LENGTH_SHORT).show();
 			}

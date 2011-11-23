@@ -27,9 +27,10 @@ import com.google.android.maps.GeoPoint;
 
 public class MainView extends TabActivity implements OnTabChangeListener{
 	public static TabHost tabHost;
-	public static TabHost.TabSpec spec;
+	TabHost.TabSpec spec;	
+	Resources res;
+	
 	public static Context context;
-	public static Resources res;
 
 	public static ClientDatabaseManager db;
 	public static SipManager manager = null;
@@ -41,12 +42,14 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		context = getBaseContext();
+		
 		// Sipstuff
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.SipDemo.INCOMING_CALL");
 		callReceiver = new IncomingCallReceiver();
 		this.registerReceiver(callReceiver, filter);
 		initializeManager();
+		
 		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
 		db.addRow(new Contact("Andreas","haxxorgunnar@ekiga.net"));
@@ -67,7 +70,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		tabHost.addTab(spec);
 
 		// Do the same for the other tabs
-		intent = new Intent().setClass(this, MissionView.class);
+		intent = new Intent().setClass(this, MissionTabView.class);
 		spec = tabHost.newTabSpec("mission").setIndicator("Uppdrag",
 				res.getDrawable(R.drawable.ic_tab_menu_item))
 				.setContent(intent);

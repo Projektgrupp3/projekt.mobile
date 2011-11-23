@@ -54,7 +54,7 @@ public class MapGUI extends MapActivity implements Observer {
 	static List<Overlay> overlayList;
 	GeoPoint touchedPoint, myLocation;
 	MyLocationOverlay compass;
-	com.google.android.maps.MapController controller;
+	public static com.google.android.maps.MapController controller;
 	AlertDialog eventinfo,logout; 
 	Geocoder geocoder;
 /**
@@ -215,10 +215,9 @@ public class MapGUI extends MapActivity implements Observer {
 									case 2:
 										o = new Event(touchedPoint,"Händelse", "Här är en händelse", new SimpleDateFormat("HH:mm:ss").format(new Date()),"2");
 										mapcontroller.addMapObject(o);
-										TabActivity parentTabActivity = (TabActivity) getParent();   
-										parentTabActivity.getTabHost().setCurrentTab(1);
-										MissionView act = (MissionView) parentTabActivity.getCurrentActivity();
-										act.mc.setCurrentMission(o);
+										MainView.tabHost.setCurrentTab(1);
+										MissionTabView.tabHost.setCurrentTab(0);
+										MissionView.mc.setCurrentMission(o);
 										return;
 									}								
 								}

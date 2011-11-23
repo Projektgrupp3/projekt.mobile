@@ -48,7 +48,7 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 			index++;
 		}
 
-		ContactAdapter adapter = new ContactAdapter(this.getBaseContext(), R.layout.contactitem,contactList);
+		ContactAdapter adapter = new ContactAdapter(this.getBaseContext(), R.layout.contactitem ,contactList);
 		setListAdapter(adapter);
 	}
 
