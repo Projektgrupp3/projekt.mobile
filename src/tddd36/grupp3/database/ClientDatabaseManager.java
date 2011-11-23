@@ -1,6 +1,7 @@
 package tddd36.grupp3.database;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import tddd36.grupp3.resources.Contact;
 import tddd36.grupp3.resources.Event;
@@ -24,7 +25,7 @@ public class ClientDatabaseManager {
 	// the names for our database columns
 	private final String[] TABLE_NAME = {"map","mission","contacts"};
 	private final String[] TABLE_MAP = {"type","mapobject"};
-	private final String[] TABLE_MISSION = {"type","event"};
+	private final String[] TABLE_MISSION = {"ID","event"};
 	private final String[] TABLE_CONTACT = {"name","address"};
 
 	public ClientDatabaseManager(Context context){
@@ -67,7 +68,7 @@ public class ClientDatabaseManager {
 		ContentValues values = new ContentValues();
 		Gson gson = new Gson();
 
-		values.put(TABLE_MISSION[0], ev.getClass().getName());
+	//	values.put(TABLE_MISSION[0], ev.getID());
 		values.put(TABLE_MISSION[0], gson.toJson(ev));
 
 		try
@@ -120,83 +121,59 @@ public class ClientDatabaseManager {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Method for updating current event 
+	 * @param c - Contact to update
+	 * @param name - New name
+	 * @param sipaddress - New SIP-address
+	 */
+	public void updateRow(Event ev)
+	{
+		Gson gson = new Gson();
+		ContentValues values = new ContentValues();
+		//values.put(TABLE_MISSION[0], ev.getID());
+		values.put(TABLE_CONTACT[1], gson.toJson(ev));
+
+//		try {db.update(TABLE_NAME[1], values, TABLE_MISSION[0] + " = '" + ev.getID()+"'", null);}
+//		catch (Exception e)
+//		{
+//			Log.e("DB Error", e.toString());
+//			e.printStackTrace();
+//		}
+	}
+	
 	/**
 	 * Method for deleting a contact with certain name 
 	 * @param name - name of contact to delete
 	 */
-	public void deleteRow(String name)
+	public void deleteRow(String str)
 	{
-		// ask the database manager to delete the row of given id
-		try
-		{
-			db.delete(TABLE_NAME[2], TABLE_CONTACT[0] + " = " + name, null);
-		}
-		catch (Exception e)
-		{
-			Log.e("DB ERROR", e.toString());
-			e.printStackTrace();
+		if(Pattern.matches("[0-9]{12}", str)){
+			// ask the database manager to delete the event of given id
+			try
+			{
+				db.delete(TABLE_NAME[1], TABLE_MISSION[0] + " = " + str, null);
+			}
+			catch (Exception e)
+			{
+				Log.e("DB ERROR", e.toString());
+				e.printStackTrace();
+			}
+		}else{
+			// ask the database manager to delete the contact of given name
+			try
+			{
+				db.delete(TABLE_NAME[2], TABLE_CONTACT[0] + " = " + str, null);
+			}
+			catch (Exception e)
+			{
+				Log.e("DB ERROR", e.toString());
+				e.printStackTrace();
+			}
 		}
 	}
 
-	//	/**********************************************************************
-	//	 * RETRIEVING A ROW FROM THE DATABASE TABLE
-	//	 * 
-	//	 * This is an example of how to retrieve a row from a database table
-	//	 * using this class.  You should edit this method to suit your needs.
-	//	 * 
-	//	 * @param rowID the id of the row to retrieve
-	//	 * @return an array containing the data from the row
-	//	 */
-	//	public ArrayList<Object> getRowAsArray(int type)
-	//	{
-	//		// create an array list to store data from the database row.
-	//		// I would recommend creating a JavaBean compliant object 
-	//		// to store this data instead.  That way you can ensure
-	//		// data types are correct.
-	//		ArrayList<Object> rowArray = new ArrayList<Object>();
-	//		Cursor cursor;
-	//
-	//		try
-	//		{
-	//			// this is a database call that creates a "cursor" object.
-	//			// the cursor object store the information collected from the
-	//			// database and is used to iterate through the data.
-	//			cursor = db.query
-	//			(
-	//					TABLE_NAME,
-	//					new String[] { TABLE_ROW_ID, TABLE_ROW_ONE, TABLE_ROW_TWO },
-	//					TABLE_ROW_ID + "=" + rowID,
-	//					null, null, null, null, null
-	//			);
-	//
-	//			// move the pointer to position zero in the cursor.
-	//			cursor.moveToFirst();
-	//
-	//			// if there is data available after the cursor's pointer, add
-	//			// it to the ArrayList that will be returned by the method.
-	//			if (!cursor.isAfterLast())
-	//			{
-	//				do
-	//				{
-	//					rowArray.add(cursor.getLong(0));
-	//					rowArray.add(cursor.getString(1));
-	//					rowArray.add(cursor.getString(2));
-	//				}
-	//				while (cursor.moveToNext());
-	//			}
-	//
-	//			// let java know that you are through with the cursor.
-	//			cursor.close();
-	//		}
-	//		catch (SQLException e) 
-	//		{
-	//			Log.e("DB ERROR", e.toString());
-	//			e.printStackTrace();
-	//		}
-	//
-	//		// return the ArrayList containing the given row from the database.
-	//		return rowArray;
-	//	}
 	/**********************************************************************
 	 * RETRIEVING ALL ROWS FROM THE DATABASE TABLE
 	 * 
