@@ -159,7 +159,7 @@ public class MapModel extends Observable implements LocationListener{
 			List<Address> address = gc.getFromLocation(gp.getLatitudeE6()/1E6,gp.getLongitudeE6()/1E6, 1);
 			if(address.size() > 0){
 				for(int i = 0;i<address.get(0).getMaxAddressLineIndex();i++){
-					addressString += address.get(0).getAddressLine(i);
+					addressString += address.get(0).getAddressLine(i) + "\n";
 				}
 			}
 		} catch (IOException e) {

@@ -25,10 +25,10 @@ public class MissionTabView extends TabActivity implements OnTabChangeListener {
 
 	private ListView listView;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.missiontablayout);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.missiontablayout);
 
 		tabHost = (TabHost)findViewById(android.R.id.tabhost);
 		res = getResources();
@@ -44,28 +44,28 @@ public class MissionTabView extends TabActivity implements OnTabChangeListener {
 		historylistitems.add("Ändring nummer 3");
 		ArrayAdapter<String> historyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, historylistitems);
 		listView.setAdapter(historyAdapter);
-		
+
 		Intent intent = new Intent().setClass(this, MissionView.class);
 		spec = tabHost.newTabSpec("currentmission").setIndicator("Aktuellt uppdrag",
 				null)
 				.setContent(intent);
 		tabHost.addTab(spec);
-		
+
 		// add views to tab host
 		spec = tabHost.newTabSpec("history").setIndicator("Uppdragshistorik").setContent(
 				new TabContentFactory() {
-			public View createTabContent(String arg0) {
-				return listView;
-			}
-		});
+					public View createTabContent(String arg0) {
+						return listView;
+					}
+				});
 		tabHost.addTab(spec);	
-		
+
 		tabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 45;
 		tabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 45;
-		
+
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);
-    }
+	}
 
 
 	/**
@@ -78,5 +78,8 @@ public class MissionTabView extends TabActivity implements OnTabChangeListener {
 		else if(tabName.equals("misionhistory")) {
 			//TODO
 		}
+	}
+	public void onBackPressed(){
+		//NO-OP
 	}
 }

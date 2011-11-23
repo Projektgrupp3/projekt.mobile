@@ -48,7 +48,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		}
 		else if(data instanceof Boolean){
 			authenticated = (Boolean) data;
-			
+
 			if(!authenticated) {
 				Toast.makeText(getBaseContext(), "false", Toast.LENGTH_SHORT).show();
 				final AlertDialog login = new AlertDialog.Builder(LoginView.this).create();
@@ -75,10 +75,11 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		bContinue = (Button) findViewById(R.id.bContinue);
 		spinner.setAdapter(adapter);
 		spinner.setOnItemSelectedListener(this);
-		
+
 		bContinue.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class));
+				finish();
 			};
 		});
 	}
@@ -92,19 +93,19 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		login = (Button) findViewById(R.id.button1);
 		display = (TextView)findViewById(R.id.textView3);
 
-		user.setText("test");
-		pass.setText("password");
+		user.setText("enhet1");
+		pass.setText("password1");
 
 		cc = new LoginController(this);
-		
+
 		login.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				
+
 				try {
-				cc.getConnectionController().send(""+user.getText(), ""+pass.getText(), null);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+					cc.getConnectionController().send(""+user.getText(), ""+pass.getText(), null);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			};
 		});
 	}
@@ -113,17 +114,17 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 	}
-//	
+
 //	@Override
 //	protected void onPause() {
 //		super.onPause();
-//		//finish();
-//	}
-//	@Override
-//	protected void onStop() {
-//		super.onPause();
 //		finish();
 //	}
+	//	@Override
+	//	protected void onStop() {
+	//		super.onPause();
+	//		finish();
+	//	}
 
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
