@@ -20,7 +20,7 @@ import com.google.android.maps.GeoPoint;
 
 public class MissionView extends Activity implements Observer, OnClickListener{
 
-	MissionController mc;
+	public static MissionController mc;
 	private TextView missionheader, missiondescription, missionaddress, 
 	missiontime, missioninjuries;
 	private Button changedescbtn, gotoaddressbtn;

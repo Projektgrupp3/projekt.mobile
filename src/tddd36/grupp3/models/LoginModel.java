@@ -6,10 +6,11 @@ import java.util.Observable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import tddd36.grupp3.controllers.LoginController;
 import tddd36.grupp3.controllers.ConnectionController;
-
+import tddd36.grupp3.controllers.LoginController;
+import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.LoginView;
+import android.util.Log;
 
 public class LoginModel extends Observable {
 
@@ -35,41 +36,41 @@ public class LoginModel extends Observable {
 		addObserver(connectionController);
 	}
 
-	public void evaluateMessage(String mess) throws JSONException{
-		String message;
-		messageFromServer = new JSONObject(mess);
-		setChanged();
-		
-		if(messageFromServer.has("msg")){
-			message = messageFromServer.getString("msg");
-			if(message.equals("authenticated")){
-				authenticated = true;
-				notifyObservers(authenticated);
-			}
-			if(message.equals("authfailed")){
-				authenticated = false;
-				notifyObservers(authenticated);
-			}
-			else
-				notifyObservers(message);
-		}
-		if(messageFromServer.has("larm")){
-			try {
-				messageFromServer = new JSONObject(mess);
-				notifyObservers(messageFromServer.getString("adress"));
-				notifyObservers(messageFromServer.getString("numberOfInjured"));
-				notifyObservers(messageFromServer.getString("alarmID"));
-
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
+//	public void evaluateMessage(String mess) throws JSONException{
+//		String message;
+//		messageFromServer = new JSONObject(mess);
+//		setChanged();
+//
+//		if(messageFromServer.has("msg")){
+//			message = messageFromServer.getString("msg");
+//			if(message.equals("authenticated")){
+//				authenticated = true;
+//				notifyObservers(authenticated);
+//			}
+//			if(message.equals("authfailed")){
+//				authenticated = false;
+//				notifyObservers(authenticated);
+//			}
+//			else
+//				notifyObservers(message);
+//		}
+//		else if(messageFromServer.has("event")){
+//			Log.d("här","är bra");
+//			try {
+//				Event incomingEvent = new Event(messageFromServer);
+//				//MapController.addMapObject(incomingEvent);
+//			} catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 
 	public void executeChange(){
 		setChanged();
+	}
+	public void notify(Object o){
+		notifyObservers(o);
 	}
 	public String getUserName() {
 		return userName;

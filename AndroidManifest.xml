@@ -47,7 +47,7 @@
             android:name=".views.MissionView"
             android:screenOrientation="portrait" >
             <intent-filter >
-                <action android:name="tddd36.grupp3.views.EVENTVIEW" />
+                <action android:name="tddd36.grupp3.views.MISSIONVIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

@@ -1,7 +1,6 @@
 package tddd36.grupp3.views;
 
 import java.text.ParseException;
-
 import tddd36.grupp3.R;
 import tddd36.grupp3.database.ClientDatabaseManager;
 import tddd36.grupp3.resources.Contact;
