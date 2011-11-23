@@ -48,9 +48,8 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		}
 		else if(data instanceof Boolean){
 			authenticated = (Boolean) data;
-			//
+			
 			if(!authenticated) {
-				Log.d("auth", "skapar");
 				Toast.makeText(getBaseContext(), "false", Toast.LENGTH_SHORT).show();
 				final AlertDialog login = new AlertDialog.Builder(LoginView.this).create();
 				login.setMessage("Felaktigt användarnamn eller lösenord");
@@ -113,19 +112,18 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-
 	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		finish();
-	}
-	@Override
-	protected void onStop() {
-		super.onPause();
-		finish();
-	}
+//	
+//	@Override
+//	protected void onPause() {
+//		super.onPause();
+//		//finish();
+//	}
+//	@Override
+//	protected void onStop() {
+//		super.onPause();
+//		finish();
+//	}
 
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {

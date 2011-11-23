@@ -42,7 +42,6 @@ public class MakeCall extends Activity implements OnClickListener {
 	public void initiateCall(final String SIPAddress) {
 		try {
 
-			Log.d("startar den här skiten","ble");
 			SipAudioCall.Listener audioListener = new SipAudioCall.Listener(){
 				@Override
 				public void onCallEstablished(SipAudioCall call) {
@@ -56,7 +55,7 @@ public class MakeCall extends Activity implements OnClickListener {
 
 				@Override
 				public void onCallEnded(SipAudioCall call) {
-					Log.d("endCall","lolsa");
+					Log.d("End call","End call");
 				//Looper.prepare();
 					endCall();
 				}
@@ -94,7 +93,6 @@ public class MakeCall extends Activity implements OnClickListener {
 			call = MainView.manager.makeAudioCall(MainView.me.getUriString(), SIPAddress, audioListener, 30);
 			//MainView.manager.createSipSession(MainView.me, sessionListener);
 
-			Log.d("Makes Call!!!","ble");
 		}
 		catch (Exception e) {
 			if (MainView.me != null) {

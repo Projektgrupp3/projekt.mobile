@@ -22,7 +22,7 @@ public class MissionView extends Activity implements Observer, OnClickListener{
 
 	public static MissionController mc;
 	private TextView missionheader, missiondescription, missionaddress, 
-	missiontime, missioninjuries;
+	missioneventid, missioninjuries, missionpriority, missiontypeofaccident;
 	private Button changedescbtn, gotoaddressbtn;
 	private String[] mission;
 
@@ -30,17 +30,19 @@ public class MissionView extends Activity implements Observer, OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.currentmissiontab);
+		missioneventid = (TextView)findViewById(R.id.eventID2);
+		missionpriority = (TextView)findViewById(R.id.eventPriority2);
 		missionheader = (TextView)findViewById(R.id.missionheader2);
-		missiondescription = (TextView)findViewById(R.id.missiondescription2);
 		missionaddress = (TextView)findViewById(R.id.missionaddress2);
-		missiontime = (TextView)findViewById(R.id.missiontime2);
 		missioninjuries = (TextView)findViewById(R.id.missioninjuries2);
+		missiontypeofaccident = (TextView)findViewById(R.id.typeOfAccident2);
+		missiondescription = (TextView)findViewById(R.id.missiondescription2);
 
 		gotoaddressbtn = (Button)findViewById(R.id.gotoaddressbtn);
 		gotoaddressbtn.setOnClickListener(this);
 		changedescbtn = (Button)findViewById(R.id.changemissionbtn);
 		changedescbtn.setOnClickListener(this);
-		
+
 		mc = new MissionController(MissionView.this);
 	}
 
@@ -51,11 +53,13 @@ public class MissionView extends Activity implements Observer, OnClickListener{
 		}
 	}
 	public void updateMissionView(String[] missiontext){
-		missionheader.setText(missiontext[0]);
-		missiondescription.setText(missiontext[1]);
-		missionaddress.setText(missiontext[2]);
-		missiontime.setText(missiontext[3]);
+		missioneventid.setText(missiontext[0]);
+		missionpriority.setText(missiontext[1]);
+		missionheader.setText(missiontext[2]);
+		missionaddress.setText(missiontext[3]);
 		missioninjuries.setText(missiontext[4]);
+		missiontypeofaccident.setText(missiontext[5]);
+		missiondescription.setText(missiontext[6]);
 	}
 
 	public void onClick(View v) {

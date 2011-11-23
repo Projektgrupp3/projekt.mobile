@@ -6,6 +6,7 @@ import java.util.Observable;
 import tddd36.grupp3.controllers.MissionController;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
+import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionView;
 
 import android.util.Log;
@@ -15,11 +16,14 @@ import com.google.android.maps.GeoPoint;
 public class MissionModel extends Observable{
 
 	private GeoPoint gp;
-	private String eventheader;
-	private String eventdescription;
-	private String eventaddress;
-	private String time;
-	private String nmbrofinjuried;
+	private String eventID;
+	private String priority; 
+	private String accidentType;
+	private String adress;
+	private String numberOfInjured;
+	private String typeOfInjury;
+	private String description;
+
 	ArrayList<Event> currentMissionFromDB;
 
 	private MissionView mv;
@@ -29,34 +33,34 @@ public class MissionModel extends Observable{
 		this.mv = mv;
 		this.mc = mc;
 
-		//getCurrentMissionFromDB();
-
 		addObserver(mv);	
 		addObserver(mc);
+		
+//		getCurrentMissionFromDB();
 	}
 
 	@SuppressWarnings("unchecked")
 	private void getCurrentMissionFromDB() {
-		currentMissionFromDB = new ArrayList<Event>();
-		currentMissionFromDB = MainView.db.getAllRowsAsArrayList("mission");
-		if(currentMissionFromDB.isEmpty()){
-			Log.e("bajs", "Tom lista");
+		try{
+		setCurrentMission(MainView.db.getCurrentEvent());	
+		} catch(NullPointerException e){
+			
 		}
-		if(currentMissionFromDB.get(0) != null){
-			setCurrentMission(currentMissionFromDB.get(0));
-		}		
 	}
 
 	public void setCurrentMission(Event ev){
 		if(ev != null){
 			gp = ev.getPoint();
-			eventheader = ev.getTitle();
-			eventdescription = ev.getMessage();
-			eventaddress = ev.getAddress();
-			time = ev.getTime();
-			nmbrofinjuried = ev.getInjuried();
 
-			String[] currentmission = {eventheader,eventdescription,eventaddress,time, nmbrofinjuried};
+			eventID = ev.getID();
+			priority = ev.getPriority();
+			accidentType = ev.getAccidentType();
+			adress = MapGUI.mapcontroller.getMapModel().getAddress(gp);
+			numberOfInjured = ""+ev.getNumberOfInjured();
+			typeOfInjury = ev.getTypeOfInjury();
+			description = ev.getDescription();
+
+			String[] currentmission = {eventID, priority,accidentType,adress,numberOfInjured,typeOfInjury,description};
 
 			setChanged();
 			notifyObservers(currentmission);
@@ -66,43 +70,75 @@ public class MissionModel extends Observable{
 		return gp;
 	}
 
-	public String getEventheader() {
-		return eventheader;
+	public String getEventID() {
+		return eventID;
 	}
 
-	public void setEventheader(String eventheader) {
-		this.eventheader = eventheader;
+	public void setEventID(String eventID) {
+		this.eventID = eventID;
 	}
 
-	public String getEventdescription() {
-		return eventdescription;
+	public String getAccidentType() {
+		return accidentType;
 	}
 
-	public void setEventdescription(String eventdescription) {
-		this.eventdescription = eventdescription;
+	public void setAccidentType(String accidentType) {
+		this.accidentType = accidentType;
 	}
 
-	public String getAddress() {
-		return eventaddress;
+	public String getNumberOfInjured() {
+		return numberOfInjured;
 	}
 
-	public void setAddress(String address) {
-		this.eventaddress = address;
+	public void setNumberOfInjured(String numberOfInjured) {
+		this.numberOfInjured = numberOfInjured;
 	}
 
-	public String getTime() {
-		return time;
+	public String getPriority() {
+		return priority;
 	}
 
-	public void setTime(String time) {
-		this.time = time;
+	public void setPriority(String priority) {
+		this.priority = priority;
 	}
 
-	public String getNmbrofinjuried() {
-		return nmbrofinjuried;
+	public String getAdress() {
+		return adress;
 	}
 
-	public void setNmbrofinjuried(String nmbrofinjuried) {
-		this.nmbrofinjuried = nmbrofinjuried;
+	public void setAdress(String adress) {
+		this.adress = adress;
+	}
+
+	public String getTypeOfInjury() {
+		return typeOfInjury;
+	}
+
+	public void setTypeOfInjury(String typeOfInjury) {
+		this.typeOfInjury = typeOfInjury;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public MissionView getMv() {
+		return mv;
+	}
+
+	public void setMv(MissionView mv) {
+		this.mv = mv;
+	}
+
+	public MissionController getMc() {
+		return mc;
+	}
+
+	public void setMc(MissionController mc) {
+		this.mc = mc;
 	}
 }

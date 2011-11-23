@@ -13,9 +13,6 @@ import com.google.android.maps.GeoPoint;
 public class MissionController implements Observer {
 	MissionView mv;
 	MissionModel mm;
-	String text = "Större trafikolycka i Valla-rondellen. \n"+
-				"Flera skadade, möjliga nackskador.\n"+
-				"Kan finnas barn inblandade i olyckan.";
 	
 	public MissionController(MissionView mv){
 		this.mv = mv;

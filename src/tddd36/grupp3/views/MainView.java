@@ -28,7 +28,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public static TabHost tabHost;
 	TabHost.TabSpec spec;	
 	Resources res;
-	
+
 	public static Context context;
 
 	public static ClientDatabaseManager db;
@@ -41,20 +41,19 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		context = getBaseContext();
-		
+
 		// Sipstuff
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.SipDemo.INCOMING_CALL");
 		callReceiver = new IncomingCallReceiver();
 		this.registerReceiver(callReceiver, filter);
 		initializeManager();
-		
+
 		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
-		db.addRow(new Contact("Andreas","haxxorgunnar@ekiga.net"));
-		db.addRow(new Contact("Ambulans 1", "ambulans1@ekiga.net"));
-		db.addRow(new Contact("Thomas", "thomas@domain.org"));
-		db.addRow(new Contact("Patrik","patrik@iptel.org"));
+		db.addRow(new Contact("Enhet 1","haxxorgunnar@ekiga.net"));
+		db.addRow(new Contact("Enhet 2", "ambulans1@ekiga.net"));
+		db.addRow(new Contact("Enhet 3", "thomas@domain.org"));
 
 		res = getResources(); // Resource object to get Drawables
 		tabHost = getTabHost();  // The activity TabHost

@@ -19,8 +19,8 @@ import android.util.Log;
 
 public class ConnectionController extends AsyncTask<Void,Void,Boolean> implements Observer {
 
-	private static final String COM_IP = "130.236.227.89";
-//	private static final String COM_IP = "192.168.1.3";
+	private static final String COM_IP = "130.236.227.157";
+	//	private static final String COM_IP = "192.168.1.3";
 	private static final int COM_PORT = 4444;
 	public static final int LISTEN_PORT = 4445;
 
@@ -50,7 +50,7 @@ public class ConnectionController extends AsyncTask<Void,Void,Boolean> implement
 
 	public void update(Observable observable, Object data) {
 	}
-	
+
 	public void establishConnection(){
 		try {
 			s = new Socket(COM_IP, COM_PORT);
@@ -112,7 +112,6 @@ public class ConnectionController extends AsyncTask<Void,Void,Boolean> implement
 
 		closeConnection();
 		readyToSend = false;
-
 	}
 
 	@Override
@@ -129,7 +128,6 @@ public class ConnectionController extends AsyncTask<Void,Void,Boolean> implement
 					else
 						send(userName,password,messageToServer);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

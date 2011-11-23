@@ -21,7 +21,7 @@ public class Event extends MapObject{
 	public String getInjuried(){
 		return injuried;
 	}
-	
+
 	public String getTime(){
 		return time;
 	}
@@ -53,7 +53,7 @@ public class Event extends MapObject{
 
 	public Event(JSONObject event) throws JSONException{
 		super((gp = new GeoPoint(event.getInt("tempCoordX"),
-				event.getInt("tempCoordX"))),
+				event.getInt("tempCoordY"))),
 				event.getString("accidentType"),
 				event.get("description").toString(),
 				R.drawable.event_icon, ObjectType.EVENT);
@@ -63,7 +63,7 @@ public class Event extends MapObject{
 		this.coordinateX = event.getString("tempCoordX"); // lat
 		this.coordinateY = event.getString("tempCoordY"); // long
 		this.priority = event.getString("priority");
-		this.adress = event.getString("adress");
+		this.adress = this.getAddress();
 		this.typeOfInjury = event.getString("typeOfInjury");
 		this.eventID = event.getString("event");
 		this.unitID = event.getInt("unitID");
@@ -77,7 +77,7 @@ public class Event extends MapObject{
 		Log.d("JSON", coordinateX);
 		Log.d("JSON", coordinateY);
 		Log.d("JSON", priority);
-		Log.d("JSON", adress);
+//		Log.d("JSON", adress);
 		Log.d("JSON", typeOfInjury);
 		Log.d("JSON", ""+unitID);
 
@@ -120,10 +120,6 @@ public class Event extends MapObject{
 		this.priority = priority;
 	}
 
-	public String getAdress() {
-		return adress;
-	}
-
 	public void setAdress(String adress) {
 		this.adress = adress;
 	}
@@ -136,12 +132,12 @@ public class Event extends MapObject{
 		this.typeOfInjury= typeOfInjury;
 	}
 
-	public String getAlarmId() {
+	public String getID() {
 		return eventID;
 	}
 
-	public void setAlarmId(String alarmId){
-		this.eventID=alarmId;
+	public void setID(String id){
+		this.eventID= id;
 	}
 
 	public int getUnitID() {
@@ -150,6 +146,13 @@ public class Event extends MapObject{
 
 	public void setUnitID(int unitID) {
 		this.unitID = unitID;
+	}
+
+	public void setDescription(String str){
+		this.description = str;
+	}
+	public String getDescription(){
+		return description;
 	}
 
 	public String processInput(String typeOfAccident) {

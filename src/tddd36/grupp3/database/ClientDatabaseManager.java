@@ -68,7 +68,7 @@ public class ClientDatabaseManager {
 		ContentValues values = new ContentValues();
 		Gson gson = new Gson();
 
-	//	values.put(TABLE_MISSION[0], ev.getID());
+		values.put(TABLE_MISSION[0], ev.getID());
 		values.put(TABLE_MISSION[0], gson.toJson(ev));
 
 		try
@@ -121,7 +121,7 @@ public class ClientDatabaseManager {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Method for updating current event 
 	 * @param c - Contact to update
@@ -132,17 +132,17 @@ public class ClientDatabaseManager {
 	{
 		Gson gson = new Gson();
 		ContentValues values = new ContentValues();
-		//values.put(TABLE_MISSION[0], ev.getID());
+		values.put(TABLE_MISSION[0], ev.getID());
 		values.put(TABLE_CONTACT[1], gson.toJson(ev));
 
-//		try {db.update(TABLE_NAME[1], values, TABLE_MISSION[0] + " = '" + ev.getID()+"'", null);}
-//		catch (Exception e)
-//		{
-//			Log.e("DB Error", e.toString());
-//			e.printStackTrace();
-//		}
+		try {db.update(TABLE_NAME[1], values, TABLE_MISSION[0] + " = '" + ev.getID()+"'", null);}
+		catch (Exception e)
+		{
+			Log.e("DB Error", e.toString());
+			e.printStackTrace();
+		}
 	}
-	
+
 	/**
 	 * Method for deleting a contact with certain name 
 	 * @param name - name of contact to delete
@@ -174,6 +174,27 @@ public class ClientDatabaseManager {
 		}
 	}
 
+
+	public Event getCurrentEvent(){
+		Cursor cursor = null;
+		try
+		{
+			cursor = db.query(TABLE_NAME[1], TABLE_MISSION, null, null, null, null, null);
+			cursor.moveToFirst();
+			if(cursor != null){
+				Gson gson = new Gson();
+				if(cursor.getString(1) != null){
+				return gson.fromJson(cursor.getString(1), Event.class);
+				}
+			}
+		}catch(SQLException e){
+
+		}catch(NullPointerException e){
+
+		}
+		return null;
+//		return null;
+	}
 	/**********************************************************************
 	 * RETRIEVING ALL ROWS FROM THE DATABASE TABLE
 	 * 

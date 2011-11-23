@@ -233,7 +233,7 @@ public class MapGUI extends MapActivity implements Observer {
 								if(address.size() > 0){
 									String display = "";
 									for(int i = 0;i<address.get(0).getMaxAddressLineIndex();i++){
-										display += address.get(0).getAddressLine(i) + "\n";
+										display += address.get(0).getAddressLine(i);
 									}
 									Toast t = Toast.makeText(getBaseContext(), display, Toast.LENGTH_LONG);
 									t.show();
