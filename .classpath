@@ -8,7 +8,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="lib" path="/Applications/eclipse 2/plugins/gson-1.7.1.jar"/>
-	<classpathentry kind="lib" path="/Applications/eclipse 2/plugins/json-org.jar"/>
+	<classpathentry kind="lib" path="C:/eclipse/gson-1.7.1.jar"/>
+	<classpathentry kind="lib" path="C:/eclipse/json-org.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

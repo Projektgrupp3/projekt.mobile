@@ -31,6 +31,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	private EditText user;
 	private EditText pass;
 	private Button login;
+	
 	LoginController cc;
 	private boolean authenticated;
 	public int counter = 0;
@@ -39,7 +40,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	private Spinner spinner;
 	private Button bContinue;
 	private String[] unitNames = {"1","2","3"};
-	private ArrayList<String> allUnits = new ArrayList<String>();
+	public static ArrayList<String> allUnits = new ArrayList<String>();
 
 	public void update(Observable observable, Object data) {
 
@@ -62,15 +63,21 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 			}
 			else {
 				Toast.makeText(getBaseContext(), "true", Toast.LENGTH_SHORT).show();
-				chooseUnit();
+				try {
+					//cc.getConnectionController().send("REQ_ALL_UNITS");
+					cc.getConnectionController().send(""+user.getText(), ""+pass.getText(), "REQ_ALL_UNITS");
+					chooseUnit();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
-	public void chooseUnit(){
+	public void chooseUnit() throws JSONException{
 		setContentView(R.layout.unit);
-
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, unitNames);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, allUnits);
 		spinner = (Spinner) findViewById(R.id.spinner1);
 		bContinue = (Button) findViewById(R.id.bContinue);
 		spinner.setAdapter(adapter);
