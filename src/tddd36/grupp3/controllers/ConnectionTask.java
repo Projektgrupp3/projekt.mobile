@@ -3,20 +3,22 @@ package tddd36.grupp3.controllers;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import tddd36.grupp3.models.LoginModel;
 import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.views.LoginView;
+import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionView;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 
@@ -77,12 +79,13 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 		super.onPostExecute(result);
 
 		try {
-
 			String message;
 			messageFromServer = new JSONObject(result);
 
 			if(messageFromServer.has("msg")){
-				message = messageFromServer.getString("msg");
+				message = (String)messageFromServer.get("msg");
+				Log.d("1231231",message);
+
 				if(message.equals("authenticated")){
 					authenticated = true;
 					loginModel.executeChange();
@@ -107,6 +110,14 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+			else if(messageFromServer.has("UNITID")){
+				ArrayList<String> allunits = new ArrayList<String>();
+				Iterator itr = messageFromServer.keys();
+				while (itr.hasNext()){
+					allunits.add((String)itr.next());
+				}
+				LoginView.allUnits = allunits;
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
