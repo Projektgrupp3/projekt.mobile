@@ -115,11 +115,11 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		super.onPostCreate(savedInstanceState);
 	}
 
-//	@Override
-//	protected void onPause() {
-//		super.onPause();
-//		finish();
-//	}
+	//	@Override
+	//	protected void onPause() {
+	//		super.onPause();
+	//		finish();
+	//	}
 	//	@Override
 	//	protected void onStop() {
 	//		super.onPause();
