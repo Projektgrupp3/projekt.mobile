@@ -93,8 +93,8 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		login = (Button) findViewById(R.id.button1);
 		display = (TextView)findViewById(R.id.textView3);
 
-		user.setText("enhet1");
-		pass.setText("password1");
+		user.setText("enhet3");
+		pass.setText("password3");
 
 		cc = new LoginController(this);
 
