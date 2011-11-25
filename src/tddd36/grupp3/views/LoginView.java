@@ -64,8 +64,6 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 			else {
 				Toast.makeText(getBaseContext(), "true", Toast.LENGTH_SHORT).show();
 				try {
-					//cc.getConnectionController().send("REQ_ALL_UNITS");
-					cc.getConnectionController().send(""+user.getText(), ""+pass.getText(), "REQ_ALL_UNITS");
 					chooseUnit();
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
@@ -109,7 +107,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 			public void onClick(View v) {
 
 				try {
-					cc.getConnectionController().send(""+user.getText(), ""+pass.getText(), null);
+					cc.getConnectionController().send(""+user.getText(), ""+pass.getText(), "ALL_UNITS");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}

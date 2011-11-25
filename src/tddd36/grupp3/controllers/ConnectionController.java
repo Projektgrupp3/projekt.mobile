@@ -20,7 +20,7 @@ import android.util.Log;
 public class ConnectionController extends AsyncTask<Void,Void,Boolean> implements Observer {
 
 
-	private static final String COM_IP = "130.236.226.102";
+	private static final String COM_IP = "130.236.227.170";
 	//private static final String COM_IP = "192.168.1.3";
 	
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
@@ -85,7 +85,7 @@ public class ConnectionController extends AsyncTask<Void,Void,Boolean> implement
 		jsonobject = new JSONObject();
 		jsonobject.put("user",userName);
 		jsonobject.put("pass",password);
-		jsonobject.put("msg", messageToServer);
+		jsonobject.put("req", messageToServer);
 
 		String jsonString = jsonobject.toString();
 
@@ -106,7 +106,7 @@ public class ConnectionController extends AsyncTask<Void,Void,Boolean> implement
 		jsonobject = new JSONObject();
 		jsonobject.put("user",userName);
 		jsonobject.put("pass",password);
-		jsonobject.put("msg", messageToServer);
+		jsonobject.put("req", messageToServer);
 
 		String jsonString = jsonobject.toString();
 

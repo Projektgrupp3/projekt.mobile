@@ -82,23 +82,26 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 			String message;
 			messageFromServer = new JSONObject(result);
 
-			if(messageFromServer.has("msg")){
-				message = (String)messageFromServer.get("msg");
-				Log.d("1231231",message);
+			if(messageFromServer.has("auth")){
+				message = (String)messageFromServer.get("auth");
 
 				if(message.equals("authenticated")){
 					authenticated = true;
 					loginModel.executeChange();
 					loginModel.notify(authenticated);
+					//			else if(messageFromServer.has("UNITID")){
+					//				ArrayList<String> allunits = new ArrayList<String>();
+					//				Iterator itr = messageFromServer.keys();
+					//				while (itr.hasNext()){
+					//					allunits.add((String)itr.next());
+					//				}
+					//				LoginView.allUnits = allunits;
+					//			}
 				}
 				if(message.equals("authfailed")){
 					authenticated = false;
 					loginModel.executeChange();
 					loginModel.notify(authenticated);
-				}
-				else{
-					loginModel.executeChange();
-					loginModel.notify(message);
 				}
 			}
 			else if(messageFromServer.has("event")){
@@ -110,14 +113,6 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
-			else if(messageFromServer.has("UNITID")){
-				ArrayList<String> allunits = new ArrayList<String>();
-				Iterator itr = messageFromServer.keys();
-				while (itr.hasNext()){
-					allunits.add((String)itr.next());
-				}
-				LoginView.allUnits = allunits;
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
