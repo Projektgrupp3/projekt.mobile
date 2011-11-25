@@ -2,12 +2,14 @@ package tddd36.grupp3.views;
 
 import tddd36.grupp3.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.sip.SipAudioCall;
 import android.net.sip.SipException;
 import android.net.sip.SipProfile;
 import android.net.sip.SipSession;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +24,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 	private TextView infobar;
 	private Button answer;
 	private Button decline;
+	private Vibrator vr;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,12 +35,16 @@ public class IncomingCall extends Activity implements OnClickListener{
 		answer = (Button) findViewById(R.id.button1);
 		decline = (Button) findViewById(R.id.button2);
 		answer.setOnClickListener(this);
-		decline.setOnClickListener(this); 
+		decline.setOnClickListener(this);
+		vr = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+		final long[] pattern = {0,900,600};
+
 
 		try {
 			SipAudioCall.Listener listener = new SipAudioCall.Listener() {
 				@Override 
 				public void onRinging(SipAudioCall call, SipProfile caller) {
+					vr.vibrate(pattern, 0);
 					super.onRinging(call, caller);
 					try {
 						call.answerCall(30);
@@ -87,6 +94,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 	}
 
 	public void onClick(View v) {
+		vr.cancel();
 		if(v==answer){
 			try {
 				call.answerCall(30);
