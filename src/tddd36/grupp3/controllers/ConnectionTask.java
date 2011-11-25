@@ -89,14 +89,6 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 					authenticated = true;
 					loginModel.executeChange();
 					loginModel.notify(authenticated);
-					//			else if(messageFromServer.has("UNITID")){
-					//				ArrayList<String> allunits = new ArrayList<String>();
-					//				Iterator itr = messageFromServer.keys();
-					//				while (itr.hasNext()){
-					//					allunits.add((String)itr.next());
-					//				}
-					//				LoginView.allUnits = allunits;
-					//			}
 				}
 				if(message.equals("authfailed")){
 					authenticated = false;

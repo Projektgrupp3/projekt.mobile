@@ -31,7 +31,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	private EditText user;
 	private EditText pass;
 	private Button login;
-	
+
 	LoginController cc;
 	private boolean authenticated;
 	public int counter = 0;
@@ -64,6 +64,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 			else {
 				Toast.makeText(getBaseContext(), "true", Toast.LENGTH_SHORT).show();
 				try {
+					allUnits.add("hej");
 					chooseUnit();
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
@@ -120,16 +121,11 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		super.onPostCreate(savedInstanceState);
 	}
 
-	//	@Override
-	//	protected void onPause() {
-	//		super.onPause();
-	//		finish();
-	//	}
-	//	@Override
-	//	protected void onStop() {
-	//		super.onPause();
-	//		finish();
-	//	}
+	@Override
+	protected void onPause() {
+		super.onPause();
+		finish();
+	}
 
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
@@ -148,7 +144,6 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		}
 	}
 	public void onNothingSelected(AdapterView<?> arg0) {
-		// TODO Auto-generated method stub
 	}
 
 }
