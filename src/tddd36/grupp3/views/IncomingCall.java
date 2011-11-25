@@ -38,13 +38,13 @@ public class IncomingCall extends Activity implements OnClickListener{
 		decline.setOnClickListener(this);
 		vr = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		final long[] pattern = {0,900,600};
-
+		vr.vibrate(pattern, 0);
 
 		try {
 			SipAudioCall.Listener listener = new SipAudioCall.Listener() {
 				@Override 
 				public void onRinging(SipAudioCall call, SipProfile caller) {
-					vr.vibrate(pattern, 0);
+					
 					super.onRinging(call, caller);
 					try {
 						call.answerCall(30);
@@ -55,6 +55,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 
 				@Override 
 				public void onCallEnded(SipAudioCall call) {
+					vr.cancel();
 					super.onCallEnded(call);
 					session.endCall();
 					finish();
@@ -79,6 +80,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 	}
 
 	public void onPause(){
+		vr.cancel();
 		super.onPause();
 		if(call !=null){
 			call.close();
