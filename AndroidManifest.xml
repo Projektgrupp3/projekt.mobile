@@ -37,9 +37,9 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="tddd36.grupp3.views.MAINVIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -68,9 +68,9 @@
             android:name="tddd36.grupp3.views.LoginView"
             android:screenOrientation="portrait" >
             <intent-filter >
-                <action android:name="tddd36.grupp3.views.LOGINVIEW" />
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity

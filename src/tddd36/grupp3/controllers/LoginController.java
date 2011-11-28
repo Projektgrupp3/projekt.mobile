@@ -7,10 +7,10 @@ import tddd36.grupp3.models.LoginModel;
 import tddd36.grupp3.views.LoginView;
 
 public class LoginController implements Runnable, Observer {
-	LoginModel cm;
+	LoginModel loginmodel;
 
 	public LoginController(LoginView cv){
-		cm = new LoginModel(cv, this);
+		loginmodel = new LoginModel(cv, this);
 	}
 
 	public void run() {
@@ -23,19 +23,15 @@ public class LoginController implements Runnable, Observer {
 	}
 
 	public void setUserName(String userName){
-		cm.setUserName(userName);
+		loginmodel.setUserName(userName);
 	}
 
 	public void setPassword(String password){
-		cm.setPassword(password);
+		loginmodel.setPassword(password);
 	}
 
 	public boolean isAuthenticated(){
-		return cm.isAuthenticated();		
-	}
-
-	public ConnectionController getConnectionController(){
-		return cm.getConnectionController();
+		return loginmodel.isAuthenticated();		
 	}
 
 }
