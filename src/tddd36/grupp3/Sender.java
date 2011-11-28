@@ -65,18 +65,19 @@ public class Sender {
 		closeConnection();
 	}	
 public static void send(Event ev) throws JSONException {
+		jsonobject = new JSONObject();
 		Gson gson = new Gson();
 		gson.toJson(ev);
-		jsonobject = new JSONObject();
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
-		jsonobject.put("req", messageToServer);
+		jsonobject.put("req", "event");
 
 		String jsonString = jsonobject.toString();
 
 		establishConnection();
 
 		pw.println(jsonString);
+		pw.println(gson.toJson(ev));
 
 		closeConnection();
 	}
