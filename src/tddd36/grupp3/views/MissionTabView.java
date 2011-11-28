@@ -74,10 +74,10 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		changedescbtn.setOnClickListener(this);
 
 		mc = new MissionController(MissionTabView.this);
-
+		
 		tabHost = (TabHost)findViewById(android.R.id.tabhost);
 		res = getResources();
-
+		
 		// setup the list view
 		listView = (ListView) findViewById(R.id.historylist);
 		listView.setEmptyView((TextView) findViewById(R.id.empty));
@@ -90,10 +90,6 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		MissionHistoryAdapter historyAdapter = new MissionHistoryAdapter(getBaseContext(), R.layout.missionhistoryitem, historylistitems);
 		listView.setAdapter(historyAdapter);
 
-//		Intent intent = new Intent().setClass(this, MissionView.class);
-//		spec = tabHost.newTabSpec("currentmission").setIndicator("Aktuellt uppdrag",
-//				null)
-//				.setContent(intent);
 		spec = tabHost.newTabSpec("currentmission").setIndicator("Aktuellt uppdrag").setContent(R.id.currenttab);
 		tabHost.addTab(spec);
 
@@ -124,8 +120,9 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 
 	public void update(Observable observable, Object data) {
 		if(data instanceof String[]){
-			mission = (String[]) data;
-			updateMissionView(mission);
+			updateMissionView((String[]) data);
+		}else if(data instanceof Event){
+			updateMissionView((Event) data);
 		}
 	}
 	public void updateMissionView(String[] missiontext){
@@ -136,6 +133,16 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		missioninjuries.setText(missiontext[4]);
 		missiontypeofaccident.setText(missiontext[5]);
 		missiondescription.setText(missiontext[6]);
+	}
+	
+	public void updateMissionView(Event event){
+		missioneventid.setText(event.getID());
+		missionpriority.setText(event.getPriority());
+		missionheader.setText(event.getAccidentType());
+		missionaddress.setText(event.getAddress());
+		missioninjuries.setText(event.getInjuried());
+		missiontypeofaccident.setText(event.getTypeOfInjury());
+		missiondescription.setText(event.getDescription());
 	}
 
 	public void onClick(View v) {

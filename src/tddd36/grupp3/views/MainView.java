@@ -56,7 +56,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		this.registerReceiver(callReceiver, filter);
 		initializeManager();
 
-		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
+		//this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
 		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
 		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));

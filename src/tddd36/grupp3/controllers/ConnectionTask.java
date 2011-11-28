@@ -109,6 +109,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 					Event incomingEvent = new Event(messageFromServer);
 					MapGUI.mapcontroller.addMapObject(incomingEvent);
 					MissionTabView.mc.setCurrentMission(incomingEvent);
+					MainView.db.addRow(incomingEvent);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
