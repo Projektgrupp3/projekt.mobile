@@ -7,6 +7,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import tddd36.grupp3.models.MapModel;
+import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
@@ -42,7 +43,6 @@ public class MapController implements Observer, Runnable{
 	public void addMapObject(MapObject o){
 		mapmodel.addMapObject(o);
 		MainView.db.addRow(o);
-		;
 	}
 
 	public void run() {

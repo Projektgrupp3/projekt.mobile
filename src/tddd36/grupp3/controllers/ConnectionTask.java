@@ -4,29 +4,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import tddd36.grupp3.models.LoginModel;
 import tddd36.grupp3.resources.Event;
-import tddd36.grupp3.views.LoginView;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionTabView;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 
-	public static final int LISTEN_PORT = 4445;
 	private LoginModel loginModel;
 	private Socket socket = null;
 	private BufferedReader in;
-	private String msg;
 	private ConnectionController cc;
 	private JSONObject messageFromServer;
 	private boolean authenticated;
@@ -89,14 +83,6 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 					authenticated = true;
 					loginModel.executeChange();
 					loginModel.notify(authenticated);
-					//			else if(messageFromServer.has("UNITID")){
-					//				ArrayList<String> allunits = new ArrayList<String>();
-					//				Iterator itr = messageFromServer.keys();
-					//				while (itr.hasNext()){
-					//					allunits.add((String)itr.next());
-					//				}
-					//				LoginView.allUnits = allunits;
-					//			}
 				}
 				if(message.equals("authfailed")){
 					authenticated = false;
@@ -109,6 +95,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 					Event incomingEvent = new Event(messageFromServer);
 					MapGUI.mapcontroller.addMapObject(incomingEvent);
 					MissionTabView.mc.setCurrentMission(incomingEvent);
+					MainView.db.addRow(incomingEvent);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

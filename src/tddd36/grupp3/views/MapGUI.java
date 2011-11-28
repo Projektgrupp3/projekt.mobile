@@ -239,11 +239,16 @@ public class MapGUI extends MapActivity implements Observer {
 										mapcontroller.addMapObject(new Hospital(touchedPoint,"Sjukhus", "Här är ett sjukhus", 20));
 										return;
 									case 2:
-										o = new Event(touchedPoint,"Händelse", "Här är en händelse", new SimpleDateFormat("HH:mm:ss").format(new Date()),"2");
+										o = new Event(touchedPoint,2,"Trafikolycka",
+												"RÖD", "Skallskador", 
+												new SimpleDateFormat("yyMMddHHmmss").format(new Date()),
+												1, "Större trafikolycka i Valla, flera döda.");;
 										mapcontroller.addMapObject(o);
+										MissionTabView.mc.setCurrentMission(o);
 										MainView.tabHost.setCurrentTab(1);
 										MissionTabView.tabHost.setCurrentTab(0);
 										MissionTabView.mc.setCurrentMission(o);
+
 										return;
 									}								
 								}

@@ -12,11 +12,7 @@ import tddd36.grupp3.views.MapGUI;
 public class Event extends MapObject{
 	private String injuried;
 	private String time;
-	public Event(GeoPoint gp, String header, String message, String time, String injuried){
-		super(gp, header, message, R.drawable.event_icon, ObjectType.EVENT);
-		this.time = time;
-		this.injuried = injuried;
-	}
+
 
 	public String getInjuried(){
 		return injuried;
@@ -38,7 +34,6 @@ public class Event extends MapObject{
 	//
 	//
 
-	JSONObject json = new JSONObject();
 	private String eventID;
 	private String accidentType;
 	private String coordinateX;
@@ -81,6 +76,20 @@ public class Event extends MapObject{
 		Log.d("JSON", typeOfInjury);
 		Log.d("JSON", ""+unitID);
 
+	}
+	
+	public Event(GeoPoint gp, int numberOfInjuried, String accidentType, String priority, 
+			String typeOfInjury, String eventID, int unitID, String description){
+		super(gp, accidentType, description, R.drawable.event_icon, ObjectType.EVENT);
+		
+		this.numberOfInjured = numberOfInjuried;
+		this.accidentType = accidentType;
+		this.priority = priority;
+		this.adress = this.getAddress();
+		this.typeOfInjury = typeOfInjury;
+		this.eventID = eventID;
+		this.unitID = unitID;
+		this.description = description;
 	}
 
 	public int getNumberOfInjured() {

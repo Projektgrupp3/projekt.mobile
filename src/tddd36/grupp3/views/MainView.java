@@ -1,11 +1,10 @@
 package tddd36.grupp3.views;
 
 import java.text.ParseException;
+
 import tddd36.grupp3.R;
 import tddd36.grupp3.database.ClientDatabaseManager;
 import tddd36.grupp3.resources.Contact;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.TabActivity;
 import android.content.Context;
@@ -56,12 +55,12 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		this.registerReceiver(callReceiver, filter);
 		initializeManager();
 
-		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
+		//this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
-		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
-		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
+//		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
+//		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
 //		db.addRow(new Contact("Enhet 3", "enhet3@ekiga.net"));
-		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
+//		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
 
 		res = getResources(); // Resource object to get Drawables
 		tabHost = getTabHost();  // The activity TabHost

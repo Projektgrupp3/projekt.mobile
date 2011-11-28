@@ -43,5 +43,6 @@
     <item
         android:id="@+id/logout"
         android:title="Logga ut"></item>
+    <item android:id="@+id/addContact" android:title="Ny kontakt"></item>
 
 </menu>

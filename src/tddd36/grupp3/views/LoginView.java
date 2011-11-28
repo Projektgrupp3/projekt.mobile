@@ -7,14 +7,13 @@ import java.util.Observer;
 import org.json.JSONException;
 
 import tddd36.grupp3.R;
-import tddd36.grupp3.controllers.ConnectionController;
+import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.LoginController;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,8 +30,8 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	private EditText user;
 	private EditText pass;
 	private Button login;
-	
-	LoginController cc;
+
+	LoginController logincontroller;
 	private boolean authenticated;
 	public int counter = 0;
 
@@ -64,6 +63,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 			else {
 				Toast.makeText(getBaseContext(), "true", Toast.LENGTH_SHORT).show();
 				try {
+					allUnits.add("hej");
 					chooseUnit();
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
@@ -101,13 +101,13 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		user.setText("enhet1");
 		pass.setText("password1");
 
-		cc = new LoginController(this);
+		logincontroller = new LoginController(this);
 
 		login.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
 				try {
-					cc.getConnectionController().send(""+user.getText(), ""+pass.getText(), "ALL_UNITS");
+					Sender.send(""+user.getText(), ""+pass.getText(), "ALL_UNITS");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -120,16 +120,11 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		super.onPostCreate(savedInstanceState);
 	}
 
-	//	@Override
-	//	protected void onPause() {
-	//		super.onPause();
-	//		finish();
-	//	}
-	//	@Override
-	//	protected void onStop() {
-	//		super.onPause();
-	//		finish();
-	//	}
+	@Override
+	protected void onPause() {
+		super.onPause();
+		finish();
+	}
 
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
@@ -148,7 +143,6 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		}
 	}
 	public void onNothingSelected(AdapterView<?> arg0) {
-		// TODO Auto-generated method stub
 	}
 
 }

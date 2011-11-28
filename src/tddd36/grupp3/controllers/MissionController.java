@@ -26,8 +26,10 @@ public class MissionController implements Observer {
 		return mm.getCurrentGeoPoint();
 	}
 	public void setCurrentMission(Event ev){
+		if(ev != null){
 		mm.setCurrentMission(ev);
 		MainView.db.addRow(ev);
+		}
 	}
 
 }
