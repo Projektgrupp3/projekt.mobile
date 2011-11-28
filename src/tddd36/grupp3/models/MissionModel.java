@@ -7,9 +7,7 @@ import tddd36.grupp3.controllers.MissionController;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
-import tddd36.grupp3.views.MissionView;
-
-import android.util.Log;
+import tddd36.grupp3.views.MissionTabView;
 
 import com.google.android.maps.GeoPoint;
 
@@ -26,10 +24,10 @@ public class MissionModel extends Observable{
 
 	ArrayList<Event> currentMissionFromDB;
 
-	private MissionView mv;
+	private MissionTabView mv;
 	private MissionController mc;
 
-	public MissionModel(MissionView mv, MissionController mc) {
+	public MissionModel(MissionTabView mv, MissionController mc) {
 		this.mv = mv;
 		this.mc = mc;
 
@@ -126,11 +124,11 @@ public class MissionModel extends Observable{
 		this.description = description;
 	}
 
-	public MissionView getMv() {
+	public MissionTabView getMv() {
 		return mv;
 	}
 
-	public void setMv(MissionView mv) {
+	public void setMv(MissionTabView mv) {
 		this.mv = mv;
 	}
 
