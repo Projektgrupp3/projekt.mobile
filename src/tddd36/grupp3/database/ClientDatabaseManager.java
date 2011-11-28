@@ -180,7 +180,7 @@ public class ClientDatabaseManager {
 		try
 		{
 			cursor = db.query(TABLE_NAME[1], TABLE_MISSION, null, null, null, null, null);
-			cursor.moveToFirst();
+			cursor.moveToLast();
 			if(cursor != null){
 				Gson gson = new Gson();
 				if(cursor.getString(2) != null){

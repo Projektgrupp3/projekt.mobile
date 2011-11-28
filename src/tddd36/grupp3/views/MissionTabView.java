@@ -139,8 +139,8 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		missioneventid.setText(event.getID());
 		missionpriority.setText(event.getPriority());
 		missionheader.setText(event.getAccidentType());
-		missionaddress.setText(event.getAddress());
-		missioninjuries.setText(event.getInjuried());
+		missionaddress.setText(""+event.getAddress());
+		missioninjuries.setText(""+event.getNumberOfInjured());
 		missiontypeofaccident.setText(event.getTypeOfInjury());
 		missiondescription.setText(event.getDescription());
 	}
