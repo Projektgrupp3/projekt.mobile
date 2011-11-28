@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
-import com.google.android.maps.GeoPoint;
 /**
  * TabActivity for showing the Tab-structure of application. 
  * Also contains some support calls for intializing the SIP-part of the
