@@ -7,7 +7,6 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.resources.Contact;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -21,24 +20,33 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class SIPView extends ListActivity implements View.OnTouchListener, Observer{
+public class SIPView extends ListActivity implements View.OnTouchListener, Observer, OnClickListener{
 
 	public Cursor cur;
 	private ArrayList<Contact> contactList;
 	private String[] contactNames;
+	private Button addContact;
 
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.contactlist);
+		addContact = (Button)findViewById(R.id.bAddContact);
+		addContact.setOnClickListener(this);
+
+
+
 		contactList = new ArrayList<Contact>();
 		contactList = MainView.db.getAllRowsAsArrayList("contacts");
 		contactNames = new String[contactList.size()];
@@ -102,7 +110,7 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 			if (row == null) {
 				// ROW INFLATION
 				LayoutInflater inflater = (LayoutInflater) this.getContext()
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				row = inflater.inflate(R.layout.contactitem, parent, false);
 			}
 
@@ -143,6 +151,7 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		case R.id.status:
 			//noop
 			return true;
+
 		case R.id.logout:
 			final AlertDialog logout = new AlertDialog.Builder(SIPView.this).create();
 			logout.setMessage("Är du säker på att du vill avsluta?");
@@ -166,4 +175,22 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		getParent().onBackPressed();
 	}
 
+	public void onClick(View v) {
+
+
+		Intent saveContactIntent = new Intent(getParent(), AddContactView.class);
+		TabGroupActivity parentActivity = (TabGroupActivity)getParent();
+		parentActivity.startChildActivity("SaveContact", saveContactIntent);
+
+		//		case R.id.bImage:
+		//			
+		//			Intent saveContactI = new Intent(getParent(), AddContactView.class);
+		//			TabGroupActivity parentActivit = (TabGroupActivity)getParent();
+		//			parentActivit.startChildActivity("SaveContact", saveContactI);
+		//			break;
+
+
+	}
 }
+
+

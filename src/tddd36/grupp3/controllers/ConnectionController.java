@@ -21,14 +21,14 @@ public class ConnectionController extends AsyncTask<Void,Void,Boolean> implement
 
 
 	//	private static final String COM_IP = "130.236.227.158";
-	private static final String COM_IP = "192.168.1.3";
+	private static final String COM_IP = "130.236.227.54";
 	private static final int COM_PORT = 4444;
 	public static final int LISTEN_PORT = 4445;
 
 	private InputStreamReader isr;
 	private PrintWriter pw;
 	private BufferedReader br;
-	public String serverOutput;
+	public  String serverOutput;
 	private JSONObject jsonobject;
 
 	private String messageToServer;
