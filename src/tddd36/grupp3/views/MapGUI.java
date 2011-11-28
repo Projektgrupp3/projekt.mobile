@@ -37,7 +37,11 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
-
+/***
+ * The MapView tab. Contains methods for drawing map and map objects onto the map itself. 
+ * @author Projektgrupp 3 - Sjukvården
+ *
+ */
 public class MapGUI extends MapActivity implements Observer {
 
 	private long pressStart;
@@ -85,7 +89,10 @@ public class MapGUI extends MapActivity implements Observer {
 
 		//controller.animateTo(mapcontroller.fireCurrentLocation());
 	}
-
+/**
+ * Called by Observable MapModel. Adds map objects to the overlaylist and
+ * to correct mapobjectlist, also animates to geopoints.
+ */
 	public void update(Observable observable, Object data) {
 
 		if(data instanceof MapObjectList){
@@ -106,23 +113,31 @@ public class MapGUI extends MapActivity implements Observer {
 		}
 		map.postInvalidate();
 	}
+	/**
+	 * Called when the application is paused.
+	 * Disables compass and removes the MapModel from the LocationManager in MapController
+	 */
 	@Override
 	protected void onPause() {
 		compass.disableCompass();
 		super.onPause();
 		mapcontroller.getLocationManager().removeUpdates(mapcontroller.getMapModel());		
 	}
-
+/**
+ * Called when application is resumed
+ * Enables compass and enables LocationManager setting the update variables as follows:
+ * Update every 30000 sec = 5 min or 5000 meters = 5 kilometers
+ */
 	@Override
 	protected void onResume() {
 		compass.enableCompass();
 		super.onResume();
-		//30000 = 5 min, 5000 = 5 kilometers
 		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
 	}
 	
 	/**
-	 * Kallas på när hårdvaru-meny-knappen trycks in
+	 * Called when hardware "menu-button" is pressed.
+	 * Inflates the mainmenu
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -130,7 +145,9 @@ public class MapGUI extends MapActivity implements Observer {
 		inflater.inflate(R.menu.mainmenu, menu);
 		return true;
 	}
-
+/**
+ * Called when an item is selected in the options menu
+ */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -155,7 +172,7 @@ public class MapGUI extends MapActivity implements Observer {
 			logout.setMessage("Är du säker på att du vill avsluta?");
 			logout.setButton("Ja", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which){
-					finish();
+					getParent().finish();
 				}
 			});
 			logout.setButton2("Nej", new DialogInterface.OnClickListener() {
@@ -170,12 +187,21 @@ public class MapGUI extends MapActivity implements Observer {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
+/**
+ * Default dummy-method for Google Maps, does nothing.
+ */
 	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	/**
+	 * Anonymous inner class for handling touch events on the map
+	 * Contains methods for evaulating how long the touch was
+	 * and draws a map menu when user touch was longer than 200ms
+	 * @author Projektgrupp 3
+	 *
+	 */
 	class TouchOverlay extends Overlay{
 
 		AlertDialog.Builder builder;
@@ -217,7 +243,7 @@ public class MapGUI extends MapActivity implements Observer {
 										mapcontroller.addMapObject(o);
 										MainView.tabHost.setCurrentTab(1);
 										MissionTabView.tabHost.setCurrentTab(0);
-										MissionView.mc.setCurrentMission(o);
+										MissionTabView.mc.setCurrentMission(o);
 										return;
 									}								
 								}
@@ -262,6 +288,11 @@ public class MapGUI extends MapActivity implements Observer {
 			return false;
 		}
 	}
+	/**
+	 * Called when the hardware "back"-button was pressed. 
+	 * Pops a dialog asking the user if it wants to log out.
+	 * @note does not actually log out the user, only closes application.
+	 */
 	public void onBackPressed(){
 		AlertDialog logout = new AlertDialog.Builder(this).create();
 		logout.setMessage("Är du säker på att du vill avsluta?");
