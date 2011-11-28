@@ -123,7 +123,6 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 			updateMissionView((String[]) data);
 		}else if(data instanceof Event){
 			updateMissionView((Event) data);
-
 		}
 	}
 	public void updateMissionView(String[] missiontext){
@@ -142,7 +141,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		missionpriority.setText(event.getPriority());
 		missionheader.setText(event.getAccidentType());
 		missionaddress.setText(event.getAddress());
-		missioninjuries.setText(event.getInjuried());
+		missioninjuries.setText(event.getNumberOfInjured());
 		missiontypeofaccident.setText(event.getTypeOfInjury());
 		missiondescription.setText(event.getDescription());
 	}

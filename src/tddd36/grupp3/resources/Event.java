@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import tddd36.grupp3.R;
+import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.views.MapGUI;
 
 public class Event extends MapObject{
@@ -58,7 +59,7 @@ public class Event extends MapObject{
 		this.coordinateX = event.getString("tempCoordX"); // lat
 		this.coordinateY = event.getString("tempCoordY"); // long
 		this.priority = event.getString("priority");
-		this.adress = this.getAddress();
+		this.adress = MapModel.getAddress(gp);
 		this.typeOfInjury = event.getString("typeOfInjury");
 		this.eventID = event.getString("event");
 		this.unitID = event.getInt("unitID");
@@ -85,7 +86,7 @@ public class Event extends MapObject{
 		this.numberOfInjured = numberOfInjuried;
 		this.accidentType = accidentType;
 		this.priority = priority;
-		this.adress = this.getAddress();
+		this.adress = MapModel.getAddress(gp);
 		this.typeOfInjury = typeOfInjury;
 		this.eventID = eventID;
 		this.unitID = unitID;
@@ -129,8 +130,12 @@ public class Event extends MapObject{
 		this.priority = priority;
 	}
 
-	public void setAdress(String adress) {
+	public void setAddress(String adress) {
 		this.adress = adress;
+	}
+	
+	public String getAddress(){
+		return this.adress;
 	}
 
 	public String getTypeOfInjury() {
