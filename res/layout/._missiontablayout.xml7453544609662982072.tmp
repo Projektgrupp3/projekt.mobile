@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:padding="5dp" >
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:padding="5dp" >
+  <ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:scrollbarFadeDuration="1000"
+    android:scrollbarSize="12dip">
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:scrollbars="vertical"
+                android:id="@+id/currenttab" >
+
+                <TableLayout
+                    android:id="@+id/tableLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical" >
+
+                    <TableRow
+                        android:id="@+id/tableRow1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp" >
+
+                        <TextView
+                            android:id="@+id/eventID1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Händelse-ID:"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/eventID2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/empty"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp" >
+
+                        <TextView
+                            android:id="@+id/eventPriority1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Prioritet"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/eventPriority2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/empty"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp" >
+
+                        <TextView
+                            android:id="@+id/missionheader1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Händelsetyp:"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/missionheader2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/empty"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp" >
+
+                        <TextView
+                            android:id="@+id/missionaddress1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Adress:"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/missionaddress2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/empty"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp" >
+
+                        <TextView
+                            android:id="@+id/missioninjuries1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ant. skadade:"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/missioninjuries2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/empty"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp" >
+
+                        <TextView
+                            android:id="@+id/typeOfAccident1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Typ av skador: "
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/typeOfAccident2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/empty"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp" >
+
+                        <TextView
+                            android:id="@+id/missiondescription1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Beskrivning:"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/missiondescription2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/empty"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp" >
+
+                        <Button
+                            android:id="@+id/changemissionbtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ändra uppdragsbeskr." />
+
+                        <Button
+                            android:id="@+id/gotoaddressbtn"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Gå till adress" />
+                    </TableRow>
+                </TableLayout>
+
+            </LinearLayout>
+                </ScrollView>
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" 
+                android:id="@+id/historytab">
+
+                <ListView
+                    android:id="@+id/historylist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+                </ListView>
+
+                <TextView
+                    android:id="@+id/empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Laddar.." />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+</TabHost>
