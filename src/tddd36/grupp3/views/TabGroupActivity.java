@@ -17,7 +17,6 @@ import android.view.Window;
 /**
  * The purpose of this Activity is to manage the activities in a tab.
  * Note: Child Activities can handle Key Presses before they are seen here.
- * @author Eric Harlow
  * @Sjukvården This is a helper method for the SIP Activity Group where history needs to be handled. 
  */
 public class TabGroupActivity extends ActivityGroup {
@@ -68,33 +67,7 @@ public class TabGroupActivity extends ActivityGroup {
           setContentView(window.getDecorView()); 
       }    
   }
-  
-  /**
-   * The primary purpose is to prevent systems before android.os.Build.VERSION_CODES.ECLAIR
-   * from calling their default KeyEvent.KEYCODE_BACK during onKeyDown.
-   */
-  @Override
-  public boolean onKeyDown(int keyCode, KeyEvent event) {
-      if (keyCode == KeyEvent.KEYCODE_BACK) {
-          //preventing default implementation previous to android.os.Build.VERSION_CODES.ECLAIR
-          return true;
-      }
-      return super.onKeyDown(keyCode, event);
-  }
 
-  /**
-   * Overrides the default implementation for KeyEvent.KEYCODE_BACK 
-   * so that all systems call onBackPressed().
-   */
-  @Override
-  public boolean onKeyUp(int keyCode, KeyEvent event) {
-      if (keyCode == KeyEvent.KEYCODE_BACK) {
-          onBackPressed();
-          return true;
-      }
-      return super.onKeyUp(keyCode, event);
-  }
-  
   /**
    * If a Child Activity handles KeyEvent.KEYCODE_BACK.
    * Simply override and add this method.
@@ -105,6 +78,26 @@ public class TabGroupActivity extends ActivityGroup {
       if ( length > 1) {
           Activity current = getLocalActivityManager().getActivity(mIdList.get(length-1));
           current.finish();
+      }else if(length == 1){
+    	  finishActivity();
       }
+  }
+  public void finishActivity(){
+	  int length = mIdList.size();
+	  if(length == 1){
+	  		AlertDialog logout = new AlertDialog.Builder(this).create();
+			logout.setMessage("Är du säker på att du vill avsluta?");
+			logout.setButton("Ja", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which){
+					finish();
+				}
+			});
+			logout.setButton2("Nej", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();					
+				}
+			});	
+			logout.show();
+	      }
   }
 }
