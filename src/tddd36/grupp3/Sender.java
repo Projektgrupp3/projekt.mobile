@@ -8,6 +8,10 @@ import java.net.UnknownHostException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import tddd36.grupp3.resources.Event;
+
+import com.google.gson.Gson;
+
 public class Sender {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
 
@@ -47,6 +51,22 @@ public class Sender {
 	public static void send(String str) throws JSONException {
 		messageToServer = str;
 
+		jsonobject = new JSONObject();
+		jsonobject.put("user", username);
+		jsonobject.put("pass", password);
+		jsonobject.put("req", messageToServer);
+
+		String jsonString = jsonobject.toString();
+
+		establishConnection();
+
+		pw.println(jsonString);
+
+		closeConnection();
+	}	
+public static void send(Event ev) throws JSONException {
+		Gson gson = new Gson();
+		gson.toJson(ev);
 		jsonobject = new JSONObject();
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);

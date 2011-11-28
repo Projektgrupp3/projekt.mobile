@@ -34,7 +34,6 @@ public class Event extends MapObject{
 	//
 	//
 
-	JSONObject json = new JSONObject();
 	private String eventID;
 	private String accidentType;
 	private String coordinateX;
