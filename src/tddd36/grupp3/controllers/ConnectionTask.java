@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import tddd36.grupp3.models.LoginModel;
 import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionTabView;
 import android.os.AsyncTask;

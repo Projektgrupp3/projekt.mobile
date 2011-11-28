@@ -1,11 +1,10 @@
 package tddd36.grupp3.views;
 
 import java.text.ParseException;
+
 import tddd36.grupp3.R;
 import tddd36.grupp3.database.ClientDatabaseManager;
 import tddd36.grupp3.resources.Contact;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.TabActivity;
 import android.content.Context;
@@ -19,7 +18,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
-import com.google.android.maps.GeoPoint;
 /**
  * TabActivity for showing the Tab-structure of application. 
  * Also contains some support calls for intializing the SIP-part of the
