@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:id="@+id/incomingevent"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content" >
+
+     <TextView
+         android:id="@+id/incevent1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentTop="true"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="80dp"
+         android:text="Du har"
+         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+     <TextView
+         android:id="@+id/incevent2"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/incevent1"
+         android:layout_centerHorizontal="true"
+         android:text="sekunder"
+         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+     <TextView
+         android:id="@+id/incevent3"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/incevent2"
+         android:layout_centerHorizontal="true"
+         android:text="sekunder på dig att svara."
+         android:textAppearance="?android:attr/textAppearanceMedium" />
+     <Button
+         android:id="@+id/acceptbtn"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentTop="true"
+         android:layout_marginLeft="80dp"
+         android:layout_marginTop="200dp"
+         android:layout_weight="1"
+         android:text="Kvittera" />
+
+     <Button
+         android:id="@+id/rejectbtn"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="150dp"
+         android:layout_marginTop="200dp"
+         android:layout_weight="1"
+         android:text="Neka" />
+
+ </RelativeLayout>

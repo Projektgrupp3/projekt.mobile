@@ -8,19 +8,20 @@ import java.net.Socket;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.android.maps.GeoPoint;
-
-import tddd36.grupp3.R;
+import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.models.LoginModel;
 import tddd36.grupp3.resources.Contact;
 import tddd36.grupp3.resources.Event;
-import tddd36.grupp3.resources.ObjectType;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
-import tddd36.grupp3.views.MissionTabView;
+import tddd36.grupp3.views.MissionGroupActivity;
 import tddd36.grupp3.views.SIPView;
+import tddd36.grupp3.views.TabGroupActivity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.google.android.maps.GeoPoint;
 
 public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 
@@ -107,8 +108,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 					String[] separated = list[i].split(",");
 					Contact c = new Contact(separated[0],separated[1]);
 					MainView.db.addRow(c);
-
-				}				
+					}				
 			}
 			if(messageFromServer.has("MAP_OBJECTS")){
 				Event incomingEvent = new Event((gp = new GeoPoint(messageFromServer.getInt("tempCoordX"),
@@ -120,15 +120,11 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 			}
 
 			else if(messageFromServer.has("event")){
-				try {
-					Event incomingEvent = new Event(messageFromServer);
-					MapGUI.mapcontroller.addMapObject(incomingEvent);
-					MissionTabView.mc.setCurrentMission(incomingEvent);
-					MainView.db.addRow(incomingEvent);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				MainView.tabHost.setCurrentTab(1);
+				Intent splashIntent = new Intent(MainView.context, SplashEvent.class);
+				TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent() ;
+				splashIntent.putExtra("json", messageFromServer.toString());
+				parentActivity.startChildActivity("IncomingEvent", splashIntent);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
