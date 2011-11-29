@@ -42,7 +42,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 				public void onRinging(SipAudioCall call, SipProfile caller) {
 					super.onRinging(call, caller);
 					try {
-						ringTone = MediaPlayer.create(IncomingCall.this, R.raw.kolla);
+						ringTone = MediaPlayer.create(IncomingCall.this, R.raw.warning);
 						ringTone.start();
 				
 						call.answerCall(30);
