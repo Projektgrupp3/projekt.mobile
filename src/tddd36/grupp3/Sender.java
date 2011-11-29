@@ -15,9 +15,9 @@ import com.google.gson.Gson;
 public class Sender {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
 
-	private static final String COM_IP = "130.236.227.137";
-//	private static final int COM_PORT = 4444;
-	private static final int COM_PORT = 2222;
+	private static final String COM_IP = "130.236.227.48";
+	private static final int COM_PORT = 4445;
+	//	private static final int COM_PORT = 2222;
 
 	private static PrintWriter pw;
 	private static JSONObject jsonobject;
@@ -64,7 +64,7 @@ public class Sender {
 
 		closeConnection();
 	}	
-public static void send(Event ev) throws JSONException {
+	public static void send(Event ev) throws JSONException {
 		jsonobject = new JSONObject();
 		Gson gson = new Gson();
 		gson.toJson(ev);
@@ -83,7 +83,7 @@ public static void send(Event ev) throws JSONException {
 	}
 
 	public static void send(String user, String pass, String message)
-	throws JSONException {
+			throws JSONException {
 		username = user;
 		password = pass;
 		messageToServer = message;
@@ -92,6 +92,24 @@ public static void send(Event ev) throws JSONException {
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
 		jsonobject.put("req", messageToServer);
+
+		String jsonString = jsonobject.toString();
+
+		establishConnection();
+
+		pw.println(jsonString);
+
+		closeConnection();
+	}
+
+	public static void sendContact(String contactName, String contactAddress)
+			throws JSONException {
+		jsonobject = new JSONObject();
+		jsonobject.put("user", username);
+		jsonobject.put("pass", password);
+		//jsonobject.put("req", messageToServer);
+		jsonobject.put("sipaddress", contactAddress);
+		jsonobject.put("contactName", contactName);
 
 		String jsonString = jsonobject.toString();
 

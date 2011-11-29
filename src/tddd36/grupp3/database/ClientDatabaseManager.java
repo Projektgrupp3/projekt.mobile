@@ -31,7 +31,6 @@ public class ClientDatabaseManager extends Observable{
 
 	public ClientDatabaseManager(Context context){
 		ClientDatabaseManager.context = context;
-
 		// create or open the database
 		CustomSQLiteOpenHelper helper = new CustomSQLiteOpenHelper(context);
 		db = helper.getWritableDatabase();
@@ -178,6 +177,7 @@ public class ClientDatabaseManager extends Observable{
 	}
 
 
+
 	public Event getCurrentEvent(){
 		Cursor cursor = null;
 		try
@@ -187,7 +187,7 @@ public class ClientDatabaseManager extends Observable{
 			if(cursor != null){
 				Gson gson = new Gson();
 				if(cursor.getString(2) != null){
-				return gson.fromJson(cursor.getString(1), Event.class);
+					return gson.fromJson(cursor.getString(1), Event.class);
 				}
 			}
 		}catch(SQLException e){
@@ -227,7 +227,7 @@ public class ClientDatabaseManager extends Observable{
 						table,
 						TABLE_MAP,
 						null, null, null, null, null
-				);
+						);
 
 				// move the cursor's pointer to position zero.
 				cursor.moveToFirst();
@@ -258,7 +258,7 @@ public class ClientDatabaseManager extends Observable{
 						table,
 						TABLE_MISSION,
 						null, null, null, null, null
-				);
+						);
 				Gson gson = new Gson();
 				cursor.moveToFirst();
 				if (!cursor.isAfterLast())
@@ -284,7 +284,7 @@ public class ClientDatabaseManager extends Observable{
 						table,
 						TABLE_CONTACT,
 						null, null, null, null, null
-				);
+						);
 				cursor.moveToFirst();
 
 				if (!cursor.isAfterLast())
@@ -330,27 +330,27 @@ public class ClientDatabaseManager extends Observable{
 			//				");";
 
 			String mapTableQueryString = 	
-				"CREATE TABLE " +
-				TABLE_NAME[0] +
-				" (" +
-				TABLE_MAP[0] + " TEXT," +
-				TABLE_MAP[1] + " TEXT" +
-				");";
+					"CREATE TABLE " +
+							TABLE_NAME[0] +
+							" (" +
+							TABLE_MAP[0] + " TEXT," +
+							TABLE_MAP[1] + " TEXT" +
+							");";
 			String missionTableQueryString = 	
-				"CREATE TABLE " +
-				TABLE_NAME[1] +
-				" (" +
-				TABLE_MISSION[0] + " TEXT," +
-				TABLE_MISSION[1] + " TEXT," +
-				TABLE_MISSION[2] + " TEXT" +
-				");";
+					"CREATE TABLE " +
+							TABLE_NAME[1] +
+							" (" +
+							TABLE_MISSION[0] + " TEXT," +
+							TABLE_MISSION[1] + " TEXT," +
+							TABLE_MISSION[2] + " TEXT" +
+							");";
 			String contactTableQueryString = 	
-				"CREATE TABLE " +
-				TABLE_NAME[2] +
-				" (" +
-				TABLE_CONTACT[0] + " TEXT," +
-				TABLE_CONTACT[1] + " TEXT" +
-				");";
+					"CREATE TABLE " +
+							TABLE_NAME[2] +
+							" (" +
+							TABLE_CONTACT[0] + " TEXT," +
+							TABLE_CONTACT[1] + " TEXT" +
+							");";
 
 			// execute the query string to the database.
 			db.execSQL(mapTableQueryString);
@@ -369,4 +369,6 @@ public class ClientDatabaseManager extends Observable{
 	public void close() {
 		db.close();
 	}
+
+
 }
