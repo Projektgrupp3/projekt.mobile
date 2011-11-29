@@ -45,11 +45,11 @@ public class MapModel extends Observable implements LocationListener{
 	GeoPoint ourLocation, touchedLocation, lastKnownGeoPoint;
 
 	public MapModel(MapGUI mapgui, MapController mc){
-		
+
 		this.mapgui = mapgui;
 		this.addObserver(mc);
 		this.addObserver(mapgui);
-		
+
 		insertMapObjectsFromDB();
 
 		lm = (LocationManager) mapgui.getSystemService(Context.LOCATION_SERVICE);
@@ -68,14 +68,14 @@ public class MapModel extends Observable implements LocationListener{
 			Toast.makeText(mapgui.getBaseContext(), GPS_FAILED, Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void insertMapObjectsFromDB(){
 		mapObjectsFromDB = new ArrayList<MapObject>();
 		mapObjectsFromDB = MainView.db.getAllRowsAsArrayList("map");
 		for(MapObject o: mapObjectsFromDB){
 			if(o != null){
-			addMapObject(o);
+				addMapObject(o);
 			}else return;
 		}
 	}
@@ -126,32 +126,37 @@ public class MapModel extends Observable implements LocationListener{
 	}
 
 	public void addMapObject(MapObject o){
-		d = mapgui.getResources().getDrawable(o.getIcon());
-		o.setAdress(getAddress(o.getPoint()));
-		setChanged();
-		if(o instanceof Vehicle){
-			if(vehicles == null){
-				vehicles = new MapObjectList(d, mapgui);
+		if(o != null){
+			d = mapgui.getResources().getDrawable(o.getIcon());
+			o.setAdress(getAddress(o.getPoint()));
+			setChanged();
+			if(o instanceof Vehicle){
+				if(vehicles == null){
+					vehicles = new MapObjectList(d, mapgui);
+				}
+				vehicles.add(o);
+				notifyObservers(vehicles);
 			}
-			vehicles.add(o);
-			notifyObservers(vehicles);
-		}
-		else if(o instanceof Hospital){
-			if(hospital == null){
-				hospital = new MapObjectList(d, mapgui);
+			else if(o instanceof Hospital){
+				if(hospital == null){
+					hospital = new MapObjectList(d, mapgui);
+				}
+				hospital.add(o);
+				notifyObservers(hospital);
 			}
-			hospital.add(o);
-			notifyObservers(hospital);
-		}
-		else if(o instanceof Event){
-			if(event == null){
-				event = new MapObjectList(d, mapgui);
+			else if(o instanceof Event){
+				if(event == null){
+					event = new MapObjectList(d, mapgui);
+				}
+				event.add(o);
+				notifyObservers(event);
 			}
-			event.add(o);
-			notifyObservers(event);
+		}else{
+			setChanged();
+			notifyObservers(null);
 		}
 	}
-	
+
 	public static String getAddress(GeoPoint gp){
 		String addressString = "";
 		Geocoder gc = new Geocoder(mapgui.getBaseContext(), Locale.getDefault());
