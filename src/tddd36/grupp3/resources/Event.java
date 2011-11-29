@@ -30,8 +30,9 @@ public class Event extends MapObject{
 	 * @param description - Händelsens fritext beskrivning
 	 * @throws JSONException
 	 */
-	public Event(GeoPoint gp, String header, String message) throws JSONException{
+	public Event(GeoPoint gp, String header, String message, String eventID) throws JSONException{
 		super(gp, header, message, R.drawable.event_icon, ObjectType.EVENT);
+		this.eventID = eventID;
 		
 		Log.d("JSON", header);
 		Log.d("JSON", message);

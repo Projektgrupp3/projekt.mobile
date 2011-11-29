@@ -111,11 +111,10 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 				}				
 			}
 			if(messageFromServer.has("MAP_OBJECTS")){
-				Log.d("Här vare et event","HAHHA");
 				Event incomingEvent = new Event((gp = new GeoPoint(messageFromServer.getInt("tempCoordX"),
 						messageFromServer.getInt("tempCoordY"))),
 						messageFromServer.getString("header"),
-						messageFromServer.get("description").toString());
+						messageFromServer.get("description").toString(), messageFromServer.getString("eventID").toString());
 				MapGUI.mapcontroller.addMapObject(incomingEvent);
 				MainView.db.addRow(incomingEvent);	
 			}
