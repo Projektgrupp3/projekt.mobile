@@ -11,13 +11,17 @@ import org.json.JSONObject;
 import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.models.LoginModel;
 import tddd36.grupp3.resources.Contact;
+import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
+import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionGroupActivity;
 import tddd36.grupp3.views.SIPView;
 import tddd36.grupp3.views.TabGroupActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.google.android.maps.GeoPoint;
 
 public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 
@@ -28,6 +32,8 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 	private JSONObject messageFromServer;
 	private boolean authenticated;
 	private SIPView sip;
+
+	private static GeoPoint gp;
 
 	public ConnectionTask(LoginModel lm) {
 		this.loginModel = lm;
@@ -62,7 +68,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 							socket.getInputStream()));
 
 			message = getInput();
-			
+
 			in.close();
 			socket.close();
 			Log.d("Avslutar", "Socket stängd");
@@ -104,6 +110,15 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 					MainView.db.addRow(c);
 					}				
 			}
+			if(messageFromServer.has("MAP_OBJECTS")){
+				Event incomingEvent = new Event((gp = new GeoPoint(messageFromServer.getInt("tempCoordX"),
+						messageFromServer.getInt("tempCoordY"))),
+						messageFromServer.getString("header"),
+						messageFromServer.get("description").toString(), messageFromServer.getString("eventID").toString());
+				MapGUI.mapcontroller.addMapObject(incomingEvent);
+				MainView.db.addRow(incomingEvent);	
+			}
+
 			else if(messageFromServer.has("event")){
 				MainView.tabHost.setCurrentTab(1);
 				Intent splashIntent = new Intent(MainView.context, SplashEvent.class);

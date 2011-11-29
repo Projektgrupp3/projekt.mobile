@@ -17,7 +17,7 @@ public class Sender {
 
 	private static final String COM_IP = "130.236.227.125";
 	private static final int COM_PORT = 4444;
-//	private static final int COM_PORT = 3434;
+	// private static final int COM_PORT = 3434;
 
 	private static PrintWriter pw;
 	private static JSONObject jsonobject;
@@ -63,27 +63,31 @@ public class Sender {
 		pw.println(jsonString);
 
 		closeConnection();
-	}	
-public static void send(Event ev) throws JSONException {
+	}
+
+	public static void send(Event ev) throws JSONException {
 		jsonobject = new JSONObject();
-		Gson gson = new Gson();
-		gson.toJson(ev);
+
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
-		jsonobject.put("req", "event");
+		jsonobject.put("req", "MAP_OBJECTS");
+		jsonobject.put("header", ev.getHeader());
+		jsonobject.put("description", ev.getMessage());
+		jsonobject.put("tempCoordX", ev.getLatE6());
+		jsonobject.put("tempCoordY", ev.getLonE6());
+		jsonobject.put("eventID", ev.getID());
 
 		String jsonString = jsonobject.toString();
 
 		establishConnection();
 
 		pw.println(jsonString);
-		pw.println(gson.toJson(ev));
 
 		closeConnection();
 	}
 
 	public static void send(String user, String pass, String message)
-	throws JSONException {
+			throws JSONException {
 		username = user;
 		password = pass;
 		messageToServer = message;
