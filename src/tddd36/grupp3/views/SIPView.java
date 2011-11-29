@@ -33,6 +33,7 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 	public Cursor cur;
 	private ArrayList<Contact> contactList;
 	private String[] contactNames;
+	private ContactAdapter adapter;
 
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,8 +49,9 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 			index++;
 		}
 
-		ContactAdapter adapter = new ContactAdapter(this.getBaseContext(), R.layout.contactitem ,contactList);
+		adapter = new ContactAdapter(this.getBaseContext(), R.layout.contactitem ,contactList);
 		setListAdapter(adapter);
+		MainView.db.addObserver(this);
 	}
 
 	public void onListItemClick(ListView parent, View v, int position, long id){
@@ -66,9 +68,15 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		parentActivity.startChildActivity("MakeCall", callIntent);
 	}
 
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-
+	public void update(Observable arg0, final Object arg1) {
+		if(arg1 != null && arg1 instanceof Contact){
+			runOnUiThread(new Runnable(){
+				public void run(){
+					contactList.add((Contact)arg1);
+					adapter.notifyDataSetChanged();
+				}
+			});
+		}
 	}
 
 	public boolean onTouch(View arg0, MotionEvent arg1) {
@@ -102,7 +110,7 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 			if (row == null) {
 				// ROW INFLATION
 				LayoutInflater inflater = (LayoutInflater) this.getContext()
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				row = inflater.inflate(R.layout.contactitem, parent, false);
 			}
 

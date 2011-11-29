@@ -20,7 +20,7 @@ import android.util.Log;
 public class ConnectionController extends AsyncTask<Void,Void,Boolean> implements Observer {
 
 
-	private static final String COM_IP = "130.236.226.83";
+	private static final String COM_IP = "130.236.226.47";
 	
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
 

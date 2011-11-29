@@ -10,12 +10,15 @@ import java.util.Iterator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import tddd36.grupp3.database.ClientDatabaseManager;
 import tddd36.grupp3.models.LoginModel;
+import tddd36.grupp3.resources.Contact;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.LoginView;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionView;
+import tddd36.grupp3.views.SIPView;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 	private ConnectionController cc;
 	private JSONObject messageFromServer;
 	private boolean authenticated;
+	private SIPView sip;
 
 	public ConnectionTask(LoginModel lm) {
 		this.loginModel = lm;
@@ -64,7 +68,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 							socket.getInputStream()));
 
 			message = getInput();
-
+			
 			in.close();
 			socket.close();
 			Log.d("Avslutar", "Socket stängd");
@@ -95,6 +99,17 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 					loginModel.executeChange();
 					loginModel.notify(authenticated);
 				}
+			}
+			if(messageFromServer.has("contacts")){
+				String s = (String)messageFromServer.get("contacts");
+				System.out.println("Förfan "+s);
+				String [] list = s.split("/");
+				for(int i = 0; i<list.length; i++){
+					String[] separated = list[i].split(",");
+					Contact c = new Contact(separated[0],separated[1]);
+					MainView.db.addRow(c);
+					
+				}				
 			}
 			else if(messageFromServer.has("event")){
 				try {
