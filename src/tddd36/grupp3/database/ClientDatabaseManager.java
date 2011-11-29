@@ -147,7 +147,7 @@ public class ClientDatabaseManager extends Observable{
 	}
 
 	/**
-	 * Method for deleting a contact with certain name 
+	 * Method for deleting a row
 	 * @param name - name of contact to delete
 	 */
 	public void deleteRow(String str)

@@ -144,5 +144,9 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	}
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
-
+	
+	@Override
+	public void onBackPressed(){
+		finish();
+	}
 }

@@ -36,8 +36,8 @@ import android.widget.Toast;
  *
  */
 
-
 public class SIPView extends ListActivity implements View.OnTouchListener, Observer, OnClickListener{
+
 
 	public Cursor cur;
 	private ArrayList<Contact> contactList;
@@ -52,8 +52,6 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		setContentView(R.layout.contactlist);
 		addContact = (Button)findViewById(R.id.bAddContact);
 		addContact.setOnClickListener(this);
-
-
 
 		contactList = new ArrayList<Contact>();
 		contactList = MainView.db.getAllRowsAsArrayList("contacts");

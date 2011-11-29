@@ -3,6 +3,7 @@ package tddd36.grupp3.views;
 import tddd36.grupp3.R;
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.sip.SipAudioCall;
 import android.net.sip.SipException;
 import android.net.sip.SipProfile;
@@ -22,15 +23,16 @@ public class IncomingCall extends Activity implements OnClickListener{
 	private TextView infobar;
 	private Button answer;
 	private Button decline;
-
+	private MediaPlayer ringTone;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.receiving);
+		setContentView(R.layout.incomming_call);
 		Bundle extras = getIntent().getExtras();
 		intent = (Intent)extras.get("intent"); 
-		infobar = (TextView) findViewById(R.id.textView1);
-		answer = (Button) findViewById(R.id.button1);
-		decline = (Button) findViewById(R.id.button2);
+		infobar = (TextView) findViewById(R.id.tvSetCaller);
+		answer = (Button) findViewById(R.id.bAccept);
+		decline = (Button) findViewById(R.id.bDecline);
 		answer.setOnClickListener(this);
 		decline.setOnClickListener(this); 
 
@@ -40,6 +42,9 @@ public class IncomingCall extends Activity implements OnClickListener{
 				public void onRinging(SipAudioCall call, SipProfile caller) {
 					super.onRinging(call, caller);
 					try {
+						ringTone = MediaPlayer.create(IncomingCall.this, R.raw.warning);
+						ringTone.start();
+				
 						call.answerCall(30);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -50,6 +55,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 				public void onCallEnded(SipAudioCall call) {
 					super.onCallEnded(call);
 					session.endCall();
+					ringTone.release();
 					finish();
 				}
 
