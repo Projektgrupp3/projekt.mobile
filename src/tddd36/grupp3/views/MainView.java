@@ -4,7 +4,7 @@ import java.text.ParseException;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.database.ClientDatabaseManager;
-import tddd36.grupp3.resources.Contact;
+import tddd36.grupp3.resources.Event;
 import android.app.PendingIntent;
 import android.app.TabActivity;
 import android.content.Context;
@@ -143,6 +143,10 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 			//updateStatus("Connection error.");
 		}
 	}
+public void splashEventOnScreen(Event ev){
+	
+}
+	
 /**
  * Method for closing the LocalProfile.
  */
