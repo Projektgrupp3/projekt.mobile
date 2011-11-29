@@ -1,6 +1,7 @@
 package tddd36.grupp3.database;
 
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.regex.Pattern;
 
 import tddd36.grupp3.resources.Contact;
@@ -16,7 +17,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-public class ClientDatabaseManager {
+public class ClientDatabaseManager extends Observable{
 	private SQLiteDatabase db; // a reference to the database manager class.
 	static Context context;
 	private final String DB_NAME = "client_database"; // the name of our database
@@ -102,6 +103,8 @@ public class ClientDatabaseManager {
 			Log.e("DB ERROR", e.toString()); 
 			e.printStackTrace(); 
 		}
+		setChanged();
+		notifyObservers(c);
 	}
 	/**
 	 * Method for updating a specific row in the Contacts 
@@ -180,7 +183,7 @@ public class ClientDatabaseManager {
 		try
 		{
 			cursor = db.query(TABLE_NAME[1], TABLE_MISSION, null, null, null, null, null);
-			cursor.moveToFirst();
+			cursor.moveToLast();
 			if(cursor != null){
 				Gson gson = new Gson();
 				if(cursor.getString(2) != null){

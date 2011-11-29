@@ -34,7 +34,7 @@ public class MapModel extends Observable implements LocationListener{
 	private MapObjectList vehicles,hospital,event;
 	public static final String GPS_FAILED = "Kunde inte hämta GPS-status";
 
-	MapGUI mapgui;
+	static MapGUI mapgui;
 	private LocationManager lm;
 	private Location lastKnownLocation;
 	private Criteria criteria;
@@ -152,7 +152,7 @@ public class MapModel extends Observable implements LocationListener{
 		}
 	}
 	
-	public String getAddress(GeoPoint gp){
+	public static String getAddress(GeoPoint gp){
 		String addressString = "";
 		Geocoder gc = new Geocoder(mapgui.getBaseContext(), Locale.getDefault());
 		try{

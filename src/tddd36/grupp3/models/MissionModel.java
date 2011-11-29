@@ -49,7 +49,7 @@ public class MissionModel extends Observable{
 			setChanged();
 			notifyObservers(ev);
 		}else{
-			Log.d("hejhej","hoho");
+			Log.d("IncomingEvent","Nullpointer på Event i setCurrentMission");
 		}
 	}
 	public GeoPoint getCurrentGeoPoint(){

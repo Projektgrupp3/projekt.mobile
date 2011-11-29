@@ -60,9 +60,8 @@ public class MapObject extends OverlayItem {
 
 	public String getObjectDescription(){
 		return "Objekt: "+getTitle()+"\n"+
-		"Meddelande: "+getMessage()+"\n"+
+		"Beskrivning: "+getMessage()+"\n"+
 		"Latitud: "+getLatE6()+"\n"+
-		"Longitud: "+getLonE6()+"\n"+
-		"Adress: "+ getAddress()+"\n";
+		"Longitud: "+getLonE6()+"\n";
 	}
 }
