@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center" >
-
+
         <Button
             android:id="@+id/button1"
             android:layout_width="match_parent"
@@ -17,7 +17,12 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="102dp"
-            android:text="Avsluta" />
+            android:background="#E62100"
+            android:textColorHighlight="#000"
+            android:padding="25dp"
+            android:text="Avsluta"
+            android:textSize="25dp"
+            android:textColor="#FFF" />
 
         <TextView
             android:id="@+id/textView1"
@@ -28,9 +33,9 @@
             android:layout_marginTop="110dp"
             android:editable="true"
             android:singleLine="true"
+            android:textSize="40dp"
             android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
     </RelativeLayout>
 
 </LinearLayout>
