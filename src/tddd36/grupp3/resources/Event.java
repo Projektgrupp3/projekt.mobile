@@ -11,29 +11,6 @@ import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.views.MapGUI;
 
 public class Event extends MapObject{
-	private String injuried;
-	private String time;
-
-
-	public String getInjuried(){
-		return injuried;
-	}
-
-	public String getTime(){
-		return time;
-	}
-
-	@Override
-	public String getObjectDescription(){
-		String objectDesc = super.getObjectDescription();
-		return objectDesc+"Tid: "+time;
-	}
-
-	// KODEN OVAN ÄR EMILS DUMMYKOD
-	//
-	//
-	//
-	//
 
 	private String eventID;
 	private String accidentType;
@@ -41,7 +18,7 @@ public class Event extends MapObject{
 	private String coordinateY;
 	private int numberOfInjured;
 	private String priority; 
-	private String adress;
+	private String address;
 	private String typeOfInjury;
 	private int unitID;
 	private String description;
@@ -59,7 +36,7 @@ public class Event extends MapObject{
 		this.coordinateX = event.getString("tempCoordX"); // lat
 		this.coordinateY = event.getString("tempCoordY"); // long
 		this.priority = event.getString("priority");
-		this.adress = MapModel.getAddress(gp);
+		this.address = MapModel.getAddress(gp);
 		this.typeOfInjury = event.getString("typeOfInjury");
 		this.eventID = event.getString("event");
 		this.unitID = event.getInt("unitID");
@@ -73,7 +50,7 @@ public class Event extends MapObject{
 		Log.d("JSON", coordinateX);
 		Log.d("JSON", coordinateY);
 		Log.d("JSON", priority);
-//		Log.d("JSON", adress);
+//		Log.d("JSON", address);
 		Log.d("JSON", typeOfInjury);
 		Log.d("JSON", ""+unitID);
 
@@ -86,7 +63,7 @@ public class Event extends MapObject{
 		this.numberOfInjured = numberOfInjuried;
 		this.accidentType = accidentType;
 		this.priority = priority;
-		this.adress = MapModel.getAddress(gp);
+		this.address = MapModel.getAddress(gp);
 		this.typeOfInjury = typeOfInjury;
 		this.eventID = eventID;
 		this.unitID = unitID;
@@ -130,12 +107,11 @@ public class Event extends MapObject{
 		this.priority = priority;
 	}
 
-	public void setAddress(String adress) {
-		this.adress = adress;
+	public void setAdress(String address) {
+		this.address = address;
 	}
-	
 	public String getAddress(){
-		return this.adress;
+		return this.address;
 	}
 
 	public String getTypeOfInjury() {
@@ -171,5 +147,17 @@ public class Event extends MapObject{
 
 	public String processInput(String typeOfAccident) {
 		return typeOfAccident;
+	}
+	
+	@Override
+	public String getObjectDescription(){
+		String objectDesc = super.getObjectDescription();
+		return objectDesc + 
+		"ID: "+eventID +"\n"+
+		"Prioritet: "+priority +"\n"+
+		"Adress: " +address + "\n"+
+		"Antal skadade: " + numberOfInjured+ "\n"+
+		"Typ av skador: " + typeOfInjury + "\n"+
+		"Tilldelad enhet: "+unitID;
 	}
 }
