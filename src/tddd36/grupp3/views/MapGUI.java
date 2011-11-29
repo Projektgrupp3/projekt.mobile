@@ -8,7 +8,10 @@ import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.json.JSONException;
+
 import tddd36.grupp3.R;
+import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MapObjectList;
@@ -61,10 +64,10 @@ public class MapGUI extends MapActivity implements Observer {
 	public static com.google.android.maps.MapController controller;
 	AlertDialog eventinfo,logout; 
 	Geocoder geocoder;
-/**
- * onCreate for MapGUI 
- * Sets up the MapView and intiates MapController.
- */
+	/**
+	 * onCreate for MapGUI 
+	 * Sets up the MapView and intiates MapController.
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,10 +92,10 @@ public class MapGUI extends MapActivity implements Observer {
 
 		//controller.animateTo(mapcontroller.fireCurrentLocation());
 	}
-/**
- * Called by Observable MapModel. Adds map objects to the overlaylist and
- * to correct mapobjectlist, also animates to geopoints.
- */
+	/**
+	 * Called by Observable MapModel. Adds map objects to the overlaylist and
+	 * to correct mapobjectlist, also animates to geopoints.
+	 */
 	public void update(Observable observable, Object data) {
 
 		if(data instanceof MapObjectList){
@@ -107,7 +110,7 @@ public class MapGUI extends MapActivity implements Observer {
 		}else if(data instanceof MapObject[]){
 			for(MapObject o: (MapObject[]) data){
 				if(o != null){
-				mapcontroller.addMapObject(o);
+					mapcontroller.addMapObject(o);
 				}
 			}
 		}
@@ -123,18 +126,18 @@ public class MapGUI extends MapActivity implements Observer {
 		super.onPause();
 		mapcontroller.getLocationManager().removeUpdates(mapcontroller.getMapModel());		
 	}
-/**
- * Called when application is resumed
- * Enables compass and enables LocationManager setting the update variables as follows:
- * Update every 30000 sec = 5 min or 5000 meters = 5 kilometers
- */
+	/**
+	 * Called when application is resumed
+	 * Enables compass and enables LocationManager setting the update variables as follows:
+	 * Update every 30000 sec = 5 min or 5000 meters = 5 kilometers
+	 */
 	@Override
 	protected void onResume() {
 		compass.enableCompass();
 		super.onResume();
 		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
 	}
-	
+
 	/**
 	 * Called when hardware "menu-button" is pressed.
 	 * Inflates the mainmenu
@@ -145,9 +148,9 @@ public class MapGUI extends MapActivity implements Observer {
 		inflater.inflate(R.menu.mainmenu, menu);
 		return true;
 	}
-/**
- * Called when an item is selected in the options menu
- */
+	/**
+	 * Called when an item is selected in the options menu
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -187,9 +190,9 @@ public class MapGUI extends MapActivity implements Observer {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-/**
- * Default dummy-method for Google Maps, does nothing.
- */
+	/**
+	 * Default dummy-method for Google Maps, does nothing.
+	 */
 	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
@@ -227,31 +230,36 @@ public class MapGUI extends MapActivity implements Observer {
 					alert.setButton("Placera en markör", new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int which) {
-							builder.setTitle("Välj ett objekt:");
-							builder.setItems(points, new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int which) {
-									switch(which){
-									case 0: 
-										mapcontroller.addMapObject(new Vehicle(touchedPoint,"Ambulans", "Här kommer ambulansen", 2));
-										return;
-									case 1:
-										mapcontroller.addMapObject(new Hospital(touchedPoint,"Sjukhus", "Här är ett sjukhus", 20));
-										return;
-									case 2:
-										o = new Event(touchedPoint,2,"Trafikolycka",
-												"RÖD", "Skallskador", 
-												new SimpleDateFormat("yyMMddHHmmss").format(new Date()),
-												1, "Större trafikolycka i Valla, flera döda.");;
-										mapcontroller.addMapObject(o);
-										MissionTabView.mc.setCurrentMission(o);
-										MainView.tabHost.setCurrentTab(1);
-										MissionTabView.tabHost.setCurrentTab(0);
-										return;
-									}								
-								}
-							});
-							builder.show();					
+							//							builder.setTitle("Välj ett objekt:");
+							//							builder.setItems(points, new DialogInterface.OnClickListener() {
+							//								public void onClick(DialogInterface dialog,
+							//										int which) {
+							//									switch(which){
+							//									case 0: 
+							//										mapcontroller.addMapObject(new Vehicle(touchedPoint,"Ambulans", "Här kommer ambulansen", 2));
+							//										return;
+							//									case 1:
+							//										mapcontroller.addMapObject(new Hospital(touchedPoint,"Sjukhus", "Här är ett sjukhus", 20));
+							//										return;
+							//									case 2:
+							//										o = new Event(touchedPoint,2,"Trafikolycka",
+							//												"RÖD", "Skallskador", 
+							//												new SimpleDateFormat("yyMMddHHmmss").format(new Date()),
+							//												1, "Större trafikolycka i Valla, flera döda.");;
+							//										mapcontroller.addMapObject(o);
+							//										MissionTabView.mc.setCurrentMission(o);
+							//										MainView.tabHost.setCurrentTab(1);
+							//										MissionTabView.tabHost.setCurrentTab(0);
+							//										return;
+							//									}								
+							//								}
+							//							});
+							//							builder.show();	
+							try {
+								Sender.send(new Event(touchedPoint,"Test", "Beskrivning"));
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
 						}
 					});
 					alert.setButton3("Hämta adress", new DialogInterface.OnClickListener() {

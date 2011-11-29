@@ -8,9 +8,13 @@ import java.net.Socket;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.maps.GeoPoint;
+
+import tddd36.grupp3.R;
 import tddd36.grupp3.models.LoginModel;
 import tddd36.grupp3.resources.Contact;
 import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.resources.ObjectType;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionTabView;
@@ -27,6 +31,8 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 	private JSONObject messageFromServer;
 	private boolean authenticated;
 	private SIPView sip;
+
+	private static GeoPoint gp;
 
 	public ConnectionTask(LoginModel lm) {
 		this.loginModel = lm;
@@ -61,7 +67,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 							socket.getInputStream()));
 
 			message = getInput();
-			
+
 			in.close();
 			socket.close();
 			Log.d("Avslutar", "Socket stängd");
@@ -101,9 +107,19 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 					String[] separated = list[i].split(",");
 					Contact c = new Contact(separated[0],separated[1]);
 					MainView.db.addRow(c);
-					
+
 				}				
 			}
+			if(messageFromServer.has("MAP_OBJECTS")){
+				Log.d("Här vare et event","HAHHA");
+				Event incomingEvent = new Event((gp = new GeoPoint(messageFromServer.getInt("tempCoordX"),
+						messageFromServer.getInt("tempCoordY"))),
+						messageFromServer.getString("header"),
+						messageFromServer.get("description").toString());
+				MapGUI.mapcontroller.addMapObject(incomingEvent);
+				MainView.db.addRow(incomingEvent);	
+			}
+
 			else if(messageFromServer.has("event")){
 				try {
 					Event incomingEvent = new Event(messageFromServer);

@@ -3,12 +3,11 @@ package tddd36.grupp3.resources;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import tddd36.grupp3.R;
+import tddd36.grupp3.models.MapModel;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
-import tddd36.grupp3.R;
-import tddd36.grupp3.models.MapModel;
-import tddd36.grupp3.views.MapGUI;
 
 public class Event extends MapObject{
 
@@ -23,6 +22,20 @@ public class Event extends MapObject{
 	private int unitID;
 	private String description;
 	private static GeoPoint gp;
+
+	/**
+	 * Konstruktor för att lägga til ett "map-event" såsom ett nedfallet träd.
+	 * @param gp - Geografiska punkten för händelsen
+	 * @param header - Händelsens rubrik
+	 * @param description - Händelsens fritext beskrivning
+	 * @throws JSONException
+	 */
+	public Event(GeoPoint gp, String header, String message) throws JSONException{
+		super(gp, header, message, R.drawable.event_icon, ObjectType.EVENT);
+		
+		Log.d("JSON", header);
+		Log.d("JSON", message);
+	}
 
 	public Event(JSONObject event) throws JSONException{
 		super((gp = new GeoPoint(event.getInt("tempCoordX"),
@@ -50,16 +63,16 @@ public class Event extends MapObject{
 		Log.d("JSON", coordinateX);
 		Log.d("JSON", coordinateY);
 		Log.d("JSON", priority);
-//		Log.d("JSON", address);
+		//		Log.d("JSON", address);
 		Log.d("JSON", typeOfInjury);
 		Log.d("JSON", ""+unitID);
 
 	}
-	
+
 	public Event(GeoPoint gp, int numberOfInjuried, String accidentType, String priority, 
 			String typeOfInjury, String eventID, int unitID, String description){
 		super(gp, accidentType, description, R.drawable.event_icon, ObjectType.EVENT);
-		
+
 		this.numberOfInjured = numberOfInjuried;
 		this.accidentType = accidentType;
 		this.priority = priority;
@@ -148,7 +161,7 @@ public class Event extends MapObject{
 	public String processInput(String typeOfAccident) {
 		return typeOfAccident;
 	}
-	
+
 	@Override
 	public String getObjectDescription(){
 		String objectDesc = super.getObjectDescription();
