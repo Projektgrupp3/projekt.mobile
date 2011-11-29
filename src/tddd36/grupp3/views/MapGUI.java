@@ -110,6 +110,8 @@ public class MapGUI extends MapActivity implements Observer {
 				mapcontroller.addMapObject(o);
 				}
 			}
+		}else if(data == null){
+			Toast.makeText(getBaseContext(), "Ett fel uppstod vid \n tilläggning av objekt.", Toast.LENGTH_SHORT).show();
 		}
 		map.postInvalidate();
 	}

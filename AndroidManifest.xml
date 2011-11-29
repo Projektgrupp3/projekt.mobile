@@ -33,13 +33,23 @@
 
         <activity
             android:label="@string/app_name"
-            android:name="tddd36.grupp3.views.MainView"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:name="tddd36.grupp3.views.LoginView"
+            android:screenOrientation="portrait" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name="tddd36.grupp3.views.MainView"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            <intent-filter >
+                <action android:name="tddd36.grupp3.views.MAINVIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -140,7 +150,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-                <activity
+        <activity
             android:label="@string/app_name"
             android:name="tddd36.grupp3.views.MissionGroupActivity" >
             <intent-filter >
@@ -162,7 +172,16 @@
             android:label="@string/app_name"
             android:name="tddd36.grupp3.reports.WindowReportActivity" >
             <intent-filter >
-                <action android:name="tddd36.rapport.WINDOWREPORTACTIVITY" />
+                <action android:name="tddd36.grupp3.rapport.WINDOWREPORTACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name="tddd36.grupp3.misc.SplashEvent" >
+            <intent-filter >
+                <action android:name="tddd36.grupp3.misc.SPLASHEVENT" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

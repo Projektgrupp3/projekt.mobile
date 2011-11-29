@@ -1,5 +1,6 @@
 package tddd36.grupp3.views;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -9,6 +10,7 @@ import com.google.android.maps.GeoPoint;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.MissionController;
+import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.reports.VerificationReportActivity;
 import tddd36.grupp3.reports.WindowReportActivity;
 import tddd36.grupp3.resources.Event;
@@ -133,7 +135,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		if(data instanceof String[]){
 			updateMissionView((String[]) data);
 		}else if(data instanceof Event){
-			updateMissionView((Event) data);
+			updateMissionView((Event) data);			
 		}
 	}
 	public void updateMissionView(String[] missiontext){
@@ -222,7 +224,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
+	
 	public void onBackPressed(){
 
 	}

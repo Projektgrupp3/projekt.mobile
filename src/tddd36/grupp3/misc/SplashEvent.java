@@ -1,60 +1,107 @@
 package tddd36.grupp3.misc;
 
+import java.lang.ref.WeakReference;
+import java.util.Observable;
+import java.util.Observer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import tddd36.grupp3.R;
 import tddd36.grupp3.resources.Event;
-import android.app.AlertDialog;
-import android.content.Context;
+import tddd36.grupp3.views.MainView;
+import tddd36.grupp3.views.MapGUI;
+import tddd36.grupp3.views.MissionGroupActivity;
+import tddd36.grupp3.views.MissionTabView;
+import tddd36.grupp3.views.TabGroupActivity;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.view.View;
-import android.content.DialogInterface.OnClickListener;
+import android.view.View.OnClickListener;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class SplashEvent extends Thread implements OnClickListener {
-	private Context c;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
+public class SplashEvent extends Activity implements OnClickListener, Observer {
+	private WeakReference<MainView> ctx;
+	
+	private CountDown cd;
+	private String JSONString;
+	private String countDownValue;
+	
 	private Event ev;
-	private int countdown;
-	private boolean isRunning;
 
-	private AlertDialog.Builder builder;
-	private AlertDialog alertForEvent;
+	private Button acceptmission, rejectmission;
+	private TextView timelefttv;
+	
 
-	public SplashEvent(Context c, Event ev){
-		this.ev = ev;
-		this.c = c;
-		countdown = 900000; //90 sekunder
-	}
-	public void run() {
-		startRunning();
-		builder = new AlertDialog.Builder(c);
-		alertForEvent = builder.create();
-		alertForEvent.setTitle("Inkommande larm!");
-		alertForEvent.setMessage("Du har: "+countdown+ " sekunder på dig att svara.");
-		builder.setPositiveButton("Kvittera", this);
-		builder.setNegativeButton("Neka", this);
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.incomingevent);		
+		
+		Gson gson = new Gson();
+		
+		JSONString = (String) getIntent().getExtras().get("json");
+			
 		try {
-			while(countdown>0 && isRunning){
-				alertForEvent.setMessage("Du har: "+countdown+ " sekunder på dig att svara.");
-				sleep(1000);
-				countdown -= 1000;
-			}
-			stopRunning();
-		} catch (InterruptedException e) {
+			JSONObject json = new JSONObject(JSONString);
+			ev = new Event(json);
+			Toast.makeText(getBaseContext(), "julkorv", Toast.LENGTH_SHORT).show();
+		} catch (JsonSyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	public void stopRunning(){
-		isRunning = false;
-	}
-	public void startRunning(){
-		isRunning = true;
-	}
+		
+		cd = new CountDown();
+		
+		acceptmission = (Button)findViewById(R.id.acceptbtn);
+		acceptmission.setOnClickListener(this);
+		rejectmission = (Button)findViewById(R.id.rejectbtn);
+		rejectmission.setOnClickListener(this);
+		timelefttv = (TextView)findViewById(R.id.incevent2);
+		cd.addObserver(this);
+		new Thread(cd).start();
+	}	
+
 
 	public void onClick(DialogInterface dialog, int which) {
-		switch(which){
-		case 0: stopRunning();
-			return;
-		case 1: 
-			return;
-		}
+	
+	}
+	public void update(Observable observable, Object data) {
+		countDownValue = (String) data;
+		runOnUiThread(new Runnable(){
+			public void run() {
+				timelefttv.setText(countDownValue);
+			}			
+		});
 	}
 
+
+	public void onClick(View v) {
+		TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
+		if(v == acceptmission){
+			if(ev == null){
+				Toast.makeText(getBaseContext(), "snipp", Toast.LENGTH_SHORT).show();
+			}else {
+				Toast.makeText(getBaseContext(), "snapp", Toast.LENGTH_SHORT).show();
+
+				MapGUI.mapcontroller.addMapObject(ev);
+				MissionTabView.mc.setCurrentMission(ev);
+				MainView.db.addRow(ev);
+			}
+
+			parentActivity.onBackPressed();
+		}else if(v == rejectmission){
+			MainView.db.deleteRow(ev.getID());
+			parentActivity.onBackPressed();
+		}		
+	}
 }
