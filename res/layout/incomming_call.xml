@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Inkommande samtal"
+        android:textSize="30dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/tvSetCaller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Vem ringer?" />
+
+        <Button
+            android:id="@+id/bDecline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvSetCaller"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="46dp"
+            android:background="#000"
+            android:drawableRight="@drawable/phone_decline_icon" />
+
+        <Button
+            android:id="@+id/bAccept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/bDecline"
+            android:layout_alignBottom="@+id/bDecline"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="28dp"
+            android:background="#000"
+            android:drawableRight="@drawable/phone_accept_icon"
+            android:textColor="#cdc9c9" />
+
+    </RelativeLayout>
+
+</LinearLayout>

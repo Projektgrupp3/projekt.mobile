@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/status"
+        android:title="@string/status">
+<menu >
+
+            <item
+                android:id="@+id/recieved"
+                android:title="Kvitterat"
+                android:checkable="true"/>
+
+            <item
+                android:id="@+id/there"
+                android:title="Framme"
+                android:checkable="true"/>
+
+            <item
+                android:id="@+id/loaded"
+                android:title="Lastat"
+                android:checkable="true"/>
+
+            <item
+                android:id="@+id/depart"
+                android:title="Lämnar"
+                android:checkable="true"/>
+
+            <item
+                android:id="@+id/home"
+                android:title="Hemåt"
+                android:checkable="true"/>
+        </menu></item>
+
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"></item>
+
+    <item
+        android:id="@+id/logout"
+        android:title="Logga ut"></item>
+    <item android:id="@+id/addContact" android:title="Ny kontakt"></item>
+
+</menu>

@@ -25,12 +25,12 @@ public class IncomingCall extends Activity implements OnClickListener{
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.receiving);
+		setContentView(R.layout.incomming_call);
 		Bundle extras = getIntent().getExtras();
 		intent = (Intent)extras.get("intent"); 
-		infobar = (TextView) findViewById(R.id.textView1);
-		answer = (Button) findViewById(R.id.button1);
-		decline = (Button) findViewById(R.id.button2);
+		infobar = (TextView) findViewById(R.id.tvSetCaller);
+		answer = (Button) findViewById(R.id.bAccept);
+		decline = (Button) findViewById(R.id.bDecline);
 		answer.setOnClickListener(this);
 		decline.setOnClickListener(this); 
 
