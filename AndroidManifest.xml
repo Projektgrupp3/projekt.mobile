@@ -35,7 +35,7 @@
             android:label="@string/app_name"
             android:name="tddd36.grupp3.views.MainView"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter >
                 <action android:name="tddd36.grupp3.views.MAINVIEW" />
 
@@ -46,14 +46,15 @@
             android:label="@string/app_name"
             android:name="tddd36.grupp3.views.MissionTabView"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter >
                 <action android:name="tddd36.grupp3.views.MISSIONTABVIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
+       
+            <activity
             android:label="@string/app_name"
             android:name="tddd36.grupp3.views.MissionView"
             android:screenOrientation="portrait" >
@@ -63,9 +64,31 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        
+            <activity
+            android:label="@string/app_name"
+            android:name="tddd36.grupp3.views.AddContactView"
+            android:screenOrientation="portrait" >
+            <intent-filter >
+                <action android:name="tddd36.grupp3.views.ADDCONTACTVIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+          
         <activity
             android:label="@string/app_name"
-            android:name="tddd36.grupp3.views.LoginView"
+            android:name=".views.MissionView"
+            android:screenOrientation="portrait" >
+            <intent-filter >
+                <action android:name="tddd36.grupp3.views.MISSIONVIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name="tddd36.grupp3.views.MainView"
             android:screenOrientation="portrait" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />

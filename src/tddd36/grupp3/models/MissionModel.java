@@ -7,138 +7,108 @@ import tddd36.grupp3.controllers.MissionController;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
-import tddd36.grupp3.views.MissionView;
-
+import tddd36.grupp3.views.MissionTabView;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 
 public class MissionModel extends Observable{
 
-	private GeoPoint gp;
-	private String eventID;
-	private String priority; 
-	private String accidentType;
-	private String adress;
-	private String numberOfInjured;
-	private String typeOfInjury;
-	private String description;
+	private Event currentEvent;
 
 	ArrayList<Event> currentMissionFromDB;
 
-	private MissionView mv;
+	private MissionTabView mv;
 	private MissionController mc;
 
-	public MissionModel(MissionView mv, MissionController mc) {
+	public MissionModel(MissionTabView mv, MissionController mc) {
 		this.mv = mv;
 		this.mc = mc;
 
 		addObserver(mv);	
 		addObserver(mc);
 		
-//		getCurrentMissionFromDB();
+		getCurrentMissionFromDB();
 	}
 
 	@SuppressWarnings("unchecked")
 	private void getCurrentMissionFromDB() {
-		try{
-		setCurrentMission(MainView.db.getCurrentEvent());	
-		} catch(NullPointerException e){
-			
+		ArrayList<Event> events = MainView.db.getAllRowsAsArrayList("mission");
+		if(events.size() > 1){
+		if(events.get(0) != null){
+			setCurrentMission(events.get(0));
+		}else{
+			Log.d("hej","hå");
+		}
 		}
 	}
 
 	public void setCurrentMission(Event ev){
 		if(ev != null){
-			gp = ev.getPoint();
-
-			eventID = ev.getID();
-			priority = ev.getPriority();
-			accidentType = ev.getAccidentType();
-			adress = MapGUI.mapcontroller.getMapModel().getAddress(gp);
-			numberOfInjured = ""+ev.getNumberOfInjured();
-			typeOfInjury = ev.getTypeOfInjury();
-			description = ev.getDescription();
-
-			String[] currentmission = {eventID, priority,accidentType,adress,numberOfInjured,typeOfInjury,description};
-
+			currentEvent = ev;
 			setChanged();
-			notifyObservers(currentmission);
+			notifyObservers(ev);
+		}else{
+			Log.d("IncomingEvent","Nullpointer på Event i setCurrentMission");
 		}
 	}
 	public GeoPoint getCurrentGeoPoint(){
-		return gp;
+		return this.currentEvent.getGeoPoint();
 	}
 
 	public String getEventID() {
-		return eventID;
+		return this.currentEvent.getID();
 	}
 
 	public void setEventID(String eventID) {
-		this.eventID = eventID;
+		this.currentEvent.setID(eventID);
 	}
 
 	public String getAccidentType() {
-		return accidentType;
+		return currentEvent.getAccidentType();
 	}
 
 	public void setAccidentType(String accidentType) {
-		this.accidentType = accidentType;
+		this.currentEvent.setAccidentType(accidentType);
 	}
 
-	public String getNumberOfInjured() {
-		return numberOfInjured;
+	public int getNumberOfInjured() {
+		return this.currentEvent.getNumberOfInjured();
 	}
 
-	public void setNumberOfInjured(String numberOfInjured) {
-		this.numberOfInjured = numberOfInjured;
+	public void setNumberOfInjured(int numberOfInjured) {
+		this.currentEvent.setNumberOfInjured(numberOfInjured);
 	}
 
 	public String getPriority() {
-		return priority;
+		return currentEvent.getPriority();
 	}
 
 	public void setPriority(String priority) {
-		this.priority = priority;
+		this.currentEvent.setPriority(priority);
 	}
 
 	public String getAdress() {
-		return adress;
+		return this.currentEvent.getAddress();
 	}
 
 	public void setAdress(String adress) {
-		this.adress = adress;
+		this.currentEvent.setAdress(adress);
 	}
 
 	public String getTypeOfInjury() {
-		return typeOfInjury;
+		return this.currentEvent.getTypeOfInjury();
 	}
 
 	public void setTypeOfInjury(String typeOfInjury) {
-		this.typeOfInjury = typeOfInjury;
+		this.currentEvent.setTypeOfInjury(typeOfInjury);
 	}
 
 	public String getDescription() {
-		return description;
+		return this.currentEvent.getDescription();
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public MissionView getMv() {
-		return mv;
-	}
-
-	public void setMv(MissionView mv) {
-		this.mv = mv;
-	}
-
-	public MissionController getMc() {
-		return mc;
-	}
-
-	public void setMc(MissionController mc) {
-		this.mc = mc;
+		this.currentEvent.setDescription(description);
 	}
 }

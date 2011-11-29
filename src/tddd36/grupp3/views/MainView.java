@@ -1,11 +1,10 @@
 package tddd36.grupp3.views;
 
 import java.text.ParseException;
+
 import tddd36.grupp3.R;
 import tddd36.grupp3.database.ClientDatabaseManager;
 import tddd36.grupp3.resources.Contact;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.TabActivity;
 import android.content.Context;
@@ -19,8 +18,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
-import com.google.android.maps.GeoPoint;
-
+/**
+ * TabActivity for showing the Tab-structure of application. 
+ * Also contains some support calls for intializing the SIP-part of the
+ * application and the Profile, Manager and CallReciever.
+ * @author Projektgrupp 3 - Sjukvården
+ *
+ */
 public class MainView extends TabActivity implements OnTabChangeListener{
 	public static TabHost tabHost;
 	TabHost.TabSpec spec;	
@@ -32,7 +36,11 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public static SipManager manager = null;
 	public static SipProfile me = null;
 	public IncomingCallReceiver callReceiver;
-
+/**
+ * OnCreate-method setting up the tab structure via the static TabHost. 
+ * Also intializes the SQLite database containing map objects, the users current mission and
+ * contacts.
+ */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,12 +54,12 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		this.registerReceiver(callReceiver, filter);
 		initializeManager();
 
-		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
+		//this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
-		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
-		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
+//		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
+//		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
 //		db.addRow(new Contact("Enhet 3", "enhet3@ekiga.net"));
-		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
+//		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
 
 		res = getResources(); // Resource object to get Drawables
 		tabHost = getTabHost();  // The activity TabHost
@@ -82,14 +90,16 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);
 	}
-
+/**
+ * Dummy-method, does not actually do anything at the moment.
+ */
 	public void onTabChanged(String arg0) {
-		Activity MyActivity = this.getCurrentActivity();
-		if(MyActivity instanceof MissionView){
-
-		}
+		
 	}
-
+/**
+ * Called when some instance calls getParent().finish(). 
+ * Closes the LocalProfile for SIP and closes the database.
+ */
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
@@ -97,14 +107,18 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		closeLocalProfile();
 		db.close();
 	}
-
+/**
+ * Method for initializing the SipManager and calls for a new LocalProfile
+ */
 	public void initializeManager() {
 		if(manager == null) {
 			manager = SipManager.newInstance(this);
 		}
 		initializeLocalProfile();
 	}
-
+/**
+ * Method for initializing the SIP LocalProfile.
+ */
 	public void initializeLocalProfile() {
 		if (manager == null) {
 			return;
@@ -129,7 +143,9 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 			//updateStatus("Connection error.");
 		}
 	}
-
+/**
+ * Method for closing the LocalProfile.
+ */
 	public void closeLocalProfile() {
 		if (manager == null) {
 			return;

@@ -7,7 +7,6 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.resources.Contact;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -21,25 +20,41 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * The SIPView tab. Contains the list of contacts and the methods needed for setting up a new call 
+ * when a contact item is pressed. 
+ * @author Projektgrupp 3 - Sjukvården
+ *
+ */
 
-public class SIPView extends ListActivity implements View.OnTouchListener, Observer{
+
+public class SIPView extends ListActivity implements View.OnTouchListener, Observer, OnClickListener{
 
 	public Cursor cur;
 	private ArrayList<Contact> contactList;
 	private String[] contactNames;
 	private ContactAdapter adapter;
+	private Button addContact;
 
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.contactlist);
+		addContact = (Button)findViewById(R.id.bAddContact);
+		addContact.setOnClickListener(this);
+
+
+
 		contactList = new ArrayList<Contact>();
 		contactList = MainView.db.getAllRowsAsArrayList("contacts");
 		contactNames = new String[contactList.size()];
@@ -53,15 +68,12 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		setListAdapter(adapter);
 		MainView.db.addObserver(this);
 	}
-
+	/**
+	 * Method invoked when a list item is clicked. Starts a child activity for the SIPTabGroup.java
+	 * so that when the call is ended, the user is taken back to the listactivity itself. 
+	 */
 	public void onListItemClick(ListView parent, View v, int position, long id){
 		String[] contact = contactNames[position].split(" @ ",2);
-		Toast.makeText(getBaseContext(), "Name: "+ contact[0]+"\nAddress: "+contact[1], Toast.LENGTH_SHORT).show();
-		//	Gson gson = new Gson();
-		//		Intent callIntent = new Intent(getBaseContext(), MakeCall.class);
-
-		//		startActivity(callIntent);
-
 		Intent callIntent = new Intent(getParent(), MakeCall.class);
 		TabGroupActivity parentActivity = (TabGroupActivity)getParent();
 		callIntent.putExtra("info", contact);
@@ -79,11 +91,19 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		}
 	}
 
+	/**
+	 * Dummy-method. 
+	 */
 	public boolean onTouch(View arg0, MotionEvent arg1) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	/**
+	 * Anonymous inner class for setting up a list of contacts and the structure of
+	 * a contact item within the list itself.
+	 * @author Projektgrupp 3 - Sjukvården
+	 *
+	 */
 	public class ContactAdapter extends ArrayAdapter<Contact>{
 		private Context context;
 		private TextView contactName;
@@ -104,7 +124,9 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		public Contact getItem(int index) {
 			return this.contacts.get(index);
 		}
-
+		/**
+		 * Automatically called by the list activity when populating the list with contacts.
+		 */
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View row = convertView;
 			if (row == null) {
@@ -132,7 +154,8 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		}
 	}
 	/**
-	 * Kallas på när hårdvaru-meny-knappen trycks in
+	 * Called when hardware "menu-button" is pressed.
+	 * Inflates the mainmenu
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -140,7 +163,9 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		inflater.inflate(R.menu.mainmenu, menu);
 		return true;
 	}
-
+	/**
+	 * Called when an item is selected in the options menu
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -151,27 +176,37 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		case R.id.status:
 			//noop
 			return true;
+
 		case R.id.logout:
-			final AlertDialog logout = new AlertDialog.Builder(SIPView.this).create();
-			logout.setMessage("Är du säker på att du vill avsluta?");
-			logout.setButton("Ja", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which){
-					finish();
-				}
-			});
-			logout.setButton2("Nej", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					logout.dismiss();					
-				}
-			});	
-			logout.show();
+			getParent().onBackPressed();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	/**
+	 * 
+	 */
 	public void onBackPressed(){
 		getParent().onBackPressed();
 	}
 
+	public void onClick(View v) {
+
+
+		Intent saveContactIntent = new Intent(getParent(), AddContactView.class);
+		TabGroupActivity parentActivity = (TabGroupActivity)getParent();
+		parentActivity.startChildActivity("SaveContact", saveContactIntent);
+
+		//		case R.id.bImage:
+		//			
+		//			Intent saveContactI = new Intent(getParent(), AddContactView.class);
+		//			TabGroupActivity parentActivit = (TabGroupActivity)getParent();
+		//			parentActivit.startChildActivity("SaveContact", saveContactI);
+		//			break;
+
+
+	}
 }
+
+

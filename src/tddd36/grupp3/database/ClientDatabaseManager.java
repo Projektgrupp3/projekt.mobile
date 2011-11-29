@@ -26,7 +26,7 @@ public class ClientDatabaseManager extends Observable{
 	// the names for our database columns
 	private final String[] TABLE_NAME = {"map","mission","contacts"};
 	private final String[] TABLE_MAP = {"type","mapobject"};
-	private final String[] TABLE_MISSION = {"ID","event"};
+	private final String[] TABLE_MISSION = {"type","ID","event"};
 	private final String[] TABLE_CONTACT = {"name","address"};
 
 	public ClientDatabaseManager(Context context){
@@ -69,8 +69,9 @@ public class ClientDatabaseManager extends Observable{
 		ContentValues values = new ContentValues();
 		Gson gson = new Gson();
 
-		values.put(TABLE_MISSION[0], ev.getID());
-		values.put(TABLE_MISSION[0], gson.toJson(ev));
+		values.put(TABLE_MISSION[0], ev.getClass().getName());
+		values.put(TABLE_MISSION[1], ev.getID());
+		values.put(TABLE_MISSION[2], gson.toJson(ev));
 
 		try
 		{
@@ -127,16 +128,15 @@ public class ClientDatabaseManager extends Observable{
 
 	/**
 	 * Method for updating current event 
-	 * @param c - Contact to update
-	 * @param name - New name
-	 * @param sipaddress - New SIP-address
+	 * @param Event
 	 */
 	public void updateRow(Event ev)
 	{
 		Gson gson = new Gson();
 		ContentValues values = new ContentValues();
-		values.put(TABLE_MISSION[0], ev.getID());
-		values.put(TABLE_CONTACT[1], gson.toJson(ev));
+		values.put(TABLE_MISSION[0], ev.getClass().getName());
+		values.put(TABLE_MISSION[1], ev.getID());
+		values.put(TABLE_MISSION[2], gson.toJson(ev));
 
 		try {db.update(TABLE_NAME[1], values, TABLE_MISSION[0] + " = '" + ev.getID()+"'", null);}
 		catch (Exception e)
@@ -183,10 +183,10 @@ public class ClientDatabaseManager extends Observable{
 		try
 		{
 			cursor = db.query(TABLE_NAME[1], TABLE_MISSION, null, null, null, null, null);
-			cursor.moveToFirst();
+			cursor.moveToLast();
 			if(cursor != null){
 				Gson gson = new Gson();
-				if(cursor.getString(1) != null){
+				if(cursor.getString(2) != null){
 				return gson.fromJson(cursor.getString(1), Event.class);
 				}
 			}
@@ -196,7 +196,6 @@ public class ClientDatabaseManager extends Observable{
 
 		}
 		return null;
-//		return null;
 	}
 	/**********************************************************************
 	 * RETRIEVING ALL ROWS FROM THE DATABASE TABLE
@@ -273,7 +272,7 @@ public class ClientDatabaseManager extends Observable{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						dataList.add(gson.fromJson(cursor.getString(1), c));
+						dataList.add(gson.fromJson(cursor.getString(2), c));
 					}
 					// move the cursor's pointer up one position.
 					while (cursor.moveToNext());
@@ -342,7 +341,8 @@ public class ClientDatabaseManager extends Observable{
 				TABLE_NAME[1] +
 				" (" +
 				TABLE_MISSION[0] + " TEXT," +
-				TABLE_MISSION[1] + " TEXT" +
+				TABLE_MISSION[1] + " TEXT," +
+				TABLE_MISSION[2] + " TEXT" +
 				");";
 			String contactTableQueryString = 	
 				"CREATE TABLE " +

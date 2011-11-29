@@ -6,15 +6,15 @@ import java.util.Observer;
 import tddd36.grupp3.models.MissionModel;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
-import tddd36.grupp3.views.MissionView;
+import tddd36.grupp3.views.MissionTabView;
 
 import com.google.android.maps.GeoPoint;
 
 public class MissionController implements Observer {
-	MissionView mv;
+	MissionTabView mv;
 	MissionModel mm;
 	
-	public MissionController(MissionView mv){
+	public MissionController(MissionTabView mv){
 		this.mv = mv;
 		mm = new MissionModel(mv, this);
 	}
@@ -26,8 +26,10 @@ public class MissionController implements Observer {
 		return mm.getCurrentGeoPoint();
 	}
 	public void setCurrentMission(Event ev){
+		if(ev != null){
 		mm.setCurrentMission(ev);
 		MainView.db.addRow(ev);
+		}
 	}
 
 }
