@@ -12,5 +12,11 @@
     <string name="contactAddress">SIP-Address till kontakt</string>
     <string name="talk">Tala</string>
     <string name="empty">[tomt]</string>
-        
+   <string name="percentage_prompt">Välj %</string>
+   <string-array name="percentage_array">
+        <item>25 %</item>
+        <item>50 %</item>
+        <item>75 %</item>
+        <item>100 %</item>
+    </string-array>
 </resources>

@@ -9,6 +9,8 @@ import com.google.android.maps.GeoPoint;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.MissionController;
+import tddd36.grupp3.reports.VerificationReportActivity;
+import tddd36.grupp3.reports.WindowReportActivity;
 import tddd36.grupp3.resources.Event;
 import android.app.AlertDialog;
 import android.app.TabActivity;
@@ -49,7 +51,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	public static MissionController mc;
 	private TextView missionheader, missiondescription, missionaddress, 
 	missioneventid, missioninjuries, missionpriority, missiontypeofaccident;
-	private Button changedescbtn, gotoaddressbtn;
+	private Button changedescbtn, gotoaddressbtn, verificationreportbtn, windowreportbtn;
 	private String[] mission;
 
 	private ListView listView;
@@ -72,6 +74,10 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		gotoaddressbtn.setOnClickListener(this);
 		changedescbtn = (Button)findViewById(R.id.changemissionbtn);
 		changedescbtn.setOnClickListener(this);
+		verificationreportbtn = (Button)findViewById(R.id.verificationreportbtn);
+		verificationreportbtn.setOnClickListener(this);
+		windowreportbtn = (Button)findViewById(R.id.windowreportbtn);
+		windowreportbtn.setOnClickListener(this);		
 
 		mc = new MissionController(MissionTabView.this);
 		
@@ -90,21 +96,26 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		MissionHistoryAdapter historyAdapter = new MissionHistoryAdapter(getBaseContext(), R.layout.missionhistoryitem, historylistitems);
 		listView.setAdapter(historyAdapter);
 
-		spec = tabHost.newTabSpec("currentmission").setIndicator("Aktuellt uppdrag").setContent(R.id.currenttab);
+		spec = tabHost.newTabSpec("currentmission").setIndicator("Uppdrag").setContent(R.id.currenttab);
 		tabHost.addTab(spec);
 
 		// add views to tab host
-		spec = tabHost.newTabSpec("history").setIndicator("Uppdragshistorik").setContent(
+		spec = tabHost.newTabSpec("history").setIndicator("Historik").setContent(
 				new TabContentFactory() {
 					public View createTabContent(String arg0) {
 						return listView;
 					}
 				});
-		tabHost.addTab(spec);	
+		tabHost.addTab(spec);
+		
+		spec = tabHost.newTabSpec("report").setIndicator("Rapporter").setContent(R.id.reporttab);
+		tabHost.addTab(spec);
 
 		tabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 45;
 		tabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 45;
-
+		tabHost.getTabWidget().getChildAt(2).getLayoutParams().height = 45;
+		
+		tabHost.setCurrentTab(2);
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);
 	}
@@ -147,6 +158,8 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	}
 
 	public void onClick(View v) {
+		Intent intent;
+		TabGroupActivity parentActivity = (TabGroupActivity) getParent();
 		if(v == gotoaddressbtn){
 			GeoPoint gp = mc.getCurrentMissionAddress();   
 			if(gp!=null){
@@ -155,6 +168,12 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 			}else{
 				Toast.makeText(getBaseContext(), "Du har inget uppdrag.", Toast.LENGTH_SHORT).show();
 			}
+		}else if(v == verificationreportbtn){
+			intent = new Intent(getParent(), VerificationReportActivity.class);
+			parentActivity.startChildActivity("VerificationReport", intent);
+		}else if(v == windowreportbtn){
+			intent = new Intent(getParent(), WindowReportActivity.class);
+			parentActivity.startChildActivity("WindowReport", intent);
 		}
 	}
 	/**

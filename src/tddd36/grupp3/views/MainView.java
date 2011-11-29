@@ -74,7 +74,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		tabHost.addTab(spec);
 
 		// Do the same for the other tabs
-		intent = new Intent().setClass(this, MissionTabView.class);
+		intent = new Intent().setClass(this, MissionGroupActivity.class);
 		spec = tabHost.newTabSpec("mission").setIndicator("Uppdrag",
 				res.getDrawable(R.drawable.ic_tab_menu_item))
 				.setContent(intent);
