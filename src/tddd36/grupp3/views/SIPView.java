@@ -42,6 +42,7 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 	public Cursor cur;
 	private ArrayList<Contact> contactList;
 	private String[] contactNames;
+	private ContactAdapter adapter;
 	private Button addContact;
 
 	@SuppressWarnings("unchecked")
@@ -63,8 +64,9 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 			index++;
 		}
 
-		ContactAdapter adapter = new ContactAdapter(this.getBaseContext(), R.layout.contactitem ,contactList);
+		adapter = new ContactAdapter(this.getBaseContext(), R.layout.contactitem ,contactList);
 		setListAdapter(adapter);
+		MainView.db.addObserver(this);
 	}
 	/**
 	 * Method invoked when a list item is clicked. Starts a child activity for the SIPTabGroup.java
@@ -77,13 +79,18 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		callIntent.putExtra("info", contact);
 		parentActivity.startChildActivity("MakeCall", callIntent);
 	}
-	/**
-	 * Dummy-method. Called when the SIPModel notifies its observers.
-	 */
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
 
+	public void update(Observable arg0, final Object arg1) {
+		if(arg1 != null && arg1 instanceof Contact){
+			runOnUiThread(new Runnable(){
+				public void run(){
+					contactList.add((Contact)arg1);
+					adapter.notifyDataSetChanged();
+				}
+			});
+		}
 	}
+
 	/**
 	 * Dummy-method. 
 	 */

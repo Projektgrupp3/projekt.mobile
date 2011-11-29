@@ -56,10 +56,10 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 
 		//this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
-		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
-		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
+//		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
+//		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
 //		db.addRow(new Contact("Enhet 3", "enhet3@ekiga.net"));
-		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
+//		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
 
 		res = getResources(); // Resource object to get Drawables
 		tabHost = getTabHost();  // The activity TabHost
