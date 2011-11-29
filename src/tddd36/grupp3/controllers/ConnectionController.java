@@ -8,8 +8,10 @@ import tddd36.grupp3.models.LoginModel;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class ConnectionController extends AsyncTask<Void, Void, Void> {
 
+	//private static final String COM_IP = "130.236.226.47";
+	
+	public class ConnectionController extends AsyncTask<Void, Void, Void> {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
 	// public static final int LISTEN_PORT = 4445;
 	public static final int LISTEN_PORT = 2225;
