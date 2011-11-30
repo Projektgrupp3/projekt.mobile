@@ -33,7 +33,7 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 		sendVer = (Button)findViewById(R.id.bSendInfo);
 		sendVer.setOnClickListener(this);
 		ver = (TextView)findViewById(R.id.tvVer);
-		E6 = (EditText)findViewById(R.id.edAreaSerached);
+	//	E6 = (EditText)findViewById(R.id.edAreaSearched);
 		E5 = (EditText)findViewById(R.id.edTimeOfDepature);
 		E4 = (EditText)findViewById(R.id.edExtraResources);
 		E3 = (EditText)findViewById(R.id.edNumberOfInjuries);
