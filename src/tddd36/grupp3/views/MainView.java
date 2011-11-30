@@ -1,13 +1,12 @@
 package tddd36.grupp3.views;
 
-import java.lang.ref.WeakReference;
 import java.text.ParseException;
 
+import org.json.JSONException;
+
 import tddd36.grupp3.R;
+import tddd36.grupp3.Sender;
 import tddd36.grupp3.database.ClientDatabaseManager;
-import tddd36.grupp3.misc.SplashEvent;
-import tddd36.grupp3.resources.Contact;
-import tddd36.grupp3.resources.Event;
 import android.app.PendingIntent;
 import android.app.TabActivity;
 import android.content.Context;
@@ -59,10 +58,11 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 
 		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
-		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
-		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
-		db.addRow(new Contact("Enhet 3", "enhet3@ekiga.net"));
-		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
+
+	//	db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
+//		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
+//		db.addRow(new Contact("Enhet 3", "enhet3@ekiga.net"));
+//		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
 
 		res = getResources(); // Resource object to get Drawables
 		tabHost = getTabHost();  // The activity TabHost
@@ -88,10 +88,16 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 				res.getDrawable(R.drawable.ic_tab_menu_item))
 				.setContent(intent);
 		tabHost.addTab(spec);
-
+		try {
+			Sender.send("getContacts");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		tabHost.setCurrentTab(2);
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);
+
 	}
 	/**
 	 * Dummy-method, does not actually do anything at the moment.
@@ -132,7 +138,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		}
 
 		try {
-			SipProfile.Builder builder = new SipProfile.Builder("enhet2","ekiga.net");
+			SipProfile.Builder builder = new SipProfile.Builder("enhet1","ekiga.net");
 			builder.setPassword("password");
 			me = builder.build();
 			Intent i = new Intent();
