@@ -81,7 +81,6 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-
 		try {
 			String message;
 			messageFromServer = new JSONObject(result);
@@ -107,8 +106,10 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 				for(int i = 0; i<list.length; i++){
 					String[] separated = list[i].split(",");
 					Contact c = new Contact(separated[0],separated[1]);
-					MainView.db.addRow(c);
-					}				
+					if(!MainView.db.checkRow(c.getSipaddress())){
+						MainView.db.addRow(c);
+					}		
+				}
 			}
 			if(messageFromServer.has("MAP_OBJECTS")){
 				Event incomingEvent = new Event((gp = new GeoPoint(messageFromServer.getInt("tempCoordX"),

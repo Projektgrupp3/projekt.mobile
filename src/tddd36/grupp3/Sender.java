@@ -15,8 +15,6 @@ public class Sender {
 	private static final String COM_IP = "130.236.226.193";
 	private static final int COM_PORT = 1560;
 	// private static final int COM_PORT = 3434;
-	//
-
 	private static PrintWriter pw;
 	private static JSONObject jsonobject;
 

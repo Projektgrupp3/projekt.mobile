@@ -22,7 +22,7 @@ public class ClientDatabaseManager extends Observable{
 	static Context context;
 	private final String DB_NAME = "client_database"; // the name of our database
 	private final int DB_VERSION = 1; // the version of the database
-
+	private boolean firstRun = true;
 	// the names for our database columns
 	private final String[] TABLE_NAME = {"map","mission","contacts"};
 	private final String[] TABLE_MAP = {"type","mapobject"};
@@ -144,6 +144,29 @@ public class ClientDatabaseManager extends Observable{
 			Log.e("DB Error", e.toString());
 			e.printStackTrace();
 		}
+	}
+	
+
+public boolean checkRow(String str){
+		if(firstRun==true){
+			firstRun = false;
+			return false;
+		}
+		else{
+			Cursor cursor = null;
+			System.out.println("Kör checkRow med str "+str);
+			cursor = db.query(TABLE_NAME[2], TABLE_CONTACT, null,null,null,null,null);
+			cursor.moveToFirst();
+			while(!cursor.isAfterLast()){
+				System.out.println("Cursor är "+cursor.getString(1));
+				if(cursor.getString(1).equals(str)){
+					System.out.println("Adressen "+str+" fanns redan i database");
+					return true;
+				}
+				cursor.moveToNext();
+			}
+		}
+		return false;
 	}
 
 	/**
