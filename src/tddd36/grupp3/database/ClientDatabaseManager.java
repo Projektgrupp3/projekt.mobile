@@ -28,10 +28,10 @@ public class ClientDatabaseManager extends Observable{
 	private final String[] TABLE_MAP = {"type","mapobject"};
 	private final String[] TABLE_MISSION = {"type","ID","event"};
 	private final String[] TABLE_CONTACT = {"name","address"};
-	private boolean firstRun = true;
-	
+
 	public ClientDatabaseManager(Context context){
 		ClientDatabaseManager.context = context;
+
 		// create or open the database
 		CustomSQLiteOpenHelper helper = new CustomSQLiteOpenHelper(context);
 		db = helper.getWritableDatabase();
@@ -177,28 +177,6 @@ public class ClientDatabaseManager extends Observable{
 		}
 	}
 
-	public boolean checkRow(String str){
-		if(firstRun==true){
-			firstRun = false;
-			return false;
-		}
-		else{
-			Cursor cursor = null;
-			System.out.println("Kör checkRow med str "+str);
-			cursor = db.query(TABLE_NAME[2], TABLE_CONTACT, null,null,null,null,null);
-			cursor.moveToFirst();
-			while(!cursor.isAfterLast()){
-				System.out.println("Cursor är "+cursor.getString(1));
-				if(cursor.getString(1).equals(str)){
-					System.out.println("Adressen "+str+" fanns redan i database");
-					return true;
-				}
-				cursor.moveToNext();
-			}
-		}
-		return false;
-	}
-
 
 	public Event getCurrentEvent(){
 		Cursor cursor = null;
@@ -209,7 +187,7 @@ public class ClientDatabaseManager extends Observable{
 			if(cursor != null){
 				Gson gson = new Gson();
 				if(cursor.getString(2) != null){
-					return gson.fromJson(cursor.getString(1), Event.class);
+				return gson.fromJson(cursor.getString(1), Event.class);
 				}
 			}
 		}catch(SQLException e){
@@ -249,7 +227,7 @@ public class ClientDatabaseManager extends Observable{
 						table,
 						TABLE_MAP,
 						null, null, null, null, null
-						);
+				);
 
 				// move the cursor's pointer to position zero.
 				cursor.moveToFirst();
@@ -280,7 +258,7 @@ public class ClientDatabaseManager extends Observable{
 						table,
 						TABLE_MISSION,
 						null, null, null, null, null
-						);
+				);
 				Gson gson = new Gson();
 				cursor.moveToFirst();
 				if (!cursor.isAfterLast())
@@ -306,7 +284,7 @@ public class ClientDatabaseManager extends Observable{
 						table,
 						TABLE_CONTACT,
 						null, null, null, null, null
-						);
+				);
 				cursor.moveToFirst();
 
 				if (!cursor.isAfterLast())
@@ -352,27 +330,27 @@ public class ClientDatabaseManager extends Observable{
 			//				");";
 
 			String mapTableQueryString = 	
-					"CREATE TABLE " +
-							TABLE_NAME[0] +
-							" (" +
-							TABLE_MAP[0] + " TEXT," +
-							TABLE_MAP[1] + " TEXT" +
-							");";
+				"CREATE TABLE " +
+				TABLE_NAME[0] +
+				" (" +
+				TABLE_MAP[0] + " TEXT," +
+				TABLE_MAP[1] + " TEXT" +
+				");";
 			String missionTableQueryString = 	
-					"CREATE TABLE " +
-							TABLE_NAME[1] +
-							" (" +
-							TABLE_MISSION[0] + " TEXT," +
-							TABLE_MISSION[1] + " TEXT," +
-							TABLE_MISSION[2] + " TEXT" +
-							");";
+				"CREATE TABLE " +
+				TABLE_NAME[1] +
+				" (" +
+				TABLE_MISSION[0] + " TEXT," +
+				TABLE_MISSION[1] + " TEXT," +
+				TABLE_MISSION[2] + " TEXT" +
+				");";
 			String contactTableQueryString = 	
-					"CREATE TABLE " +
-							TABLE_NAME[2] +
-							" (" +
-							TABLE_CONTACT[0] + " TEXT," +
-							TABLE_CONTACT[1] + " TEXT" +
-							");";
+				"CREATE TABLE " +
+				TABLE_NAME[2] +
+				" (" +
+				TABLE_CONTACT[0] + " TEXT," +
+				TABLE_CONTACT[1] + " TEXT" +
+				");";
 
 			// execute the query string to the database.
 			db.execSQL(mapTableQueryString);
@@ -391,6 +369,4 @@ public class ClientDatabaseManager extends Observable{
 	public void close() {
 		db.close();
 	}
-
-
 }

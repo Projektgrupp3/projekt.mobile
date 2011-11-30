@@ -11,11 +11,9 @@ import android.net.sip.SipProfile;
 import android.net.sip.SipSession;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.TextView;
 
 public class IncomingCall extends Activity implements OnClickListener{
@@ -38,6 +36,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 		decline = (Button) findViewById(R.id.bDecline);
 		answer.setOnClickListener(this);
 		decline.setOnClickListener(this); 
+
 		vr = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		final long[] pattern = {0,900,600};
 		vr.vibrate(pattern,0);
@@ -57,7 +56,6 @@ public class IncomingCall extends Activity implements OnClickListener{
 
 				@Override 
 				public void onCallEnded(SipAudioCall call) {
-					vr.cancel();
 					super.onCallEnded(call);
 					session.endCall();
 					finish();
@@ -99,6 +97,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 	}
 
 	public void onClick(View v) {
+
 		vr.cancel();
 		ringTone.release();
 		if(v==answer){
