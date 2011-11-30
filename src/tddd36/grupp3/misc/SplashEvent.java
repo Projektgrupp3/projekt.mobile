@@ -38,13 +38,17 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 
 	private Button acceptmission, rejectmission;
 	private TextView timelefttv;
+	
+	private TabGroupActivity parentActivity;
 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.incomingevent);		
-
+		
+		parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
+		
 		Gson gson = new Gson();
 
 		JSONString = (String) getIntent().getExtras().get("json");
@@ -76,6 +80,14 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 	}
 	public void update(Observable observable, Object data) {
 		countDownValue = (String) data;
+		if(countDownValue.equals("0")){
+			try {
+				Sender.send("ack: NEKAT:"+ev.getID());
+				parentActivity.onBackPressed();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 		runOnUiThread(new Runnable(){
 			public void run() {
 				timelefttv.setText(countDownValue);
@@ -85,7 +97,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 
 
 	public void onClick(View v) {
-		TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
+
 		if(ev == null){
 			Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
 		}else {
