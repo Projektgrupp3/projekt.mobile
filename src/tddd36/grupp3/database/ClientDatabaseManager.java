@@ -28,7 +28,8 @@ public class ClientDatabaseManager extends Observable{
 	private final String[] TABLE_MAP = {"type","mapobject"};
 	private final String[] TABLE_MISSION = {"type","ID","event"};
 	private final String[] TABLE_CONTACT = {"name","address"};
-
+	private boolean firstRun = true;
+	
 	public ClientDatabaseManager(Context context){
 		ClientDatabaseManager.context = context;
 		// create or open the database
@@ -176,6 +177,27 @@ public class ClientDatabaseManager extends Observable{
 		}
 	}
 
+	public boolean checkRow(String str){
+		if(firstRun==true){
+			firstRun = false;
+			return false;
+		}
+		else{
+			Cursor cursor = null;
+			System.out.println("Kör checkRow med str "+str);
+			cursor = db.query(TABLE_NAME[2], TABLE_CONTACT, null,null,null,null,null);
+			cursor.moveToFirst();
+			while(!cursor.isAfterLast()){
+				System.out.println("Cursor är "+cursor.getString(1));
+				if(cursor.getString(1).equals(str)){
+					System.out.println("Adressen "+str+" fanns redan i database");
+					return true;
+				}
+				cursor.moveToNext();
+			}
+		}
+		return false;
+	}
 
 
 	public Event getCurrentEvent(){

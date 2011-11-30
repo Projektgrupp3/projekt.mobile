@@ -129,6 +129,7 @@ public class MakeCall extends Activity implements OnClickListener {
 
 	public void onClick(View v) {
 		endCall();
+		call.close();
 	}
 
 	public void endCall(){
@@ -136,7 +137,6 @@ public class MakeCall extends Activity implements OnClickListener {
 			if (call != null) {
 				call.endCall();
 				call.close();
-
 			}
 		} catch (SipException e) {
 			e.printStackTrace();

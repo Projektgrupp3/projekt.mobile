@@ -17,6 +17,7 @@ public class Sender {
 
 	private static final String COM_IP = "130.236.226.206";
 	private static final int COM_PORT = 4444;
+	//	private static final int COM_PORT = 2222;
 	
 	private static PrintWriter pw;
 	private static JSONObject jsonobject;
@@ -115,16 +116,13 @@ public class Sender {
 		jsonobject = new JSONObject();
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
-		//jsonobject.put("req", messageToServer);
+		jsonobject.put("req", "contact");
 		jsonobject.put("sipaddress", contactAddress);
 		jsonobject.put("contactName", contactName);
-
 		String jsonString = jsonobject.toString();
-
+		
 		establishConnection();
-
 		pw.println(jsonString);
-
 		closeConnection();
 	}
 }

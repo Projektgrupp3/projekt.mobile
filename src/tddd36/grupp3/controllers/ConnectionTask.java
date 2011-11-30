@@ -105,10 +105,12 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 				if(!s.equals("")){
 					String [] list = s.split("/");
 					for(int i = 0; i<list.length; i++){
-						System.out.println("HÄMTAR KONTAKT");
 						String[] separated = list[i].split(",");
 						Contact c = new Contact(separated[0],separated[1]);
-						MainView.db.addRow(c);
+						
+						if(!MainView.db.checkRow(c.getSipaddress())){
+							MainView.db.addRow(c);
+						}
 					}
 				}else{System.out.println("Inga kontakter");			}	
 			}
