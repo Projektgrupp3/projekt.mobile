@@ -128,8 +128,7 @@ public class MakeCall extends Activity implements OnClickListener {
 	}
 
 	public void onClick(View v) {
-		endCall();
-		call.close();
+			endCall();
 	}
 
 	public void endCall(){

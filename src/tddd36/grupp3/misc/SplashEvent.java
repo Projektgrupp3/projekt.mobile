@@ -29,26 +29,26 @@ import com.google.gson.JsonSyntaxException;
 
 public class SplashEvent extends Activity implements OnClickListener, Observer {
 	private WeakReference<MainView> ctx;
-	
+
 	private CountDown cd;
 	private String JSONString;
 	private String countDownValue;
-	
+
 	private Event ev;
 
 	private Button acceptmission, rejectmission;
 	private TextView timelefttv;
-	
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.incomingevent);		
-		
+
 		Gson gson = new Gson();
-		
+
 		JSONString = (String) getIntent().getExtras().get("json");
-			
+
 		try {
 			JSONObject json = new JSONObject(JSONString);
 			ev = new Event(json);
@@ -60,13 +60,11 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		cd = new CountDown();
-		
+
 		acceptmission = (Button)findViewById(R.id.acceptbtn);
 		acceptmission.setOnClickListener(this);
-		rejectmission = (Button)findViewById(R.id.rejectbtn);
-		rejectmission.setOnClickListener(this);
 		timelefttv = (TextView)findViewById(R.id.incevent2);
 		cd.addObserver(this);
 		new Thread(cd).start();
@@ -74,7 +72,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 
 
 	public void onClick(DialogInterface dialog, int which) {
-	
+
 	}
 	public void update(Observable observable, Object data) {
 		countDownValue = (String) data;
@@ -88,25 +86,19 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 
 	public void onClick(View v) {
 		TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
-		if(v == acceptmission){
-			if(ev == null){
-				Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
-			}else {
-				MapGUI.mapcontroller.addMapObject(ev);
-				MissionTabView.mc.setCurrentMission(ev);
-				MainView.db.addRow(ev);
-				try {
-					Sender.send("ack"+ev.getID());
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		if(ev == null){
+			Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
+		}else {
+			MapGUI.mapcontroller.addMapObject(ev);
+			MissionTabView.mc.setCurrentMission(ev);
+			MainView.db.addRow(ev);
+			try {
+				Sender.send("ack: ACCEPTERAT:"+ev.getID());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-
-			parentActivity.onBackPressed();
-		}else if(v == rejectmission){
-			MainView.db.deleteRow(ev.getID());
-			parentActivity.onBackPressed();
-		}		
-	}
+		}
+		parentActivity.onBackPressed();
+	}		
 }
