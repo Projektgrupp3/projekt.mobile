@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/Thomas/workspace/mysql-connector-java-5.1.18/mysql-connector-java-5.1.18-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Thomas/workspace/google-gson-1.7.1/gson-1.7.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Thomas/workspace/json-org.jar"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="C:/Users/Bauwie/Dropbox/Projekttermin IT3/Programmering/jar-filer/gson-1.7.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Bauwie/Dropbox/Projekttermin IT3/Programmering/jar-filer/json-org.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Bauwie/Dropbox/Projekttermin IT3/Programmering/jar-filer/mysql-connector-java-5.1.18-bin.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

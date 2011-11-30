@@ -118,9 +118,12 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 				loginwait.show();
 				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class));
 				finish();
+
 			};
 		});
 	}
+
+	
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {

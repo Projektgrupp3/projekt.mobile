@@ -41,7 +41,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 		final long[] pattern = {0,900,600};
 		vr.vibrate(pattern,0);
 		ringTone = MediaPlayer.create(IncomingCall.this, R.raw.warning);
-		ringTone.start();	
+		ringTone.start();
 		try {
 			SipAudioCall.Listener listener = new SipAudioCall.Listener() {
 				@Override 

@@ -73,9 +73,9 @@ public class WindowReportActivity extends Activity implements OnClickListener {
 					E2.getText().toString(), E3.getText().toString(), E4.getText().toString(), E5.getText().toString());
 
 			Gson gson = new Gson();
-			gson.toJson(wr);// spara rapporten i databasen för historiken oc h skicka till servern.
+			gson.toJson(wr);             // spara rapporten i databasen för historiken oc h skicka till servern.
 
-			Toast.makeText(getBaseContext(), wr.toString(), Toast.LENGTH_LONG);
+			Toast.makeText(getBaseContext(), wr.toString(), Toast.LENGTH_LONG).show();
 
 		}
 	}

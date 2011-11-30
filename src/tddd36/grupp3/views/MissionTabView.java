@@ -89,6 +89,9 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		tabHost.addTab(spec);
 
 		// add views to tab host
+		spec = tabHost.newTabSpec("report").setIndicator("Rapporter").setContent(R.id.reporttab);
+		tabHost.addTab(spec);
+		
 		spec = tabHost.newTabSpec("history").setIndicator("Historik").setContent(
 				new TabContentFactory() {
 					public View createTabContent(String arg0) {
@@ -97,8 +100,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 				});
 		tabHost.addTab(spec);
 		
-		spec = tabHost.newTabSpec("report").setIndicator("Rapporter").setContent(R.id.reporttab);
-		tabHost.addTab(spec);
+		
 
 		tabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 45;
 		tabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 45;
@@ -130,8 +132,12 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	}
 	
 	private void getReportObjects() {
+
+		
 		verificationreportbtn = (Button)findViewById(R.id.verificationreportbtn);
 		verificationreportbtn.setOnClickListener(this);
+		
+
 		windowreportbtn = (Button)findViewById(R.id.windowreportbtn);
 		windowreportbtn.setOnClickListener(this);
 	}
@@ -178,6 +184,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	}
 
 	public void onClick(View v) {
+		
 		Intent intent;
 		TabGroupActivity parentActivity = (TabGroupActivity) getParent();
 		if(v == gotoaddressbtn){
@@ -189,9 +196,12 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 				Toast.makeText(getBaseContext(), "Du har inget uppdrag.", Toast.LENGTH_SHORT).show();
 			}
 		}else if(v == verificationreportbtn){
+			
 			intent = new Intent(getParent(), VerificationReportActivity.class);
 			parentActivity.startChildActivity("VerificationReport", intent);
+			
 		}else if(v == windowreportbtn){
+			
 			intent = new Intent(getParent(), WindowReportActivity.class);
 			parentActivity.startChildActivity("WindowReport", intent);
 		}
