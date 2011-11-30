@@ -12,7 +12,6 @@ import tddd36.grupp3.resources.Event;
 
 public class Sender {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
-
 	private static final String COM_IP = "130.236.227.125";
 	private static final int COM_PORT = 1560;
 	// private static final int COM_PORT = 3434;
@@ -53,7 +52,12 @@ public class Sender {
 		jsonobject = new JSONObject();
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
-		jsonobject.put("req", messageToServer);
+		if(messageToServer.startsWith("ack")){
+			messageToServer.replaceFirst("ack", "");
+			jsonobject.put("ack", messageToServer);
+		}else{
+			jsonobject.put("req", messageToServer);			
+		}
 
 		String jsonString = jsonobject.toString();
 

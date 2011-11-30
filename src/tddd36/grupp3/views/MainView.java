@@ -72,20 +72,20 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		// Create an Intent to launch an Activity for the tab (to be reused)
 		intent = new Intent().setClass(this, MapGUI.class);
 		spec = tabHost.newTabSpec("map").setIndicator("Karta",
-				res.getDrawable(R.drawable.ic_tab_menu_item))
+				res.getDrawable(R.drawable.map_tab_icon))
 				.setContent(intent);
 		tabHost.addTab(spec);
 
 		// Do the same for the other tabs
 		intent = new Intent().setClass(this, MissionGroupActivity.class);
 		spec = tabHost.newTabSpec("mission").setIndicator("Uppdrag",
-				res.getDrawable(R.drawable.ic_tab_menu_item))
+				res.getDrawable(R.drawable.event_tab_icon))
 				.setContent(intent);
 		tabHost.addTab(spec);
 
 		intent = new Intent().setClass(this, SIPGroupActivity.class);
 		spec = tabHost.newTabSpec("contacts").setIndicator("Kontakter",
-				res.getDrawable(R.drawable.ic_tab_menu_item))
+				res.getDrawable(R.drawable.contact_tab_icon))
 				.setContent(intent);
 		tabHost.addTab(spec);
 
