@@ -351,7 +351,6 @@ public class MapGUI extends MapActivity implements Observer {
 	/**
 	 * Called when the hardware "back"-button was pressed. 
 	 * Pops a dialog asking the user if it wants to log out.
-	 * @note does not actually log out the user, only closes application.
 	 */
 	public void onBackPressed(){
 		AlertDialog logout = new AlertDialog.Builder(this).create();
