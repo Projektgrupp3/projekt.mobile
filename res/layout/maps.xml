@@ -7,7 +7,7 @@
 <com.google.android.maps.MapView
                  android:layout_width="fill_parent"
                  android:layout_height="fill_parent"
-                 android:apiKey="0z9u-eOa0CQlw1y8S9grGD3J2YoFR_KRB5VMKQQ"
+                 android:apiKey="0-km1wxFVGGdAug0nGlJwH08fkC1D_12XfArugA"
                  android:id="@+id/mvMain"
                  android:enabled="true"
                  android:clickable="true"

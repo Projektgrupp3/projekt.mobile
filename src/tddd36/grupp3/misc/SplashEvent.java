@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import tddd36.grupp3.R;
+import tddd36.grupp3.Sender;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
@@ -89,13 +90,17 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 		TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
 		if(v == acceptmission){
 			if(ev == null){
-				Toast.makeText(getBaseContext(), "snipp", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
 			}else {
-				Toast.makeText(getBaseContext(), "snapp", Toast.LENGTH_SHORT).show();
-
 				MapGUI.mapcontroller.addMapObject(ev);
 				MissionTabView.mc.setCurrentMission(ev);
 				MainView.db.addRow(ev);
+				try {
+					Sender.send("ack"+ev.getID());
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 			parentActivity.onBackPressed();
