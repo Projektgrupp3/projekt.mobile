@@ -4,13 +4,15 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-
-    <TextView
+      <TextView
         android:id="@+id/tvVer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Verifieringsrapport"
         android:textSize="30dp" />
+      
+ 
+  
 
     <TableLayout
         android:id="@+id/tableLayout1"
