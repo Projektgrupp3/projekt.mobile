@@ -105,7 +105,6 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 
 		login.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-
 				try {
 					Sender.send(""+user.getText(), ""+pass.getText(), "ALL_UNITS");
 				} catch (JSONException e) {
