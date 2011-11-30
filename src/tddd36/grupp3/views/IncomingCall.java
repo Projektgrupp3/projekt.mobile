@@ -2,6 +2,7 @@ package tddd36.grupp3.views;
 
 import tddd36.grupp3.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.sip.SipAudioCall;
@@ -9,11 +10,10 @@ import android.net.sip.SipException;
 import android.net.sip.SipProfile;
 import android.net.sip.SipSession;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.TextView;
 
 public class IncomingCall extends Activity implements OnClickListener{
@@ -24,6 +24,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 	private Button answer;
 	private Button decline;
 	private MediaPlayer ringTone;
+	private Vibrator vr;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,15 +37,17 @@ public class IncomingCall extends Activity implements OnClickListener{
 		answer.setOnClickListener(this);
 		decline.setOnClickListener(this); 
 
+		vr = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+		final long[] pattern = {0,900,600};
+		vr.vibrate(pattern,0);
+		ringTone = MediaPlayer.create(IncomingCall.this, R.raw.warning);
+		ringTone.start();
 		try {
 			SipAudioCall.Listener listener = new SipAudioCall.Listener() {
 				@Override 
 				public void onRinging(SipAudioCall call, SipProfile caller) {
 					super.onRinging(call, caller);
-					try {
-						ringTone = MediaPlayer.create(IncomingCall.this, R.raw.warning);
-						ringTone.start();
-				
+					try {									
 						call.answerCall(30);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -55,7 +58,6 @@ public class IncomingCall extends Activity implements OnClickListener{
 				public void onCallEnded(SipAudioCall call) {
 					super.onCallEnded(call);
 					session.endCall();
-					ringTone.release();
 					finish();
 				}
 
@@ -78,6 +80,8 @@ public class IncomingCall extends Activity implements OnClickListener{
 	}
 
 	public void onPause(){
+		vr.cancel();
+		ringTone.release();
 		super.onPause();
 		if(call !=null){
 			call.close();
@@ -93,6 +97,9 @@ public class IncomingCall extends Activity implements OnClickListener{
 	}
 
 	public void onClick(View v) {
+
+		vr.cancel();
+		ringTone.release();
 		if(v==answer){
 			try {
 				call.answerCall(30);
