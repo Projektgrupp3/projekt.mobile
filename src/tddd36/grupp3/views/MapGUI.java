@@ -87,12 +87,12 @@ public class MapGUI extends MapActivity implements Observer {
 		overlayList.add(compass);
 
 		controller = map.getController();
-		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
-		controller.setZoom(15);
+		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());		
 
 		mapcontroller = new MapController(MapGUI.this);
-
-		//controller.animateTo(mapcontroller.fireCurrentLocation());
+		
+		controller.animateTo(mapcontroller.fireCurrentLocation());
+		controller.setZoom(15);
 	}
 	/**
 	 * Called by Observable MapModel. Adds map objects to the overlaylist and
@@ -351,13 +351,17 @@ public class MapGUI extends MapActivity implements Observer {
 	/**
 	 * Called when the hardware "back"-button was pressed. 
 	 * Pops a dialog asking the user if it wants to log out.
-	 * @note does not actually log out the user, only closes application.
 	 */
 	public void onBackPressed(){
 		AlertDialog logout = new AlertDialog.Builder(this).create();
 		logout.setMessage("Är du säker på att du vill avsluta?");
 		logout.setButton("Ja", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which){
+				try {
+					Sender.send("LOGOUT");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 				finish();
 			}
 		});

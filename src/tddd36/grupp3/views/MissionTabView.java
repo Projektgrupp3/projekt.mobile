@@ -63,24 +63,11 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.missiontablayout);
+	
+		getMissionObjects();
+		getHistoryObjects();
+		getReportObjects();
 		
-		missioneventid = (TextView)findViewById(R.id.eventID2);
-		missionpriority = (TextView)findViewById(R.id.eventPriority2);
-		missionheader = (TextView)findViewById(R.id.missionheader2);
-		missionaddress = (TextView)findViewById(R.id.missionaddress2);
-		missioninjuries = (TextView)findViewById(R.id.missioninjuries2);
-		missiontypeofaccident = (TextView)findViewById(R.id.typeOfAccident2);
-		missiondescription = (TextView)findViewById(R.id.missiondescription2);
-
-		gotoaddressbtn = (Button)findViewById(R.id.gotoaddressbtn);
-		gotoaddressbtn.setOnClickListener(this);
-		changedescbtn = (Button)findViewById(R.id.changemissionbtn);
-		changedescbtn.setOnClickListener(this);
-		verificationreportbtn = (Button)findViewById(R.id.verificationreportbtn);
-		verificationreportbtn.setOnClickListener(this);
-		windowreportbtn = (Button)findViewById(R.id.windowreportbtn);
-		windowreportbtn.setOnClickListener(this);		
-
 		mc = new MissionController(MissionTabView.this);
 		
 		tabHost = (TabHost)findViewById(android.R.id.tabhost);
@@ -121,6 +108,37 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);
 	}
+	private void getMissionObjects() {		
+		missioneventid = (TextView)findViewById(R.id.eventID2);
+		missionpriority = (TextView)findViewById(R.id.eventPriority2);
+		missionheader = (TextView)findViewById(R.id.missionheader2);
+		missionaddress = (TextView)findViewById(R.id.missionaddress2);
+		missioninjuries = (TextView)findViewById(R.id.missioninjuries2);
+		missiontypeofaccident = (TextView)findViewById(R.id.typeOfAccident2);
+		missiondescription = (TextView)findViewById(R.id.missiondescription2);
+
+		gotoaddressbtn = (Button)findViewById(R.id.gotoaddressbtn);
+		gotoaddressbtn.setOnClickListener(this);
+		changedescbtn = (Button)findViewById(R.id.changemissionbtn);
+		changedescbtn.setOnClickListener(this);
+
+	}
+	
+	private void getHistoryObjects() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void getReportObjects() {
+		verificationreportbtn = (Button)findViewById(R.id.verificationreportbtn);
+		verificationreportbtn.setOnClickListener(this);
+		windowreportbtn = (Button)findViewById(R.id.windowreportbtn);
+		windowreportbtn.setOnClickListener(this);
+	}
+
+
+
+
 
 	public void onTabChanged(String tabName) {
 		if(tabName.equals("currentmission")) {
