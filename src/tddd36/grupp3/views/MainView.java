@@ -7,6 +7,7 @@ import org.json.JSONException;
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
 import tddd36.grupp3.database.ClientDatabaseManager;
+import tddd36.grupp3.resources.Contact;
 import android.app.PendingIntent;
 import android.app.TabActivity;
 import android.content.Context;
@@ -59,7 +60,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
 
-	//	db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
+		//db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
 //		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
 //		db.addRow(new Contact("Enhet 3", "enhet3@ekiga.net"));
 //		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
@@ -138,7 +139,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		}
 
 		try {
-			SipProfile.Builder builder = new SipProfile.Builder("enhet1","ekiga.net");
+			SipProfile.Builder builder = new SipProfile.Builder("enhet2","ekiga.net");
 			builder.setPassword("password");
 			me = builder.build();
 			Intent i = new Intent();

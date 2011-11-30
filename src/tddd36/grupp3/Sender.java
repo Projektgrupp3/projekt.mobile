@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 public class Sender {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
 
-	private static final String COM_IP = "130.236.227.48";
+	private static final String COM_IP = "130.236.227.199";
 	private static final int COM_PORT = 4445;
 	//	private static final int COM_PORT = 2222;
 	private static PrintWriter pw;
@@ -110,16 +110,13 @@ public class Sender {
 		jsonobject = new JSONObject();
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
-		//jsonobject.put("req", messageToServer);
+		jsonobject.put("req", "contact");
 		jsonobject.put("sipaddress", contactAddress);
 		jsonobject.put("contactName", contactName);
-
 		String jsonString = jsonobject.toString();
-
+		
 		establishConnection();
-
 		pw.println(jsonString);
-
 		closeConnection();
 	}
 }
