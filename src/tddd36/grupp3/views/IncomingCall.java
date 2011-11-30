@@ -2,6 +2,7 @@ package tddd36.grupp3.views;
 
 import tddd36.grupp3.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.sip.SipAudioCall;
@@ -9,6 +10,7 @@ import android.net.sip.SipException;
 import android.net.sip.SipProfile;
 import android.net.sip.SipSession;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +26,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 	private Button answer;
 	private Button decline;
 	private MediaPlayer ringTone;
+	private Vibrator vr;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,7 +38,10 @@ public class IncomingCall extends Activity implements OnClickListener{
 		decline = (Button) findViewById(R.id.bDecline);
 		answer.setOnClickListener(this);
 		decline.setOnClickListener(this); 
-
+		vr = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+		final long[] pattern = {0,900,600};
+		vr.vibrate(pattern,0);
+		
 		try {
 			SipAudioCall.Listener listener = new SipAudioCall.Listener() {
 				@Override 
@@ -53,6 +59,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 
 				@Override 
 				public void onCallEnded(SipAudioCall call) {
+					vr.cancel();
 					super.onCallEnded(call);
 					session.endCall();
 					ringTone.release();
@@ -78,6 +85,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 	}
 
 	public void onPause(){
+		vr.cancel();
 		super.onPause();
 		if(call !=null){
 			call.close();
@@ -93,6 +101,7 @@ public class IncomingCall extends Activity implements OnClickListener{
 	}
 
 	public void onClick(View v) {
+		vr.cancel();
 		if(v==answer){
 			try {
 				call.answerCall(30);
