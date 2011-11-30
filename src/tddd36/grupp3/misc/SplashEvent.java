@@ -41,7 +41,6 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 	
 	private TabGroupActivity parentActivity;
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -97,7 +96,6 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 
 
 	public void onClick(View v) {
-
 		if(ev == null){
 			Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
 		}else {
