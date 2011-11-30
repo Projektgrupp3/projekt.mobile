@@ -81,7 +81,6 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-
 		try {
 			String message;
 			messageFromServer = new JSONObject(result);
@@ -119,6 +118,15 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 						messageFromServer.get("description").toString(), messageFromServer.getString("eventID").toString());
 				MapGUI.mapcontroller.addMapObject(incomingEvent);
 				MainView.db.addRow(incomingEvent);	
+			}
+			if(messageFromServer.has("ALL_UNITS")){
+				int count = messageFromServer.getInt("ALL_UNITS");
+				String[] allUnits = new String[count];
+				for(int i = 0; i< allUnits.length; i++){
+					allUnits[i] = messageFromServer.getString("unit"+i);
+				}
+				loginModel.executeChange();
+				loginModel.notify(allUnits);
 			}
 
 			else if(messageFromServer.has("event")){

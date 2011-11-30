@@ -132,12 +132,8 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	}
 	
 	private void getReportObjects() {
-
-		
 		verificationreportbtn = (Button)findViewById(R.id.verificationreportbtn);
 		verificationreportbtn.setOnClickListener(this);
-		
-
 		windowreportbtn = (Button)findViewById(R.id.windowreportbtn);
 		windowreportbtn.setOnClickListener(this);
 	}

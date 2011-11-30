@@ -54,6 +54,13 @@ public class Sender {
 		if(messageToServer.startsWith("ack")){
 			messageToServer.replaceFirst("ack", "");
 			jsonobject.put("ack", messageToServer);
+		}
+		
+		///BRÅKAR
+		else if(messageToServer.startsWith("ackunit")){
+			messageToServer.replaceFirst("ackunit", "");
+			jsonobject.put("ack", "unit");
+			jsonobject.put("unit", messageToServer);
 		}else{
 			jsonobject.put("req", messageToServer);			
 		}
@@ -89,7 +96,7 @@ public class Sender {
 	}
 
 	public static void send(String user, String pass, String message)
-			throws JSONException {
+	throws JSONException {
 		username = user;
 		password = pass;
 		messageToServer = message;
