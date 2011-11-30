@@ -106,4 +106,20 @@ public class Sender {
 
 		closeConnection();
 	}
+	
+
+	public static void sendContact(String contactName, String contactAddress)
+			throws JSONException {
+		jsonobject = new JSONObject();
+		jsonobject.put("user", username);
+		jsonobject.put("pass", password);
+		jsonobject.put("req", "contacts");
+		jsonobject.put("sipaddress", contactAddress);
+		jsonobject.put("contactName", contactName);
+		String jsonString = jsonobject.toString();
+		establishConnection();
+		pw.println(jsonString);
+		closeConnection();
+
+	}
 }
