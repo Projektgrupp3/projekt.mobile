@@ -139,7 +139,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		}
 
 		try {
-			SipProfile.Builder builder = new SipProfile.Builder("enhet2","ekiga.net");
+			SipProfile.Builder builder = new SipProfile.Builder("enhet3","ekiga.net");
 			builder.setPassword("password");
 			me = builder.build();
 			Intent i = new Intent();
