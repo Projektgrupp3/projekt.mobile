@@ -2,15 +2,16 @@ package tddd36.grupp3.views;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+
+import tddd36.grupp3.Sender;
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.AlertDialog;
 import android.app.LocalActivityManager;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Window;
 
 
@@ -79,6 +80,11 @@ public class TabGroupActivity extends ActivityGroup {
           Activity current = getLocalActivityManager().getActivity(mIdList.get(length-1));
           current.finish();
       }else if(length == 1){
+    	  try {
+			Sender.send("LOGOUT");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
     	  finishActivity();
       }
   }

@@ -13,7 +13,11 @@ import android.util.Log;
 	
 	public class ConnectionController extends AsyncTask<Void, Void, Void> {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
+<<<<<<< HEAD
 	 public static final int LISTEN_PORT = 4445;
+=======
+	 public static final int LISTEN_PORT = 4447;
+>>>>>>> branch 'master' of git@github.com:Projektgrupp3/projekt.mobile.git
 //	public static final int LISTEN_PORT = 3435;
 
 	public String serverOutput;

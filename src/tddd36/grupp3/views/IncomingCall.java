@@ -40,14 +40,23 @@ public class IncomingCall extends Activity implements OnClickListener{
 		vr = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		final long[] pattern = {0,900,600};
 		vr.vibrate(pattern,0);
+<<<<<<< HEAD
 		ringTone = MediaPlayer.create(IncomingCall.this, R.raw.warning);
 		ringTone.start();	
+=======
+		ringTone = MediaPlayer.create(IncomingCall.this, R.raw.warning);
+		ringTone.start();
+>>>>>>> branch 'master' of git@github.com:Projektgrupp3/projekt.mobile.git
 		try {
 			SipAudioCall.Listener listener = new SipAudioCall.Listener() {
 				@Override 
 				public void onRinging(SipAudioCall call, SipProfile caller) {
 					super.onRinging(call, caller);
+<<<<<<< HEAD
 					try {									
+=======
+					try {									
+>>>>>>> branch 'master' of git@github.com:Projektgrupp3/projekt.mobile.git
 						call.answerCall(30);
 					} catch (Exception e) {
 						e.printStackTrace();

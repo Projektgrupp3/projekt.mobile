@@ -11,6 +11,7 @@ import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.LoginController;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	private EditText user;
 	private EditText pass;
 	private Button login;
+	private ProgressDialog loginwait;
 
 	LoginController logincontroller;
 	private boolean authenticated;
@@ -40,6 +42,35 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	private Button bContinue;
 	private String[] unitNames = {"1","2","3"};
 	public static ArrayList<String> allUnits = new ArrayList<String>();
+
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.login);
+		pass = (EditText) findViewById(R.id.editText2);
+		user = (EditText) findViewById(R.id.editText1);
+		login = (Button) findViewById(R.id.button1);
+		display = (TextView)findViewById(R.id.textView3);
+
+		user.setText("enhet1");
+		pass.setText("password1");
+		loginwait = new ProgressDialog(this);
+		loginwait.setTitle("Loggar in..");
+		loginwait.setCancelable(false);
+		
+		logincontroller = new LoginController(this);
+
+		login.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				try {
+					loginwait.show();
+					Sender.send(""+user.getText(), ""+pass.getText(), "ALL_UNITS");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			};
+		});
+	}
 
 	public void update(Observable observable, Object data) {
 
@@ -75,6 +106,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 
 	public void chooseUnit() throws JSONException{
 		setContentView(R.layout.unit);
+		loginwait.dismiss();
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, allUnits);
 		spinner = (Spinner) findViewById(R.id.spinner1);
 		bContinue = (Button) findViewById(R.id.bContinue);
@@ -83,8 +115,10 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 
 		bContinue.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				loginwait.show();
 				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class));
 				finish();
+<<<<<<< HEAD
 			};
 		});
 	}
@@ -110,6 +144,8 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
+=======
+>>>>>>> branch 'master' of git@github.com:Projektgrupp3/projekt.mobile.git
 			};
 		});
 	}
@@ -121,6 +157,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 
 	@Override
 	protected void onPause() {
+		loginwait.dismiss();
 		super.onPause();
 		finish();
 	}
@@ -146,6 +183,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	
 	@Override
 	public void onBackPressed(){
+		loginwait.dismiss();
 		finish();
 	}
 }

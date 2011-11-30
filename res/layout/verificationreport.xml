@@ -4,12 +4,19 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+<<<<<<< HEAD
     <TextView
+=======
+      <TextView
+>>>>>>> branch 'master' of git@github.com:Projektgrupp3/projekt.mobile.git
         android:id="@+id/tvVer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Verifieringsrapport"
         android:textSize="30dp" />
+      
+ 
+  
 
     <ScrollView
         android:layout_width="fill_parent"
