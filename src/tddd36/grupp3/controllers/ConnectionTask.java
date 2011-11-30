@@ -81,7 +81,6 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-
 		try {
 			String message;
 			messageFromServer = new JSONObject(result);
