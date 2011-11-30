@@ -84,6 +84,12 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 				public void run(){
 					contactList.add((Contact)arg1);
 					adapter.notifyDataSetChanged();
+					contactNames = new String[contactList.size()];
+					int index = 0;
+					for(Contact c : contactList){
+						contactNames[index] = c.getName()+ " @ "+ c.getSipaddress();
+						index++;
+					}
 				}
 			});
 		}
