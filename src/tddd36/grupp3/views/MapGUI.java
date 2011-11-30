@@ -87,12 +87,12 @@ public class MapGUI extends MapActivity implements Observer {
 		overlayList.add(compass);
 
 		controller = map.getController();
-		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
-		controller.setZoom(15);
+		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());		
 
 		mapcontroller = new MapController(MapGUI.this);
-
-		//controller.animateTo(mapcontroller.fireCurrentLocation());
+		
+		controller.animateTo(mapcontroller.fireCurrentLocation());
+		controller.setZoom(15);
 	}
 	/**
 	 * Called by Observable MapModel. Adds map objects to the overlaylist and
