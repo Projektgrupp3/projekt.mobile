@@ -1,8 +1,11 @@
 package tddd36.grupp3.views;
 
+import org.json.JSONException;
+
 import com.google.gson.Gson;
 
 import tddd36.grupp3.R;
+import tddd36.grupp3.Sender;
 import tddd36.grupp3.resources.Contact;
 import android.app.Activity;
 import android.os.Bundle;
@@ -48,7 +51,12 @@ public class AddContactView extends Activity implements OnClickListener{
 			gson.toJson(newContact);// spara rapporten i databasen för historiken oc h skicka till servern.
 			
 			MainView.db.addRow(newContact);
-			
+			try {
+				Sender.sendContact(newContact.getName(), newContact.getSipaddress());
+			      } catch (JSONException e) {
+			        // TODO Auto-generated catch block
+			       e.printStackTrace();
+			     }
 			Toast.makeText(getBaseContext(),edSaveName.getText().toString() + " har lagts till!" , Toast.LENGTH_SHORT).show();
 			finish();
 			
