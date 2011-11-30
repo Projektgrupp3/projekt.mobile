@@ -39,12 +39,23 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	private Spinner spinner;
 	private Button bContinue;
 	private String[] unitNames = {"1","2","3"};
-	public static ArrayList<String> allUnits = new ArrayList<String>();
+	public static String[] allUnits = {""};
+	private int spinnerPosition;
 
 	public void update(Observable observable, Object data) {
 
 		if(data instanceof String){
 			Toast.makeText(getBaseContext(), (String)data, Toast.LENGTH_SHORT).show();
+		}
+		
+		if(data instanceof String[]){
+			allUnits = (String[])data;
+			try {
+				if(authenticated)
+				chooseUnit();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 		else if(data instanceof Boolean){
 			authenticated = (Boolean) data;
@@ -62,13 +73,12 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 			}
 			else {
 				Toast.makeText(getBaseContext(), "true", Toast.LENGTH_SHORT).show();
-				try {
-					allUnits.add("hej");
-					chooseUnit();
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					chooseUnit();
+//				} catch (JSONException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 			}
 		}
 	}
@@ -83,6 +93,11 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 
 		bContinue.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				try {
+					Sender.send("ackunit"+allUnits[spinnerPosition]);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class));
 				finish();
 			};
@@ -127,19 +142,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
-
-		int position = spinner.getSelectedItemPosition();
-		switch(position){
-		case 0:
-
-			break;
-		case 1:
-
-			break;
-		case 2:
-
-			break;
-		}
+		spinnerPosition = spinner.getSelectedItemPosition();
 	}
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
