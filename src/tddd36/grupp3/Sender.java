@@ -13,10 +13,10 @@ import tddd36.grupp3.resources.Event;
 public class Sender {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
 
-	private static final String COM_IP = "130.236.227.57";
+	private static final String COM_IP = "130.236.226.226";
 	private static final int COM_PORT = 4444;
 	//private static final int COM_PORT = 4445;
-
+	
 	private static PrintWriter pw;
 	private static JSONObject jsonobject;
 
@@ -55,13 +55,6 @@ public class Sender {
 		if(messageToServer.startsWith("ack")){
 			messageToServer.replaceFirst("ack", "");
 			jsonobject.put("ack", messageToServer);
-		}
-		
-		///BRÅKAR
-		else if(messageToServer.startsWith("ackunit")){
-			messageToServer.replaceFirst("ackunit", "");
-			jsonobject.put("ack", "unit");
-			jsonobject.put("unit", messageToServer);
 		}else{
 			jsonobject.put("req", messageToServer);			
 		}
@@ -97,7 +90,7 @@ public class Sender {
 	}
 
 	public static void send(String user, String pass, String message)
-	throws JSONException {
+			throws JSONException {
 		username = user;
 		password = pass;
 		messageToServer = message;
