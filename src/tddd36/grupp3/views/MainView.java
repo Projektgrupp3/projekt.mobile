@@ -37,6 +37,9 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	Resources res;
 
 	public static Context context;
+	
+	private static String user;
+	private static String pass;
 
 	public static ClientDatabaseManager db;
 	public static SipManager manager = null;
@@ -51,6 +54,10 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		user = getIntent().getExtras().getString("user");
+		pass = getIntent().getExtras().getString("pass");
+		
 		context = getBaseContext();
 
 		// Sipstuff
@@ -143,8 +150,8 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		}
 
 		try {
-			SipProfile.Builder builder = new SipProfile.Builder("enhet3","ekiga.net");
-			builder.setPassword("password");
+			SipProfile.Builder builder = new SipProfile.Builder(user,"ekiga.net");
+			builder.setPassword(pass.replaceFirst("[0-9]", ""));
 			me = builder.build();
 			Intent i = new Intent();
 			i.setAction("android.SipDemo.INCOMING_CALL");
