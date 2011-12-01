@@ -16,7 +16,10 @@ import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.resources.FloodEvent;
 import tddd36.grupp3.resources.MapObject;
+import tddd36.grupp3.resources.OtherEvent;
+import tddd36.grupp3.resources.RoadBlockEvent;
 import tddd36.grupp3.resources.Status;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -26,7 +29,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -262,7 +264,8 @@ public class MapGUI extends MapActivity implements Observer {
 									switch(which){
 									case 0: 
 										try {
-											Event newEvent = new Event(touchedPoint,points[0].toString(), "Ett föremål på vägen förhindrar trafik från att komma fram", new SimpleDateFormat("yyMMddHHmmss").format(new Date()));
+											RoadBlockEvent newEvent = new RoadBlockEvent(touchedPoint,points[0].toString(), "Ett föremål på vägen förhindrar trafik från att komma fram", 
+													new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.road_closed_icon);
 											Sender.send(newEvent);
 											mapcontroller.addMapObject(newEvent);
 										} catch (JSONException e) {
@@ -271,7 +274,8 @@ public class MapGUI extends MapActivity implements Observer {
 										break;
 									case 1:
 										try {
-											Event newEvent = new Event(touchedPoint,points[1].toString(), "Det är en översväming på platsen", new SimpleDateFormat("yyMMddHHmmss").format(new Date()));
+											FloodEvent newEvent = new FloodEvent(touchedPoint,points[1].toString(), "Det är en översväming på platsen",
+													new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.flood_icon);
 											Sender.send(newEvent);
 											mapcontroller.addMapObject(newEvent);
 										} catch (JSONException e) {
@@ -302,10 +306,9 @@ public class MapGUI extends MapActivity implements Observer {
 										createCustomEventDialog.setPositiveButton("Lägg till", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface dialog, int whichButton) {
 												try {
-													Log.d("hej",input1.getText().toString());
-													Event newEvent = new Event(touchedPoint, input1.getText().toString(), 
+													OtherEvent newEvent = new OtherEvent(touchedPoint, input1.getText().toString(), 
 															input2.getText().toString(),
-															new SimpleDateFormat("yyMMddHHmmss").format(new Date()));
+															new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.green_flag_icon);
 													Sender.send(newEvent);
 													mapcontroller.addMapObject(newEvent);
 												} catch (JSONException e) {

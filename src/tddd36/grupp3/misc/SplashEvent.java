@@ -17,9 +17,9 @@ import tddd36.grupp3.views.MissionTabView;
 import tddd36.grupp3.views.TabGroupActivity;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +54,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 
 		try {
 			JSONObject json = new JSONObject(JSONString);
-			ev = new Event(json);
+			ev = new Event(json, R.drawable.red_flag_icon);
 			Toast.makeText(getBaseContext(), "Inkommande larm!", Toast.LENGTH_SHORT).show();
 		} catch (JsonSyntaxException e) {
 			// TODO Auto-generated catch block
@@ -80,7 +80,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 	public void update(Observable observable, Object data) {
 		countDownValue = (String) data;
 		if(countDownValue.equals("0")){
-			Sender.send("ack: NEKAT:"+ev.getID());
+			Sender.send("ackevent:NEKAT:"+ev.getID());
 			parentActivity.onBackPressed();
 		}
 		runOnUiThread(new Runnable(){
@@ -98,7 +98,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 			MapGUI.mapcontroller.addMapObject(ev);
 			MissionTabView.mc.setCurrentMission(ev);
 			MainView.db.addRow(ev);
-			Sender.send("ack: ACCEPTERAT:"+ev.getID());
+			Sender.send("ackevent:ACCEPTERAT:"+ev.getID());
 		}
 		parentActivity.onBackPressed();
 	}		

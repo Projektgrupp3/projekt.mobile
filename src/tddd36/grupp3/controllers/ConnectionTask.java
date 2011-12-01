@@ -8,10 +8,11 @@ import java.net.Socket;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import tddd36.grupp3.R;
 import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.models.LoginModel;
 import tddd36.grupp3.resources.Contact;
-import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.resources.OtherEvent;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionGroupActivity;
@@ -109,10 +110,10 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 					}				
 			}
 			if(messageFromServer.has("MAP_OBJECTS")){
-				Event incomingEvent = new Event((gp = new GeoPoint(messageFromServer.getInt("tempCoordX"),
+				OtherEvent incomingEvent = new OtherEvent((gp = new GeoPoint(messageFromServer.getInt("tempCoordX"),
 						messageFromServer.getInt("tempCoordY"))),
 						messageFromServer.getString("header"),
-						messageFromServer.get("description").toString(), messageFromServer.getString("eventID").toString());
+						messageFromServer.get("description").toString(), messageFromServer.getString("eventID").toString(), R.drawable.green_flag_icon);
 				MapGUI.mapcontroller.addMapObject(incomingEvent);
 				MainView.db.addRow(incomingEvent);	
 			}
