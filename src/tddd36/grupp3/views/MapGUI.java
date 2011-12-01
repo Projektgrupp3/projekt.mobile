@@ -358,11 +358,7 @@ public class MapGUI extends MapActivity implements Observer {
 		logout.setMessage("Är du säker på att du vill avsluta?");
 		logout.setButton("Ja", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which){
-				try {
-					Sender.send("LOGOUT");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				Sender.send("LOGOUT");
 				finish();
 			}
 		});
