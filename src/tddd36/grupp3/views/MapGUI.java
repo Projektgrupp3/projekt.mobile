@@ -90,8 +90,9 @@ public class MapGUI extends MapActivity implements Observer {
 		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());		
 
 		mapcontroller = new MapController(MapGUI.this);
-		
-		controller.animateTo(mapcontroller.fireCurrentLocation());
+		if((myLocation = mapcontroller.fireCurrentLocation()) != null){
+			controller.animateTo(myLocation);
+		}
 		controller.setZoom(15);
 	}
 	/**
@@ -263,22 +264,22 @@ public class MapGUI extends MapActivity implements Observer {
 										AlertDialog.Builder createCustomEventDialog = new AlertDialog.Builder(MapGUI.this);
 
 										createCustomEventDialog.setTitle("Lägg till händelse");
-										
+
 										LinearLayout lila1 = new LinearLayout(MapGUI.this);
-									    lila1.setOrientation(1); //1 is for vertical orientation
-									    final EditText input1 = new EditText(MapGUI.this); 
-									    final EditText input2 = new EditText(MapGUI.this);
-									    final TextView header = new TextView(MapGUI.this);
-									    final TextView desc = new TextView(MapGUI.this);
-									    
-									    header.setText("Rubrik");
-									    desc.setText("Beskrivning");
-									    
-									    lila1.addView(header);
-									    lila1.addView(input1);
-									    lila1.addView(desc);
-									    lila1.addView(input2);
-									    createCustomEventDialog.setView(lila1);
+										lila1.setOrientation(1); //1 is for vertical orientation
+										final EditText input1 = new EditText(MapGUI.this); 
+										final EditText input2 = new EditText(MapGUI.this);
+										final TextView header = new TextView(MapGUI.this);
+										final TextView desc = new TextView(MapGUI.this);
+
+										header.setText("Rubrik");
+										desc.setText("Beskrivning");
+
+										lila1.addView(header);
+										lila1.addView(input1);
+										lila1.addView(desc);
+										lila1.addView(input2);
+										createCustomEventDialog.setView(lila1);
 
 										createCustomEventDialog.setPositiveButton("Lägg till", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface dialog, int whichButton) {
@@ -292,7 +293,7 @@ public class MapGUI extends MapActivity implements Observer {
 												} catch (JSONException e) {
 													e.printStackTrace();
 												}
-												
+
 											}
 										});
 

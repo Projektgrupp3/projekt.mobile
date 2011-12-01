@@ -3,7 +3,10 @@ package tddd36.grupp3.views;
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
 
+import org.json.JSONException;
+
 import tddd36.grupp3.R;
+import tddd36.grupp3.Sender;
 import tddd36.grupp3.database.ClientDatabaseManager;
 import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.resources.Contact;
@@ -34,6 +37,9 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	Resources res;
 
 	public static Context context;
+	
+	private static String user;
+	private static String pass;
 
 	public static ClientDatabaseManager db;
 	public static SipManager manager = null;
@@ -48,6 +54,10 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		user = getIntent().getExtras().getString("user");
+		pass = getIntent().getExtras().getString("pass");
+		
 		context = getBaseContext();
 
 		// Sipstuff
@@ -59,10 +69,10 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 
 		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
-		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
-		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
-		db.addRow(new Contact("Enhet 3", "enhet3@ekiga.net"));
-		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
+//		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
+//		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
+//		db.addRow(new Contact("Enhet 3", "enhet3@ekiga.net"));
+//		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
 
 		res = getResources(); // Resource object to get Drawables
 		tabHost = getTabHost();  // The activity TabHost
@@ -89,6 +99,14 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 				.setContent(intent);
 		tabHost.addTab(spec);
 
+			try {
+				Sender.send("getContacts");
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		
 		tabHost.setCurrentTab(2);
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);
@@ -132,8 +150,8 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		}
 
 		try {
-			SipProfile.Builder builder = new SipProfile.Builder("enhet3","ekiga.net");
-			builder.setPassword("password");
+			SipProfile.Builder builder = new SipProfile.Builder(user,"ekiga.net");
+			builder.setPassword(pass.replaceFirst("[0-9]", ""));
 			me = builder.build();
 			Intent i = new Intent();
 			i.setAction("android.SipDemo.INCOMING_CALL");

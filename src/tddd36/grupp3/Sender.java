@@ -54,13 +54,6 @@ public class Sender {
 		if(messageToServer.startsWith("ack")){
 			messageToServer.replaceFirst("ack", "");
 			jsonobject.put("ack", messageToServer);
-		}
-		
-		///BRÅKAR
-		else if(messageToServer.startsWith("ackunit")){
-			messageToServer.replaceFirst("ackunit", "");
-			jsonobject.put("ack", "unit");
-			jsonobject.put("unit", messageToServer);
 		}else{
 			jsonobject.put("req", messageToServer);			
 		}
@@ -96,7 +89,7 @@ public class Sender {
 	}
 
 	public static void send(String user, String pass, String message)
-	throws JSONException {
+			throws JSONException {
 		username = user;
 		password = pass;
 		messageToServer = message;
@@ -112,6 +105,21 @@ public class Sender {
 
 		pw.println(jsonString);
 
+		closeConnection();
+	}
+	
+
+	public static void sendContact(String contactName, String contactAddress)
+			throws JSONException {
+		jsonobject = new JSONObject();
+		jsonobject.put("user", username);
+		jsonobject.put("pass", password);
+		jsonobject.put("req", "contact");
+		jsonobject.put("sipaddress", contactAddress);
+		jsonobject.put("contactName", contactName);
+		String jsonString = jsonobject.toString();
+		establishConnection();
+		pw.println(jsonString);
 		closeConnection();
 	}
 }
