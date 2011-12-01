@@ -101,7 +101,6 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 			}
 			if(messageFromServer.has("contacts")){
 				String s = (String)messageFromServer.get("contacts");
-				System.out.println("Förfan "+s);
 				String [] list = s.split("/");
 				for(int i = 0; i<list.length; i++){
 					String[] separated = list[i].split(",");

@@ -12,9 +12,11 @@ import tddd36.grupp3.resources.Event;
 
 public class Sender {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
-	private static final String COM_IP = "marsix.ida.liu.se";
-	private static final int COM_PORT = 4445;
 
+	private static final String COM_IP = "130.236.227.57";
+	private static final int COM_PORT = 4444;
+	//private static final int COM_PORT = 4445;
+	
 	private static PrintWriter pw;
 	private static JSONObject jsonobject;
 
@@ -104,6 +106,21 @@ public class Sender {
 
 		pw.println(jsonString);
 
+		closeConnection();
+	}
+	
+
+	public static void sendContact(String contactName, String contactAddress)
+			throws JSONException {
+		jsonobject = new JSONObject();
+		jsonobject.put("user", username);
+		jsonobject.put("pass", password);
+		jsonobject.put("req", "contact");
+		jsonobject.put("sipaddress", contactAddress);
+		jsonobject.put("contactName", contactName);
+		String jsonString = jsonobject.toString();
+		establishConnection();
+		pw.println(jsonString);
 		closeConnection();
 	}
 }
