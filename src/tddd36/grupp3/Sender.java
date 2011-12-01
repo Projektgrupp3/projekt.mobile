@@ -10,7 +10,13 @@ import org.json.JSONObject;
 
 import tddd36.grupp3.resources.Event;
 
+/**
+ * KLIENT-SENDER-KLASS
+ * @author Emil
+ *
+ */
 public class Sender {
+	
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
 
 	private static final String COM_IP = "130.236.227.241";
@@ -52,12 +58,13 @@ public class Sender {
 		try {
 			jsonobject.put("user", username);
 			jsonobject.put("pass", password);
-			if(messageToServer.startsWith("ack")){
-				messageToServer.replaceFirst("ack", "");
+			if(messageToServer.startsWith("ack: ")){
+				messageToServer.replaceFirst("ack: ", "");
 				jsonobject.put("ack", messageToServer);
 			}else{
 				jsonobject.put("req", messageToServer);			
 			}
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

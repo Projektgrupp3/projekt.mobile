@@ -165,12 +165,35 @@ public class MapGUI extends MapActivity implements Observer {
 			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
 			return true;
 		case R.id.status:
+<<<<<<< HEAD
 			
 			return true;
 		case R.id.depart:
 			Sender.send("ack: STATUS:"+Status.DEPART.toString());
 		case R.id.centeratme:			
 			if((myLocation = mapcontroller.fireCurrentLocation())!=null){
+=======
+			//noop
+			return true;
+		case R.id.recieved:
+			Sender.send("ack: STATUS:"+Status.RECIEVED.toString());
+			return true;
+		case R.id.there:
+			Sender.send("ack: STATUS:"+Status.THERE.toString());
+			return true;
+		case R.id.loaded:
+			Sender.send("ack: STATUS:"+Status.LOADED.toString());
+			return true;
+		case R.id.depart:
+			Sender.send("ack: STATUS:"+Status.DEPART.toString());
+			return true;
+		case R.id.home:
+			Sender.send("ack: STATUS:"+Status.HOME.toString());
+			return true;
+		case R.id.centeratme:
+			myLocation = mapcontroller.fireCurrentLocation();
+			if(myLocation!=null){
+>>>>>>> refs/heads/Emil
 				controller.setZoom(15);
 				controller.animateTo(myLocation);
 			}else{
