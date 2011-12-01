@@ -59,8 +59,8 @@ public class Sender {
 		try {
 			jsonobject.put("user", username);
 			jsonobject.put("pass", password);
-			if(messageToServer.startsWith("ack")){
-				messageToServer.replaceFirst("ack", "");
+			if(messageToServer.startsWith("ack: ")){
+				messageToServer.replaceFirst("ack: ", "");
 				jsonobject.put("ack", messageToServer);
 			}else{
 				jsonobject.put("req", messageToServer);			

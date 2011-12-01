@@ -137,10 +137,6 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		windowreportbtn.setOnClickListener(this);
 	}
 
-
-
-
-
 	public void onTabChanged(String tabName) {
 		if(tabName.equals("currentmission")) {
 			//TODO

@@ -17,6 +17,7 @@ import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.MapObject;
+import tddd36.grupp3.resources.Status;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -165,6 +166,21 @@ public class MapGUI extends MapActivity implements Observer {
 			return true;
 		case R.id.status:
 			//noop
+			return true;
+		case R.id.recieved:
+			Sender.send("ack: STATUS:"+Status.RECIEVED.toString());
+			return true;
+		case R.id.there:
+			Sender.send("ack: STATUS:"+Status.THERE.toString());
+			return true;
+		case R.id.loaded:
+			Sender.send("ack: STATUS:"+Status.LOADED.toString());
+			return true;
+		case R.id.depart:
+			Sender.send("ack: STATUS:"+Status.DEPART.toString());
+			return true;
+		case R.id.home:
+			Sender.send("ack: STATUS:"+Status.HOME.toString());
 			return true;
 		case R.id.centeratme:
 			myLocation = mapcontroller.fireCurrentLocation();
