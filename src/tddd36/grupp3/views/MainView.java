@@ -110,7 +110,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	 * Dummy-method, does not actually do anything at the moment.
 	 */
 	public void onTabChanged(String arg0) {
-
+		
 	}
 	/**
 	 * Called when some instance calls getParent().finish(). 
