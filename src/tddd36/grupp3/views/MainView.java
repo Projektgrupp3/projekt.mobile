@@ -89,12 +89,12 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 				res.getDrawable(R.drawable.ic_tab_menu_item))
 				.setContent(intent);
 		tabHost.addTab(spec);
-		try {
-			Sender.send("getContacts");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			Sender.send("getContacts");
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		tabHost.setCurrentTab(2);
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);

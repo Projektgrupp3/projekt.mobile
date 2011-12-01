@@ -4,10 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.models.LoginModel;
 import tddd36.grupp3.resources.Contact;
@@ -17,6 +15,7 @@ import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionGroupActivity;
 import tddd36.grupp3.views.SIPView;
 import tddd36.grupp3.views.TabGroupActivity;
+import android.media.MediaPlayer;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -101,6 +100,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 				}
 			}
 			if(messageFromServer.has("contacts")){
+			
 				String s = (String)messageFromServer.get("contacts");
 				if(!s.equals("")){
 					String [] list = s.split("/");
@@ -123,12 +123,13 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 				MainView.db.addRow(incomingEvent);	
 			}
 
-			else if(messageFromServer.has("event")){
+			else if(messageFromServer.has("event")){				
 				MainView.tabHost.setCurrentTab(1);
 				Intent splashIntent = new Intent(MainView.context, SplashEvent.class);
 				TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent() ;
 				splashIntent.putExtra("json", messageFromServer.toString());
 				parentActivity.startChildActivity("IncomingEvent", splashIntent);
+
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

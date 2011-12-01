@@ -6,7 +6,6 @@ import java.util.Observer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import tddd36.grupp3.R;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
@@ -18,6 +17,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -32,17 +32,20 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 	private CountDown cd;
 	private String JSONString;
 	private String countDownValue;
-	
 	private Event ev;
-
 	private Button acceptmission, rejectmission;
 	private TextView timelefttv;
+	private MediaPlayer ringSignal;
 	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.incomingevent);		
+		
+		ringSignal = MediaPlayer.create(SplashEvent.this, R.raw.warning);
+		ringSignal.start();
+		
 		
 		Gson gson = new Gson();
 		
@@ -88,6 +91,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 	public void onClick(View v) {
 		TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
 		if(v == acceptmission){
+			ringSignal.release();
 			if(ev == null){
 				Toast.makeText(getBaseContext(), "snipp", Toast.LENGTH_SHORT).show();
 			}else {
