@@ -10,11 +10,16 @@ import org.json.JSONObject;
 
 import tddd36.grupp3.resources.Event;
 
+/**
+ * KLIENT-SENDER-KLASS
+ * @author Emil
+ *
+ */
 public class Sender {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
+	
 	private static final String COM_IP = "130.236.227.61";
 	private static final int COM_PORT = 4445;
-
 	private static PrintWriter pw;
 	private static JSONObject jsonobject;
 
@@ -44,17 +49,29 @@ public class Sender {
 		}
 	}
 
-	public static void send(String str) throws JSONException {
+	public static void send(String str) {
 		messageToServer = str;
+		String[] splittedMessage = messageToServer.split(":", 3);
 
 		jsonobject = new JSONObject();
-		jsonobject.put("user", username);
-		jsonobject.put("pass", password);
-		if(messageToServer.startsWith("ack")){
-			messageToServer.replaceFirst("ack", "");
-			jsonobject.put("ack", messageToServer);
-		}else{
-			jsonobject.put("req", messageToServer);			
+		try {
+			jsonobject.put("user", username);
+			jsonobject.put("pass", password);
+
+			if (messageToServer.startsWith("ackevent")) {
+				jsonobject.put("ack", "event");
+				jsonobject.put("event", splittedMessage[1]);
+				jsonobject.put("eventID", splittedMessage[2]);
+			}
+			else if (messageToServer.startsWith("ackunit")) {
+				jsonobject.put("ack", "unit");
+				jsonobject.put("unit", splittedMessage[1]);
+			}
+			else {
+				jsonobject.put("req", messageToServer);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 
 		String jsonString = jsonobject.toString();
@@ -106,10 +123,8 @@ public class Sender {
 
 		closeConnection();
 	}
-	
-
 	public static void sendContact(String contactName, String contactAddress)
-			throws JSONException {
+	throws JSONException {
 		jsonobject = new JSONObject();
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
@@ -120,6 +135,5 @@ public class Sender {
 		establishConnection();
 		pw.println(jsonString);
 		closeConnection();
-
 	}
 }

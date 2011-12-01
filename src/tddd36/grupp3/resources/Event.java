@@ -22,6 +22,7 @@ public class Event extends MapObject{
 	private int unitID;
 	private String description;
 	private static GeoPoint gp;
+	private int icon;
 
 	/**
 	 * Konstruktor för att lägga til ett "map-event" såsom ett nedfallet träd.
@@ -30,20 +31,20 @@ public class Event extends MapObject{
 	 * @param description - Händelsens fritext beskrivning
 	 * @throws JSONException
 	 */
-	public Event(GeoPoint gp, String header, String message, String eventID) throws JSONException{
-		super(gp, header, message, R.drawable.event_icon, ObjectType.EVENT);
+	public Event(GeoPoint gp, String header, String message, String eventID, int icon ) throws JSONException{
+		super(gp, header, message, icon, ObjectType.EVENT);
 		this.eventID = eventID;
-		
+		this.icon = icon;
 		Log.d("JSON", header);
 		Log.d("JSON", message);
 	}
 
-	public Event(JSONObject event) throws JSONException{
+	public Event(JSONObject event, int icon) throws JSONException{
 		super((gp = new GeoPoint(event.getInt("tempCoordX"),
 				event.getInt("tempCoordY"))),
 				event.getString("accidentType"),
 				event.get("description").toString(),
-				R.drawable.event_icon, ObjectType.EVENT);
+				icon, ObjectType.EVENT);
 
 		this.numberOfInjured = event.getInt("numberOfInjured");
 		this.accidentType = event.getString("accidentType");

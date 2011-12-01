@@ -8,10 +8,11 @@ import java.net.Socket;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import tddd36.grupp3.R;
 import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.models.LoginModel;
 import tddd36.grupp3.resources.Contact;
-import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.resources.OtherEvent;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionGroupActivity;
@@ -105,18 +106,25 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 				for(int i = 0; i<list.length; i++){
 					String[] separated = list[i].split(",");
 					Contact c = new Contact(separated[0],separated[1]);
-					if(!MainView.db.checkRow(c.getSipaddress())){
-						MainView.db.addRow(c);
-					}		
-				}
+					MainView.db.addRow(c);
+					}				
 			}
 			if(messageFromServer.has("MAP_OBJECTS")){
-				Event incomingEvent = new Event((gp = new GeoPoint(messageFromServer.getInt("tempCoordX"),
+				OtherEvent incomingEvent = new OtherEvent((gp = new GeoPoint(messageFromServer.getInt("tempCoordX"),
 						messageFromServer.getInt("tempCoordY"))),
 						messageFromServer.getString("header"),
-						messageFromServer.get("description").toString(), messageFromServer.getString("eventID").toString());
+						messageFromServer.get("description").toString(), messageFromServer.getString("eventID").toString(), R.drawable.green_flag_icon);
 				MapGUI.mapcontroller.addMapObject(incomingEvent);
 				MainView.db.addRow(incomingEvent);	
+			}
+			if(messageFromServer.has("ALL_UNITS")){
+				int count = messageFromServer.getInt("ALL_UNITS");
+				String[] allUnits = new String[count];
+				for(int i = 0; i< allUnits.length; i++){
+					allUnits[i] = messageFromServer.getString("unit"+i);
+				}
+				loginModel.executeChange();
+				loginModel.notify(allUnits);
 			}
 
 			else if(messageFromServer.has("event")){

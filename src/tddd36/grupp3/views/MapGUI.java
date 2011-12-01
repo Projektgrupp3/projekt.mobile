@@ -16,7 +16,11 @@ import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.resources.FloodEvent;
 import tddd36.grupp3.resources.MapObject;
+import tddd36.grupp3.resources.OtherEvent;
+import tddd36.grupp3.resources.RoadBlockEvent;
+import tddd36.grupp3.resources.Status;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,7 +29,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -84,14 +87,16 @@ public class MapGUI extends MapActivity implements Observer {
 		overlayList = map.getOverlays();
 		overlayList.add(t);		
 		compass = new MyLocationOverlay(MapGUI.this, map);
+
 		overlayList.add(compass);
 
 		controller = map.getController();
 		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());		
 
 		mapcontroller = new MapController(MapGUI.this);
-		
-		controller.animateTo(mapcontroller.fireCurrentLocation());
+		if((myLocation = mapcontroller.fireCurrentLocation()) != null){
+			controller.animateTo(myLocation);
+		}
 		controller.setZoom(15);
 	}
 	/**
@@ -127,6 +132,7 @@ public class MapGUI extends MapActivity implements Observer {
 	@Override
 	protected void onPause() {
 		compass.disableCompass();
+		compass.disableMyLocation();
 		super.onPause();
 		mapcontroller.getLocationManager().removeUpdates(mapcontroller.getMapModel());		
 	}
@@ -138,6 +144,7 @@ public class MapGUI extends MapActivity implements Observer {
 	@Override
 	protected void onResume() {
 		compass.enableCompass();
+		compass.enableMyLocation();
 		super.onResume();
 		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
 	}
@@ -163,7 +170,21 @@ public class MapGUI extends MapActivity implements Observer {
 			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
 			return true;
 		case R.id.status:
-			//noop
+			return true;
+		case R.id.recieved:
+			Sender.send("ack: STATUS:"+Status.RECIEVED.toString());
+			return true;
+		case R.id.there:
+			Sender.send("ack: STATUS:"+Status.THERE.toString());
+			return true;
+		case R.id.loaded:
+			Sender.send("ack: STATUS:"+Status.LOADED.toString());
+			return true;
+		case R.id.depart:
+			Sender.send("ack: STATUS:"+Status.DEPART.toString());
+			return true;
+		case R.id.home:
+			Sender.send("ack: STATUS:"+Status.HOME.toString());
 			return true;
 		case R.id.centeratme:
 			myLocation = mapcontroller.fireCurrentLocation();
@@ -243,7 +264,8 @@ public class MapGUI extends MapActivity implements Observer {
 									switch(which){
 									case 0: 
 										try {
-											Event newEvent = new Event(touchedPoint,points[0].toString(), "Ett föremål på vägen förhindrar trafik från att komma fram", new SimpleDateFormat("yyMMddHHmmss").format(new Date()));
+											RoadBlockEvent newEvent = new RoadBlockEvent(touchedPoint,points[0].toString(), "Ett föremål på vägen förhindrar trafik från att komma fram", 
+													new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.road_closed_icon);
 											Sender.send(newEvent);
 											mapcontroller.addMapObject(newEvent);
 										} catch (JSONException e) {
@@ -252,7 +274,8 @@ public class MapGUI extends MapActivity implements Observer {
 										break;
 									case 1:
 										try {
-											Event newEvent = new Event(touchedPoint,points[1].toString(), "Det är en översväming på platsen", new SimpleDateFormat("yyMMddHHmmss").format(new Date()));
+											FloodEvent newEvent = new FloodEvent(touchedPoint,points[1].toString(), "Det är en översväming på platsen",
+													new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.flood_icon);
 											Sender.send(newEvent);
 											mapcontroller.addMapObject(newEvent);
 										} catch (JSONException e) {
@@ -263,36 +286,35 @@ public class MapGUI extends MapActivity implements Observer {
 										AlertDialog.Builder createCustomEventDialog = new AlertDialog.Builder(MapGUI.this);
 
 										createCustomEventDialog.setTitle("Lägg till händelse");
-										
+
 										LinearLayout lila1 = new LinearLayout(MapGUI.this);
-									    lila1.setOrientation(1); //1 is for vertical orientation
-									    final EditText input1 = new EditText(MapGUI.this); 
-									    final EditText input2 = new EditText(MapGUI.this);
-									    final TextView header = new TextView(MapGUI.this);
-									    final TextView desc = new TextView(MapGUI.this);
-									    
-									    header.setText("Rubrik");
-									    desc.setText("Beskrivning");
-									    
-									    lila1.addView(header);
-									    lila1.addView(input1);
-									    lila1.addView(desc);
-									    lila1.addView(input2);
-									    createCustomEventDialog.setView(lila1);
+										lila1.setOrientation(1); //1 is for vertical orientation
+										final EditText input1 = new EditText(MapGUI.this); 
+										final EditText input2 = new EditText(MapGUI.this);
+										final TextView header = new TextView(MapGUI.this);
+										final TextView desc = new TextView(MapGUI.this);
+
+										header.setText("Rubrik");
+										desc.setText("Beskrivning");
+
+										lila1.addView(header);
+										lila1.addView(input1);
+										lila1.addView(desc);
+										lila1.addView(input2);
+										createCustomEventDialog.setView(lila1);
 
 										createCustomEventDialog.setPositiveButton("Lägg till", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface dialog, int whichButton) {
 												try {
-													Log.d("hej",input1.getText().toString());
-													Event newEvent = new Event(touchedPoint, input1.getText().toString(), 
+													OtherEvent newEvent = new OtherEvent(touchedPoint, input1.getText().toString(), 
 															input2.getText().toString(),
-															new SimpleDateFormat("yyMMddHHmmss").format(new Date()));
+															new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.green_flag_icon);
 													Sender.send(newEvent);
 													mapcontroller.addMapObject(newEvent);
 												} catch (JSONException e) {
 													e.printStackTrace();
 												}
-												
+
 											}
 										});
 
@@ -357,11 +379,7 @@ public class MapGUI extends MapActivity implements Observer {
 		logout.setMessage("Är du säker på att du vill avsluta?");
 		logout.setButton("Ja", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which){
-				try {
-					Sender.send("LOGOUT");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				Sender.send("LOGOUT");
 				finish();
 			}
 		});

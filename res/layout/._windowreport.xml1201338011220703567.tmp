@@ -5,10 +5,10 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/tvVer"
+        android:id="@+id/tvVind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Verifieringsrapport"
+        android:text="Vindruterapport"
         android:textSize="30dp" />
 
     <ScrollView
@@ -39,7 +39,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="Allvarlig händelse:" />
+                        android:text="Allvarlig Händelse:" />
 
                     <RadioGroup
                         android:id="@+id/radioGroup1"
@@ -48,24 +48,18 @@
                         android:orientation="horizontal" >
 
                         <RadioButton
-                            android:id="@+id/radio0"
+                            android:id="@+id/radio0V"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
                             android:text="Ja" />
 
                         <RadioButton
-                            android:id="@+id/radio1"
+                            android:id="@+id/radio1V"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Nej" />
                     </RadioGroup>
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow2"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content" >
                 </TableRow>
 
                 <TableRow
@@ -80,7 +74,7 @@
                         android:text="Typ av skada:" />
 
                     <EditText
-                        android:id="@+id/edTypeOfInjury"
+                        android:id="@+id/edTypeOfInjuryVind"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" >
@@ -101,7 +95,7 @@
                         android:text="Hot / Risker:" />
 
                     <EditText
-                        android:id="@+id/edThreats"
+                        android:id="@+id/edThreatsVind"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
@@ -125,7 +119,7 @@
                         android:text="Antal skadade:" />
 
                     <EditText
-                        android:id="@+id/edNumberOfInjuries"
+                        android:id="@+id/edNumberOfInjuredVind"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -147,57 +141,36 @@
                         android:text="Extra resurser:" />
 
                     <EditText
-                        android:id="@+id/edExtraResources"
+                        android:id="@+id/edExtraResourcesVind"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/tableRow4"
-                    android:layout_width="match_parent"
+                    android:id="@+id/tableRow2"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/textView1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rekognoseringsnivå:" />
+                        android:text="Exakt lokalisation:" />
 
                     <EditText
-                        android:id="@+id/edAreaSerached"
-                        android:layout_width="0dp"
+                        android:id="@+id/edExactLocation"
+                        android:layout_width="410dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tid för avtransport:" />
-
-                    <EditText
-                        android:id="@+id/edTimeOfDepature"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:freezesText="false"
-                        android:inputType="numberDecimal"
-                        android:maxLength="5" />
                 </TableRow>
             </TableLayout>
 
             <Button
-                android:id="@+id/bSendInfo"
+                android:id="@+id/bSendVind"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Skicka rapport" />
+                android:text="Skicka Vindruterapport" />
         </LinearLayout>
     </ScrollView>
 

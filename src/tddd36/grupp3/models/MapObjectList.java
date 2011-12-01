@@ -49,16 +49,9 @@ public class MapObjectList extends ItemizedOverlay<OverlayItem>{
 		AlertDialog dialog = new AlertDialog.Builder(c).create();
 		dialog.setTitle(clicked.getTitle());
 		dialog.setMessage(clicked.getObjectDescription());
-		dialog.setButton("Ändra Beskrivning", new OnClickListener() {
-			
+		dialog.setButton("OK", new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				
-			}
-		});
-		dialog.setButton2("Ta bort objekt", new OnClickListener() {
-			
-			public void onClick(DialogInterface dialog, int which) {
-				//pinpoints.remove(clicked);
+				dialog.dismiss();
 			}
 		});
 		dialog.show();

@@ -37,6 +37,9 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	Resources res;
 
 	public static Context context;
+	
+	private static String user;
+	private static String pass;
 
 	public static ClientDatabaseManager db;
 	public static SipManager manager = null;
@@ -51,6 +54,10 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		user = getIntent().getExtras().getString("user");
+		pass = getIntent().getExtras().getString("pass");
+		
 		context = getBaseContext();
 
 		// Sipstuff
@@ -92,12 +99,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 				.setContent(intent);
 		tabHost.addTab(spec);
 
-//		try {
-//			Sender.send("getContacts");
-//		} catch (JSONException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+			Sender.send("getContacts");
 
 
 		tabHost.setCurrentTab(2);
@@ -108,7 +110,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	 * Dummy-method, does not actually do anything at the moment.
 	 */
 	public void onTabChanged(String arg0) {
-
+		
 	}
 	/**
 	 * Called when some instance calls getParent().finish(). 
@@ -143,8 +145,8 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		}
 
 		try {
-			SipProfile.Builder builder = new SipProfile.Builder("enhet3","ekiga.net");
-			builder.setPassword("password");
+			SipProfile.Builder builder = new SipProfile.Builder(user,"ekiga.net");
+			builder.setPassword(pass.replaceFirst("[0-9]", ""));
 			me = builder.build();
 			Intent i = new Intent();
 			i.setAction("android.SipDemo.INCOMING_CALL");

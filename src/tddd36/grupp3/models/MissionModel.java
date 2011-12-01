@@ -53,7 +53,10 @@ public class MissionModel extends Observable{
 		}
 	}
 	public GeoPoint getCurrentGeoPoint(){
-		return this.currentEvent.getGeoPoint();
+		if(this.currentEvent != null){
+			return this.currentEvent.getGeoPoint();
+		}
+		return null;
 	}
 
 	public String getEventID() {
