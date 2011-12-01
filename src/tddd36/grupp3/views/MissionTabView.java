@@ -84,25 +84,14 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		historylistitems.add(new String[] {"Trafikolycka", "Påbörjat uppdrag."});
 		MissionHistoryAdapter historyAdapter = new MissionHistoryAdapter(getBaseContext(), R.layout.missionhistoryitem, historylistitems);
 		listView.setAdapter(historyAdapter);
-<<<<<<< HEAD
 		
-=======
-
->>>>>>> refs/heads/Emil
 		// add views to tab host
 		spec = tabHost.newTabSpec("currentmission").setIndicator("Uppdrag").setContent(R.id.currenttab);
 		tabHost.addTab(spec);
-<<<<<<< HEAD
-
-		spec = tabHost.newTabSpec("report").setIndicator("Rapporter").setContent(R.id.reporttab);
-		tabHost.addTab(spec);
-
-=======
 		
 		spec = tabHost.newTabSpec("report").setIndicator("Rapporter").setContent(R.id.reporttab);
 		tabHost.addTab(spec);
-		
->>>>>>> refs/heads/Emil
+
 		spec = tabHost.newTabSpec("history").setIndicator("Historik").setContent(
 				new TabContentFactory() {
 					public View createTabContent(String arg0) {
@@ -110,12 +99,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 					}
 				});
 		tabHost.addTab(spec);
-<<<<<<< HEAD
 		
-=======
-
-
->>>>>>> refs/heads/Emil
 		tabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 45;
 		tabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 45;
 		tabHost.getTabWidget().getChildAt(2).getLayoutParams().height = 45;
