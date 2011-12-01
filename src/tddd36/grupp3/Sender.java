@@ -46,17 +46,22 @@ public class Sender {
 		}
 	}
 
-	public static void send(String str) throws JSONException {
+	public static void send(String str) {
 		messageToServer = str;
 
 		jsonobject = new JSONObject();
-		jsonobject.put("user", username);
-		jsonobject.put("pass", password);
-		if(messageToServer.startsWith("ack")){
-			messageToServer.replaceFirst("ack", "");
-			jsonobject.put("ack", messageToServer);
-		}else{
-			jsonobject.put("req", messageToServer);			
+		try {
+			jsonobject.put("user", username);
+			jsonobject.put("pass", password);
+			if(messageToServer.startsWith("ack")){
+				messageToServer.replaceFirst("ack", "");
+				jsonobject.put("ack", messageToServer);
+			}else{
+				jsonobject.put("req", messageToServer);			
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		String jsonString = jsonobject.toString();

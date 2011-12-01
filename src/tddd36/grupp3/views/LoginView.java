@@ -135,11 +135,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 //				startActivity(mainIntent);
 //				finish();
 
-				try {
-					Sender.send("ackunit"+allUnits[spinnerPosition]);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				Sender.send("ackunit"+allUnits[spinnerPosition]);
 				loginwait.show();
 				Intent mainIntent = new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class);
 				mainIntent.putExtra("user", ""+user.getText());

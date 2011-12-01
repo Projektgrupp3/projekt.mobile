@@ -17,6 +17,7 @@ import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.MapObject;
+import tddd36.grupp3.resources.Status;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -164,11 +165,12 @@ public class MapGUI extends MapActivity implements Observer {
 			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
 			return true;
 		case R.id.status:
-			//noop
+			
 			return true;
-		case R.id.centeratme:
-			myLocation = mapcontroller.fireCurrentLocation();
-			if(myLocation!=null){
+		case R.id.depart:
+			Sender.send("ack: STATUS:"+Status.DEPART.toString());
+		case R.id.centeratme:			
+			if((myLocation = mapcontroller.fireCurrentLocation())!=null){
 				controller.setZoom(15);
 				controller.animateTo(myLocation);
 			}else{
@@ -358,11 +360,7 @@ public class MapGUI extends MapActivity implements Observer {
 		logout.setMessage("Är du säker på att du vill avsluta?");
 		logout.setButton("Ja", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which){
-				try {
-					Sender.send("LOGOUT");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				Sender.send("LOGOUT");
 				finish();
 			}
 		});
