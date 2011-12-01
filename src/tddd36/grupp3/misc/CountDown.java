@@ -11,6 +11,7 @@ public class CountDown extends Observable implements Runnable{
 	public void run() {
 		startRunning();
 		try {
+			//NÅGOT FEL
 			while(countdown>0 && isRunning){
 				setChanged();
 				Thread.sleep(1000);

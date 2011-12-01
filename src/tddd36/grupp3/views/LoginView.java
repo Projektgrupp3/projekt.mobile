@@ -126,7 +126,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		bContinue.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				try {
-					Sender.send("ackunit"+allUnits[spinnerPosition]);
+					Sender.send("ackunit:"+allUnits[spinnerPosition]);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}

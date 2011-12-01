@@ -12,8 +12,8 @@ import tddd36.grupp3.resources.Event;
 
 public class Sender {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
-	private static final String COM_IP = "130.236.226.193";
-	private static final int COM_PORT = 1560;
+	private static final String COM_IP = "130.236.226.22";
+	private static final int COM_PORT = 1879;
 	// private static final int COM_PORT = 3434;
 	private static PrintWriter pw;
 	private static JSONObject jsonobject;
@@ -46,22 +46,23 @@ public class Sender {
 
 	public static void send(String str) throws JSONException {
 		messageToServer = str;
+		String[] splittedMessage = messageToServer.split(":", 3);
 
 		jsonobject = new JSONObject();
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
-		if(messageToServer.startsWith("ack")){
-			messageToServer.replaceFirst("ack", "");
-			jsonobject.put("ack", messageToServer);
-		}
 		
-		///BRÅKAR
-		else if(messageToServer.startsWith("ackunit")){
-			messageToServer.replaceFirst("ackunit", "");
+		if (messageToServer.startsWith("ackevent")) {
+			jsonobject.put("ack", "event");
+			jsonobject.put("event", splittedMessage[1]);
+			jsonobject.put("eventID", splittedMessage[2]);
+		}
+		else if (messageToServer.startsWith("ackunit")) {
 			jsonobject.put("ack", "unit");
-			jsonobject.put("unit", messageToServer);
-		}else{
-			jsonobject.put("req", messageToServer);			
+			jsonobject.put("unit", splittedMessage[1]);
+		}
+		else {
+			jsonobject.put("req", messageToServer);
 		}
 
 		String jsonString = jsonobject.toString();
@@ -95,7 +96,7 @@ public class Sender {
 	}
 
 	public static void send(String user, String pass, String message)
-	throws JSONException {
+			throws JSONException {
 		username = user;
 		password = pass;
 		messageToServer = message;

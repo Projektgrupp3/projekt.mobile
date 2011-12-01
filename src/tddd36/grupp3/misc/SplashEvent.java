@@ -54,7 +54,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 
 		try {
 			JSONObject json = new JSONObject(JSONString);
-			ev = new Event(json);
+			ev = new Event(json, R.drawable.red_flag_icon);
 			Toast.makeText(getBaseContext(), "julkorv", Toast.LENGTH_SHORT).show();
 		} catch (JsonSyntaxException e) {
 			// TODO Auto-generated catch block
@@ -81,7 +81,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 		countDownValue = (String) data;
 		if(countDownValue.equals("0")){
 			try {
-				Sender.send("ack: NEKAT:"+ev.getID());
+				Sender.send("ackevent:NEKAT:"+ev.getID());
 				parentActivity.onBackPressed();
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -103,7 +103,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 			MissionTabView.mc.setCurrentMission(ev);
 			MainView.db.addRow(ev);
 			try {
-				Sender.send("ack: ACCEPTERAT:"+ev.getID());
+				Sender.send("ackevent:ACCEPTERAT:"+ev.getID());
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -8,8 +8,12 @@ import java.util.Observable;
 
 import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.resources.FloodEvent;
 import tddd36.grupp3.resources.Hospital;
+import tddd36.grupp3.resources.MapEvent;
 import tddd36.grupp3.resources.MapObject;
+import tddd36.grupp3.resources.OtherEvent;
+import tddd36.grupp3.resources.RoadBlockEvent;
 import tddd36.grupp3.resources.Vehicle;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
@@ -31,7 +35,7 @@ public class MapModel extends Observable implements LocationListener{
 	int lat, lon;
 
 	private Drawable d;
-	private MapObjectList vehicles,hospital,event;
+	private MapObjectList vehicles,hospital,event, roadblock, flood, otherevent, mapevent;
 	public static final String GPS_FAILED = "Kunde inte hämta GPS-status";
 
 	static MapGUI mapgui;
@@ -145,12 +149,45 @@ public class MapModel extends Observable implements LocationListener{
 				notifyObservers(hospital);
 			}
 			else if(o instanceof Event){
-				if(event == null){
-					event = new MapObjectList(d, mapgui);
+				if(o instanceof RoadBlockEvent){
+					if(roadblock == null){
+						roadblock = new MapObjectList(d, mapgui);
+					}
+					roadblock.add(o);
+					notifyObservers(roadblock);
 				}
-				event.add(o);
-				notifyObservers(event);
+				else if(o instanceof FloodEvent){
+					if(flood == null){
+						flood  = new MapObjectList(d, mapgui);
+					}
+					flood .add(o);
+					notifyObservers(flood );
+				}
+				else if(o instanceof OtherEvent){
+					if(otherevent == null){
+						otherevent = new MapObjectList(d, mapgui);
+					}
+					otherevent.add(o);
+					notifyObservers(otherevent);
+				}
+				else if(o instanceof MapEvent){
+					if(mapevent == null){
+						mapevent = new MapObjectList(d, mapgui);
+					}
+					mapevent.add(o);
+					notifyObservers(mapevent);
+				}
+				
+				else if(o instanceof Event){
+					if(event == null){
+						event = new MapObjectList(d, mapgui);
+						event.add(o);
+						notifyObservers(event);
+					}
+				}
+
 			}
+
 		}else{
 			setChanged();
 			notifyObservers(null);
