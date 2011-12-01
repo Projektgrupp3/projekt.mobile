@@ -85,6 +85,7 @@ public class MapGUI extends MapActivity implements Observer {
 		overlayList = map.getOverlays();
 		overlayList.add(t);		
 		compass = new MyLocationOverlay(MapGUI.this, map);
+
 		overlayList.add(compass);
 
 		controller = map.getController();
@@ -129,6 +130,7 @@ public class MapGUI extends MapActivity implements Observer {
 	@Override
 	protected void onPause() {
 		compass.disableCompass();
+		compass.disableMyLocation();
 		super.onPause();
 		mapcontroller.getLocationManager().removeUpdates(mapcontroller.getMapModel());		
 	}
@@ -140,6 +142,7 @@ public class MapGUI extends MapActivity implements Observer {
 	@Override
 	protected void onResume() {
 		compass.enableCompass();
+		compass.enableMyLocation();
 		super.onResume();
 		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
 	}
