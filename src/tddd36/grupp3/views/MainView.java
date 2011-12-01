@@ -62,10 +62,10 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 
 		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
-//		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
-//		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
-//		db.addRow(new Contact("Enhet 3", "enhet3@ekiga.net"));
-//		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
+		//		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
+		//		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
+		//		db.addRow(new Contact("Enhet 3", "enhet3@ekiga.net"));
+		//		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
 
 		res = getResources(); // Resource object to get Drawables
 		tabHost = getTabHost();  // The activity TabHost
@@ -92,14 +92,14 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 				.setContent(intent);
 		tabHost.addTab(spec);
 
-			try {
-				Sender.send("getContacts");
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//		try {
+//			Sender.send("getContacts");
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
-		
+
 		tabHost.setCurrentTab(2);
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);

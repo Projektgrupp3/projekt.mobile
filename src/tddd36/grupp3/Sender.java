@@ -12,7 +12,7 @@ import tddd36.grupp3.resources.Event;
 
 public class Sender {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
-	private static final String COM_IP = "192.168.1.8";
+	private static final String COM_IP = "130.236.227.61";
 	private static final int COM_PORT = 4445;
 
 	private static PrintWriter pw;
