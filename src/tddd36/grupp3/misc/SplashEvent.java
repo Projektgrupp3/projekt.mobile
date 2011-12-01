@@ -81,7 +81,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 		countDownValue = (String) data;
 		if(countDownValue.equals("0")){
 			Sender.send("ackevent:NEKAT:"+ev.getID());
-			parentActivity.onBackPressed();
+			//parentActivity.onBackPressed();
 		}
 		runOnUiThread(new Runnable(){
 			public void run() {
