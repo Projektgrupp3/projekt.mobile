@@ -91,7 +91,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 
 		spec = tabHost.newTabSpec("report").setIndicator("Rapporter").setContent(R.id.reporttab);
 		tabHost.addTab(spec);
-		
+
 		spec = tabHost.newTabSpec("history").setIndicator("Historik").setContent(
 				new TabContentFactory() {
 					public View createTabContent(String arg0) {
@@ -99,7 +99,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 					}
 				});
 		tabHost.addTab(spec);
-
+		
 		tabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 45;
 		tabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 45;
 		tabHost.getTabWidget().getChildAt(2).getLayoutParams().height = 45;
