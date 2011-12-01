@@ -82,8 +82,10 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		if(data instanceof String[]){
 			allUnits = (String[])data;
 			try {
-				if(authenticated)
+				if(authenticated){
+				loginwait.dismiss();
 				chooseUnit();
+				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -97,6 +99,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 				login.setMessage("Felaktigt användarnamn eller lösenord");
 				login.setButton("OK", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) { 
+						loginwait.dismiss();
 					}
 				});
 				pass.setText("");
@@ -125,17 +128,19 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 
 		bContinue.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				try {
-					Sender.send("ackunit:"+allUnits[spinnerPosition]);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+
+				Sender.send("ackunit"+allUnits[spinnerPosition]);
 				loginwait.show();
-				startActivity(new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class));
+				Intent mainIntent = new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class);
+				mainIntent.putExtra("user", ""+user.getText());
+				mainIntent.putExtra("pass", ""+pass.getText());
+				startActivity(mainIntent);
 				finish();
 			};
 		});
 	}
+
+	
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {

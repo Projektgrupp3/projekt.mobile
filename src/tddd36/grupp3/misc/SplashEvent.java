@@ -54,8 +54,13 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 
 		try {
 			JSONObject json = new JSONObject(JSONString);
+<<<<<<< HEAD
 			ev = new Event(json, R.drawable.red_flag_icon);
 			Toast.makeText(getBaseContext(), "julkorv", Toast.LENGTH_SHORT).show();
+=======
+			ev = new Event(json);
+			Toast.makeText(getBaseContext(), "Inkommande larm!", Toast.LENGTH_SHORT).show();
+>>>>>>> branch 'master' of git@github.com:Projektgrupp3/projekt.mobile.git
 		} catch (JsonSyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,12 +85,17 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 	public void update(Observable observable, Object data) {
 		countDownValue = (String) data;
 		if(countDownValue.equals("0")){
+<<<<<<< HEAD
 			try {
 				Sender.send("ackevent:NEKAT:"+ev.getID());
 				parentActivity.onBackPressed();
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+=======
+			Sender.send("ack: NEKAT:"+ev.getID());
+			parentActivity.onBackPressed();
+>>>>>>> branch 'master' of git@github.com:Projektgrupp3/projekt.mobile.git
 		}
 		runOnUiThread(new Runnable(){
 			public void run() {
