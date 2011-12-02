@@ -19,7 +19,7 @@ public class Event extends MapObject{
 	private String priority; 
 	private String address;
 	private String typeOfInjury;
-	private int unitID;
+	private String unitID;
 	private String description;
 	private static GeoPoint gp;
 	private int icon;
@@ -39,13 +39,27 @@ public class Event extends MapObject{
 		Log.d("JSON", message);
 	}
 
+	public Event(GeoPoint gp, int numberOfInjuried, String accidentType, String priority, 
+			String typeOfInjury, String eventID, String unitID, String description){
+		super(gp, accidentType, description, R.drawable.event_icon, ObjectType.EVENT);
+
+		this.numberOfInjured = numberOfInjuried;
+		this.accidentType = accidentType;
+		this.priority = priority;
+		this.address = MapModel.getAddress(gp);
+		this.typeOfInjury = typeOfInjury;
+		this.eventID = eventID;
+		this.unitID = unitID;
+		this.description = description;
+	}
+
 	public Event(JSONObject event, int icon) throws JSONException{
 		super((gp = new GeoPoint(event.getInt("tempCoordX"),
 				event.getInt("tempCoordY"))),
 				event.getString("accidentType"),
 				event.get("description").toString(),
 				icon, ObjectType.EVENT);
-
+	
 		this.numberOfInjured = event.getInt("numberOfInjured");
 		this.accidentType = event.getString("accidentType");
 		this.coordinateX = event.getString("tempCoordX"); // lat
@@ -54,9 +68,9 @@ public class Event extends MapObject{
 		this.address = MapModel.getAddress(gp);
 		this.typeOfInjury = event.getString("typeOfInjury");
 		this.eventID = event.getString("event");
-		this.unitID = event.getInt("unitID");
+		this.unitID = event.getString("unitID");
 		this.description = event.getString("description");
-
+	
 		Log.d("JSON", "Event ID: "+eventID);
 		Log.d("JSON", event.getString("accidentType"));
 		Log.d("JSON", event.get("description").toString());
@@ -68,21 +82,7 @@ public class Event extends MapObject{
 		//		Log.d("JSON", address);
 		Log.d("JSON", typeOfInjury);
 		Log.d("JSON", ""+unitID);
-
-	}
-
-	public Event(GeoPoint gp, int numberOfInjuried, String accidentType, String priority, 
-			String typeOfInjury, String eventID, int unitID, String description){
-		super(gp, accidentType, description, R.drawable.event_icon, ObjectType.EVENT);
-
-		this.numberOfInjured = numberOfInjuried;
-		this.accidentType = accidentType;
-		this.priority = priority;
-		this.address = MapModel.getAddress(gp);
-		this.typeOfInjury = typeOfInjury;
-		this.eventID = eventID;
-		this.unitID = unitID;
-		this.description = description;
+	
 	}
 
 	public int getNumberOfInjured() {
@@ -145,11 +145,11 @@ public class Event extends MapObject{
 		this.eventID= id;
 	}
 
-	public int getUnitID() {
+	public String getUnitID() {
 		return unitID;
 	}
 
-	public void setUnitID(int unitID) {
+	public void setUnitID(String unitID) {
 		this.unitID = unitID;
 	}
 

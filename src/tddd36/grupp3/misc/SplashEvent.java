@@ -1,6 +1,5 @@
 package tddd36.grupp3.misc;
 
-import java.lang.ref.WeakReference;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,7 +15,7 @@ import tddd36.grupp3.views.MissionGroupActivity;
 import tddd36.grupp3.views.MissionTabView;
 import tddd36.grupp3.views.TabGroupActivity;
 import android.app.Activity;
-import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,11 +23,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 public class SplashEvent extends Activity implements OnClickListener, Observer {
-	private WeakReference<MainView> ctx;
 
 	private CountDown cd;
 	private String JSONString;
@@ -36,10 +33,12 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 
 	private Event ev;
 
-	private Button acceptmission, rejectmission;
+	private Button acceptmission;
 	private TextView timelefttv;
 	
-	private TabGroupActivity parentActivity;
+	private TabGroupActivity parentActivity;	
+
+	private MediaPlayer mp;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -48,8 +47,9 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 		
 		parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
 		
-		Gson gson = new Gson();
-
+		mp = MediaPlayer.create(SplashEvent.this, R.raw.warning);
+		mp.start();
+		
 		JSONString = (String) getIntent().getExtras().get("json");
 
 		try {
@@ -73,27 +73,25 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 		new Thread(cd).start();
 	}	
 
-
-	public void onClick(DialogInterface dialog, int which) {
-
-	}
 	public void update(Observable observable, Object data) {
 		countDownValue = (String) data;
-		if(countDownValue.equals("0")){
-			Sender.send(Sender.ACK_REJECTED_EVENT+":"+ev.getID());
-			parentActivity.onBackPressed();
-			Sender.send("ackevent:NEKAT:"+ev.getID());
-			//parentActivity.onBackPressed();
-		}
 		runOnUiThread(new Runnable(){
 			public void run() {
 				timelefttv.setText(countDownValue);
+				if(countDownValue.equals("0")){
+					Sender.send(Sender.ACK_REJECTED_EVENT+":"+ev.getID());
+					cd.stopRunning();
+					mp.stop();
+					parentActivity.onBackPressed();
+				}
 			}			
 		});
 	}
 
 
 	public void onClick(View v) {
+		cd.stopRunning();
+		mp.stop();
 		if(ev == null){
 			Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
 		}else {

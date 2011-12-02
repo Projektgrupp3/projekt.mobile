@@ -129,7 +129,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 			}
 
 			else if(messageFromServer.has("event")){
-				//Sender.send(Sender.ACK_RECIEVED_EVENT+":"+messageFromServer.getJSONObject(arg0));
+				//Sender.send(Sender.ACK_RECIEVED_EVENT+":"+messageFromServer));
 				MainView.tabHost.setCurrentTab(1);
 				Intent splashIntent = new Intent(MainView.context, SplashEvent.class);
 				TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent() ;

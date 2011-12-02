@@ -8,6 +8,7 @@ import org.json.JSONException;
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
 import tddd36.grupp3.database.ClientDatabaseManager;
+import tddd36.grupp3.misc.QoSManager;
 import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.resources.Contact;
 import tddd36.grupp3.resources.Event;
@@ -22,6 +23,7 @@ import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 /**
@@ -45,11 +47,16 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public static SipManager manager = null;
 	public static SipProfile me = null;
 	public IncomingCallReceiver callReceiver;
+	
+	public static WindowManager.LayoutParams lp;
+	
+	public static QoSManager QoSManager;
 	/**
 	 * OnCreate-method setting up the tab structure via the static TabHost. 
 	 * Also intializes the SQLite database containing map objects, the users current mission and
 	 * contacts.
 	 */
+	@SuppressWarnings("static-access")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -104,6 +111,9 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		tabHost.setCurrentTab(2);
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);
+		QoSManager = new QoSManager(getWindow().getAttributes(), this);
+		this.registerReceiver(QoSManager.myBatteryReceiver,
+			new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 	}
 	/**
 	 * Dummy-method, does not actually do anything at the moment.
@@ -119,6 +129,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public void onDestroy(){
 		super.onDestroy();
 		unregisterReceiver(callReceiver);
+		unregisterReceiver(QoSManager.myBatteryReceiver);
 		closeLocalProfile();
 		db.close();
 	}

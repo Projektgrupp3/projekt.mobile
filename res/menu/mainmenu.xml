@@ -6,30 +6,33 @@
         android:title="@string/status">
 <menu >
 
-            <item
-                android:id="@+id/recieved"
-                android:title="Kvitterat"
-                android:checkable="true"/>
+            <group android:checkableBehavior="single" >
 
-            <item
-                android:id="@+id/there"
-                android:title="Framme"
-                android:checkable="true"/>
+                <item
+                    android:id="@+id/recieved"
+                    android:checkable="true"
+                    android:title="Kvitterat"/>
 
-            <item
-                android:id="@+id/loaded"
-                android:title="Lastat"
-                android:checkable="true"/>
+                <item
+                    android:id="@+id/there"
+                    android:checkable="true"
+                    android:title="Framme"/>
 
-            <item
-                android:id="@+id/depart"
-                android:title="Lämnar"
-                android:checkable="true"/>
+                <item
+                    android:id="@+id/loaded"
+                    android:checkable="true"
+                    android:title="Lastat"/>
 
-            <item
-                android:id="@+id/home"
-                android:title="Hemåt"
-                android:checkable="true"/>
+                <item
+                    android:id="@+id/depart"
+                    android:checkable="true"
+                    android:title="Lämnar"/>
+
+                <item
+                    android:id="@+id/home"
+                    android:checkable="true"
+                    android:title="Hemåt"/>
+            </group>
         </menu></item>
 
     <item
@@ -43,6 +46,9 @@
     <item
         android:id="@+id/logout"
         android:title="Logga ut"></item>
-    <item android:id="@+id/addContact" android:title="Ny kontakt"></item>
+
+    <item
+        android:id="@+id/addContact"
+        android:title="Ny kontakt"></item>
 
 </menu>
