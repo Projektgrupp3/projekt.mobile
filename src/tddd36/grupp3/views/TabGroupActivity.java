@@ -80,7 +80,7 @@ public class TabGroupActivity extends ActivityGroup {
           Activity current = getLocalActivityManager().getActivity(mIdList.get(length-1));
           current.finish();
       }else if(length == 1){
-    	  Sender.send("LOGOUT");
+    	  Sender.send(Sender.LOG_OUT);
     	  finishActivity();
       }
   }

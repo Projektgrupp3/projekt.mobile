@@ -80,7 +80,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 	public void update(Observable observable, Object data) {
 		countDownValue = (String) data;
 		if(countDownValue.equals("0")){
-			Sender.send("ackevent:NEKAT:"+ev.getID());
+			Sender.send(Sender.ACK_REJECTED_EVENT+":"+ev.getID());
 			parentActivity.onBackPressed();
 		}
 		runOnUiThread(new Runnable(){
@@ -98,7 +98,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 			MapGUI.mapcontroller.addMapObject(ev);
 			MissionTabView.mc.setCurrentMission(ev);
 			MainView.db.addRow(ev);
-			Sender.send("ackevent:ACCEPTERAT:"+ev.getID());
+			Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
 		}
 		parentActivity.onBackPressed();
 	}		

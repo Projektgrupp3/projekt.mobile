@@ -240,7 +240,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	}
 	
 	public void onBackPressed(){
-
+		
 	}
 	/**
 	 * Anonymous inner class for filling the mission history list with history items

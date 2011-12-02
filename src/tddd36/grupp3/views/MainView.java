@@ -99,7 +99,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 				.setContent(intent);
 		tabHost.addTab(spec);
 
-			Sender.send("getContacts");
+			Sender.send(Sender.REQ_ALL_CONTACTS);
 
 		
 		tabHost.setCurrentTab(2);

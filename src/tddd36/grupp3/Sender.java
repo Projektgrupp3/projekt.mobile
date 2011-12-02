@@ -8,6 +8,8 @@ import java.net.UnknownHostException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import tddd36.grupp3.resources.Event;
 
 /**
@@ -17,8 +19,19 @@ import tddd36.grupp3.resources.Event;
  */
 public class Sender {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
-	private static final String COM_IP = "130.236.226.22";
-	private static final int COM_PORT = 1879;
+	public static final String REQ_MAP_OBJECTS = "REQ_MAP_OBJECTS";
+	public static final String REQ_ALL_CONTACTS ="REQ_ALL_CONTACTS";
+	public static final String REQ_CONTACT = "REQ_CONTACT";
+	public static final String UPDATE_MAP_OBJECT = "UPDATE_MAP_OBJECT";
+	public static final String ACK_RECIEVED_EVENT = "ACK_RECIEVED_EVENT";
+	public static final String ACK_ACCEPTED_EVENT = "ACK_ACCEPTED_EVENT";
+	public static final String ACK_REJECTED_EVENT = "ACK_REJECTED_EVENT";
+	public static final String ACK_STATUS = "ACK_STATUS";
+	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
+	public static final String LOG_OUT = "LOG_OUT";
+	
+	private static final String COM_IP = "130.236.226.246";
+	private static final int COM_PORT = 4445;
 	private static PrintWriter pw;
 	private static JSONObject jsonobject;
 
@@ -50,21 +63,27 @@ public class Sender {
 
 	public static void send(String str) {
 		messageToServer = str;
-		String[] splittedMessage = messageToServer.split(":", 3);
+		String[] splittedMessage = messageToServer.split(":", 2);
 
 		jsonobject = new JSONObject();
 		try {
 			jsonobject.put("user", username);
 			jsonobject.put("pass", password);
 
-			if (messageToServer.startsWith("ackevent")) {
+			if (messageToServer.startsWith(ACK_ACCEPTED_EVENT) 
+					|| messageToServer.startsWith(ACK_RECIEVED_EVENT)
+					|| messageToServer.startsWith(ACK_REJECTED_EVENT)) {
 				jsonobject.put("ack", "event");
-				jsonobject.put("event", splittedMessage[1]);
-				jsonobject.put("eventID", splittedMessage[2]);
+				jsonobject.put("event", splittedMessage[0]);
+				jsonobject.put("eventID", splittedMessage[1]);
 			}
-			else if (messageToServer.startsWith("ackunit")) {
+			else if (messageToServer.startsWith(ACK_CHOSEN_UNIT)) {
 				jsonobject.put("ack", "unit");
 				jsonobject.put("unit", splittedMessage[1]);
+			}
+			else if(messageToServer.startsWith(ACK_STATUS)){
+				jsonobject.put("ack", "status");
+				jsonobject.put("status", splittedMessage[1]);
 			}
 			else {
 				jsonobject.put("req", messageToServer);
@@ -87,7 +106,7 @@ public class Sender {
 
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
-		jsonobject.put("req", "MAP_OBJECTS");
+		jsonobject.put("req", UPDATE_MAP_OBJECT);
 		jsonobject.put("header", ev.getHeader());
 		jsonobject.put("description", ev.getMessage());
 		jsonobject.put("tempCoordX", ev.getLatE6());
@@ -108,7 +127,6 @@ public class Sender {
 		username = user;
 		password = pass;
 		messageToServer = message;
-
 		jsonobject = new JSONObject();
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
@@ -127,7 +145,7 @@ public class Sender {
 		jsonobject = new JSONObject();
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
-		jsonobject.put("req", "contact");
+		jsonobject.put("req", REQ_CONTACT);
 		jsonobject.put("sipaddress", contactAddress);
 		jsonobject.put("contactName", contactName);
 		String jsonString = jsonobject.toString();
