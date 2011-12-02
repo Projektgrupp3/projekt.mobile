@@ -80,13 +80,10 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 	public void update(Observable observable, Object data) {
 		countDownValue = (String) data;
 		if(countDownValue.equals("0")){
-<<<<<<< HEAD
 			Sender.send(Sender.ACK_REJECTED_EVENT+":"+ev.getID());
 			parentActivity.onBackPressed();
-=======
 			Sender.send("ackevent:NEKAT:"+ev.getID());
 			//parentActivity.onBackPressed();
->>>>>>> branch 'master' of git@github.com:Projektgrupp3/projekt.mobile.git
 		}
 		runOnUiThread(new Runnable(){
 			public void run() {
