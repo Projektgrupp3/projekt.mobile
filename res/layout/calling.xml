@@ -31,7 +31,8 @@
             android:singleLine="true"
             android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="40dp" />
+            android:textSize="40dp" 
+            android:layout_weight="1"/>
 
     </RelativeLayout>
 

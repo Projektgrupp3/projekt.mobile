@@ -55,8 +55,6 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 	}
 
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		//		Toast.makeText(getBaseContext(), "Verifieringsrapport skickad " + E4.getText(), Toast.LENGTH_SHORT).show();
 		if(E1.getText().toString().equals("") ||E2.getText().toString().equals("")
 				|| E3.getText().toString().equals("") || E4.getText().toString().equals("") ||
 				E5.getText().toString().equals("") ||
@@ -64,7 +62,8 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 
 			Toast.makeText(getBaseContext(), "Fyll i fält ", Toast.LENGTH_SHORT).show();
 
-		}else{
+		}
+		else{
 
 			VerificationReport vr = new VerificationReport(seriousEvent, E1.getText().toString(), 
 					E2.getText().toString(), E3.getText().toString(), E4.getText().toString(), E6.getText().toString() , E5.getText().toString());

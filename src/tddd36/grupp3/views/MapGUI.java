@@ -72,7 +72,7 @@ public class MapGUI extends MapActivity implements Observer {
 	Geocoder geocoder;
 	/**
 	 * onCreate for MapGUI 
-	 * Sets up the MapView and intiates MapController.
+	 * Sets up the MapView and initiates MapController.
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

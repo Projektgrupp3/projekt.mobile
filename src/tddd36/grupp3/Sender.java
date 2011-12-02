@@ -18,6 +18,8 @@ import tddd36.grupp3.resources.Event;
 public class Sender {
 
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
+	public static final String ACK_VERIFICATION_REPORT = "ACK_VERIFICATION_REPORT";
+	public static final String ACK_WINDOW_REPORT = "ACK_WINDOW_REPORT";
 	private static final String COM_IP = "130.236.226.22";
 	private static final int COM_PORT = 1879;
 	// private static final int COM_PORT = 3434;
@@ -67,6 +69,14 @@ public class Sender {
 			else if (messageToServer.startsWith("ackunit")) {
 				jsonobject.put("ack", "unit");
 				jsonobject.put("unit", splittedMessage[1]);
+			}
+			else if(messageToServer.startsWith(ACK_VERIFICATION_REPORT)){
+				jsonobject.put("ack", ACK_VERIFICATION_REPORT);
+				jsonobject.put("ACK_VERIFICATION_REPORT)", splittedMessage[1]);
+			}
+			else if(messageToServer.startsWith(ACK_WINDOW_REPORT)){
+				jsonobject.put("ack", "ACK_WINDOW_REPORT)");
+				jsonobject.put("ACK_WINDOW_REPORT)", splittedMessage[1]);
 			}
 			else {
 				jsonobject.put("req", messageToServer);
