@@ -65,7 +65,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 			public void onClick(View v) {
 				try {
 					loginwait.show();
-					Sender.send(""+user.getText(), ""+pass.getText(), "ALL_UNITS");
+					Sender.send(""+user.getText(), ""+pass.getText(), Sender.REQ_ALL_UNITS);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -128,8 +128,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 
 		bContinue.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-
-				Sender.send("ackunit:"+allUnits[spinnerPosition]);
+				Sender.send(Sender.ACK_CHOSEN_UNIT+":"+allUnits[spinnerPosition]);
 				loginwait.show();
 				Intent mainIntent = new Intent(getBaseContext(),tddd36.grupp3.views.MainView.class);
 				mainIntent.putExtra("user", ""+user.getText());

@@ -29,7 +29,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -173,19 +172,19 @@ public class MapGUI extends MapActivity implements Observer {
 		case R.id.status:
 			return true;
 		case R.id.recieved:
-			Sender.send("ack: STATUS:"+Status.RECIEVED.toString());
+			Sender.send(Sender.ACK_STATUS+":"+Status.RECIEVED.toString());
 			return true;
 		case R.id.there:
-			Sender.send("ack: STATUS:"+Status.THERE.toString());
+			Sender.send(Sender.ACK_STATUS+":"+Status.THERE.toString());
 			return true;
 		case R.id.loaded:
-			Sender.send("ack: STATUS:"+Status.LOADED.toString());
+			Sender.send(Sender.ACK_STATUS+":"+Status.LOADED.toString());
 			return true;
 		case R.id.depart:
-			Sender.send("ack: STATUS:"+Status.DEPART.toString());
+			Sender.send(Sender.ACK_STATUS+":"+Status.DEPART.toString());
 			return true;
 		case R.id.home:
-			Sender.send("ack: STATUS:"+Status.HOME.toString());
+			Sender.send(Sender.ACK_STATUS+":"+Status.HOME.toString());
 			return true;
 		case R.id.centeratme:
 			myLocation = mapcontroller.fireCurrentLocation();
@@ -380,7 +379,7 @@ public class MapGUI extends MapActivity implements Observer {
 		logout.setMessage("Är du säker på att du vill avsluta?");
 		logout.setButton("Ja", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which){
-				Sender.send("LOGOUT");
+				Sender.send(Sender.LOG_OUT);
 				finish();
 			}
 		});
