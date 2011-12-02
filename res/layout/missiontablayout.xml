@@ -207,12 +207,14 @@
                                 android:id="@+id/changemissionbtn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:maxWidth="20dp"
                                 android:text="Ändra uppdragsbeskr." />
 
                             <Button
                                 android:id="@+id/gotoaddressbtn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="Gå till adress" />
                         </TableRow>
                     </TableLayout>
