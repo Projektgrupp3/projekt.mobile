@@ -5,18 +5,18 @@ import java.util.Observable;
 
 public class CountDown extends Observable implements Runnable{
 
-	private int countdown = 90000;
+	private int countdown = 4000;
 	private boolean isRunning;
 	
 	public void run() {
 		startRunning();
 		try {
-			//NÅGOT FEL
+			notifyObservers(""+(countdown/1000));
 			while(countdown>0 && isRunning){
 				setChanged();
 				Thread.sleep(1000);
-				notifyObservers(""+(countdown/1000));
 				countdown -= 1000;
+				notifyObservers(""+(countdown/1000));
 			}
 			stopRunning();
 		} catch (InterruptedException e) {
