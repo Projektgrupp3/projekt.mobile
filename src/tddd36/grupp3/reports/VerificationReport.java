@@ -6,10 +6,10 @@ public class VerificationReport extends Report {
 
 	public VerificationReport(String seriousEvent, String typeOfInjury, 
 			String threats, String numberOfInjuries, String extraResources, 
-			String areaSearched, String timeOfDepature ){
+			String areaSearched, String timeOfDepature, String typeOfEvent ){
 
-		super( seriousEvent, typeOfInjury, 
-				threats, numberOfInjuries,extraResources);
+		super(seriousEvent, typeOfInjury, 
+				threats, numberOfInjuries, extraResources, typeOfEvent);
 
 		this.areaSearched = areaSearched;
 		this.timeOfDeparture = timeOfDepature;

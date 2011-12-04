@@ -84,8 +84,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" >
-
-                        <requestFocus />
                     </EditText>
                 </TableRow>
 
@@ -122,7 +120,7 @@
                         android:id="@+id/textView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Antal skadade:" />
+                        android:text="Antal skadade: (st)" />
 
                     <EditText
                         android:id="@+id/edNumberOfInjuries"
@@ -162,13 +160,15 @@
                         android:id="@+id/textView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rekognoseringsnivå:" />
+                        android:text="Rekogniseringsnivå (%):" />
 
                     <EditText
                         android:id="@+id/edAreaSerached"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:inputType="numberDecimal"
+                        android:maxLength="2" />
                 </TableRow>
 
                 <TableRow
@@ -180,7 +180,7 @@
                         android:id="@+id/textView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tid för avtransport:" />
+                        android:text="Tid för avtransport: (hh.mm)" />
 
                     <EditText
                         android:id="@+id/edTimeOfDepature"

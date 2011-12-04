@@ -24,18 +24,15 @@ public class UpdateMission extends Activity implements OnClickListener{
 	private Button saveUpdates;
 	private EditText E1,E2,E3,E4,E5,E6,E7 ;
 
-
+	private Event currentMission = MissionTabView.mc.getMm().getCurrentEvent();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.updatemission);
 
 		saveUpdates = (Button)findViewById(R.id.bSaveContact);
-//		saveUpdates.setOnClickListener(this);
-
-
+		
 		E1 = (EditText)findViewById(R.id.edEventID2);
 		E2 = (EditText)findViewById(R.id.edMissionheader2);
 		E3 = (EditText)findViewById(R.id.edMissiondescription2);
@@ -44,11 +41,15 @@ public class UpdateMission extends Activity implements OnClickListener{
 		E6 = (EditText)findViewById(R.id.edTypeOfAccident2);
 		E7 = (EditText)findViewById(R.id.edEventPriority2);
 
-//		Bundle extras = getIntent().getExtras();
-//		ArrayList<String> hej = extras.getStringArrayList("tva");
-//		
-//		E1.setText(hej.get(0));
-
+		E1.setText(currentMission.getID());
+		E2.setText(currentMission.getAccidentType());
+		E3.setText(currentMission.getDescription());
+		E4.setText(currentMission.getAddress());
+		E5.setText(""+currentMission.getNumberOfInjured());
+		E6.setText(currentMission.getTypeOfInjury());
+		E7.setText(currentMission.getPriority());
+		
+		//saveUpdates.setOnClickListener(
 	}
 
 	public void onClick(View v) {
@@ -72,6 +73,7 @@ public class UpdateMission extends Activity implements OnClickListener{
 			//			       e.printStackTrace();
 			//			     }
 			//			Toast.makeText(getBaseContext(),edSaveName.getText().toString() + " har lagts till!" , Toast.LENGTH_SHORT).show();
+			Toast.makeText(getBaseContext(), "OBS! Ej sparat på klient/server", Toast.LENGTH_SHORT).show();
 			finish();
 
 		}

@@ -26,7 +26,7 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 	EditText E1,E2,E3,E4,E5,E6 ;
 	RadioButton yes, no ;
 	TextView ver;
-	String seriousEvent;
+	String seriousEvent = "Ja";
 
 
 	/** Called when the activity is first created. */
@@ -53,10 +53,10 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 	public void checkRadioGroup(){
 
 		if(no.isChecked()){
-			seriousEvent = "no";
+			seriousEvent = "Nej";
 
 		}else{
-			seriousEvent = "yes";
+			seriousEvent = "Ja";
 		}
 	}
 
@@ -72,7 +72,7 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 		else{
 
 			VerificationReport vr = new VerificationReport(seriousEvent, E1.getText().toString(), 
-					E2.getText().toString(), E3.getText().toString(), E4.getText().toString(), E6.getText().toString() , E5.getText().toString());
+					E2.getText().toString(), E3.getText().toString(), E4.getText().toString(), E6.getText().toString() , E5.getText().toString(), "VerificationReport");
 			//??
 			Gson gson = new Gson();
 			gson.toJson(vr);// spara rapporten i databasen för historiken oc h skicka till servern.
@@ -80,12 +80,13 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 			if(MissionTabView.mc.getMm().getCurrentEvent() != null){
 				try {
 					Sender.sendReport(vr);
+					finish();
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 			}
 			else
-				Toast.makeText(getBaseContext(), "Du har ingen aktiv händelse ", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), "Du har ingen aktiv händelse.", Toast.LENGTH_SHORT).show();
 		}
 
 

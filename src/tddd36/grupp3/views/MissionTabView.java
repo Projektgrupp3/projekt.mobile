@@ -47,7 +47,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	public static TabHost tabHost;
 	TabHost.TabSpec spec;
 	Resources res;
-	
+
 	public static MissionController mc;
 	private TextView missionheader, missiondescription, missionaddress, 
 	missioneventid, missioninjuries, missionpriority, missiontypeofaccident;
@@ -61,17 +61,17 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.missiontablayout);
-	
+
 		getMissionObjects();
 		getHistoryObjects();
 		getReportObjects();
-		
-		
+
+
 		mc = new MissionController(MissionTabView.this);
-		
+
 		tabHost = (TabHost)findViewById(android.R.id.tabhost);
 		res = getResources();
-		
+
 		// setup the list view
 		listView = (ListView) findViewById(R.id.historylist);
 		listView.setEmptyView((TextView) findViewById(R.id.empty));
@@ -83,11 +83,11 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		historylistitems.add(new String[] {"Trafikolycka", "Påbörjat uppdrag."});
 		MissionHistoryAdapter historyAdapter = new MissionHistoryAdapter(getBaseContext(), R.layout.missionhistoryitem, historylistitems);
 		listView.setAdapter(historyAdapter);
-		
+
 		// add views to tab host
 		spec = tabHost.newTabSpec("currentmission").setIndicator("Uppdrag").setContent(R.id.currenttab);
 		tabHost.addTab(spec);
-		
+
 		spec = tabHost.newTabSpec("report").setIndicator("Rapporter").setContent(R.id.reporttab);
 		tabHost.addTab(spec);
 
@@ -98,11 +98,11 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 					}
 				});
 		tabHost.addTab(spec);
-		
+
 		tabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 45;
 		tabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 45;
 		tabHost.getTabWidget().getChildAt(2).getLayoutParams().height = 45;
-		
+
 		tabHost.setCurrentTab(2);
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);
@@ -122,12 +122,12 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		changedescbtn.setOnClickListener(this);
 
 	}
-	
+
 	private void getHistoryObjects() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	private void getReportObjects() {
 		verificationreportbtn = (Button)findViewById(R.id.verificationreportbtn);
 		verificationreportbtn.setOnClickListener(this);
@@ -161,7 +161,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		missiondescription.setText(missiontext[6]);
 	}
 
-	
+
 	public void updateMissionView(Event event){
 		missioneventid.setText(event.getID());
 		missionpriority.setText(event.getPriority());
@@ -170,22 +170,22 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		missioninjuries.setText(""+event.getNumberOfInjured());
 		missiontypeofaccident.setText(event.getTypeOfInjury());
 		missiondescription.setText(event.getDescription());
-//		
-//		textViewArray.add(event.getID());
-//		textViewArray.add(event.getPriority());
-//		textViewArray.add(event.getAccidentType());
-//		textViewArray.add(event.getAddress());
-//		textViewArray.add(""+event.getNumberOfInjured());
-//		textViewArray.add(""+event.getTypeOfInjury());
-//		textViewArray.add(event.getDescription());
+		//		
+		//		textViewArray.add(event.getID());
+		//		textViewArray.add(event.getPriority());
+		//		textViewArray.add(event.getAccidentType());
+		//		textViewArray.add(event.getAddress());
+		//		textViewArray.add(""+event.getNumberOfInjured());
+		//		textViewArray.add(""+event.getTypeOfInjury());
+		//		textViewArray.add(event.getDescription());
 
-		
-		
+
+
 
 	}
 
-	
-	
+
+
 	public void onClick(View v) {
 		Intent intent;
 		TabGroupActivity parentActivity = (TabGroupActivity) getParent();
@@ -200,15 +200,18 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		}else if(v == verificationreportbtn){
 			intent = new Intent(getParent(), VerificationReportActivity.class);
 			parentActivity.startChildActivity("VerificationReport", intent);
-		
+
 		}else if(v == windowreportbtn){
 			intent = new Intent(getParent(), WindowReportActivity.class);
 			parentActivity.startChildActivity("WindowReport", intent);
-		
+
 		}else if(v == changedescbtn){
-			intent = new Intent(getParent(), UpdateMission.class);
-//			intent.putExtra("tva", textViewArray);
-			parentActivity.startChildActivity("UpdateMission", intent);
+			if(MissionTabView.mc.getMm().getCurrentEvent() != null){
+				intent = new Intent(getParent(), UpdateMission.class);
+				parentActivity.startChildActivity("UpdateMission", intent);
+			}
+			else
+				Toast.makeText(getBaseContext(), "Du har inget uppdrag att ändra.", Toast.LENGTH_SHORT).show();
 		}
 	}
 	/**
@@ -257,9 +260,9 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	public void onBackPressed(){
-		
+
 	}
 	/**
 	 * Anonymous inner class for filling the mission history list with history items

@@ -5,9 +5,9 @@ public class WindowReport extends Report {
 	String exactLocation;
 
 	public WindowReport(String seriousEvent, String typeOfInjury,
-			String threats, String numberOfInjuries, String extraResources, String exactLocation) {
-		super(seriousEvent, typeOfInjury, threats, numberOfInjuries, extraResources);
-		// TODO Auto-generated constructor stub
+			String threats, String numberOfInjuries, String extraResources, 
+			String exactLocation, String typeOfReport) {
+		super(seriousEvent, typeOfInjury, threats, numberOfInjuries, extraResources, typeOfReport);
 		this.exactLocation = exactLocation;
 	}
 	@Override

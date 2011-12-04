@@ -49,8 +49,6 @@
             </RadioGroup>
         </TableRow>
 
-  
-
         <TableRow
             android:id="@+id/tableRow3"
             android:layout_width="wrap_content"
@@ -67,8 +65,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" >
-
-                <requestFocus />
             </EditText>
         </TableRow>
 
@@ -105,7 +101,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Antal skadade:" />
+                android:text="Antal skadade: (st)" />
 
             <EditText
                 android:id="@+id/edNumberOfInjuredVind"
@@ -135,8 +131,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </TableRow>
-        
-                  <TableRow
+
+        <TableRow
             android:id="@+id/tableRow2"
             android:layout_width="30dp"
             android:layout_height="wrap_content" >
@@ -153,7 +149,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </TableRow>
-        
     </TableLayout>
 
     <Button
