@@ -127,7 +127,8 @@ public class MissionModel extends Observable{
 
 	public void setCurrentEvent(Event currentEvent) {
 		this.currentEvent = currentEvent;
-	
+	}
+
 	public static void setStatus(Status status){
 		MissionModel.status = status;
 	}
