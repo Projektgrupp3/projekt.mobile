@@ -114,4 +114,12 @@ public class MissionModel extends Observable{
 	public void setDescription(String description) {
 		this.currentEvent.setDescription(description);
 	}
+
+	public Event getCurrentEvent() {
+		return currentEvent;
+	}
+
+	public void setCurrentEvent(Event currentEvent) {
+		this.currentEvent = currentEvent;
+	}
 }

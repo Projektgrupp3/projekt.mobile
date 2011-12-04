@@ -1,15 +1,16 @@
 package tddd36.grupp3.reports;
 
 public class Report {
-	
-	private String seriousEvent, typeOfInjury, threats, numberOfInjuries, extraResources;
-	
+
+	private String seriousEvent, typeOfInjury, threats, timeOfDeparture,
+	numberOfInjuries, extraResources, exactLocation, areaSearched;
+
 	public Report (String seriousEvent, String typeOfInjury, String threats, String numberOfInjuries, String extraResources){
 		this.seriousEvent = seriousEvent;
 		this.typeOfInjury = typeOfInjury;
 		this.threats = threats;
 		this.numberOfInjuries=numberOfInjuries;
-		this.extraResources = extraResources;
+		this.setExtraResources(extraResources);
 	}
 
 	public String getSeriousEvent() {
@@ -43,6 +44,36 @@ public class Report {
 	public void setNumberOfInjuries(String numberOfInjuries) {
 		this.numberOfInjuries = numberOfInjuries;
 	}
-	
+
+	public void setExtraResources(String extraResources) {
+		this.extraResources = extraResources;
+	}
+
+	public String getExtraResources() {
+		return extraResources;
+	}
+	public String getExactLocation() {
+		return exactLocation;
+	}
+
+	public void setExactLocation(String exactLocation) {
+		this.exactLocation = exactLocation;
+	}
+
+	public String getAreaSearched() {
+		return areaSearched;
+	}
+
+	public void setAreaSearched(String areaSearched) {
+		this.areaSearched = areaSearched;
+	}
+
+	public String getTimeOfDeparture() {
+		return timeOfDeparture;
+	}
+
+	public void setTimeOfDepature(String timeOfDepature) {
+		this.timeOfDeparture = timeOfDepature;
+	}
 
 }

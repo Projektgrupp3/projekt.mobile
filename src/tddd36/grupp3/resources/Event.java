@@ -19,7 +19,7 @@ public class Event extends MapObject{
 	private String priority; 
 	private String address;
 	private String typeOfInjury;
-	private int unitID;
+	private String unitID;
 	private String description;
 	private static GeoPoint gp;
 	private int icon;
@@ -54,7 +54,7 @@ public class Event extends MapObject{
 		this.address = MapModel.getAddress(gp);
 		this.typeOfInjury = event.getString("typeOfInjury");
 		this.eventID = event.getString("event");
-		this.unitID = event.getInt("unitID");
+		this.unitID = event.getString("unitID");
 		this.description = event.getString("description");
 
 		Log.d("JSON", "Event ID: "+eventID);
@@ -72,7 +72,7 @@ public class Event extends MapObject{
 	}
 
 	public Event(GeoPoint gp, int numberOfInjuried, String accidentType, String priority, 
-			String typeOfInjury, String eventID, int unitID, String description){
+			String typeOfInjury, String eventID, String unitID, String description){
 		super(gp, accidentType, description, R.drawable.event_icon, ObjectType.EVENT);
 
 		this.numberOfInjured = numberOfInjuried;
@@ -145,11 +145,11 @@ public class Event extends MapObject{
 		this.eventID= id;
 	}
 
-	public int getUnitID() {
+	public String getUnitID() {
 		return unitID;
 	}
 
-	public void setUnitID(int unitID) {
+	public void setUnitID(String unitID) {
 		this.unitID = unitID;
 	}
 

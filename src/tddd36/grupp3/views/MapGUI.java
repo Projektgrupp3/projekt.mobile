@@ -12,6 +12,7 @@ import org.json.JSONException;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
+import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MapObjectList;

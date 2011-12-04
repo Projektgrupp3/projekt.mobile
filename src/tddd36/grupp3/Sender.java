@@ -8,8 +8,7 @@ import java.net.UnknownHostException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
+import tddd36.grupp3.reports.Report;
 import tddd36.grupp3.resources.Event;
 
 /**
@@ -33,8 +32,8 @@ public class Sender {
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
 	
-	private static final String COM_IP = "130.236.226.22";
-	private static final int COM_PORT = 1879;
+	private static final String COM_IP = "130.236.226.203";
+	private static final int COM_PORT = 1560;
 	private static PrintWriter pw;
 	private static JSONObject jsonobject;
 
@@ -88,14 +87,14 @@ public class Sender {
 				jsonobject.put("ack", "status");
 				jsonobject.put("status", splittedMessage[1]);
 			}
-			else if(messageToServer.startsWith(ACK_VERIFICATION_REPORT)){
-				jsonobject.put("ack", ACK_VERIFICATION_REPORT);
-				jsonobject.put("ACK_VERIFICATION_REPORT)", splittedMessage[1]);
-			}
-			else if(messageToServer.startsWith(ACK_WINDOW_REPORT)){
-				jsonobject.put("ack", "ACK_WINDOW_REPORT)");
-				jsonobject.put("ACK_WINDOW_REPORT)", splittedMessage[1]);
-			}
+//			else if(messageToServer.startsWith(ACK_VERIFICATION_REPORT)){
+//				jsonobject.put("ack", ACK_VERIFICATION_REPORT);
+//				jsonobject.put("ACK_VERIFICATION_REPORT)", splittedMessage[1]);
+//			}
+//			else if(messageToServer.startsWith(ACK_WINDOW_REPORT)){
+//				jsonobject.put("ack", "ACK_WINDOW_REPORT)");
+//				jsonobject.put("ACK_WINDOW_REPORT)", splittedMessage[1]);
+//			}
 			else {
 				jsonobject.put("req", messageToServer);
 			}
@@ -159,6 +158,26 @@ public class Sender {
 		jsonobject.put("req", REQ_CONTACT);
 		jsonobject.put("sipaddress", contactAddress);
 		jsonobject.put("contactName", contactName);
+		String jsonString = jsonobject.toString();
+		establishConnection();
+		pw.println(jsonString);
+		closeConnection();
+	}
+	public static void sendReport(Report report) throws JSONException{
+		jsonobject = new JSONObject();
+		jsonobject.put("ack", "report");
+		jsonobject.put("seriousEvent", report.getSeriousEvent());
+		jsonobject.put("typeOfInjury", report.getTypeOfInjury());
+		jsonobject.put("threats", report.getThreats());
+		jsonobject.put("numberOfInjuries",report.getNumberOfInjuries());
+		jsonobject.put("setExtraResources",report.getSeriousEvent());
+		if(report.getClass().getName().equals("WindowReport")){
+			jsonobject.put("exactLocation", report.getExactLocation());
+		}
+		else if(report.getClass().getName().equals("VerificationReport")){
+			jsonobject.put("areaSearched", report.getAreaSearched());
+			jsonobject.put("timeOfDeparture", report.getTimeOfDeparture());
+		}
 		String jsonString = jsonobject.toString();
 		establishConnection();
 		pw.println(jsonString);

@@ -1,6 +1,6 @@
 package tddd36.grupp3.views;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -8,6 +8,7 @@ import org.json.JSONException;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
+import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.controllers.LoginController;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,6 +16,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -81,8 +83,10 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 		
 		if(data instanceof String[]){
 			allUnits = (String[])data;
+			Log.d("Här","kan man vara");
 			try {
 				if(authenticated){
+					Log.d("Här","kan man vara2");
 				loginwait.dismiss();
 				chooseUnit();
 				}
@@ -90,7 +94,7 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 				e.printStackTrace();
 			}
 		}
-		else if(data instanceof Boolean){
+		if(data instanceof Boolean){
 			authenticated = (Boolean) data;
 
 			if(!authenticated) {
@@ -106,13 +110,10 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 				login.show();
 			}
 			else {
+				Log.d("Här","1231");
+				authenticated = true;
 				Toast.makeText(getBaseContext(), "true", Toast.LENGTH_SHORT).show();
-//				try {
-//					chooseUnit();
-//				} catch (JSONException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				
 			}
 		}
 	}
@@ -138,7 +139,6 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 			};
 		});
 	}
-
 	
 
 	@Override
@@ -147,10 +147,9 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	}
 
 	@Override
-	protected void onPause() {
+	protected void onDestroy() {
+		super.onDestroy();
 		loginwait.dismiss();
-		super.onPause();
-		finish();
 	}
 
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
@@ -162,7 +161,5 @@ public class LoginView extends Activity implements Observer,  OnItemSelectedList
 	
 	@Override
 	public void onBackPressed(){
-		loginwait.dismiss();
-		finish();
 	}
 }

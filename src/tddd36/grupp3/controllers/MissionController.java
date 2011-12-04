@@ -31,5 +31,11 @@ public class MissionController implements Observer {
 		MainView.db.addRow(ev);
 		}
 	}
+	public MissionModel getMm() {
+		return mm;
+	}
+	public void setMm(MissionModel mm) {
+		this.mm = mm;
+	}
 
 }

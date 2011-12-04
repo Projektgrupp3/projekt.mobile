@@ -1,6 +1,12 @@
 package tddd36.grupp3.reports;
 
+import org.json.JSONException;
+
 import tddd36.grupp3.R;
+import tddd36.grupp3.Sender;
+import tddd36.grupp3.controllers.MissionController;
+import tddd36.grupp3.views.MapGUI;
+import tddd36.grupp3.views.MissionTabView;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -67,12 +73,19 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 
 			VerificationReport vr = new VerificationReport(seriousEvent, E1.getText().toString(), 
 					E2.getText().toString(), E3.getText().toString(), E4.getText().toString(), E6.getText().toString() , E5.getText().toString());
-
+			//??
 			Gson gson = new Gson();
 			gson.toJson(vr);// spara rapporten i databasen för historiken oc h skicka till servern.
-			
-			Toast.makeText(getBaseContext(), vr.toString(), Toast.LENGTH_LONG).show();
-
+			//??
+			if(MissionTabView.mc.getMm().getCurrentEvent() != null){
+				try {
+					Sender.sendReport(vr);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+			else
+				Toast.makeText(getBaseContext(), "Du har ingen aktiv händelse ", Toast.LENGTH_SHORT).show();
 		}
 
 

@@ -1,5 +1,6 @@
 package tddd36.grupp3.views;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
 
@@ -7,6 +8,7 @@ import org.json.JSONException;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
+import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.database.ClientDatabaseManager;
 import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.resources.Contact;
@@ -120,6 +122,11 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		super.onDestroy();
 		unregisterReceiver(callReceiver);
 		closeLocalProfile();
+		try {
+			ConnectionController.serversocket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		db.close();
 	}
 	/**
