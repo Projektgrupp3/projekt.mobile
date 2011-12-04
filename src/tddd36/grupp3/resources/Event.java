@@ -39,6 +39,20 @@ public class Event extends MapObject{
 		Log.d("JSON", message);
 	}
 
+	public Event(GeoPoint gp, int numberOfInjuried, String accidentType, String priority, 
+			String typeOfInjury, String eventID, String unitID, String description){
+		super(gp, accidentType, description, R.drawable.event_icon, ObjectType.EVENT);
+
+		this.numberOfInjured = numberOfInjuried;
+		this.accidentType = accidentType;
+		this.priority = priority;
+		this.address = MapModel.getAddress(gp);
+		this.typeOfInjury = typeOfInjury;
+		this.eventID = eventID;
+		this.unitID = unitID;
+		this.description = description;
+	}
+
 	public Event(JSONObject event, int icon) throws JSONException{
 		super((gp = new GeoPoint(event.getInt("tempCoordX"),
 				event.getInt("tempCoordY"))),
@@ -69,20 +83,6 @@ public class Event extends MapObject{
 		Log.d("JSON", typeOfInjury);
 		Log.d("JSON", ""+unitID);
 
-	}
-
-	public Event(GeoPoint gp, int numberOfInjuried, String accidentType, String priority, 
-			String typeOfInjury, String eventID, String unitID, String description){
-		super(gp, accidentType, description, R.drawable.event_icon, ObjectType.EVENT);
-
-		this.numberOfInjured = numberOfInjuried;
-		this.accidentType = accidentType;
-		this.priority = priority;
-		this.address = MapModel.getAddress(gp);
-		this.typeOfInjury = typeOfInjury;
-		this.eventID = eventID;
-		this.unitID = unitID;
-		this.description = description;
 	}
 
 	public int getNumberOfInjured() {

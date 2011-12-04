@@ -5,6 +5,7 @@ import java.util.Observable;
 
 import tddd36.grupp3.controllers.MissionController;
 import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.resources.Status;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionTabView;
@@ -15,6 +16,8 @@ import com.google.android.maps.GeoPoint;
 public class MissionModel extends Observable{
 
 	private Event currentEvent;
+
+	private static Status status;
 
 	ArrayList<Event> currentMissionFromDB;
 
@@ -27,7 +30,7 @@ public class MissionModel extends Observable{
 
 		addObserver(mv);	
 		addObserver(mc);
-		
+
 		getCurrentMissionFromDB();
 	}
 
@@ -35,21 +38,24 @@ public class MissionModel extends Observable{
 	private void getCurrentMissionFromDB() {
 		ArrayList<Event> events = MainView.db.getAllRowsAsArrayList("mission");
 		if(events.size() > 1){
-		if(events.get(0) != null){
-			setCurrentMission(events.get(0));
-		}else{
-			Log.d("hej","hå");
-		}
+			if(events.get(0) != null){
+				setCurrentMission(events.get(0));
+				status = Status.RECIEVED;
+			}else{
+				Log.d("hej","hå");
+			}
 		}
 	}
 
 	public void setCurrentMission(Event ev){
 		if(ev != null){
 			currentEvent = ev;
+			status = Status.RECIEVED;
 			setChanged();
 			notifyObservers(ev);
 		}else{
-			Log.d("IncomingEvent","Nullpointer på Event i setCurrentMission");
+			currentEvent = null;
+			Log.d("IncomingEvent","Event = null");
 		}
 	}
 	public GeoPoint getCurrentGeoPoint(){
@@ -121,5 +127,12 @@ public class MissionModel extends Observable{
 
 	public void setCurrentEvent(Event currentEvent) {
 		this.currentEvent = currentEvent;
+	
+	public static void setStatus(Status status){
+		MissionModel.status = status;
+	}
+
+	public static Status getStatus() {
+		return status;
 	}
 }

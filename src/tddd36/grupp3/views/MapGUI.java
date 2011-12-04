@@ -16,6 +16,7 @@ import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MapObjectList;
+import tddd36.grupp3.models.MissionModel;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.FloodEvent;
 import tddd36.grupp3.resources.MapObject;
@@ -173,18 +174,28 @@ public class MapGUI extends MapActivity implements Observer {
 		case R.id.status:
 			return true;
 		case R.id.recieved:
+			item.setChecked(true);
+			MissionModel.setStatus(Status.RECIEVED);
 			Sender.send(Sender.ACK_STATUS+":"+Status.RECIEVED.toString());
 			return true;
 		case R.id.there:
+			item.setChecked(true);
+			MissionModel.setStatus(Status.THERE);
 			Sender.send(Sender.ACK_STATUS+":"+Status.THERE.toString());
 			return true;
 		case R.id.loaded:
+			item.setChecked(true);
+			MissionModel.setStatus(Status.LOADED);
 			Sender.send(Sender.ACK_STATUS+":"+Status.LOADED.toString());
 			return true;
-		case R.id.depart:
+		case R.id.depart:			
+			item.setChecked(true);
+			MissionModel.setStatus(Status.DEPART);
 			Sender.send(Sender.ACK_STATUS+":"+Status.DEPART.toString());
 			return true;
 		case R.id.home:
+			item.setChecked(true);
+			MissionModel.setStatus(Status.HOME);
 			Sender.send(Sender.ACK_STATUS+":"+Status.HOME.toString());
 			return true;
 		case R.id.centeratme:

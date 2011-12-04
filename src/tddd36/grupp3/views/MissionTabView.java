@@ -1,16 +1,12 @@
 package tddd36.grupp3.views;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.google.android.maps.GeoPoint;
-
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.MissionController;
-import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.reports.VerificationReportActivity;
 import tddd36.grupp3.reports.WindowReportActivity;
 import tddd36.grupp3.resources.Event;
@@ -33,10 +29,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TabHost;
-import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.maps.GeoPoint;
 /**
  * MissionTabView, the inner tab structure of the Mission-tab.
  * Contains methods for populating a list view with mission history items
@@ -55,9 +53,9 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	missioneventid, missioninjuries, missionpriority, missiontypeofaccident;
 	private Button changedescbtn, gotoaddressbtn, verificationreportbtn, windowreportbtn;
 	private String[] mission;
-
 	private ListView listView;
 	private ScrollView view;
+	private ArrayList<String> textViewArray ;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +65,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		getMissionObjects();
 		getHistoryObjects();
 		getReportObjects();
+		
 		
 		mc = new MissionController(MissionTabView.this);
 		
@@ -119,7 +118,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 
 		gotoaddressbtn = (Button)findViewById(R.id.gotoaddressbtn);
 		gotoaddressbtn.setOnClickListener(this);
-		changedescbtn = (Button)findViewById(R.id.changemissionbtn);
+		changedescbtn = (Button)findViewById(R.id.changedescbtn);
 		changedescbtn.setOnClickListener(this);
 
 	}
@@ -171,8 +170,22 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		missioninjuries.setText(""+event.getNumberOfInjured());
 		missiontypeofaccident.setText(event.getTypeOfInjury());
 		missiondescription.setText(event.getDescription());
+//		
+//		textViewArray.add(event.getID());
+//		textViewArray.add(event.getPriority());
+//		textViewArray.add(event.getAccidentType());
+//		textViewArray.add(event.getAddress());
+//		textViewArray.add(""+event.getNumberOfInjured());
+//		textViewArray.add(""+event.getTypeOfInjury());
+//		textViewArray.add(event.getDescription());
+
+		
+		
+
 	}
 
+	
+	
 	public void onClick(View v) {
 		Intent intent;
 		TabGroupActivity parentActivity = (TabGroupActivity) getParent();
@@ -187,9 +200,15 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		}else if(v == verificationreportbtn){
 			intent = new Intent(getParent(), VerificationReportActivity.class);
 			parentActivity.startChildActivity("VerificationReport", intent);
+		
 		}else if(v == windowreportbtn){
 			intent = new Intent(getParent(), WindowReportActivity.class);
 			parentActivity.startChildActivity("WindowReport", intent);
+		
+		}else if(v == changedescbtn){
+			intent = new Intent(getParent(), UpdateMission.class);
+//			intent.putExtra("tva", textViewArray);
+			parentActivity.startChildActivity("UpdateMission", intent);
 		}
 	}
 	/**

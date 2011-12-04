@@ -31,7 +31,7 @@ public class Sender {
 	public static final String ACK_STATUS = "ACK_STATUS";
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
-	
+
 	private static final String COM_IP = "130.236.226.203";
 	private static final int COM_PORT = 1560;
 	private static PrintWriter pw;
@@ -55,11 +55,13 @@ public class Sender {
 	}
 
 	public static void closeConnection() {
-		try {
-			pw.close();
-			socket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(pw != null){
+			try {
+				pw.close();
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -133,7 +135,7 @@ public class Sender {
 	}
 
 	public static void send(String user, String pass, String message)
-			throws JSONException {
+	throws JSONException {
 		username = user;
 		password = pass;
 		messageToServer = message;
@@ -145,8 +147,12 @@ public class Sender {
 		String jsonString = jsonobject.toString();
 
 		establishConnection();
-
-		pw.println(jsonString);
+		System.out.println("JSONSTRÄNG: "+jsonString);
+		if(pw != null){
+			pw.println(jsonString);
+		}else{
+			System.out.println("PW ÄR NULL");
+		}
 
 		closeConnection();
 	}

@@ -5,13 +5,14 @@ import java.util.Observable;
 
 public class CountDown extends Observable implements Runnable{
 
-	private int countdown = 4000;
+	private int countdown = 10000;
 	private boolean isRunning;
 	
 	public void run() {
 		startRunning();
 		try {
-			while(countdown>=0 && isRunning){
+
+			while(countdown>0 && isRunning){
 				setChanged();
 				Thread.sleep(1000);
 				countdown -= 1000;
