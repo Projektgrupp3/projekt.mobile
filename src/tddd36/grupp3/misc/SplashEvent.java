@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
+import tddd36.grupp3.controllers.MissionController;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
@@ -97,7 +98,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 			Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
 		}else {
 			MapGUI.mapcontroller.addMapObject(ev);
-			MissionTabView.mc.setCurrentMission(ev);
+			MissionController.setActiveMission(ev);
 			MainView.db.addRow(ev);
 			Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
 		}

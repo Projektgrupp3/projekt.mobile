@@ -174,7 +174,18 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 
 		}else if(data instanceof Event){
 			updateMissionView((Event) data);			
+		}else if(data == null){
+			clearMissionView();
 		}
+	}
+	private void clearMissionView() {
+		missioneventid.setText("Tomt");
+		missionpriority.setText("Tomt");
+		missionheader.setText("Tomt");
+		missionaddress.setText("Tomt");
+		missioninjuries.setText("Tomt");
+		missiontypeofaccident.setText("Tomt");
+		missiondescription.setText("Tomt");
 	}
 	public void updateMissionView(String[] missiontext){
 		missioneventid.setText(missiontext[0]);
@@ -195,18 +206,6 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		missioninjuries.setText(""+event.getNumberOfInjured());
 		missiontypeofaccident.setText(event.getTypeOfInjury());
 		missiondescription.setText(event.getDescription());
-		//		
-		//		textViewArray.add(event.getID());
-		//		textViewArray.add(event.getPriority());
-		//		textViewArray.add(event.getAccidentType());
-		//		textViewArray.add(event.getAddress());
-		//		textViewArray.add(""+event.getNumberOfInjured());
-		//		textViewArray.add(""+event.getTypeOfInjury());
-		//		textViewArray.add(event.getDescription());
-
-
-
-
 	}
 
 
@@ -215,7 +214,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		Intent intent;
 		TabGroupActivity parentActivity = (TabGroupActivity) getParent();
 		if(v == gotoaddressbtn){
-			GeoPoint gp = mc.getCurrentMissionAddress();   
+			GeoPoint gp = mc.getActiveMissionAddress();   
 			if(gp!=null){
 				MainView.tabHost.setCurrentTab(0);
 				MapGUI.controller.animateTo(gp);
@@ -231,7 +230,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 			parentActivity.startChildActivity("WindowReport", intent);
 
 		}else if(v == changedescbtn){
-			if(MissionTabView.mc.getMm().getCurrentEvent() != null){
+			if(MissionTabView.mc.getMissionModel().getCurrentEvent() != null){
 				intent = new Intent(getParent(), UpdateMission.class);
 				parentActivity.startChildActivity("UpdateMission", intent);
 			}
@@ -252,38 +251,6 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-	}
-	/**
-	 * Called when an item is selected in the options menu
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-
-		case R.id.settings:
-			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
-			return true;
-		case R.id.status:
-			//noop
-			return true;
-		case R.id.logout:
-			final AlertDialog logout = new AlertDialog.Builder(this).create();
-			logout.setMessage("Är du säker på att du vill avsluta?");
-			logout.setButton("Ja", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which){
-					finish();
-				}
-			});
-			logout.setButton2("Nej", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					logout.dismiss();					
-				}
-			});	
-			logout.show();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
 	}
 
 	public void onBackPressed(){

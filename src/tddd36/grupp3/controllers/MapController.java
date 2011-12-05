@@ -19,7 +19,7 @@ import com.google.android.maps.GeoPoint;
 
 public class MapController implements Observer, Runnable{
 	MapGUI mapgui;
-	MapModel mapmodel;
+	static MapModel mapmodel;
 	Thread thread = new Thread(this);
 	
 	public MapController(MapGUI mapgui){
@@ -49,7 +49,7 @@ public class MapController implements Observer, Runnable{
 		//TODO
 	}
 
-	public GeoPoint fireCurrentLocation() {
+	public static GeoPoint fireCurrentLocation() {
 		return mapmodel.fireCurrentLocation();
 	}
 }

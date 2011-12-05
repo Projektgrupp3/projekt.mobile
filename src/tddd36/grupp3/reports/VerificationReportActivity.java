@@ -77,7 +77,7 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 			Gson gson = new Gson();
 			gson.toJson(vr);// spara rapporten i databasen för historiken oc h skicka till servern.
 			//??
-			if(MissionTabView.mc.getMm().getCurrentEvent() != null){
+			if(MissionTabView.mc.getMissionModel().getCurrentEvent() != null){
 				try {
 					Sender.sendReport(vr);
 					finish();

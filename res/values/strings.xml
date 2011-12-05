@@ -11,7 +11,7 @@
     <string name="sipLabel">SIP</string>
     <string name="contactAddress">SIP-Address till kontakt</string>
     <string name="talk">Tala</string>
-    <string name="empty">[tomt]</string>
+    <string name="empty">Tomt</string>
    <string name="percentage_prompt">Välj %</string>
    <string-array name="percentage_array">
         <item>25 %</item>

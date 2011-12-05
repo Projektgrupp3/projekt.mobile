@@ -1,7 +1,5 @@
 package tddd36.grupp3.views;
 
-import tddd36.grupp3.misc.SplashEvent;
-import tddd36.grupp3.resources.Event;
 import android.content.Intent;
 import android.os.Bundle;
 

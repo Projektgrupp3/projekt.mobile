@@ -205,8 +205,7 @@ public class Sender {
 		jsonobject.put("ack", "report");
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
-		jsonobject.put("eventID",MissionTabView.mc.getMm().getCurrentEvent().getID());
-
+		jsonobject.put("eventID",MissionTabView.mc.getMissionModel().getCurrentEvent().getID());
 		jsonobject.put("seriousEvent", report.getSeriousEvent());
 		jsonobject.put("typeOfInjury", report.getTypeOfInjury());
 		jsonobject.put("threats", report.getThreats());

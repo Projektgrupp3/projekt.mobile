@@ -82,7 +82,7 @@ public class WindowReportActivity extends Activity implements OnClickListener {
 			gson.toJson(wr); // spara rapporten i databasen för historiken oc h
 			// skicka till servern.
 
-			if (MissionTabView.mc.getMm().getCurrentEvent() != null) {
+			if (MissionTabView.mc.getMissionModel().getCurrentEvent() != null) {
 				try {
 					Sender.sendReport(wr);
 					finish();
