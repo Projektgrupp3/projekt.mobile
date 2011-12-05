@@ -14,6 +14,7 @@ import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.controllers.MapController;
+import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.models.MissionModel;
@@ -269,6 +270,7 @@ public class MapGUI extends MapActivity implements Observer {
 					alert.setButton("Placera en händelse", new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int which) {
+							NetworkManager.chkStatus(MapGUI.this);
 							builder.setTitle("Välj en händelse:");
 							builder.setItems(points, new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,

@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.reports.Report;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MissionTabView;
@@ -33,8 +35,10 @@ public class Sender {
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
 
-	private static final String COM_IP = "192.168.1.3";
+	private static final String COM_IP = "130.236.227.206";
 	private static final int COM_PORT = 1560;
+	public static String NETWORK_STATUS;
+
 	private static PrintWriter pw;
 	private static JSONObject jsonobject;
 
@@ -42,12 +46,15 @@ public class Sender {
 	private static String username;
 	private static String password;
 
+	private static ArrayList<String> buffer = new ArrayList<String>();
+
 	private static Socket socket;
 
 	public static void establishConnection() {
 		try {
 			socket = new Socket(COM_IP, COM_PORT);
 			pw = new PrintWriter(socket.getOutputStream(), true);
+
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -66,8 +73,9 @@ public class Sender {
 		}
 	}
 
-	public static void send(String str) {
-		messageToServer = str;
+	public static void send(String message) {
+
+		messageToServer = message;
 		String[] splittedMessage = messageToServer.split(":", 2);
 
 		jsonobject = new JSONObject();
@@ -90,14 +98,6 @@ public class Sender {
 				jsonobject.put("ack", "status");
 				jsonobject.put("status", splittedMessage[1]);
 			}
-//			else if(messageToServer.startsWith(ACK_VERIFICATION_REPORT)){
-//				jsonobject.put("ack", ACK_VERIFICATION_REPORT);
-//				jsonobject.put("ACK_VERIFICATION_REPORT)", splittedMessage[1]);
-//			}
-//			else if(messageToServer.startsWith(ACK_WINDOW_REPORT)){
-//				jsonobject.put("ack", "ACK_WINDOW_REPORT)");
-//				jsonobject.put("ACK_WINDOW_REPORT)", splittedMessage[1]);
-//			}
 			else {
 				jsonobject.put("req", messageToServer);
 			}
@@ -106,12 +106,23 @@ public class Sender {
 		}
 
 		String jsonString = jsonobject.toString();
+		
+		if(NETWORK_STATUS.equals(NetworkManager.NONE)){
+			buffer.add(jsonString);
+		}
+		else {
+			if(!buffer.isEmpty()){
+				establishConnection();
 
-		establishConnection();
-
-		pw.println(jsonString);
-
-		closeConnection();
+				for(String str : buffer){
+					pw.println(str);
+				}
+				closeConnection();
+			}
+			establishConnection();
+			pw.println(jsonString);
+			closeConnection();
+		}
 	}
 
 	public static void send(Event ev) throws JSONException {
@@ -128,15 +139,27 @@ public class Sender {
 
 		String jsonString = jsonobject.toString();
 
-		establishConnection();
+		if(NETWORK_STATUS.equals(NetworkManager.NONE)){
+			buffer.add(jsonString);
+		}
+		else {
+			if(!buffer.isEmpty()){
+				establishConnection();
 
-		pw.println(jsonString);
-
-		closeConnection();
+				for(String str : buffer){
+					pw.println(str);
+				}
+				closeConnection();
+			}
+			establishConnection();
+			pw.println(jsonString);
+			closeConnection();
+		}
 	}
 
 	public static void send(String user, String pass, String message)
 	throws JSONException {
+
 		username = user;
 		password = pass;
 		messageToServer = message;
@@ -147,15 +170,22 @@ public class Sender {
 
 		String jsonString = jsonobject.toString();
 
-		establishConnection();
-		System.out.println("JSONSTRÄNG: "+jsonString);
-		if(pw != null){
-			pw.println(jsonString);
-		}else{
-			System.out.println("PW ÄR NULL");
+		if(NETWORK_STATUS.equals(NetworkManager.NONE)){
+			buffer.add(jsonString);
 		}
+		else {
+			if(!buffer.isEmpty()){
+				establishConnection();
 
-		closeConnection();
+				for(String str : buffer){
+					pw.println(str);
+				}
+				closeConnection();
+			}
+			establishConnection();
+			pw.println(jsonString);
+			closeConnection();
+		}
 	}
 	public static void sendContact(String contactName, String contactAddress)
 	throws JSONException {
@@ -176,13 +206,13 @@ public class Sender {
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
 		jsonobject.put("eventID",MissionTabView.mc.getMm().getCurrentEvent().getID());
-		
+
 		jsonobject.put("seriousEvent", report.getSeriousEvent());
 		jsonobject.put("typeOfInjury", report.getTypeOfInjury());
 		jsonobject.put("threats", report.getThreats());
 		jsonobject.put("numberOfInjuries",report.getNumberOfInjuries());
 		jsonobject.put("extraResources",report.getExtraResources());
-		
+
 		if(report.getTypeOfReport().equals("WindowReport")){
 			jsonobject.put("exactLocation", report.getExactLocation());
 			jsonobject.put("report", ACK_WINDOW_REPORT);
@@ -196,5 +226,8 @@ public class Sender {
 		establishConnection();
 		pw.println(jsonString);
 		closeConnection();
+		String[] historyItem = {"Rapport skickad",report.getTypeOfReport()};
+		//		MissionTabView.mc.addHistoryItem(historyItem);
+		MissionTabView.mc.addHistoryItem(historyItem);
 	}
 }

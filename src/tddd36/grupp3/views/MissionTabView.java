@@ -9,6 +9,7 @@ import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.MissionController;
 import tddd36.grupp3.reports.VerificationReportActivity;
 import tddd36.grupp3.reports.WindowReportActivity;
+import tddd36.grupp3.resources.Contact;
 import tddd36.grupp3.resources.Event;
 import android.app.AlertDialog;
 import android.app.TabActivity;
@@ -17,22 +18,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TabHost;
-import android.widget.TabHost.OnTabChangeListener;
-import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TabHost.OnTabChangeListener;
+import android.widget.TabHost.TabContentFactory;
 
 import com.google.android.maps.GeoPoint;
 /**
@@ -55,7 +57,9 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	private String[] mission;
 	private ListView listView;
 	private ScrollView view;
-	private ArrayList<String> textViewArray ;
+	private ArrayList<String> textViewArray;
+	private ArrayList<String[]> historylistitems;
+	private MissionHistoryAdapter historyAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +69,6 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		getMissionObjects();
 		getHistoryObjects();
 		getReportObjects();
-
 
 		mc = new MissionController(MissionTabView.this);
 
@@ -77,13 +80,12 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		listView.setEmptyView((TextView) findViewById(R.id.empty));
 
 		// some dummy strings to the list
-		List<String[]> historylistitems = new ArrayList<String[]>();
+		historylistitems = new ArrayList<String[]>();
 		historylistitems.add(new String[] {"Trafikolycka", "Fler skadade."});
 		historylistitems.add(new String[] {"Trafikolycka", "Barn kan finnas med."});
 		historylistitems.add(new String[] {"Trafikolycka", "Påbörjat uppdrag."});
-		MissionHistoryAdapter historyAdapter = new MissionHistoryAdapter(getBaseContext(), R.layout.missionhistoryitem, historylistitems);
+		historyAdapter = new MissionHistoryAdapter(getBaseContext(), R.layout.missionhistoryitem, historylistitems);
 		listView.setAdapter(historyAdapter);
-
 		// add views to tab host
 		spec = tabHost.newTabSpec("currentmission").setIndicator("Uppdrag").setContent(R.id.currenttab);
 		tabHost.addTab(spec);
@@ -106,7 +108,18 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		tabHost.setCurrentTab(2);
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);
+
 	}
+
+//	public void addHistoryItem(String header, String change ){
+//		final String [] newItem = {header, change};
+//		runOnUiThread(new Runnable(){
+//			public void run(){
+//				historylistitems.add(newItem);
+//				historyAdapter.notifyDataSetChanged();
+//			}
+//		});
+//	}
 	private void getMissionObjects() {		
 		missioneventid = (TextView)findViewById(R.id.eventID2);
 		missionpriority = (TextView)findViewById(R.id.eventPriority2);
@@ -125,7 +138,6 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 
 	private void getHistoryObjects() {
 		// TODO Auto-generated method stub
-
 	}
 
 	private void getReportObjects() {
@@ -146,7 +158,20 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 
 	public void update(Observable observable, Object data) {
 		if(data instanceof String[]){
-			updateMissionView((String[]) data);
+			final String [] update = (String[]) data;
+			if(update.length>2){
+				updateMissionView(update);
+			}
+			else{
+				runOnUiThread(new Runnable(){
+					public void run(){
+						Log.d(update[0],update[1]);
+						historylistitems.add(update);
+						historyAdapter.notifyDataSetChanged();
+					}
+				});
+			}
+
 		}else if(data instanceof Event){
 			updateMissionView((Event) data);			
 		}
@@ -271,33 +296,46 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	 */
 	public class MissionHistoryAdapter extends ArrayAdapter<String[]>{
 
-		private ArrayList<String[]> items;
+		private	List<String[]> items;
+		private TextView historyHeader, historyChange;
+		
+		public int getCount() {
+			return this.items.size();
+		}
 
+		public String[] getItem(int index) {
+			return this.items.get(index);
+		}
+		
 		@SuppressWarnings("unchecked")
 		public MissionHistoryAdapter(Context context, int textViewResourceId, List items) {
 			super(context, textViewResourceId, items);
-			this.items = (ArrayList<String[]>) items;
+			this.items = items;
 		}
 		/**
-		 * Automatically called by the list activity when populating the list with contacts.
+		 * Automatically called by the list activity when populating the list with historyevents.
 		 */
-		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View v = convertView;
 			if (v == null) {
-				LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.missionhistoryitem, null);
+				LayoutInflater vi = (LayoutInflater)this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				v = vi.inflate(R.layout.missionhistoryitem, parent, false);
 			}
-			String[] str = items.get(position);
-			if (str != null) {
-				TextView mt = (TextView) v.findViewById(R.id.mission);
-				TextView ct = (TextView) v.findViewById(R.id.change);
-				if (mt != null) {
-					mt.setText("Händelse: "+str[0]);                            }
-				if(ct != null){
-					ct.setText("Ändring: "+ str[1]);
-				}
-			}
+			
+			// Get item
+			String[] historyItems = getItem(position);
+
+			// Get reference to TextView - contactname
+			historyHeader = (TextView) v.findViewById(R.id.historyHeader);
+
+			// Get reference to TextView - contactaddress
+			historyChange = (TextView) v.findViewById(R.id.historyChange);
+			//Set contact name
+			historyHeader.setText("Händelse: "+historyItems[0]);
+
+			// Set contact sip address
+			historyChange.setText("Ändring: "+historyItems[1]);
+			
 			return v;
 		}
 	}

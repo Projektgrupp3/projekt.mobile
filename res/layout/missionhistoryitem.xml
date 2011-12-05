@@ -14,14 +14,14 @@
         android:layout_weight="1"
         android:layout_height="fill_parent">
         <TextView
-            android:id="@+id/mission"
+            android:id="@+id/historyHeader"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
             android:gravity="center_vertical"
         />
         <TextView
-            android:id="@+id/change"
+            android:id="@+id/historyChange"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1" 

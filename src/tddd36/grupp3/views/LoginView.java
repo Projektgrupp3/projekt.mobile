@@ -1,6 +1,5 @@
 package tddd36.grupp3.views;
 
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -8,13 +7,16 @@ import org.json.JSONException;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
-import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.controllers.LoginController;
+import tddd36.grupp3.misc.NetworkManager;
+import tddd36.grupp3.misc.QoSManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +30,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class LoginView extends Activity implements Observer,
-		OnItemSelectedListener {
+OnItemSelectedListener {
 	// Loginskärms variabler
 	private TextView display;
 	private EditText user;
@@ -56,14 +58,14 @@ public class LoginView extends Activity implements Observer,
 		login = (Button) findViewById(R.id.button1);
 		display = (TextView) findViewById(R.id.textView3);
 
-		user.setText("enhet1");
-		pass.setText("password1");
+		user.setText("enhet2");
+		pass.setText("password2");
 		loginwait = new ProgressDialog(this);
 		loginwait.setTitle("Loggar in..");
 		loginwait.setCancelable(false);
-
+		
 		logincontroller = new LoginController(this);
-
+		NetworkManager.chkStatus(this);
 		login.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				try {
@@ -81,7 +83,7 @@ public class LoginView extends Activity implements Observer,
 
 		if (data instanceof String) {
 			Toast.makeText(getBaseContext(), (String) data, Toast.LENGTH_SHORT)
-					.show();
+			.show();
 		}
 
 		if (data instanceof String[]) {
@@ -102,7 +104,7 @@ public class LoginView extends Activity implements Observer,
 
 			if (!authenticated) {
 				Toast.makeText(getBaseContext(), "false", Toast.LENGTH_SHORT)
-						.show();
+				.show();
 				final AlertDialog login = new AlertDialog.Builder(
 						LoginView.this).create();
 				login.setMessage("Felaktigt användarnamn eller lösenord");
@@ -116,9 +118,6 @@ public class LoginView extends Activity implements Observer,
 			} else {
 				Log.d("Här", "1231");
 				authenticated = true;
-				// Toast.makeText(getBaseContext(), "true",
-				// Toast.LENGTH_SHORT).show();
-
 			}
 		}
 	}

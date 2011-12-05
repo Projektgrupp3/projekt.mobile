@@ -7,10 +7,8 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.resources.Contact;
-import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -20,14 +18,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * The SIPView tab. Contains the list of contacts and the methods needed for setting up a new call 
@@ -37,7 +33,6 @@ import android.widget.Toast;
  */
 
 public class SIPView extends ListActivity implements View.OnTouchListener, Observer, OnClickListener{
-
 
 	public Cursor cur;
 	private ArrayList<Contact> contactList;

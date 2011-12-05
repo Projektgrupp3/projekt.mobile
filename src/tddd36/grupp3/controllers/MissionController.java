@@ -14,7 +14,6 @@ import com.google.android.maps.GeoPoint;
 public class MissionController implements Observer {
 	MissionTabView mv;
 	MissionModel mm;
-	MissionModel mm1;
 
 	private UpdateMission updateMission;
 
@@ -43,6 +42,9 @@ public class MissionController implements Observer {
 	}
 	public void setMm(MissionModel mm) {
 		this.mm = mm;
+	}
+	public void addHistoryItem(String[] item){
+		mm.addHistoryItem(item);
 	}
 
 

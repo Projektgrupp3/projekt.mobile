@@ -41,12 +41,14 @@ public class MissionModel extends Observable{
 			if(events.get(0) != null){
 				setCurrentMission(events.get(0));
 				status = Status.RECIEVED;
-			}else{
-				Log.d("hej","hå");
+			} else {
 			}
 		}
 	}
-
+	public void addHistoryItem(String[] historyItem){
+		setChanged();
+		notifyObservers(historyItem);
+	}
 	public void setCurrentMission(Event ev){
 		if(ev != null){
 			currentEvent = ev;

@@ -4,20 +4,22 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.util.Log;
 import android.view.WindowManager;
 
 public class QoSManager{
 	String powerLeft;
 	int power;
-	
+
 	//	WindowManager.LayoutParams lp = getWindow().getAttributes();
 	//		this.registerReceiver(this.myBatteryReceiver,
 	//				new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-	
+
 	public static WindowManager.LayoutParams lp = null;
 	public Activity activity;
 	public static BroadcastReceiver myBatteryReceiver;
-	
+
 	public QoSManager(final WindowManager.LayoutParams lp, final Activity activity){
 		this.lp = lp;
 		this.activity = activity;
@@ -54,7 +56,6 @@ public class QoSManager{
 			}
 		};
 	}
-
 }
 
 
