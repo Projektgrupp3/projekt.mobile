@@ -33,7 +33,7 @@ public class Sender {
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
 
-	private static final String COM_IP = "192.168.1.3";
+	private static final String COM_IP = "130.236.227.52";
 	private static final int COM_PORT = 1560;
 	private static PrintWriter pw;
 	private static JSONObject jsonobject;
@@ -175,7 +175,7 @@ public class Sender {
 		jsonobject.put("ack", "report");
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
-		jsonobject.put("eventID",MissionTabView.mc.getMm().getCurrentEvent().getID());
+		jsonobject.put("eventID",MissionTabView.mc.getMissionModel().getCurrentEvent().getID());
 		
 		jsonobject.put("seriousEvent", report.getSeriousEvent());
 		jsonobject.put("typeOfInjury", report.getTypeOfInjury());

@@ -15,7 +15,7 @@ import com.google.android.maps.GeoPoint;
 
 public class MissionModel extends Observable{
 
-	private Event currentEvent;
+	private static Event currentEvent;
 
 	private static Status status;
 
@@ -39,7 +39,7 @@ public class MissionModel extends Observable{
 		ArrayList<Event> events = MainView.db.getAllRowsAsArrayList("mission");
 		if(events.size() > 1){
 			if(events.get(0) != null){
-				setCurrentMission(events.get(0));
+				setActiveMission(events.get(0));
 				status = Status.RECIEVED;
 			}else{
 				Log.d("hej","hå");
@@ -47,7 +47,7 @@ public class MissionModel extends Observable{
 		}
 	}
 
-	public void setCurrentMission(Event ev){
+	public void setActiveMission(Event ev){
 		if(ev != null){
 			currentEvent = ev;
 			status = Status.RECIEVED;
@@ -55,22 +55,29 @@ public class MissionModel extends Observable{
 			notifyObservers(ev);
 		}else{
 			currentEvent = null;
-			Log.d("IncomingEvent","Event = null");
+			setChanged();
+			notifyObservers(null);
 		}
 	}
+	
+	public boolean hasActiveMission(){
+		if(currentEvent != null){
+			return true;
+		}else return false;
+	}
 	public GeoPoint getCurrentGeoPoint(){
-		if(this.currentEvent != null){
-			return this.currentEvent.getGeoPoint();
+		if(MissionModel.currentEvent != null){
+			return MissionModel.currentEvent.getGeoPoint();
 		}
 		return null;
 	}
 
 	public String getEventID() {
-		return this.currentEvent.getID();
+		return MissionModel.currentEvent.getID();
 	}
 
 	public void setEventID(String eventID) {
-		this.currentEvent.setID(eventID);
+		MissionModel.currentEvent.setID(eventID);
 	}
 
 	public String getAccidentType() {
@@ -78,55 +85,55 @@ public class MissionModel extends Observable{
 	}
 
 	public void setAccidentType(String accidentType) {
-		this.currentEvent.setAccidentType(accidentType);
+		MissionModel.currentEvent.setAccidentType(accidentType);
 	}
 
 	public int getNumberOfInjured() {
-		return this.currentEvent.getNumberOfInjured();
+		return MissionModel.currentEvent.getNumberOfInjured();
 	}
 
 	public void setNumberOfInjured(int numberOfInjured) {
-		this.currentEvent.setNumberOfInjured(numberOfInjured);
+		MissionModel.currentEvent.setNumberOfInjured(numberOfInjured);
 	}
 
 	public String getPriority() {
-		return currentEvent.getPriority();
+		return MissionModel.currentEvent.getPriority();
 	}
 
 	public void setPriority(String priority) {
-		this.currentEvent.setPriority(priority);
+		MissionModel.currentEvent.setPriority(priority);
 	}
 
 	public String getAdress() {
-		return this.currentEvent.getAddress();
+		return MissionModel.currentEvent.getAddress();
 	}
 
 	public void setAdress(String adress) {
-		this.currentEvent.setAdress(adress);
+		MissionModel.currentEvent.setAdress(adress);
 	}
 
 	public String getTypeOfInjury() {
-		return this.currentEvent.getTypeOfInjury();
+		return MissionModel.currentEvent.getTypeOfInjury();
 	}
 
 	public void setTypeOfInjury(String typeOfInjury) {
-		this.currentEvent.setTypeOfInjury(typeOfInjury);
+		MissionModel.currentEvent.setTypeOfInjury(typeOfInjury);
 	}
 
 	public String getDescription() {
-		return this.currentEvent.getDescription();
+		return MissionModel.currentEvent.getDescription();
 	}
 
 	public void setDescription(String description) {
-		this.currentEvent.setDescription(description);
+		MissionModel.currentEvent.setDescription(description);
 	}
 
 	public Event getCurrentEvent() {
 		return currentEvent;
 	}
 
-	public void setCurrentEvent(Event currentEvent) {
-		this.currentEvent = currentEvent;
+	public static void setCurrentEvent(Event currentEvent) {
+		MissionModel.currentEvent = currentEvent;
 	}
 
 	public static void setStatus(Status status){

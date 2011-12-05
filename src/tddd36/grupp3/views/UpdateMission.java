@@ -24,7 +24,7 @@ public class UpdateMission extends Activity implements OnClickListener{
 	private Button saveUpdates;
 	private EditText E1,E2,E3,E4,E5,E6,E7 ;
 
-	private Event currentMission = MissionTabView.mc.getMm().getCurrentEvent();
+	private Event currentMission = MissionTabView.mc.getMissionModel().getCurrentEvent();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

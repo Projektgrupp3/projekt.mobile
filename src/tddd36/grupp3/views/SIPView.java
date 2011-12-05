@@ -159,37 +159,7 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 			return row;
 		}
 	}
-	/**
-	 * Called when hardware "menu-button" is pressed.
-	 * Inflates the mainmenu
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.mainmenu, menu);
-		return true;
-	}
-	/**
-	 * Called when an item is selected in the options menu
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
 
-		case R.id.settings:
-			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
-			return true;
-		case R.id.status:
-			//noop
-			return true;
-
-		case R.id.logout:
-			getParent().onBackPressed();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
 	/**
 	 * 
 	 */
@@ -199,19 +169,9 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 
 	public void onClick(View v) {
 
-
 		Intent saveContactIntent = new Intent(getParent(), AddContactView.class);
 		TabGroupActivity parentActivity = (TabGroupActivity)getParent();
 		parentActivity.startChildActivity("SaveContact", saveContactIntent);
-
-		//		case R.id.bImage:
-		//			
-		//			Intent saveContactI = new Intent(getParent(), AddContactView.class);
-		//			TabGroupActivity parentActivit = (TabGroupActivity)getParent();
-		//			parentActivit.startChildActivity("SaveContact", saveContactI);
-		//			break;
-
-
 	}
 }
 

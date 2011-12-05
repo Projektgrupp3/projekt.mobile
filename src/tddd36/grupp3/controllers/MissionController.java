@@ -13,7 +13,7 @@ import com.google.android.maps.GeoPoint;
 
 public class MissionController implements Observer {
 	MissionTabView mv;
-	MissionModel mm;
+	static MissionModel mm;
 	MissionModel mm1;
 
 	private UpdateMission updateMission;
@@ -27,21 +27,24 @@ public class MissionController implements Observer {
 		// TODO Auto-generated method stub
 
 	}
-	public GeoPoint getCurrentMissionAddress(){
+	public GeoPoint getActiveMissionAddress(){
 		return mm.getCurrentGeoPoint();
 	}
-	public void setCurrentMission(Event ev){
+	public static void setActiveMission(Event ev){
 		if(ev != null){
-			mm.setCurrentMission(ev);
+			mm.setActiveMission(ev);
 			MainView.db.addRow(ev);
+		}else{
+			mm.setActiveMission(null);
 		}
-
-
 	}
-	public MissionModel getMm() {
+	public static boolean hasActiveMission(){
+		return mm.hasActiveMission();
+	}
+	public MissionModel getMissionModel() {
 		return mm;
 	}
-	public void setMm(MissionModel mm) {
+	public void setMissionModel(MissionModel mm) {
 		this.mm = mm;
 	}
 

@@ -9,14 +9,21 @@ import org.json.JSONException;
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.ConnectionController;
+import tddd36.grupp3.controllers.MapController;
+import tddd36.grupp3.controllers.MissionController;
 import tddd36.grupp3.database.ClientDatabaseManager;
 import tddd36.grupp3.misc.QoSManager;
 import tddd36.grupp3.misc.SplashEvent;
+import tddd36.grupp3.models.MapModel;
+import tddd36.grupp3.models.MissionModel;
 import tddd36.grupp3.resources.Contact;
 import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.resources.Status;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
@@ -25,8 +32,12 @@ import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TabHost;
+import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 /**
  * TabActivity for showing the Tab-structure of application. 
@@ -41,7 +52,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	Resources res;
 
 	public static Context context;
-	
+
 	private static String user;
 	private static String pass;
 
@@ -49,9 +60,12 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public static SipManager manager = null;
 	public static SipProfile me = null;
 	public IncomingCallReceiver callReceiver;
-	
+
 	public static WindowManager.LayoutParams lp;
-	
+
+	private AlertDialog logout;
+	public Toast statusMissionAlert;
+
 	public static QoSManager QoSManager;
 	/**
 	 * OnCreate-method setting up the tab structure via the static TabHost. 
@@ -63,10 +77,10 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
+
 		user = getIntent().getExtras().getString("user");
 		pass = getIntent().getExtras().getString("pass");
-		
+
 		context = getBaseContext();
 
 		// Sipstuff
@@ -108,20 +122,20 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 				.setContent(intent);
 		tabHost.addTab(spec);
 
-			Sender.send(Sender.REQ_ALL_CONTACTS);
+		Sender.send(Sender.REQ_ALL_CONTACTS);
 
 		tabHost.setCurrentTab(2);
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);
 		QoSManager = new QoSManager(getWindow().getAttributes(), this);
 		this.registerReceiver(QoSManager.myBatteryReceiver,
-			new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+				new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 	}
 	/**
 	 * Dummy-method, does not actually do anything at the moment.
 	 */
 	public void onTabChanged(String arg0) {
-		
+
 	}
 	/**
 	 * Called when some instance calls getParent().finish(). 
@@ -133,6 +147,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		unregisterReceiver(callReceiver);
 		unregisterReceiver(QoSManager.myBatteryReceiver);
 		closeLocalProfile();
+		Sender.send(Sender.LOG_OUT);
 		try {
 			ConnectionController.serversocket.close();
 		} catch (IOException e) {
@@ -190,6 +205,107 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 			}
 		} catch (Exception ee) {
 			Log.d("WalkieTalkieActivity/onDestroy", "Failed to close local profile.", ee);
+		}
+	}
+	/**
+	 * Called when hardware "menu-button" is pressed.
+	 * Inflates the mainmenu
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.mainmenu, menu);
+		return true;
+	}
+	/**
+	 * Called when an item is selected in the options menu
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		boolean hasActiveMission = MissionController.hasActiveMission();
+		if(hasActiveMission){
+			statusMissionAlert = Toast.makeText(this, "Status: "+item.getTitle(), Toast.LENGTH_SHORT);
+		} else{
+			statusMissionAlert = Toast.makeText(this, "Inget aktivt uppdrag", Toast.LENGTH_SHORT);
+		}
+		switch (item.getItemId()) {
+
+		case R.id.settings:
+			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
+			return true;
+		case R.id.status:
+			return true;
+		case R.id.recieved:
+			if(hasActiveMission){
+				MissionModel.setStatus(Status.RECIEVED);
+				Sender.send(Sender.ACK_STATUS+":"+Status.RECIEVED.toString());
+			}
+			statusMissionAlert.show();
+			return true;
+		case R.id.there:
+			if(hasActiveMission){
+				MissionModel.setStatus(Status.THERE);
+				Sender.send(Sender.ACK_STATUS+":"+Status.THERE.toString());
+			}
+			statusMissionAlert.show();
+			return true;
+		case R.id.loaded:
+			if(hasActiveMission){
+				MissionModel.setStatus(Status.LOADED);
+				Sender.send(Sender.ACK_STATUS+":"+Status.LOADED.toString());
+			}
+			statusMissionAlert.show();
+			return true;
+		case R.id.depart:	
+			MissionModel.setStatus(Status.DEPART);
+			Sender.send(Sender.ACK_STATUS+":"+Status.DEPART.toString());
+			statusMissionAlert.show();
+			return true;
+		case R.id.home:
+			if(hasActiveMission){
+				builder.setTitle("Verifiera..");
+				builder.setMessage("Vill du avsluta ditt nuvarande uppdrag?");
+				builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						MissionController.setActiveMission(null);
+						MissionModel.setStatus(Status.HOME);
+						Sender.send(Sender.ACK_STATUS+":"+Status.HOME.toString());
+						statusMissionAlert.show();
+					}});
+				builder.setNegativeButton("Nej", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}});
+				builder.show();
+			}
+			return true;
+		case R.id.centeratme:
+			MapGUI.myLocation = MapController.fireCurrentLocation();
+			if(MapGUI.myLocation!=null){
+				MapGUI.controller.setZoom(15);
+				MapGUI.controller.animateTo(MapGUI.myLocation);
+			}else{
+				Toast.makeText(getBaseContext(), MapModel.GPS_FAILED, Toast.LENGTH_SHORT).show();
+			}			
+			return true;
+		case R.id.logout:
+			logout = new AlertDialog.Builder(this).create();
+			logout.setMessage("Är du säker på att du vill avsluta?");
+			logout.setButton("Ja", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which){
+					finish();
+				}
+			});
+			logout.setButton2("Nej", new DialogInterface.OnClickListener() {
+
+				public void onClick(DialogInterface dialog, int which) {
+					logout.dismiss();					
+				}
+			});	
+			logout.show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 }
