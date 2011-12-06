@@ -11,7 +11,6 @@ public class MissionGroupActivity extends TabGroupActivity{
 	        super.onCreate(savedInstanceState);
 	        startChildActivity("MissionTabView", new Intent(this,MissionTabView.class));
 	    }
-	  
 	  public static TabGroupActivity getTabParent(){
 		  return me;
 	  }

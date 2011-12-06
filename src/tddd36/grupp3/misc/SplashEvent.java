@@ -46,7 +46,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.incomingevent);		
 		
-		parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
+		parentActivity = (TabGroupActivity) MissionGroupActivity.me;
 		
 		mp = MediaPlayer.create(SplashEvent.this, R.raw.warning);
 		mp.start();
@@ -85,23 +85,29 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 					cd.stopRunning();
 					mp.stop();
 					parentActivity.onBackPressed();
-				}
+				}				
 			}			
 		});
+		
 	}
 
 
 	public void onClick(View v) {
-		cd.stopRunning();
-		mp.stop();
-		if(ev == null){
-			Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
-		}else {
-			MapGUI.mapcontroller.addMapObject(ev);
-			MissionController.setActiveMission(ev);
-			MainView.db.addRow(ev);
-			Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
-		}
-		parentActivity.onBackPressed();
+		runOnUiThread(new Runnable(){
+			public void run() {
+				cd.stopRunning();
+				mp.stop();
+				if(ev == null){
+					Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
+				}else {
+					MapGUI.mapcontroller.addMapObject(ev);
+					MissionController.setActiveMission(ev);
+					MainView.db.addRow(ev);
+					Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
+				}
+				parentActivity.onBackPressed();
+			}			
+		});
+		
 	}		
 }

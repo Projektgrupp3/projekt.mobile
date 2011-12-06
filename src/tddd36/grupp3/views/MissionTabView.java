@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.json.JSONObject;
+
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.MissionController;
+import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.reports.VerificationReportActivity;
 import tddd36.grupp3.reports.WindowReportActivity;
 import tddd36.grupp3.resources.Contact;
@@ -37,6 +40,7 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabContentFactory;
 
 import com.google.android.maps.GeoPoint;
+import com.google.gson.Gson;
 /**
  * MissionTabView, the inner tab structure of the Mission-tab.
  * Contains methods for populating a list view with mission history items
@@ -171,8 +175,14 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 					}
 				});
 			}
-
 		}else if(data instanceof Event){
+			runOnUiThread(new Runnable(){
+				public void run(){
+					Log.d("snopp","ananas");
+					//historylistitems.add(new String[]{"hej", "hå"});
+					historyAdapter.notifyDataSetChanged();
+				}
+			});
 			updateMissionView((Event) data);			
 		}else if(data == null){
 			clearMissionView();
@@ -207,7 +217,14 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		missiontypeofaccident.setText(event.getTypeOfInjury());
 		missiondescription.setText(event.getDescription());
 	}
-
+	
+	public void fireSplashEvent(JSONObject messageFromServer){
+		Intent splashIntent = new Intent(MainView.context, SplashEvent.class);
+		TabGroupActivity parentActivity = (TabGroupActivity) getParent();
+		splashIntent.putExtra("json", messageFromServer.toString());
+		parentActivity.startChildActivity("IncomingEvent", splashIntent);
+	}
+	
 
 
 	public void onClick(View v) {
@@ -230,8 +247,11 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 			parentActivity.startChildActivity("WindowReport", intent);
 
 		}else if(v == changedescbtn){
-			if(MissionTabView.mc.getMissionModel().getCurrentEvent() != null){
+			if(MissionController.getActiveMission() != null){
+				Gson gson = new Gson();
 				intent = new Intent(getParent(), UpdateMission.class);
+				String missionExtra = gson.toJson(MissionController.getActiveMission());
+				intent.putExtra("mission", missionExtra);
 				parentActivity.startChildActivity("UpdateMission", intent);
 			}
 			else

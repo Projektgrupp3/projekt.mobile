@@ -26,6 +26,9 @@ public class MissionController implements Observer {
 		// TODO Auto-generated method stub
 
 	}
+	public static Event getActiveMission(){
+		return mm.getCurrentEvent();
+	}
 	public GeoPoint getActiveMissionAddress(){
 		return mm.getCurrentGeoPoint();
 	}

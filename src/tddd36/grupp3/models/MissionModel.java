@@ -61,11 +61,12 @@ public class MissionModel extends Observable{
 			notifyObservers(null);
 		}
 	}
-	
+
 	public boolean hasActiveMission(){
 		if(currentEvent != null){
 			return true;
-		}else return false;
+		}else 
+			return false;
 	}
 	public GeoPoint getCurrentGeoPoint(){
 		if(MissionModel.currentEvent != null){
