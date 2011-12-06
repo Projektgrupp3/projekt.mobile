@@ -176,13 +176,13 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 				});
 			}
 		}else if(data instanceof Event){
-			runOnUiThread(new Runnable(){
-				public void run(){
-					Log.d("snopp","ananas");
-					historylistitems.add(new String[]{"hej", "hå"});
-					historyAdapter.notifyDataSetChanged();
-				}
-			});
+//			runOnUiThread(new Runnable(){
+//				public void run(){
+//					Log.d("snopp","ananas");
+//					historylistitems.add(new String[]{"hej", "hå"});
+//					historyAdapter.notifyDataSetChanged();
+//				}
+//			});
 			updateMissionView((Event) data);			
 		}else if(data == null){
 			clearMissionView();
