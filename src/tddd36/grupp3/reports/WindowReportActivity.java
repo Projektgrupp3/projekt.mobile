@@ -1,26 +1,20 @@
 package tddd36.grupp3.reports;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import com.google.gson.Gson;
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
-import tddd36.grupp3.views.MissionTabView;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 public class WindowReportActivity extends Activity implements OnClickListener {
 	Button sendVind;
@@ -82,18 +76,13 @@ public class WindowReportActivity extends Activity implements OnClickListener {
 			gson.toJson(wr); // spara rapporten i databasen för historiken oc h
 			// skicka till servern.
 
-			if (MissionTabView.mc.getMissionModel().getCurrentEvent() != null) {
-				try {
-					Sender.sendReport(wr);
-					finish();
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+			try {
+				Sender.sendReport(wr);
+				finish();
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-			else
-				Toast.makeText(getBaseContext(), "Du har ingen aktiv händelse.", Toast.LENGTH_SHORT).show();
-		}
 
+		}
 	}
 }
-

@@ -50,14 +50,14 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 /***
  * The MapView tab. Contains methods for drawing map and map objects onto the map itself. 
- * @author Projektgrupp 3 - Sjukvården
+ * @author Projektgrupp 3 - SjukvÃ¥rden
  *
  */
 public class MapGUI extends MapActivity implements Observer {
 
 	private long pressStart;
 	private long pressStop;
-	private static final CharSequence[] points = {"Hinder på vägen", "Översvämning","Fritext"};
+	private static final CharSequence[] points = {"Hinder pÃ¥ vÃ¤gen", "Ã–versvÃ¤mning","Fritext"};
 	private int x, y,lat = 0, lon = 0;
 	private Event o;
 
@@ -80,7 +80,8 @@ public class MapGUI extends MapActivity implements Observer {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maps);
-
+		NetworkManager.chkStatus(MapGUI.this);
+		
 		d = getResources().getDrawable(R.drawable.pinpoint);
 
 		map = (MapView)findViewById(R.id.mvMain);
@@ -107,7 +108,7 @@ public class MapGUI extends MapActivity implements Observer {
 	 * to correct mapobjectlist, also animates to geopoints.
 	 */
 	public void update(Observable observable, Object data) {
-
+		NetworkManager.chkStatus(MapGUI.this);
 		if(data instanceof MapObjectList){
 			overlayList.add((MapObjectList) data);
 
@@ -124,7 +125,7 @@ public class MapGUI extends MapActivity implements Observer {
 				}
 			}
 		}else if(data == null){
-			Toast.makeText(getBaseContext(), "Ett fel uppstod vid \n tilläggning av objekt.", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getBaseContext(), "Ett fel uppstod vid \n tillÃ¤ggning av objekt.", Toast.LENGTH_SHORT).show();
 		}
 		map.postInvalidate();
 	}
@@ -150,79 +151,80 @@ public class MapGUI extends MapActivity implements Observer {
 		compass.enableMyLocation();
 		super.onResume();
 		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
+		NetworkManager.chkStatus(MapGUI.this);
 	}
 
-//	/**
-//	 * Called when hardware "menu-button" is pressed.
-//	 * Inflates the mainmenu
-//	 */
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		MenuInflater inflater = getMenuInflater();
-//		inflater.inflate(R.menu.mainmenu, menu);
-//		return true;
-//	}
-//	/**
-//	 * Called when an item is selected in the options menu
-//	 */
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		switch (item.getItemId()) {
-//
-//		case R.id.settings:
-//			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
-//			return true;
-//		case R.id.status:
-//			return true;
-//		case R.id.recieved:
-//			MissionModel.setStatus(Status.RECIEVED);
-//			Sender.send(Sender.ACK_STATUS+":"+Status.RECIEVED.toString());
-//			return true;
-//		case R.id.there:
-//			MissionModel.setStatus(Status.THERE);
-//			Sender.send(Sender.ACK_STATUS+":"+Status.THERE.toString());
-//			return true;
-//		case R.id.loaded:
-//			MissionModel.setStatus(Status.LOADED);
-//			Sender.send(Sender.ACK_STATUS+":"+Status.LOADED.toString());
-//			return true;
-//		case R.id.depart:			
-//			MissionModel.setStatus(Status.DEPART);
-//			Sender.send(Sender.ACK_STATUS+":"+Status.DEPART.toString());
-//			return true;
-//		case R.id.home:
-//			MissionModel.setStatus(Status.HOME);
-//			Sender.send(Sender.ACK_STATUS+":"+Status.HOME.toString());
-//			return true;
-//		case R.id.centeratme:
-//			myLocation = mapcontroller.fireCurrentLocation();
-//			if(myLocation!=null){
-//				controller.setZoom(15);
-//				controller.animateTo(myLocation);
-//			}else{
-//				Toast.makeText(getBaseContext(), MapModel.GPS_FAILED, Toast.LENGTH_SHORT).show();
-//			}			
-//			return true;
-//		case R.id.logout:
-//			logout = new AlertDialog.Builder(MapGUI.this).create();
-//			logout.setMessage("Är du säker på att du vill avsluta?");
-//			logout.setButton("Ja", new DialogInterface.OnClickListener() {
-//				public void onClick(DialogInterface dialog, int which){
-//					getParent().finish();
-//				}
-//			});
-//			logout.setButton2("Nej", new DialogInterface.OnClickListener() {
-//
-//				public void onClick(DialogInterface dialog, int which) {
-//					logout.dismiss();					
-//				}
-//			});	
-//			logout.show();
-//			return true;
-//		default:
-//			return super.onOptionsItemSelected(item);
-//		}
-//	}
+	//	/**
+	//	 * Called when hardware "menu-button" is pressed.
+	//	 * Inflates the mainmenu
+	//	 */
+	//	@Override
+	//	public boolean onCreateOptionsMenu(Menu menu) {
+	//		MenuInflater inflater = getMenuInflater();
+	//		inflater.inflate(R.menu.mainmenu, menu);
+	//		return true;
+	//	}
+	//	/**
+	//	 * Called when an item is selected in the options menu
+	//	 */
+	//	@Override
+	//	public boolean onOptionsItemSelected(MenuItem item) {
+	//		switch (item.getItemId()) {
+	//
+	//		case R.id.settings:
+	//			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
+	//			return true;
+	//		case R.id.status:
+	//			return true;
+	//		case R.id.recieved:
+	//			MissionModel.setStatus(Status.RECIEVED);
+	//			Sender.send(Sender.ACK_STATUS+":"+Status.RECIEVED.toString());
+	//			return true;
+	//		case R.id.there:
+	//			MissionModel.setStatus(Status.THERE);
+	//			Sender.send(Sender.ACK_STATUS+":"+Status.THERE.toString());
+	//			return true;
+	//		case R.id.loaded:
+	//			MissionModel.setStatus(Status.LOADED);
+	//			Sender.send(Sender.ACK_STATUS+":"+Status.LOADED.toString());
+	//			return true;
+	//		case R.id.depart:			
+	//			MissionModel.setStatus(Status.DEPART);
+	//			Sender.send(Sender.ACK_STATUS+":"+Status.DEPART.toString());
+	//			return true;
+	//		case R.id.home:
+	//			MissionModel.setStatus(Status.HOME);
+	//			Sender.send(Sender.ACK_STATUS+":"+Status.HOME.toString());
+	//			return true;
+	//		case R.id.centeratme:
+	//			myLocation = mapcontroller.fireCurrentLocation();
+	//			if(myLocation!=null){
+	//				controller.setZoom(15);
+	//				controller.animateTo(myLocation);
+	//			}else{
+	//				Toast.makeText(getBaseContext(), MapModel.GPS_FAILED, Toast.LENGTH_SHORT).show();
+	//			}			
+	//			return true;
+	//		case R.id.logout:
+	//			logout = new AlertDialog.Builder(MapGUI.this).create();
+	//			logout.setMessage("ï¿½r du sï¿½ker pï¿½ att du vill avsluta?");
+	//			logout.setButton("Ja", new DialogInterface.OnClickListener() {
+	//				public void onClick(DialogInterface dialog, int which){
+	//					getParent().finish();
+	//				}
+	//			});
+	//			logout.setButton2("Nej", new DialogInterface.OnClickListener() {
+	//
+	//				public void onClick(DialogInterface dialog, int which) {
+	//					logout.dismiss();					
+	//				}
+	//			});	
+	//			logout.show();
+	//			return true;
+	//		default:
+	//			return super.onOptionsItemSelected(item);
+	//		}
+	//	}
 	/**
 	 * Default dummy-method for Google Maps, does nothing.
 	 */
@@ -247,6 +249,7 @@ public class MapGUI extends MapActivity implements Observer {
 		View twoEdits;
 
 		public boolean onTouchEvent(MotionEvent e, MapView m){
+			NetworkManager.chkStatus(MapGUI.this);
 			if (e.getAction() == MotionEvent.ACTION_DOWN){
 				pressStart = e.getEventTime();
 				x = (int) e.getX();
@@ -257,23 +260,22 @@ public class MapGUI extends MapActivity implements Observer {
 				pressStop = e.getEventTime();
 			}
 			if (pressStop - pressStart > 200){
-				if(Math.abs(e.getX()-x)<10 && (Math.abs(e.getY()-y)<10)){ //Tillåter att användaren "darrar" på handen.
+				if(Math.abs(e.getX()-x)<10 && (Math.abs(e.getY()-y)<10)){ //Tillï¿½ter att anvï¿½ndaren "darrar" pï¿½ handen.
 					builder = new AlertDialog.Builder(m.getContext());				
 					alert = builder.create();
 					alert.setTitle("Kartmeny");
-					alert.setMessage("Välj något av nedanstående val:");
-					alert.setButton("Placera en händelse", new DialogInterface.OnClickListener() {
+					alert.setMessage("VÃ¤lj nÃ¥got av nedanstÃ¥ende val:");
+					alert.setButton("Placera en hÃ¤ndelse", new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int which) {
-							NetworkManager.chkStatus(MapGUI.this);
-							builder.setTitle("Välj en händelse:");
+							builder.setTitle("VÃ¤lj en hÃ¤ndelse:");
 							builder.setItems(points, new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									switch(which){
 									case 0: 
 										try {
-											RoadBlockEvent newEvent = new RoadBlockEvent(touchedPoint,points[0].toString(), "Ett föremål på vägen förhindrar trafik från att komma fram", 
+											RoadBlockEvent newEvent = new RoadBlockEvent(touchedPoint,points[0].toString(), "Ett fÃ¶remÃ¥l pÃ¥ vÃ¤gen fÃ¶rhindrar trafik frÃ¥n att komma fram", 
 													new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.road_closed_icon);
 											Sender.send(newEvent);
 											mapcontroller.addMapObject(newEvent);
@@ -283,7 +285,7 @@ public class MapGUI extends MapActivity implements Observer {
 										break;
 									case 1:
 										try {
-											FloodEvent newEvent = new FloodEvent(touchedPoint,points[1].toString(), "Det är en översväming på platsen",
+											FloodEvent newEvent = new FloodEvent(touchedPoint,points[1].toString(), "Det Ã¤r en Ã¶versvÃ¤mning pÃ¥ platsen",
 													new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.flood_icon);
 											Sender.send(newEvent);
 											mapcontroller.addMapObject(newEvent);
@@ -294,7 +296,7 @@ public class MapGUI extends MapActivity implements Observer {
 									case 2:
 										AlertDialog.Builder createCustomEventDialog = new AlertDialog.Builder(MapGUI.this);
 
-										createCustomEventDialog.setTitle("Lägg till händelse");
+										createCustomEventDialog.setTitle("LÃ¤gg till hÃ¤ndelse");
 
 										LinearLayout lila1 = new LinearLayout(MapGUI.this);
 										lila1.setOrientation(1); //1 is for vertical orientation
@@ -312,7 +314,7 @@ public class MapGUI extends MapActivity implements Observer {
 										lila1.addView(input2);
 										createCustomEventDialog.setView(lila1);
 
-										createCustomEventDialog.setPositiveButton("Lägg till", new DialogInterface.OnClickListener() {
+										createCustomEventDialog.setPositiveButton("LÃ¤gg till", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface dialog, int whichButton) {
 												try {
 													OtherEvent newEvent = new OtherEvent(touchedPoint, input1.getText().toString(), 
@@ -341,7 +343,7 @@ public class MapGUI extends MapActivity implements Observer {
 
 						}
 					});
-					alert.setButton3("Hämta adress", new DialogInterface.OnClickListener() {
+					alert.setButton3("HÃ¤mta adress", new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int which) {
 							try{
@@ -375,28 +377,28 @@ public class MapGUI extends MapActivity implements Observer {
 					return true;
 				}
 			}
-			return false;
-		}
+		return false;
 	}
+}
 
-	/**
-	 * Called when the hardware "back"-button was pressed. 
-	 * Pops a dialog asking the user if it wants to log out.
-	 */
-	public void onBackPressed(){
-		AlertDialog logout = new AlertDialog.Builder(this).create();
-		logout.setMessage("Är du säker på att du vill avsluta?");
-		logout.setButton("Ja", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which){
-				Sender.send(Sender.LOG_OUT);
-				finish();
-			}
-		});
-		logout.setButton2("Nej", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();					
-			}
-		});	
-		logout.show();
-	}
+/**
+ * Called when the hardware "back"-button was pressed. 
+ * Pops a dialog asking the user if it wants to log out.
+ */
+public void onBackPressed(){
+	AlertDialog logout = new AlertDialog.Builder(this).create();
+	logout.setMessage("Ã„r du sÃ¤ker pÃ¥ att du vill avsluta?");
+	logout.setButton("Ja", new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface dialog, int which){
+			Sender.send(Sender.LOG_OUT);
+			finish();
+		}
+	});
+	logout.setButton2("Nej", new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface dialog, int which) {
+			dialog.dismiss();					
+		}
+	});	
+	logout.show();
+}
 }

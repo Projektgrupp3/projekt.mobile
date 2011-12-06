@@ -7,6 +7,7 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.controllers.MissionController;
+import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.reports.VerificationReportActivity;
 import tddd36.grupp3.reports.WindowReportActivity;
 import tddd36.grupp3.resources.Contact;
@@ -83,7 +84,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		historylistitems = new ArrayList<String[]>();
 		historylistitems.add(new String[] {"Trafikolycka", "Fler skadade."});
 		historylistitems.add(new String[] {"Trafikolycka", "Barn kan finnas med."});
-		historylistitems.add(new String[] {"Trafikolycka", "Påbörjat uppdrag."});
+		historylistitems.add(new String[] {"Trafikolycka", "Pï¿½bï¿½rjat uppdrag."});
 		historyAdapter = new MissionHistoryAdapter(getBaseContext(), R.layout.missionhistoryitem, historylistitems);
 		listView.setAdapter(historyAdapter);
 		// add views to tab host
@@ -219,15 +220,25 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 				MainView.tabHost.setCurrentTab(0);
 				MapGUI.controller.animateTo(gp);
 			}else{
-				Toast.makeText(getBaseContext(), "Du har inget uppdrag.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), "Du har ingen uppdrags adress att gÃ¥ till.", Toast.LENGTH_SHORT).show();
 			}
 		}else if(v == verificationreportbtn){
-			intent = new Intent(getParent(), VerificationReportActivity.class);
-			parentActivity.startChildActivity("VerificationReport", intent);
+			
+			if(MissionTabView.mc.getMissionModel().getCurrentEvent() != null){
+				intent = new Intent(getParent(), VerificationReportActivity.class);
+				parentActivity.startChildActivity("VerificationReport", intent);
+			}
+			else
+				Toast.makeText(getBaseContext(), "Du har inget uppdrag att rapportera.", Toast.LENGTH_SHORT).show();
 
 		}else if(v == windowreportbtn){
-			intent = new Intent(getParent(), WindowReportActivity.class);
-			parentActivity.startChildActivity("WindowReport", intent);
+			
+			if(MissionTabView.mc.getMissionModel().getCurrentEvent() != null){
+				intent = new Intent(getParent(), WindowReportActivity.class);
+				parentActivity.startChildActivity("WindowReport", intent);
+			}
+			else
+				Toast.makeText(getBaseContext(), "Du har inget uppdrag att rapportera.", Toast.LENGTH_SHORT).show();
 
 		}else if(v == changedescbtn){
 			if(MissionTabView.mc.getMissionModel().getCurrentEvent() != null){
@@ -235,7 +246,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 				parentActivity.startChildActivity("UpdateMission", intent);
 			}
 			else
-				Toast.makeText(getBaseContext(), "Du har inget uppdrag att ändra.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), "Du har inget uppdrag att Ã¤ndra.", Toast.LENGTH_SHORT).show();
 		}
 	}
 	/**
@@ -298,10 +309,10 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 			// Get reference to TextView - contactaddress
 			historyChange = (TextView) v.findViewById(R.id.historyChange);
 			//Set contact name
-			historyHeader.setText("Händelse: "+historyItems[0]);
+			historyHeader.setText("HÃ¤ndelse: "+historyItems[0]);
 
 			// Set contact sip address
-			historyChange.setText("Ändring: "+historyItems[1]);
+			historyChange.setText("Ã„ndring: "+historyItems[1]);
 			
 			return v;
 		}

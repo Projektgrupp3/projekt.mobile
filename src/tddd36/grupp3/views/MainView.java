@@ -12,6 +12,7 @@ import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.controllers.MissionController;
 import tddd36.grupp3.database.ClientDatabaseManager;
+import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.misc.QoSManager;
 import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.models.MapModel;
@@ -43,7 +44,7 @@ import android.widget.TabHost.OnTabChangeListener;
  * TabActivity for showing the Tab-structure of application. 
  * Also contains some support calls for intializing the SIP-part of the
  * application and the Profile, Manager and CallReciever.
- * @author Projektgrupp 3 - Sjukvården
+ * @author Projektgrupp 3 - Sjukvï¿½rden
  *
  */
 public class MainView extends TabActivity implements OnTabChangeListener{
@@ -77,6 +78,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		NetworkManager.chkStatus(MainView.this);
 
 		user = getIntent().getExtras().getString("user");
 		pass = getIntent().getExtras().getString("pass");
@@ -90,7 +92,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		this.registerReceiver(callReceiver, filter);
 		initializeManager();
 
-		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
+		this.deleteDatabase("client_database"); //Kï¿½R DETTA OM GJORT ï¿½NDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
 		//		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
 		//		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
@@ -290,7 +292,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 			return true;
 		case R.id.logout:
 			logout = new AlertDialog.Builder(this).create();
-			logout.setMessage("Är du säker på att du vill avsluta?");
+			logout.setMessage("Ã„r du sÃ¤ker pÃ¥ att du vill avsluta?");
 			logout.setButton("Ja", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which){
 					finish();

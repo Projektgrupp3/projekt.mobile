@@ -30,16 +30,17 @@ public class NetworkManager {
 		final android.net.NetworkInfo mobile =
 			connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-		if( wifi.isAvailable() ){
-			NETWORK_STATUS = WIFI;
+		if(wifi.isAvailable()){
 			Sender.NETWORK_STATUS = WIFI;
+			Sender.sendBuffer();
 		}
-		else if( mobile.isAvailable() ){
-			NETWORK_STATUS = MOBILE;
-			Sender.NETWORK_STATUS = MOBILE;
+		else if(mobile.isAvailable()){
+			if(Sender.NETWORK_STATUS != MOBILE){
+				Sender.NETWORK_STATUS = MOBILE;
+				Sender.send("AUTH");
+			}
 		}
 		else{
-			NETWORK_STATUS = NONE;
 			Sender.NETWORK_STATUS = NONE;
 		}	
 	}
