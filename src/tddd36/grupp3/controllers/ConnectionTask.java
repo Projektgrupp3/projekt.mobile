@@ -13,10 +13,12 @@ import tddd36.grupp3.Sender;
 import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.models.LoginModel;
 import tddd36.grupp3.resources.Contact;
+import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.OtherEvent;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionGroupActivity;
+import tddd36.grupp3.views.MissionTabView;
 import tddd36.grupp3.views.SIPView;
 import tddd36.grupp3.views.TabGroupActivity;
 import android.content.Intent;
@@ -129,12 +131,22 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 			}
 
 			else if(messageFromServer.has("event")){
+				if(messageFromServer.getBoolean("accepted")){
+					SplashEvent.cd.stopRunning();
+					Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
+					MapGUI.mapcontroller.addMapObject(ev);
+					MissionTabView.mc.setActiveMission(ev);
+					MainView.db.addRow(ev);
+					Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
+				}
 				//Sender.send(Sender.ACK_RECIEVED_EVENT+":"+messageFromServer));
-				MainView.tabHost.setCurrentTab(1);
-				Intent splashIntent = new Intent(MainView.context, SplashEvent.class);
-				TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent() ;
-				splashIntent.putExtra("json", messageFromServer.toString());
-				parentActivity.startChildActivity("IncomingEvent", splashIntent);
+				else{
+					MainView.tabHost.setCurrentTab(1);
+					Intent splashIntent = new Intent(MainView.context, SplashEvent.class);
+					TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
+					splashIntent.putExtra("json", messageFromServer.toString());
+					parentActivity.startChildActivity("IncomingEvent", splashIntent);
+				}
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
