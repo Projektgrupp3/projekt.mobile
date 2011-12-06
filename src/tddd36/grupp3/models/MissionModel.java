@@ -22,39 +22,33 @@ public class MissionModel extends Observable{
 	ArrayList<Event> currentMissionFromDB;
 
 	private MissionTabView mv;
-	private MissionController mc;
 
-	public MissionModel(MissionTabView mv, MissionController mc) {
+	public MissionModel(MissionTabView mv) {
 		this.mv = mv;
-		this.mc = mc;
-
-		addObserver(mv);	
-		addObserver(mc);
-
+		this.addObserver(mv);
+		
 		getCurrentMissionFromDB();
 	}
 
 	@SuppressWarnings("unchecked")
 	private void getCurrentMissionFromDB() {
 		ArrayList<Event> events = MainView.db.getAllRowsAsArrayList("mission");
-		if(events.size() > 1){
+		if(events.size() > 0){
 			if(events.get(0) != null){
-				setActiveMission(events.get(0));
-				status = Status.RECIEVED;
-			} else {
+				currentEvent = events.get(0);
+				setChanged();
+				notifyObservers(currentEvent);
 			}
 		}
 	}
-	public void addHistoryItem(String[] historyItem){
-		setChanged();
-		notifyObservers(historyItem);
-	}
+	
 	public void setActiveMission(Event ev){
 		if(ev != null){
 			currentEvent = ev;
 			status = Status.RECIEVED;
 			setChanged();
-			notifyObservers(ev);
+			System.out.println("I MissionModel är antal skadade: "+ev.getNumberOfInjured());
+			notifyObservers(currentEvent);
 		}else{
 			currentEvent = null;
 			setChanged();
@@ -145,5 +139,10 @@ public class MissionModel extends Observable{
 
 	public static Status getStatus() {
 		return status;
+	}
+
+	public void setMissionTabView(MissionTabView missionTabView) {
+		this.mv = missionTabView;
+		addObserver(mv);
 	}
 }

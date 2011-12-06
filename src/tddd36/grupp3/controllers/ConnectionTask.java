@@ -117,7 +117,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 						messageFromServer.getInt("tempCoordY"))),
 						messageFromServer.getString("header"),
 						messageFromServer.get("description").toString(), messageFromServer.getString("eventID").toString(), R.drawable.green_flag_icon);
-				MapGUI.mapcontroller.addMapObject(incomingEvent);
+				MainView.mapController.addMapObject(incomingEvent);
 				MainView.db.addRow(incomingEvent);	
 			}
 			if(messageFromServer.has("ALL_UNITS")){
@@ -134,8 +134,8 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 				if(messageFromServer.getBoolean("accepted")){
 					SplashEvent.cd.stopRunning();
 					Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
-					MapGUI.mapcontroller.addMapObject(ev);
-					MissionTabView.mc.setActiveMission(ev);
+					MainView.mapController.addMapObject(ev);
+					MainView.missionController.setActiveMission(ev);
 					MainView.db.addRow(ev);
 					Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
 				}

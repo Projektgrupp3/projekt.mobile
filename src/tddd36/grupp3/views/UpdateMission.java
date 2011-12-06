@@ -33,7 +33,7 @@ public class UpdateMission extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.updatemission);
 		currentMission = gson.fromJson(getIntent().getExtras().getString("mission"), Event.class);
-		saveUpdates = (Button)findViewById(R.id.bSaveContact);
+		saveUpdates = (Button)findViewById(R.id.bUpdateMission);
 		
 		E1 = (EditText)findViewById(R.id.edEventID2);
 		E2 = (EditText)findViewById(R.id.edMissionheader2);
@@ -55,14 +55,22 @@ public class UpdateMission extends Activity implements OnClickListener{
 	}
 
 	public void onClick(View v) {
-
+		Gson gson = new Gson();
 		if(E1.getText().toString().equals("") ||E2.getText().toString().equals("")||E3.getText().toString().equals("")
 				||E4.getText().toString().equals("")||E5.getText().toString().equals("")
 				||E6.getText().toString().equals("")||E7.getText().toString().equals("")){
 			Toast.makeText(getBaseContext(), "Fyll i fält ", Toast.LENGTH_SHORT).show();
 		}else{
-			MissionController.setActiveMission(currentMission);
-			Toast.makeText(getBaseContext(), "OBS! Ej sparat på klient/server", Toast.LENGTH_SHORT).show();
+			currentMission.setID(E1.getText().toString());
+			currentMission.setAccidentType(E2.getText().toString());
+			currentMission.setDescription(E3.getText().toString());
+			currentMission.setAdress(E4.getText().toString());
+			currentMission.setNumberOfInjured(Integer.parseInt(E5.getText().toString()));
+			currentMission.setTypeOfInjury(E6.getText().toString());
+			currentMission.setPriority(E7.getText().toString());
+			MissionController.updateActiveMission(currentMission);
+			Sender.send(gson.toJson(currentMission));
+			Toast.makeText(getBaseContext(), "Skickat till servern test", Toast.LENGTH_SHORT).show();
 			finish();
 		}
 	}

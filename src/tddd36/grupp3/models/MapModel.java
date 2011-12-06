@@ -48,10 +48,8 @@ public class MapModel extends Observable implements LocationListener{
 
 	GeoPoint ourLocation, touchedLocation, lastKnownGeoPoint;
 
-	public MapModel(MapGUI mapgui, MapController mc){
-
+	public MapModel(MapGUI mapgui){
 		this.mapgui = mapgui;
-		this.addObserver(mc);
 		this.addObserver(mapgui);
 
 		insertMapObjectsFromDB();

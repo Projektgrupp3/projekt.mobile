@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
+import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MissionTabView;
 
 import android.app.Activity;
@@ -82,7 +83,7 @@ public class WindowReportActivity extends Activity implements OnClickListener {
 			gson.toJson(wr); // spara rapporten i databasen för historiken oc h
 			// skicka till servern.
 
-			if (MissionTabView.mc.getMissionModel().getCurrentEvent() != null) {
+			if (MainView.missionController.getMissionModel().getCurrentEvent() != null) {
 				try {
 					Sender.sendReport(wr);
 					finish();

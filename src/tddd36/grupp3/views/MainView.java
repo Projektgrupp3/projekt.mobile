@@ -3,6 +3,7 @@ package tddd36.grupp3.views;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import org.json.JSONException;
 
@@ -60,6 +61,9 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public static SipManager manager = null;
 	public static SipProfile me = null;
 	public IncomingCallReceiver callReceiver;
+	
+	public static MapController mapController;
+	public static MissionController missionController;
 
 	public static WindowManager.LayoutParams lp;
 
@@ -78,8 +82,15 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
+		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
+		db = new ClientDatabaseManager(this);
+		
 		user = getIntent().getExtras().getString("user");
 		pass = getIntent().getExtras().getString("pass");
+		
+		mapController = new MapController(MainView.this);
+		missionController = new MissionController(MainView.this);
+		//missionController.setActiveMission(getCurrentMissionFromDB());
 
 		context = getBaseContext();
 
@@ -89,13 +100,6 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		callReceiver = new IncomingCallReceiver();
 		this.registerReceiver(callReceiver, filter);
 		initializeManager();
-
-		this.deleteDatabase("client_database"); //KÖR DETTA OM GJORT ÄNDRINGAR I DB-koden.
-		db = new ClientDatabaseManager(this);
-		//		db.addRow(new Contact("Enhet 1","enhet1@ekiga.net"));
-		//		db.addRow(new Contact("Enhet 2", "enhet2@ekiga.net"));
-		//		db.addRow(new Contact("Enhet 3", "enhet3@ekiga.net"));
-		//		db.addRow(new Contact("Emil", "bayhill@ekiga.net"));
 
 		res = getResources(); // Resource object to get Drawables
 		tabHost = getTabHost();  // The activity TabHost
@@ -131,6 +135,17 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		this.registerReceiver(QoSManager.myBatteryReceiver,
 				new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 	}
+	@SuppressWarnings("unchecked")
+	public Event getCurrentMissionFromDB() {
+		ArrayList<Event> events = MainView.db.getAllRowsAsArrayList("mission");
+		if(events.size() > 0){
+			if(events.get(0) != null){
+				return events.get(0);
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Dummy-method, does not actually do anything at the moment.
 	 */
@@ -280,7 +295,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 			}
 			return true;
 		case R.id.centeratme:
-			MapGUI.myLocation = MapController.fireCurrentLocation();
+			MapGUI.myLocation = mapController.fireCurrentLocation();
 			if(MapGUI.myLocation!=null){
 				MapGUI.controller.setZoom(15);
 				MapGUI.controller.animateTo(MapGUI.myLocation);

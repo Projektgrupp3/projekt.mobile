@@ -12,29 +12,21 @@ import org.json.JSONException;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
-import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.misc.NetworkManager;
-import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MapObjectList;
-import tddd36.grupp3.models.MissionModel;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.FloodEvent;
 import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.resources.OtherEvent;
 import tddd36.grupp3.resources.RoadBlockEvent;
-import tddd36.grupp3.resources.Status;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -62,8 +54,7 @@ public class MapGUI extends MapActivity implements Observer {
 	private Event o;
 
 	private MapView map;
-	public static MapController mapcontroller;
-
+	
 	private Drawable d;
 
 	static List<Overlay> overlayList;
@@ -94,10 +85,11 @@ public class MapGUI extends MapActivity implements Observer {
 		overlayList.add(compass);
 
 		controller = map.getController();
-		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());		
-
-		mapcontroller = new MapController(MapGUI.this);
-		if((myLocation = mapcontroller.fireCurrentLocation()) != null){
+		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());	
+		
+		MainView.mapController.setMapGUI(this);
+		
+		if((myLocation = MainView.mapController.fireCurrentLocation()) != null){
 			controller.animateTo(myLocation);
 		}
 		controller.setZoom(15);
@@ -120,7 +112,7 @@ public class MapGUI extends MapActivity implements Observer {
 		}else if(data instanceof MapObject[]){
 			for(MapObject o: (MapObject[]) data){
 				if(o != null){
-					mapcontroller.addMapObject(o);
+					MainView.mapController.addMapObject(o);
 				}
 			}
 		}else if(data == null){
@@ -137,7 +129,7 @@ public class MapGUI extends MapActivity implements Observer {
 		compass.disableCompass();
 		compass.disableMyLocation();
 		super.onPause();
-		mapcontroller.getLocationManager().removeUpdates(mapcontroller.getMapModel());		
+		MainView.mapController.getLocationManager().removeUpdates(MainView.mapController.getMapModel());		
 	}
 	/**
 	 * Called when application is resumed
@@ -149,7 +141,7 @@ public class MapGUI extends MapActivity implements Observer {
 		compass.enableCompass();
 		compass.enableMyLocation();
 		super.onResume();
-		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
+		MainView.mapController.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, MainView.mapController.getMapModel());
 	}
 
 	/**
@@ -205,7 +197,7 @@ public class MapGUI extends MapActivity implements Observer {
 											RoadBlockEvent newEvent = new RoadBlockEvent(touchedPoint,points[0].toString(), "Ett föremål på vägen förhindrar trafik från att komma fram", 
 													new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.road_closed_icon);
 											Sender.send(newEvent);
-											mapcontroller.addMapObject(newEvent);
+											MainView.mapController.addMapObject(newEvent);
 										} catch (JSONException e) {
 											e.printStackTrace();
 										}
@@ -215,7 +207,7 @@ public class MapGUI extends MapActivity implements Observer {
 											FloodEvent newEvent = new FloodEvent(touchedPoint,points[1].toString(), "Det är en översväming på platsen",
 													new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.flood_icon);
 											Sender.send(newEvent);
-											mapcontroller.addMapObject(newEvent);
+											MainView.mapController.addMapObject(newEvent);
 										} catch (JSONException e) {
 											e.printStackTrace();
 										}
@@ -248,7 +240,7 @@ public class MapGUI extends MapActivity implements Observer {
 															input2.getText().toString(),
 															new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.green_flag_icon);
 													Sender.send(newEvent);
-													mapcontroller.addMapObject(newEvent);
+													MainView.mapController.addMapObject(newEvent);
 												} catch (JSONException e) {
 													e.printStackTrace();
 												}

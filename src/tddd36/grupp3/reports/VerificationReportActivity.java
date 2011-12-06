@@ -5,6 +5,7 @@ import org.json.JSONException;
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.MissionController;
+import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionTabView;
 import android.app.Activity;
@@ -77,7 +78,7 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 			Gson gson = new Gson();
 			gson.toJson(vr);// spara rapporten i databasen för historiken oc h skicka till servern.
 			//??
-			if(MissionTabView.mc.getMissionModel().getCurrentEvent() != null){
+			if(MainView.missionController.getMissionModel().getCurrentEvent() != null){
 				try {
 					Sender.sendReport(vr);
 					finish();

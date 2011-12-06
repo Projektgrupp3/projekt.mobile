@@ -31,6 +31,7 @@ public class Event extends MapObject{
 	 * @param description - Händelsens fritext beskrivning
 	 * @throws JSONException
 	 */
+	
 	public Event(GeoPoint gp, String header, String message, String eventID, int icon ) throws JSONException{
 		super(gp, header, message, icon, ObjectType.EVENT);
 		this.eventID = eventID;

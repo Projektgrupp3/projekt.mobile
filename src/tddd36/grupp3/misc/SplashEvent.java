@@ -84,13 +84,12 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 					Sender.send(Sender.ACK_REJECTED_EVENT+":"+ev.getID());
 					cd.stopRunning();
 					mp.stop();
-					parentActivity.onBackPressed();
+					finish();
 				}				
 			}			
 		});
 		
 	}
-
 
 	public void onClick(View v) {
 		runOnUiThread(new Runnable(){
@@ -100,12 +99,12 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 				if(ev == null){
 					Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
 				}else {
-					MapGUI.mapcontroller.addMapObject(ev);
+					MainView.mapController.addMapObject(ev);
 					MissionController.setActiveMission(ev);
 					MainView.db.addRow(ev);
 					Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
 				}
-				parentActivity.onBackPressed();
+				finish();
 			}			
 		});
 		
