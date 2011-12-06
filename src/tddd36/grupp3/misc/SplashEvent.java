@@ -28,7 +28,7 @@ import com.google.gson.JsonSyntaxException;
 
 public class SplashEvent extends Activity implements OnClickListener, Observer {
 
-	private CountDown cd;
+	public static CountDown cd;
 	private String JSONString;
 	private String countDownValue;
 
