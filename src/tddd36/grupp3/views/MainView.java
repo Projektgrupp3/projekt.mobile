@@ -90,6 +90,11 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		user = getIntent().getExtras().getString("user");
 		pass = getIntent().getExtras().getString("pass");
 		
+        System.setProperty("javax.net.ssl.keyStore","assets/clientKeyStore.key");
+	    System.setProperty("javax.net.ssl.keyStorePassword","starwars");
+	    System.setProperty("javax.net.ssl.trustStore","client/serverTrustStore");
+	    System.setProperty("javax.net.ssl.trustStorePassword","starwars");
+		
 		mapController = new MapController(MainView.this);
 		missionController = new MissionController(MainView.this);
 		//missionController.setActiveMission(getCurrentMissionFromDB());

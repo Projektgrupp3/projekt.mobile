@@ -6,6 +6,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,8 +40,8 @@ public class Sender {
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
 
-	private static final String COM_IP = "130.236.227.129";
-	private static final int COM_PORT = 1560;
+	private static final String COM_IP = "130.236.227.163";
+	private static final int COM_PORT = 3333;
 	
 	public static String NETWORK_STATUS;
 
@@ -51,11 +54,14 @@ public class Sender {
 
 	private static ArrayList<String> buffer = new ArrayList<String>();
 
-	private static Socket socket;
+	private static SSLSocket socket;
 
 	public static void establishConnection() {
 		try {
-			socket = new Socket(COM_IP, COM_PORT);
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			socket = (SSLSocket) sslsocketfactory.createSocket(COM_IP, COM_PORT);
+			//socket = new Socket(COM_IP, COM_PORT);
+			socket.setEnabledCipherSuites(new String[] { "SSL_DH_anon_WITH_RC4_128_MD5" });
 			pw = new PrintWriter(socket.getOutputStream(), true);
 
 		} catch (UnknownHostException e) {
