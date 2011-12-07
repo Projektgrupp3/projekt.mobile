@@ -101,7 +101,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 					Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
 				}else {
 					MainView.mapController.addMapObject(ev);
-					MissionController.setActiveMission(ev);
+					MainView.missionController.setActiveMission(ev);
 					MainView.db.addRow(ev);
 					Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
 				}

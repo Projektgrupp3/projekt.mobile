@@ -156,11 +156,25 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 				}
 
 				else if(messageFromServer.has("event")){
-					MainView.tabHost.setCurrentTab(1);
-					Intent splashIntent = new Intent(MainView.context, SplashEvent.class);
-					TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent() ;
-					splashIntent.putExtra("json", messageFromServer.toString());
-					parentActivity.startChildActivity("IncomingEvent", splashIntent);
+					System.out.println("Tar emot event från server.");
+					if(messageFromServer.getBoolean("accepted")){
+						SplashEvent.cd.stopRunning();
+						SplashEvent.mp.stop();
+						Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
+						MainView.mapController.addMapObject(ev);
+						MainView.missionController.setActiveMission(ev);
+						MainView.db.addRow(ev);
+						System.out.println("Event har eventID: "+SplashEvent.bufferedEvent.getID());
+						SplashEvent.parentActivity.onBackPressed();
+					}
+					//Sender.send(Sender.ACK_RECIEVED_EVENT+":"+messageFromServer));
+					else{
+						MainView.tabHost.setCurrentTab(1);
+						Intent splashIntent = new Intent(MainView.context, SplashEvent.class);
+						TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
+						splashIntent.putExtra("json", messageFromServer.toString());
+						parentActivity.startChildActivity("IncomingEvent", splashIntent);
+					}
 				}
 				buffer.remove(result);
 			} catch (JSONException e) {
