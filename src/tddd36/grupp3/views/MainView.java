@@ -318,7 +318,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 			return true;
 		case R.id.logout:
 			logout = new AlertDialog.Builder(this).create();
-			logout.setMessage("Ã„r du sÃ¤ker pÃ¥ att du vill avsluta?");
+			logout.setMessage("Är du säker på att du vill avsluta?");
 			logout.setButton("Ja", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which){
 					finish();
