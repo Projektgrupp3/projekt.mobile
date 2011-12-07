@@ -134,6 +134,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 			else if(messageFromServer.has("event")){
 				System.out.println("Tar emot event från server.");
 				if(messageFromServer.getBoolean("accepted")){
+					System.out.println("Event accepted");
 					SplashEvent.cd.stopRunning();
 					SplashEvent.mp.stop();
 					MapGUI.mapcontroller.addMapObject(SplashEvent.bufferedEvent);
@@ -141,7 +142,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 					MainView.db.addRow(SplashEvent.bufferedEvent);
 					System.out.println("Event har eventID: "+SplashEvent.bufferedEvent.getID());
 					SplashEvent.parentActivity.onBackPressed();
-					//Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+bufferedEvent.getID());
+					Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+SplashEvent.bufferedEvent.getID());
 				}
 				//Sender.send(Sender.ACK_RECIEVED_EVENT+":"+messageFromServer));
 				else{

@@ -23,6 +23,7 @@ public class Event extends MapObject{
 	private String description;
 	private static GeoPoint gp;
 	private int icon;
+	private boolean accepted;
 
 	/**
 	 * Konstruktor för att lägga til ett "map-event" såsom ett nedfallet träd.
