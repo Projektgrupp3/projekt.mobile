@@ -77,7 +77,7 @@ public class Event extends MapObject{
 		this.eventID = event.getString("event");
 		this.unitID = event.getString("unitID");
 		this.description = event.getString("description");
-		lastChanged = new SimpleDateFormat("yy:MM:dd:HH:mmss").format(new Date());
+		lastChanged = new SimpleDateFormat("yy:MM:dd:HH:mm:ss").format(new Date());
 
 		Log.d("JSON", "Event ID: "+eventID);
 		Log.d("JSON", event.getString("accidentType"));

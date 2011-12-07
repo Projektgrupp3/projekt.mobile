@@ -297,7 +297,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 						Sender.send(Sender.ACK_STATUS+":"+Status.HOME.toString()+":"+
 								"Händelse-ID: "+MainView.missionController
 								.getActiveMission().getID());
-						MissionController.setActiveMission(null);
+						MainView.missionController.setActiveMission(null);
 						MissionModel.setStatus(Status.HOME);
 						statusMissionAlert.show();
 					}});

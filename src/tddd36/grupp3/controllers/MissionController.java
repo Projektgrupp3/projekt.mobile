@@ -34,7 +34,7 @@ public class MissionController implements Observer {
 	public GeoPoint getActiveMissionAddress(){
 		return mm.getCurrentGeoPoint();
 	}
-	public static void setActiveMission(Event ev){
+	public void setActiveMission(Event ev){
 		if(mm != null){
 			if(ev != null){
 				mm.setActiveMission(ev);

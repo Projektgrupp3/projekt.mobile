@@ -259,7 +259,7 @@ public boolean checkRow(String str){
 				);
 				Gson gson = new Gson();
 				cursor.moveToLast();
-				if (!cursor.isFirst())
+				if (!cursor.isBeforeFirst())
 				{
 					do
 					{ 

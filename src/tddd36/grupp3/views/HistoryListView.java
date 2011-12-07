@@ -23,12 +23,12 @@ public class HistoryListView extends ListActivity implements Observer{
 
 	private ArrayList<Event> historyList;
 	private MissionHistoryAdapter historyAdapter;
-	
+
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.historylist);
-		
+
 		historyList = new ArrayList<Event>();
 		historyList = MainView.db.getAllRowsAsArrayList("mission");
 		historyAdapter = new MissionHistoryAdapter(this.getBaseContext(), R.layout.missionhistoryitem, historyList);
@@ -36,17 +36,16 @@ public class HistoryListView extends ListActivity implements Observer{
 		empty.setText("Inga ändringar loggade");
 		getListView().setEmptyView(empty);
 		setListAdapter(historyAdapter);
-		
+
 		MainView.db.addObserver(this);
 	}
 	public void update(Observable observable, final Object data) {
-		final Event ev = (Event) data;
 		if(data instanceof Event){
 			runOnUiThread(new Runnable(){
 				public void run() {
-					Log.d("HistoryListView",ev.getDescription());
-					historyList.add(ev);
-					historyAdapter.notifyDataSetChanged();
+					Log.d("HistoryListView",((Event) data).getDescription());
+						historyList.add(((Event) data));
+						historyAdapter.notifyDataSetChanged();
 				}
 			});
 		}
@@ -68,7 +67,7 @@ public class HistoryListView extends ListActivity implements Observer{
 			this.items = items;
 			this.context = context;
 		}
-		
+
 		public int getCount() {
 			return this.items.size();
 		}
@@ -76,7 +75,7 @@ public class HistoryListView extends ListActivity implements Observer{
 		public Event getItem(int index) {
 			return this.items.get(index);
 		}
-		
+
 		/**
 		 * Automatically called by the list activity when populating the list with historyevents.
 		 */
@@ -96,22 +95,22 @@ public class HistoryListView extends ListActivity implements Observer{
 
 			// Get reference to TextView - Change
 			historyChange = (TextView) row.findViewById(R.id.historyChange);
-			
+
 			// Get reference to TextView - Time
 			historyTime = (TextView) row.findViewById(R.id.historyTime);
 			//Set history header
-			historyHeader.setText("Händelse: "+ historyItem.getID());
+			historyHeader.setText("Händelse-ID: "+ historyItem.getID());
 
 			// Set history change description
-			historyChange.setText("Ändring: "+historyItem.getMessage());
-			
+			historyChange.setText("Beskrivning: "+historyItem.getMessage());
+
 			// Set history time description
 			historyTime.setText("Senast ändrad: "+ historyItem.getLastChanged());
-			
+
 			return row;
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed(){
 		getParent().onBackPressed();
