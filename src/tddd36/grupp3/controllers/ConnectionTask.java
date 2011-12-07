@@ -164,10 +164,10 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 						MainView.mapController.addMapObject(ev);
 						MainView.missionController.setActiveMission(ev);
 						MainView.db.addRow(ev);
-						System.out.println("Event har eventID: "+SplashEvent.bufferedEvent.getID());
+						System.out.println("Event har eventID: "+ev.getID());
 						SplashEvent.parentActivity.onBackPressed();
+						Sender.send(Sender.ACK_RECIEVED_EVENT+":"+ev.getID());
 					}
-					//Sender.send(Sender.ACK_RECIEVED_EVENT+":"+messageFromServer));
 					else{
 						MainView.tabHost.setCurrentTab(1);
 						Intent splashIntent = new Intent(MainView.context, SplashEvent.class);

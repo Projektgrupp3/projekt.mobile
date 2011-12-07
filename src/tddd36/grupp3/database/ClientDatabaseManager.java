@@ -140,7 +140,7 @@ public class ClientDatabaseManager extends Observable{
 		values.put(TABLE_MISSION[1], ev.getID());
 		values.put(TABLE_MISSION[2], gson.toJson(ev));
 
-		try {db.update(TABLE_NAME[1], values, TABLE_MISSION[0] + " = '" + ev.getID()+"'", null);}
+		try {db.update(TABLE_NAME[1], values, TABLE_MISSION[1] + " = '" + ev.getID()+"'", null);}
 		catch (Exception e)
 		{
 			Log.e("DB Error", e.toString());
@@ -158,11 +158,11 @@ public boolean checkRow(String str){
 		}
 		else{
 			Cursor cursor = null;
-			System.out.println("Kör checkRow med str "+str);
+			System.out.println("Kï¿½r checkRow med str "+str);
 			cursor = db.query(TABLE_NAME[2], TABLE_CONTACT, null,null,null,null,null);
 			cursor.moveToFirst();
 			while(!cursor.isAfterLast()){
-				System.out.println("Cursor är "+cursor.getString(1));
+				System.out.println("Cursor ï¿½r "+cursor.getString(1));
 				if(cursor.getString(1).equals(str)){
 					System.out.println("Adressen "+str+" fanns redan i database");
 					return true;

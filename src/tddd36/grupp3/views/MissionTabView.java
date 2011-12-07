@@ -30,6 +30,8 @@ import com.google.gson.Gson;
  * @author Emil
  *
  */
+
+//DIOANOIDNOIWD
 public class MissionTabView extends TabActivity implements OnClickListener, OnTabChangeListener, Observer {
 
 	public TabHost tabHost;
@@ -117,7 +119,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 				updateMissionView(update);
 		}else if(data instanceof Event){	
 			Event ev = (Event)data;
-			System.out.println("I Update �r antal skadade:" +ev.getNumberOfInjured());
+			System.out.println("I Update är antal skadade:" +ev.getNumberOfInjured());
 			updateMissionView(ev);		
 		}else if(data == null){
 			System.out.println("Nu raderade den uppdraget ur vyn");
