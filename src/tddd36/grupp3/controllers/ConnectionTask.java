@@ -159,9 +159,9 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 				}
 
 				else if(messageFromServer.has("event")){
-					System.out.println("Tar emot event från server.");
+
+					System.out.println("Tar emot event frÃ¥n server.");
 					if(messageFromServer.getBoolean("accepted")){
-						System.out.println("Event accepted");
 						SplashEvent.cd.stopRunning();
 						SplashEvent.mp.stop();
 						Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
@@ -170,7 +170,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 						MainView.db.addRow(ev);
 						System.out.println("Event har eventID: "+ev.getID());
 						SplashEvent.parentActivity.onBackPressed();
-						Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
+						Sender.send(Sender.ACK_RECIEVED_EVENT+":"+ev.getID());
 					}
 					else{
 						MainView.tabHost.setCurrentTab(1);

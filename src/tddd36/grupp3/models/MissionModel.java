@@ -28,6 +28,7 @@ public class MissionModel extends Observable{
 		this.addObserver(mv);
 		
 		getCurrentMissionFromDB();
+		Log.d("MissionModel","Nu har den hämtat uppdraget från databasen");
 	}
 
 	@SuppressWarnings("unchecked")
