@@ -82,6 +82,8 @@ public class ClientDatabaseManager extends Observable{
 			Log.e("DB ERROR", e.toString()); 
 			e.printStackTrace(); 
 		}
+		setChanged();
+		notifyObservers(ev);
 	}
 	/**
 	 * Method for adding contact to database
@@ -138,12 +140,14 @@ public class ClientDatabaseManager extends Observable{
 		values.put(TABLE_MISSION[1], ev.getID());
 		values.put(TABLE_MISSION[2], gson.toJson(ev));
 
-		try {db.update(TABLE_NAME[1], values, TABLE_MISSION[0] + " = '" + ev.getID()+"'", null);}
+		try {db.update(TABLE_NAME[1], values, TABLE_MISSION[1] + " = '" + ev.getID()+"'", null);}
 		catch (Exception e)
 		{
 			Log.e("DB Error", e.toString());
 			e.printStackTrace();
 		}
+		setChanged();
+		notifyObservers(ev);
 	}
 	
 

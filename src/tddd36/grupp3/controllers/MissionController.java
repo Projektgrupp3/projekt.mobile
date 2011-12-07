@@ -12,29 +12,43 @@ import tddd36.grupp3.views.UpdateMission;
 import com.google.android.maps.GeoPoint;
 
 public class MissionController implements Observer {
+	MainView mainView;
 	MissionTabView mv;
 	static MissionModel mm;
 
-	private UpdateMission updateMission;
-
-	public MissionController(MissionTabView mv){
-		this.mv = mv;
-		mm = new MissionModel(mv, this);
+	public MissionController(MainView mainView){
+		this.mainView = mainView;
+	}
+	public void setMissionView(MissionTabView missionTabView){
+		this.mv = missionTabView;
+		mm = new MissionModel(missionTabView);
 	}
 
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
 
 	}
+	public Event getActiveMission(){
+		return mm.getCurrentEvent();
+	}
 	public GeoPoint getActiveMissionAddress(){
 		return mm.getCurrentGeoPoint();
 	}
 	public static void setActiveMission(Event ev){
+		if(mm != null){
+			if(ev != null){
+				mm.setActiveMission(ev);
+				MainView.db.addRow(ev);
+			}else{
+				mm.setActiveMission(null);
+			}
+		}
+	}
+
+	public static void updateActiveMission(Event ev){
 		if(ev != null){
 			mm.setActiveMission(ev);
-			MainView.db.addRow(ev);
-		}else{
-			mm.setActiveMission(null);
+			MainView.db.updateRow(ev);
 		}
 	}
 	public static boolean hasActiveMission(){
@@ -46,9 +60,9 @@ public class MissionController implements Observer {
 	public void setMissionModel(MissionModel mm) {
 		this.mm = mm;
 	}
-	public void addHistoryItem(String[] item){
-		mm.addHistoryItem(item);
+
+	public void setMissionTabView(MissionTabView missionTabView) {
+		this.mv = missionTabView;
+		this.mm.setMissionTabView(missionTabView);
 	}
-
-
 }

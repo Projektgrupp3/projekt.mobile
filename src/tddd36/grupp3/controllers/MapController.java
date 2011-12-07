@@ -18,13 +18,19 @@ import android.location.LocationManager;
 import com.google.android.maps.GeoPoint;
 
 public class MapController implements Observer, Runnable{
+	MainView mainView;
 	MapGUI mapgui;
 	static MapModel mapmodel;
 	Thread thread = new Thread(this);
 	
-	public MapController(MapGUI mapgui){
-		this.mapgui = mapgui;
-		mapmodel = new MapModel(mapgui, this);
+	public MapController(MainView mainView){
+		this.mainView = mainView;
+	}
+	
+	public void setMapGUI(MapGUI mv){
+		this.mapgui = mv;
+		mapmodel = new MapModel(mv);
+		if(!thread.isAlive())
 		thread.run();
 	}
 	
@@ -49,7 +55,7 @@ public class MapController implements Observer, Runnable{
 		//TODO
 	}
 
-	public static GeoPoint fireCurrentLocation() {
+	public GeoPoint fireCurrentLocation() {
 		return mapmodel.fireCurrentLocation();
 	}
 }

@@ -26,12 +26,13 @@ public class Event extends MapObject{
 	private boolean accepted;
 
 	/**
-	 * Konstruktor för att lägga til ett "map-event" såsom ett nedfallet träd.
-	 * @param gp - Geografiska punkten för händelsen
-	 * @param header - Händelsens rubrik
-	 * @param description - Händelsens fritext beskrivning
+	 * Konstruktor fï¿½r att lï¿½gga til ett "map-event" sï¿½som ett nedfallet trï¿½d.
+	 * @param gp - Geografiska punkten fï¿½r hï¿½ndelsen
+	 * @param header - Hï¿½ndelsens rubrik
+	 * @param description - Hï¿½ndelsens fritext beskrivning
 	 * @throws JSONException
 	 */
+	
 	public Event(GeoPoint gp, String header, String message, String eventID, int icon ) throws JSONException{
 		super(gp, header, message, icon, ObjectType.EVENT);
 		this.eventID = eventID;
@@ -80,7 +81,6 @@ public class Event extends MapObject{
 		Log.d("JSON", coordinateX);
 		Log.d("JSON", coordinateY);
 		Log.d("JSON", priority);
-		//		Log.d("JSON", address);
 		Log.d("JSON", typeOfInjury);
 		Log.d("JSON", ""+unitID);
 
@@ -168,12 +168,19 @@ public class Event extends MapObject{
 	@Override
 	public String getObjectDescription(){
 		String objectDesc = super.getObjectDescription();
+		if(super.getIcon() == R.drawable.red_flag_icon){
 		return objectDesc + 
 		"ID: "+eventID +"\n"+
 		"Prioritet: "+priority +"\n"+
 		"Adress: " +address + "\n"+
 		"Antal skadade: " + numberOfInjured+ "\n"+
 		"Typ av skador: " + typeOfInjury + "\n"+
-		"Tilldelad enhet: "+unitID;
+		"Tilldelad enhet: "+unitID+ "\n";
+		}
+		else{
+			return objectDesc + 
+			"ID: "+eventID +"\n"+
+			"Adress: " +address + "\n";
+		}
 	}
 }

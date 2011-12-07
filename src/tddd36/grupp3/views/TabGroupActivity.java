@@ -40,8 +40,8 @@ public class TabGroupActivity extends ActivityGroup {
   @Override
   public void finishFromChild(Activity child) {
       LocalActivityManager manager = getLocalActivityManager();
-      int index = mIdList.size()-1;
       
+      int index = mIdList.size()-1;      
       if (index < 1) {
           finish();
           return;

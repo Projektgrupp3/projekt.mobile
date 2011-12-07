@@ -32,7 +32,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 public class LoginView extends Activity implements Observer,
 OnItemSelectedListener {
-	// Loginskärms variabler
+	// Loginskï¿½rms variabler
 	private TextView display;
 	private EditText user;
 	private EditText pass;
@@ -54,6 +54,8 @@ OnItemSelectedListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+		NetworkManager.chkStatus(LoginView.this);
+		
 		pass = (EditText) findViewById(R.id.editText2);
 		user = (EditText) findViewById(R.id.editText1);
 		login = (Button) findViewById(R.id.button1);
@@ -66,7 +68,6 @@ OnItemSelectedListener {
 		loginwait.setCancelable(false);
 		
 		logincontroller = new LoginController(this);
-		NetworkManager.chkStatus(this);
 		login.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				try {
@@ -89,10 +90,10 @@ OnItemSelectedListener {
 
 		if (data instanceof String[]) {
 			allUnits = (String[]) data;
-			Log.d("Här", "kan man vara");
+			Log.d("HÃ¤r", "kan man vara");
 			try {
 				if (authenticated) {
-					Log.d("Här", "kan man vara2");
+					Log.d("HÃ¤r", "kan man vara2");
 					loginwait.dismiss();
 					chooseUnit();
 				}
@@ -108,7 +109,7 @@ OnItemSelectedListener {
 				.show();
 				final AlertDialog login = new AlertDialog.Builder(
 						LoginView.this).create();
-				login.setMessage("Felaktigt användarnamn eller lösenord");
+				login.setMessage("Felaktigt anvÃ¤ndarnamn eller lÃ¶senord");
 				login.setButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						loginwait.dismiss();
@@ -117,7 +118,6 @@ OnItemSelectedListener {
 				pass.setText("");
 				login.show();
 			} else {
-				Log.d("Här", "1231");
 				authenticated = true;
 			}
 		}

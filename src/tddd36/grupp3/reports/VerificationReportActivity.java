@@ -5,6 +5,7 @@ import org.json.JSONException;
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.MissionController;
+import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionTabView;
 import android.app.Activity;
@@ -66,7 +67,7 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 				E5.getText().toString().equals("") ||
 				E6.getText().toString().equals("") ){
 
-			Toast.makeText(getBaseContext(), "Fyll i fält ", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getBaseContext(), "Fyll i fï¿½lt ", Toast.LENGTH_SHORT).show();
 
 		}
 		else{
@@ -75,18 +76,15 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 					E2.getText().toString(), E3.getText().toString(), E4.getText().toString(), E6.getText().toString() , E5.getText().toString(), "VerificationReport");
 			//??
 			Gson gson = new Gson();
-			gson.toJson(vr);// spara rapporten i databasen för historiken oc h skicka till servern.
+			gson.toJson(vr);// spara rapporten i databasen fï¿½r historiken oc h skicka till servern.
 			//??
-			if(MissionTabView.mc.getMissionModel().getCurrentEvent() != null){
-				try {
-					Sender.sendReport(vr);
-					finish();
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+
+			try {
+				Sender.sendReport(vr);
+				finish();
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-			else
-				Toast.makeText(getBaseContext(), "Du har ingen aktiv händelse.", Toast.LENGTH_SHORT).show();
 		}
 
 

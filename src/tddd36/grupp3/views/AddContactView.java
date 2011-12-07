@@ -41,12 +41,12 @@ public class AddContactView extends Activity implements OnClickListener{
 
 		if(edSaveName.getText().toString().equals("") ||edSaveSip.getText().toString().equals("")){
 
-			Toast.makeText(getBaseContext(), "Fyll i fält ", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getBaseContext(), "Fyll i fÃ¤lt ", Toast.LENGTH_SHORT).show();
 
 		}else{
 			Contact newContact = new Contact(edSaveName.getText().toString(), edSaveSip.getText().toString());
 			Gson gson = new Gson();
-			gson.toJson(newContact);// spara rapporten i databasen för historiken oc h skicka till servern.
+			gson.toJson(newContact);// spara rapporten i databasen fï¿½r historiken oc h skicka till servern.
 			MainView.db.addRow(newContact);
 			try {
 				// Sends the new contact to the server.

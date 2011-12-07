@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
 
+import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.MapController;
+import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.FloodEvent;
 import tddd36.grupp3.resources.Hospital;
@@ -36,7 +38,7 @@ public class MapModel extends Observable implements LocationListener{
 
 	private Drawable d;
 	private MapObjectList vehicles,hospital,event, roadblock, flood, otherevent, mapevent;
-	public static final String GPS_FAILED = "Kunde inte hämta GPS-status";
+	public static final String GPS_FAILED = "Kunde inte hï¿½mta GPS-status";
 
 	static MapGUI mapgui;
 	private LocationManager lm;
@@ -48,10 +50,8 @@ public class MapModel extends Observable implements LocationListener{
 
 	GeoPoint ourLocation, touchedLocation, lastKnownGeoPoint;
 
-	public MapModel(MapGUI mapgui, MapController mc){
-
+	public MapModel(MapGUI mapgui){
 		this.mapgui = mapgui;
-		this.addObserver(mc);
 		this.addObserver(mapgui);
 
 		insertMapObjectsFromDB();
@@ -177,7 +177,7 @@ public class MapModel extends Observable implements LocationListener{
 					mapevent.add(o);
 					notifyObservers(mapevent);
 				}
-				
+
 				else if(o instanceof Event){
 					if(event == null){
 						event = new MapObjectList(d, mapgui);
@@ -195,21 +195,21 @@ public class MapModel extends Observable implements LocationListener{
 	}
 
 	public static String getAddress(GeoPoint gp){
-		String addressString = "";
-		Geocoder gc = new Geocoder(mapgui.getBaseContext(), Locale.getDefault());
-		try{
-			List<Address> address = gc.getFromLocation(gp.getLatitudeE6()/1E6,gp.getLongitudeE6()/1E6, 1);
-			if(address.size() > 0){
-				for(int i = 0;i<address.get(0).getMaxAddressLineIndex();i++){
-					addressString += address.get(0).getAddressLine(i) + "\n";
+		if(Sender.NETWORK_STATUS == NetworkManager.WIFI){
+			String addressString = "";
+			Geocoder gc = new Geocoder(mapgui.getBaseContext(), Locale.getDefault());
+			try{
+				List<Address> address = gc.getFromLocation(gp.getLatitudeE6()/1E6,gp.getLongitudeE6()/1E6, 1);
+				if(address.size() > 0){
+					for(int i = 0;i<address.get(0).getMaxAddressLineIndex();i++){
+						addressString += address.get(0).getAddressLine(i) + "\n";
+					}
 				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}finally{
-			//no-op
-		}		
-		return addressString;
+			} catch (IOException e) {
+			}	
+			return addressString;
+		}
+		return "";
 	}
 
 }

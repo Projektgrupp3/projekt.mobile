@@ -12,7 +12,9 @@ import org.json.JSONObject;
 import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.reports.Report;
 import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MissionTabView;
+import android.util.Log;
 
 /**
  * KLIENT-SENDER-KLASS
@@ -35,8 +37,10 @@ public class Sender {
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
 
-	private static final String COM_IP = "130.236.227.163";
-	private static final int COM_PORT = 3333;
+
+	private static final String COM_IP = "130.236.226.70";
+	private static final int COM_PORT = 1560;
+	
 	public static String NETWORK_STATUS;
 
 	private static PrintWriter pw;
@@ -106,7 +110,7 @@ public class Sender {
 		}
 
 		String jsonString = jsonobject.toString();
-		
+
 		if(NETWORK_STATUS.equals(NetworkManager.NONE)){
 			buffer.add(jsonString);
 		}
@@ -139,18 +143,12 @@ public class Sender {
 
 		String jsonString = jsonobject.toString();
 
-		if(NETWORK_STATUS.equals(NetworkManager.NONE)){
+		if(NETWORK_STATUS.equals(NetworkManager.NONE) || NETWORK_STATUS.equals(NetworkManager.MOBILE)){
+			Log.d("Buffer", jsonString);
 			buffer.add(jsonString);
+			Log.d("Buffer", ""+buffer.size());
 		}
 		else {
-			if(!buffer.isEmpty()){
-				establishConnection();
-
-				for(String str : buffer){
-					pw.println(str);
-				}
-				closeConnection();
-			}
 			establishConnection();
 			pw.println(jsonString);
 			closeConnection();
@@ -196,16 +194,24 @@ public class Sender {
 		jsonobject.put("sipaddress", contactAddress);
 		jsonobject.put("contactName", contactName);
 		String jsonString = jsonobject.toString();
-		establishConnection();
-		pw.println(jsonString);
-		closeConnection();
+
+		if(NETWORK_STATUS.equals(NetworkManager.NONE) || NETWORK_STATUS.equals(NetworkManager.MOBILE)){
+			Log.d("Buffer", jsonString);
+			buffer.add(jsonString);
+			Log.d("Buffer", ""+buffer.size());
+		}
+		else {
+			establishConnection();
+			pw.println(jsonString);
+			closeConnection();
+		}
 	}
 	public static void sendReport(Report report) throws JSONException{
 		jsonobject = new JSONObject();
 		jsonobject.put("ack", "report");
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
-		jsonobject.put("eventID",MissionTabView.mc.getMissionModel().getCurrentEvent().getID());
+		jsonobject.put("eventID",MainView.missionController.getActiveMission().getID());
 		jsonobject.put("seriousEvent", report.getSeriousEvent());
 		jsonobject.put("typeOfInjury", report.getTypeOfInjury());
 		jsonobject.put("threats", report.getThreats());
@@ -222,11 +228,28 @@ public class Sender {
 			jsonobject.put("report", ACK_VERIFICATION_REPORT);
 		}
 		String jsonString = jsonobject.toString();
-		establishConnection();
-		pw.println(jsonString);
-		closeConnection();
-		String[] historyItem = {"Rapport skickad",report.getTypeOfReport()};
-		//		MissionTabView.mc.addHistoryItem(historyItem);
-		MissionTabView.mc.addHistoryItem(historyItem);
+		
+		if(NETWORK_STATUS.equals(NetworkManager.NONE)){
+			Log.d("Buffer", jsonString);
+			buffer.add(jsonString);
+			Log.d("Buffer", ""+buffer.size());
+		}
+		else {
+			establishConnection();
+			pw.println(jsonString);
+			closeConnection();
+		}
+	}
+	public static void sendBuffer(){
+		if(!buffer.isEmpty()){
+			establishConnection();
+			for(int i = 0; i < buffer.size(); i++){
+				pw.println(buffer.get(i));
+				Log.d("Buffer","Skickat från buffern");
+				Log.d("Buffer", buffer.get(i));
+			}
+			buffer.clear();
+			closeConnection();
+		}
 	}
 }

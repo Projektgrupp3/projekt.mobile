@@ -12,29 +12,21 @@ import org.json.JSONException;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
-import tddd36.grupp3.controllers.ConnectionController;
 import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.misc.NetworkManager;
-import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MapObjectList;
-import tddd36.grupp3.models.MissionModel;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.FloodEvent;
 import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.resources.OtherEvent;
 import tddd36.grupp3.resources.RoadBlockEvent;
-import tddd36.grupp3.resources.Status;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -50,20 +42,19 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 /***
  * The MapView tab. Contains methods for drawing map and map objects onto the map itself. 
- * @author Projektgrupp 3 - SjukvÂrden
+ * @author Projektgrupp 3 - Sjukv√•rden
  *
  */
 public class MapGUI extends MapActivity implements Observer {
 
 	private long pressStart;
 	private long pressStop;
-	private static final CharSequence[] points = {"Hinder pÂ v‰gen", "÷versv‰mning","Fritext"};
+	private static final CharSequence[] points = {"Hinder p√• v√§gen", "√ñversv√§mning","Fritext"};
 	private int x, y,lat = 0, lon = 0;
 	private Event o;
 
 	private MapView map;
-	public static MapController mapcontroller;
-
+	
 	private Drawable d;
 
 	static List<Overlay> overlayList;
@@ -80,7 +71,8 @@ public class MapGUI extends MapActivity implements Observer {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maps);
-
+		NetworkManager.chkStatus(MapGUI.this);
+		
 		d = getResources().getDrawable(R.drawable.pinpoint);
 
 		map = (MapView)findViewById(R.id.mvMain);
@@ -94,10 +86,11 @@ public class MapGUI extends MapActivity implements Observer {
 		overlayList.add(compass);
 
 		controller = map.getController();
-		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());		
-
-		mapcontroller = new MapController(MapGUI.this);
-		if((myLocation = mapcontroller.fireCurrentLocation()) != null){
+		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());	
+		
+		MainView.mapController.setMapGUI(this);
+		
+		if((myLocation = MainView.mapController.fireCurrentLocation()) != null){
 			controller.animateTo(myLocation);
 		}
 		controller.setZoom(15);
@@ -107,7 +100,7 @@ public class MapGUI extends MapActivity implements Observer {
 	 * to correct mapobjectlist, also animates to geopoints.
 	 */
 	public void update(Observable observable, Object data) {
-
+		NetworkManager.chkStatus(MapGUI.this);
 		if(data instanceof MapObjectList){
 			overlayList.add((MapObjectList) data);
 
@@ -120,11 +113,11 @@ public class MapGUI extends MapActivity implements Observer {
 		}else if(data instanceof MapObject[]){
 			for(MapObject o: (MapObject[]) data){
 				if(o != null){
-					mapcontroller.addMapObject(o);
+					MainView.mapController.addMapObject(o);
 				}
 			}
 		}else if(data == null){
-			Toast.makeText(getBaseContext(), "Ett fel uppstod vid \n till‰ggning av objekt.", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getBaseContext(), "Ett fel uppstod vid \n till√§ggning av objekt.", Toast.LENGTH_SHORT).show();
 		}
 		map.postInvalidate();
 	}
@@ -137,7 +130,7 @@ public class MapGUI extends MapActivity implements Observer {
 		compass.disableCompass();
 		compass.disableMyLocation();
 		super.onPause();
-		mapcontroller.getLocationManager().removeUpdates(mapcontroller.getMapModel());		
+		MainView.mapController.getLocationManager().removeUpdates(MainView.mapController.getMapModel());		
 	}
 	/**
 	 * Called when application is resumed
@@ -149,80 +142,10 @@ public class MapGUI extends MapActivity implements Observer {
 		compass.enableCompass();
 		compass.enableMyLocation();
 		super.onResume();
-		mapcontroller.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, mapcontroller.getMapModel());
+		NetworkManager.chkStatus(MapGUI.this);
+		MainView.mapController.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, MainView.mapController.getMapModel());
 	}
 
-//	/**
-//	 * Called when hardware "menu-button" is pressed.
-//	 * Inflates the mainmenu
-//	 */
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		MenuInflater inflater = getMenuInflater();
-//		inflater.inflate(R.menu.mainmenu, menu);
-//		return true;
-//	}
-//	/**
-//	 * Called when an item is selected in the options menu
-//	 */
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		switch (item.getItemId()) {
-//
-//		case R.id.settings:
-//			startActivity(new Intent(getBaseContext(), tddd36.grupp3.views.SettingsView.class));	
-//			return true;
-//		case R.id.status:
-//			return true;
-//		case R.id.recieved:
-//			MissionModel.setStatus(Status.RECIEVED);
-//			Sender.send(Sender.ACK_STATUS+":"+Status.RECIEVED.toString());
-//			return true;
-//		case R.id.there:
-//			MissionModel.setStatus(Status.THERE);
-//			Sender.send(Sender.ACK_STATUS+":"+Status.THERE.toString());
-//			return true;
-//		case R.id.loaded:
-//			MissionModel.setStatus(Status.LOADED);
-//			Sender.send(Sender.ACK_STATUS+":"+Status.LOADED.toString());
-//			return true;
-//		case R.id.depart:			
-//			MissionModel.setStatus(Status.DEPART);
-//			Sender.send(Sender.ACK_STATUS+":"+Status.DEPART.toString());
-//			return true;
-//		case R.id.home:
-//			MissionModel.setStatus(Status.HOME);
-//			Sender.send(Sender.ACK_STATUS+":"+Status.HOME.toString());
-//			return true;
-//		case R.id.centeratme:
-//			myLocation = mapcontroller.fireCurrentLocation();
-//			if(myLocation!=null){
-//				controller.setZoom(15);
-//				controller.animateTo(myLocation);
-//			}else{
-//				Toast.makeText(getBaseContext(), MapModel.GPS_FAILED, Toast.LENGTH_SHORT).show();
-//			}			
-//			return true;
-//		case R.id.logout:
-//			logout = new AlertDialog.Builder(MapGUI.this).create();
-//			logout.setMessage("ƒr du s‰ker pÂ att du vill avsluta?");
-//			logout.setButton("Ja", new DialogInterface.OnClickListener() {
-//				public void onClick(DialogInterface dialog, int which){
-//					getParent().finish();
-//				}
-//			});
-//			logout.setButton2("Nej", new DialogInterface.OnClickListener() {
-//
-//				public void onClick(DialogInterface dialog, int which) {
-//					logout.dismiss();					
-//				}
-//			});	
-//			logout.show();
-//			return true;
-//		default:
-//			return super.onOptionsItemSelected(item);
-//		}
-//	}
 	/**
 	 * Default dummy-method for Google Maps, does nothing.
 	 */
@@ -247,6 +170,7 @@ public class MapGUI extends MapActivity implements Observer {
 		View twoEdits;
 
 		public boolean onTouchEvent(MotionEvent e, MapView m){
+			NetworkManager.chkStatus(MapGUI.this);
 			if (e.getAction() == MotionEvent.ACTION_DOWN){
 				pressStart = e.getEventTime();
 				x = (int) e.getX();
@@ -257,36 +181,35 @@ public class MapGUI extends MapActivity implements Observer {
 				pressStop = e.getEventTime();
 			}
 			if (pressStop - pressStart > 200){
-				if(Math.abs(e.getX()-x)<10 && (Math.abs(e.getY()-y)<10)){ //TillÂter att anv‰ndaren "darrar" pÂ handen.
+				if(Math.abs(e.getX()-x)<10 && (Math.abs(e.getY()-y)<10)){ //TillÔøΩter att anvÔøΩndaren "darrar" pÔøΩ handen.
 					builder = new AlertDialog.Builder(m.getContext());				
 					alert = builder.create();
 					alert.setTitle("Kartmeny");
-					alert.setMessage("V‰lj nÂgot av nedanstÂende val:");
-					alert.setButton("Placera en h‰ndelse", new DialogInterface.OnClickListener() {
+					alert.setMessage("V√§lj n√•got av nedanst√•ende val:");
+					alert.setButton("Placera en h√§ndelse", new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int which) {
-							NetworkManager.chkStatus(MapGUI.this);
-							builder.setTitle("V‰lj en h‰ndelse:");
+							builder.setTitle("V√§lj en h√§ndelse:");
 							builder.setItems(points, new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									switch(which){
 									case 0: 
 										try {
-											RoadBlockEvent newEvent = new RoadBlockEvent(touchedPoint,points[0].toString(), "Ett fˆremÂl pÂ v‰gen fˆrhindrar trafik frÂn att komma fram", 
+											RoadBlockEvent newEvent = new RoadBlockEvent(touchedPoint,points[0].toString(), "Ett f√∂rem√•l p√• v√§gen f√∂rhindrar trafik fr√•n att komma fram", 
 													new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.road_closed_icon);
 											Sender.send(newEvent);
-											mapcontroller.addMapObject(newEvent);
+											MainView.mapController.addMapObject(newEvent);
 										} catch (JSONException e) {
 											e.printStackTrace();
 										}
 										break;
 									case 1:
 										try {
-											FloodEvent newEvent = new FloodEvent(touchedPoint,points[1].toString(), "Det ‰r en ˆversv‰ming pÂ platsen",
+											FloodEvent newEvent = new FloodEvent(touchedPoint,points[1].toString(), "Det √§r en √∂versv√§mning p√• platsen",
 													new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.flood_icon);
 											Sender.send(newEvent);
-											mapcontroller.addMapObject(newEvent);
+											MainView.mapController.addMapObject(newEvent);
 										} catch (JSONException e) {
 											e.printStackTrace();
 										}
@@ -294,7 +217,7 @@ public class MapGUI extends MapActivity implements Observer {
 									case 2:
 										AlertDialog.Builder createCustomEventDialog = new AlertDialog.Builder(MapGUI.this);
 
-										createCustomEventDialog.setTitle("L‰gg till h‰ndelse");
+										createCustomEventDialog.setTitle("L√§gg till h√§ndelse");
 
 										LinearLayout lila1 = new LinearLayout(MapGUI.this);
 										lila1.setOrientation(1); //1 is for vertical orientation
@@ -312,14 +235,14 @@ public class MapGUI extends MapActivity implements Observer {
 										lila1.addView(input2);
 										createCustomEventDialog.setView(lila1);
 
-										createCustomEventDialog.setPositiveButton("L‰gg till", new DialogInterface.OnClickListener() {
+										createCustomEventDialog.setPositiveButton("L√§gg till", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface dialog, int whichButton) {
 												try {
 													OtherEvent newEvent = new OtherEvent(touchedPoint, input1.getText().toString(), 
 															input2.getText().toString(),
 															new SimpleDateFormat("yyMMddHHmmss").format(new Date()), R.drawable.green_flag_icon);
 													Sender.send(newEvent);
-													mapcontroller.addMapObject(newEvent);
+													MainView.mapController.addMapObject(newEvent);
 												} catch (JSONException e) {
 													e.printStackTrace();
 												}
@@ -341,7 +264,7 @@ public class MapGUI extends MapActivity implements Observer {
 
 						}
 					});
-					alert.setButton3("H‰mta adress", new DialogInterface.OnClickListener() {
+					alert.setButton3("H√§mta adress", new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int which) {
 							try{
@@ -375,9 +298,9 @@ public class MapGUI extends MapActivity implements Observer {
 					return true;
 				}
 			}
-			return false;
-		}
+		return false;
 	}
+}
 
 	/**
 	 * Called when the hardware "back"-button was pressed. 
@@ -398,4 +321,5 @@ public class MapGUI extends MapActivity implements Observer {
 		});	
 		logout.show();
 	}
+
 }

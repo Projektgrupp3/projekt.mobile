@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.util.Log;
 import android.view.WindowManager;
 
 public class QoSManager{
@@ -38,7 +36,6 @@ public class QoSManager{
 				if(power<=5){
 					lp.screenBrightness = 0.05f;
 					activity.getWindow().setAttributes(lp);
-
 				}
 
 				if(power<=10 && power <5){
