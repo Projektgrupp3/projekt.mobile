@@ -121,7 +121,10 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 					for(int i = 0; i<list.length; i++){
 						String[] separated = list[i].split(",");
 						Contact c = new Contact(separated[0],separated[1]);
-						MainView.db.addRow(c);
+						if(!MainView.db.checkRow(separated[1])){
+							Log.d("ConnectionTask:","L‰gger till kontakt:"+separated[0]+" "+separated[1]);
+							MainView.db.addRow(c);
+						}
 					}				
 				}
 				if(messageFromServer.has(Sender.UPDATE_MAP_OBJECT)){
@@ -158,6 +161,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 				}
 
 				else if(messageFromServer.has("event")){
+
 					System.out.println("Tar emot event fr√•n server.");
 					if(messageFromServer.getBoolean("accepted")){
 						SplashEvent.cd.stopRunning();

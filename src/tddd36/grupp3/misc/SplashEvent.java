@@ -102,7 +102,6 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 				}else {
 					MainView.mapController.addMapObject(ev);
 					MainView.missionController.setActiveMission(ev);
-					MainView.db.addRow(ev);
 					Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
 				}
 				finish();

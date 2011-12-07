@@ -1,6 +1,8 @@
 package tddd36.grupp3.views;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -21,12 +23,12 @@ public class HistoryListView extends ListActivity implements Observer{
 
 	private ArrayList<Event> historyList;
 	private MissionHistoryAdapter historyAdapter;
-	
+
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.historylist);
-		
+
 		historyList = new ArrayList<Event>();
 		historyList = MainView.db.getAllRowsAsArrayList("mission");
 		historyAdapter = new MissionHistoryAdapter(this.getBaseContext(), R.layout.missionhistoryitem, historyList);
@@ -34,16 +36,16 @@ public class HistoryListView extends ListActivity implements Observer{
 		empty.setText("Inga ändringar loggade");
 		getListView().setEmptyView(empty);
 		setListAdapter(historyAdapter);
-		
+
 		MainView.db.addObserver(this);
 	}
 	public void update(Observable observable, final Object data) {
 		if(data instanceof Event){
 			runOnUiThread(new Runnable(){
 				public void run() {
-					Log.d("HEOREWRWEWER","WEREWREWEWR");
-					historyList.add((Event) data);
-					historyAdapter.notifyDataSetChanged();
+					Log.d("HistoryListView",((Event) data).getDescription());
+						historyList.add(((Event) data));
+						historyAdapter.notifyDataSetChanged();
 				}
 			});
 		}
@@ -57,6 +59,7 @@ public class HistoryListView extends ListActivity implements Observer{
 		private Context context;
 		private TextView historyHeader;
 		private TextView historyChange;
+		private TextView historyTime;
 		private	List<Event> items;
 
 		public MissionHistoryAdapter(Context context, int textViewResourceId, List<Event> items) {
@@ -64,7 +67,7 @@ public class HistoryListView extends ListActivity implements Observer{
 			this.items = items;
 			this.context = context;
 		}
-		
+
 		public int getCount() {
 			return this.items.size();
 		}
@@ -72,7 +75,7 @@ public class HistoryListView extends ListActivity implements Observer{
 		public Event getItem(int index) {
 			return this.items.get(index);
 		}
-		
+
 		/**
 		 * Automatically called by the list activity when populating the list with historyevents.
 		 */
@@ -87,21 +90,27 @@ public class HistoryListView extends ListActivity implements Observer{
 			// Get item
 			Event historyItem = getItem(position);
 
-			// Get reference to TextView - contactname
+			// Get reference to TextView - Header
 			historyHeader = (TextView) row.findViewById(R.id.historyHeader);
 
-			// Get reference to TextView - contactaddress
+			// Get reference to TextView - Change
 			historyChange = (TextView) row.findViewById(R.id.historyChange);
-			//Set contact name
-			historyHeader.setText("Händelse: "+ historyItem.getID());
 
-			// Set contact sip address
-			historyChange.setText("Ändring: "+historyItem.getMessage());
+			// Get reference to TextView - Time
+			historyTime = (TextView) row.findViewById(R.id.historyTime);
+			//Set history header
+			historyHeader.setText("Händelse-ID: "+ historyItem.getID());
+
+			// Set history change description
+			historyChange.setText("Beskrivning: "+historyItem.getMessage());
+
+			// Set history time description
+			historyTime.setText("Senast ändrad: "+ historyItem.getLastChanged());
 
 			return row;
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed(){
 		getParent().onBackPressed();

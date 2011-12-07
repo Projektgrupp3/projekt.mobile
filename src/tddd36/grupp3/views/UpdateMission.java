@@ -1,6 +1,8 @@
 package tddd36.grupp3.views;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.JSONException;
 
@@ -68,9 +70,10 @@ public class UpdateMission extends Activity implements OnClickListener{
 			currentMission.setNumberOfInjured(Integer.parseInt(E5.getText().toString()));
 			currentMission.setTypeOfInjury(E6.getText().toString());
 			currentMission.setPriority(E7.getText().toString());
+			currentMission.setLastChanged(new SimpleDateFormat("yy:MM:dd:HH:mm:ss").format(new Date()));
 			MissionController.updateActiveMission(currentMission);
 			Sender.send(gson.toJson(currentMission));
-			Toast.makeText(getBaseContext(), "Skickat till servern test", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getBaseContext(), "Uppdrag ändrat", Toast.LENGTH_SHORT).show();
 			finish();
 		}
 	}

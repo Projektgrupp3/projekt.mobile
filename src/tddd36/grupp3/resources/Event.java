@@ -1,5 +1,8 @@
 package tddd36.grupp3.resources;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,6 +24,7 @@ public class Event extends MapObject{
 	private String typeOfInjury;
 	private String unitID;
 	private String description;
+	private String lastChanged;
 	private static GeoPoint gp;
 	private int icon;
 	private boolean accepted;
@@ -53,6 +57,7 @@ public class Event extends MapObject{
 		this.eventID = eventID;
 		this.unitID = unitID;
 		this.description = description;
+		lastChanged = new SimpleDateFormat("yy:MM:dd:HH:mm:ss").format(new Date());
 	}
 
 	public Event(JSONObject event, int icon) throws JSONException{
@@ -72,6 +77,7 @@ public class Event extends MapObject{
 		this.eventID = event.getString("event");
 		this.unitID = event.getString("unitID");
 		this.description = event.getString("description");
+		lastChanged = new SimpleDateFormat("yy:MM:dd:HH:mm:ss").format(new Date());
 
 		Log.d("JSON", "Event ID: "+eventID);
 		Log.d("JSON", event.getString("accidentType"));
@@ -182,5 +188,13 @@ public class Event extends MapObject{
 			"ID: "+eventID +"\n"+
 			"Adress: " +address + "\n";
 		}
+	}
+
+	public String getLastChanged() {
+		return lastChanged;
+	}
+
+	public void setLastChanged(String lastChanged) {
+		this.lastChanged = lastChanged;
 	}
 }
