@@ -47,7 +47,6 @@ public class MissionModel extends Observable{
 			currentEvent = ev;
 			status = Status.RECIEVED;
 			setChanged();
-			System.out.println("I MissionModel är antal skadade: "+ev.getNumberOfInjured());
 			notifyObservers(currentEvent);
 		}else{
 			currentEvent = null;

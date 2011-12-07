@@ -1,6 +1,8 @@
 package tddd36.grupp3.views;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -38,11 +40,12 @@ public class HistoryListView extends ListActivity implements Observer{
 		MainView.db.addObserver(this);
 	}
 	public void update(Observable observable, final Object data) {
+		final Event ev = (Event) data;
 		if(data instanceof Event){
 			runOnUiThread(new Runnable(){
 				public void run() {
-					Log.d("HEOREWRWEWER","WEREWREWEWR");
-					historyList.add((Event) data);
+					Log.d("HistoryListView",ev.getDescription());
+					historyList.add(ev);
 					historyAdapter.notifyDataSetChanged();
 				}
 			});
@@ -57,6 +60,7 @@ public class HistoryListView extends ListActivity implements Observer{
 		private Context context;
 		private TextView historyHeader;
 		private TextView historyChange;
+		private TextView historyTime;
 		private	List<Event> items;
 
 		public MissionHistoryAdapter(Context context, int textViewResourceId, List<Event> items) {
@@ -87,17 +91,23 @@ public class HistoryListView extends ListActivity implements Observer{
 			// Get item
 			Event historyItem = getItem(position);
 
-			// Get reference to TextView - contactname
+			// Get reference to TextView - Header
 			historyHeader = (TextView) row.findViewById(R.id.historyHeader);
 
-			// Get reference to TextView - contactaddress
+			// Get reference to TextView - Change
 			historyChange = (TextView) row.findViewById(R.id.historyChange);
-			//Set contact name
+			
+			// Get reference to TextView - Time
+			historyTime = (TextView) row.findViewById(R.id.historyTime);
+			//Set history header
 			historyHeader.setText("Händelse: "+ historyItem.getID());
 
-			// Set contact sip address
+			// Set history change description
 			historyChange.setText("Ändring: "+historyItem.getMessage());
-
+			
+			// Set history time description
+			historyTime.setText("Senast ändrad: "+ historyItem.getLastChanged());
+			
 			return row;
 		}
 	}

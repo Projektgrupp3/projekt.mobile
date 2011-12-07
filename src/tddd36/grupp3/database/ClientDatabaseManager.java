@@ -148,28 +148,19 @@ public class ClientDatabaseManager extends Observable{
 		}
 		setChanged();
 		notifyObservers(ev);
-	}
-	
+	}	
 
 public boolean checkRow(String str){
-		if(firstRun==true){
-			firstRun = false;
-			return false;
-		}
-		else{
 			Cursor cursor = null;
-			System.out.println("Kör checkRow med str "+str);
 			cursor = db.query(TABLE_NAME[2], TABLE_CONTACT, null,null,null,null,null);
 			cursor.moveToFirst();
-			while(!cursor.isAfterLast()){
-				System.out.println("Cursor är "+cursor.getString(1));
-				if(cursor.getString(1).equals(str)){
-					System.out.println("Adressen "+str+" fanns redan i database");
-					return true;
-				}
-				cursor.moveToNext();
+			if(!cursor.isAfterLast()){
+				do{
+					if(cursor.getString(1).equals(str)){
+						return true;
+					}
+				}while(cursor.moveToNext());
 			}
-		}
 		return false;
 	}
 
@@ -204,26 +195,6 @@ public boolean checkRow(String str){
 		}
 	}
 
-
-	public Event getCurrentEvent(){
-		Cursor cursor = null;
-		try
-		{
-			cursor = db.query(TABLE_NAME[1], TABLE_MISSION, null, null, null, null, null);
-			cursor.moveToLast();
-			if(cursor != null){
-				Gson gson = new Gson();
-				if(cursor.getString(2) != null){
-				return gson.fromJson(cursor.getString(1), Event.class);
-				}
-			}
-		}catch(SQLException e){
-
-		}catch(NullPointerException e){
-
-		}
-		return null;
-	}
 	/**********************************************************************
 	 * RETRIEVING ALL ROWS FROM THE DATABASE TABLE
 	 * 
@@ -287,8 +258,8 @@ public boolean checkRow(String str){
 						null, null, null, null, null
 				);
 				Gson gson = new Gson();
-				cursor.moveToFirst();
-				if (!cursor.isAfterLast())
+				cursor.moveToLast();
+				if (!cursor.isFirst())
 				{
 					do
 					{ 
@@ -302,7 +273,7 @@ public boolean checkRow(String str){
 						dataList.add(gson.fromJson(cursor.getString(2), c));
 					}
 					// move the cursor's pointer up one position.
-					while (cursor.moveToNext());
+					while (cursor.moveToPrevious());
 				}
 			}
 			//Request contact
