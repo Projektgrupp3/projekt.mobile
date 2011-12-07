@@ -31,15 +31,16 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 	public static CountDown cd;
 	private String JSONString;
 	private String countDownValue;
+	public static Event bufferedEvent;
 
 	private Event ev;
 
 	private Button acceptmission;
 	private TextView timelefttv;
 	
-	private TabGroupActivity parentActivity;	
+	public static TabGroupActivity parentActivity;	
 
-	private MediaPlayer mp;
+	public static MediaPlayer mp;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -103,5 +104,13 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 			Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
 		}
 		parentActivity.onBackPressed();
-	}		
+	}
+
+	public static void setBufferedEvent(Event ev){
+		bufferedEvent = ev;
+	}
+
+	public static Event getBufferedEvent(Event ev){
+		return bufferedEvent;
+	}
 }

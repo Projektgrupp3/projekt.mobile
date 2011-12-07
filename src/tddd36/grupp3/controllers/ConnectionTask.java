@@ -29,6 +29,7 @@ import com.google.android.maps.GeoPoint;
 
 public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 
+	public Event bufferedEvent;
 	private LoginModel loginModel;
 	private Socket socket = null;
 	private BufferedReader in;
@@ -131,19 +132,24 @@ public class ConnectionTask extends AsyncTask<Void, Integer, String> {
 			}
 
 			else if(messageFromServer.has("event")){
+				System.out.println("Tar emot event från server.");
 				if(messageFromServer.getBoolean("accepted")){
 					SplashEvent.cd.stopRunning();
-					Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
-					MapGUI.mapcontroller.addMapObject(ev);
-					MissionTabView.mc.setActiveMission(ev);
-					MainView.db.addRow(ev);
-					Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
+					SplashEvent.mp.stop();
+					MapGUI.mapcontroller.addMapObject(SplashEvent.bufferedEvent);
+					MissionTabView.mc.setActiveMission(SplashEvent.bufferedEvent);
+					MainView.db.addRow(SplashEvent.bufferedEvent);
+					System.out.println("Event har eventID: "+SplashEvent.bufferedEvent.getID());
+					SplashEvent.parentActivity.onBackPressed();
+					//Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+bufferedEvent.getID());
 				}
 				//Sender.send(Sender.ACK_RECIEVED_EVENT+":"+messageFromServer));
 				else{
 					MainView.tabHost.setCurrentTab(1);
 					Intent splashIntent = new Intent(MainView.context, SplashEvent.class);
 					TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
+					//bufferedEvent = new Event(messageFromServer,R.drawable.red_flag_icon);
+					SplashEvent.setBufferedEvent(new Event(messageFromServer,R.drawable.red_flag_icon)); 
 					splashIntent.putExtra("json", messageFromServer.toString());
 					parentActivity.startChildActivity("IncomingEvent", splashIntent);
 				}
