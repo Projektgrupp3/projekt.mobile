@@ -155,20 +155,19 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 					loginModel.notify(allUnits);
 				}
 
-			else if(messageFromServer.has("event")){
-				System.out.println("Tar emot event från server.");
-				if(messageFromServer.getBoolean("accepted")){
-					System.out.println("Event accepted");
-					SplashEvent.cd.stopRunning();
-					SplashEvent.mp.stop();
-					Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
-					MainView.mapController.addMapObject(ev);
-					MainView.missionController.setActiveMission(ev);
-					MainView.db.addRow(ev);
-					System.out.println("Event har eventID: "+ev.getID());
-					SplashEvent.parentActivity.onBackPressed();
-					Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
-				}
+				else if(messageFromServer.has("event")){
+					System.out.println("Tar emot event frÃ¥n server.");
+					if(messageFromServer.getBoolean("accepted")){
+						SplashEvent.cd.stopRunning();
+						SplashEvent.mp.stop();
+						Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
+						MainView.mapController.addMapObject(ev);
+						MainView.missionController.setActiveMission(ev);
+						MainView.db.addRow(ev);
+						System.out.println("Event har eventID: "+ev.getID());
+						SplashEvent.parentActivity.onBackPressed();
+						Sender.send(Sender.ACK_RECIEVED_EVENT+":"+ev.getID());
+					}
 					else{
 						MainView.tabHost.setCurrentTab(1);
 						Intent splashIntent = new Intent(MainView.context, SplashEvent.class);
