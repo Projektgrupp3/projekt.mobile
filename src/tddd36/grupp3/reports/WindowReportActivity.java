@@ -4,6 +4,8 @@ import org.json.JSONException;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
+import tddd36.grupp3.views.MainView;
+import tddd36.grupp3.views.MissionTabView;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -62,7 +64,7 @@ public class WindowReportActivity extends Activity implements OnClickListener {
 				|| E4.getText().toString().equals("")
 				|| E5.getText().toString().equals("")) {
 
-			Toast.makeText(getBaseContext(), "Fyll i fält ",
+			Toast.makeText(getBaseContext(), "Fyll i fï¿½lt ",
 					Toast.LENGTH_SHORT).show();
 
 		} else {
@@ -73,7 +75,7 @@ public class WindowReportActivity extends Activity implements OnClickListener {
 					.toString(), "WindowReport");
 
 			Gson gson = new Gson();
-			gson.toJson(wr); // spara rapporten i databasen för historiken oc h
+			gson.toJson(wr); // spara rapporten i databasen fï¿½r historiken oc h
 			// skicka till servern.
 
 			try {

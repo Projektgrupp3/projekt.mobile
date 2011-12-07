@@ -21,7 +21,6 @@ import tddd36.grupp3.resources.RoadBlockEvent;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionGroupActivity;
-import tddd36.grupp3.views.MissionTabView;
 import tddd36.grupp3.views.SIPView;
 import tddd36.grupp3.views.TabGroupActivity;
 import android.content.Intent;
@@ -32,7 +31,6 @@ import com.google.android.maps.GeoPoint;
 
 public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> {
 
-	public Event bufferedEvent;
 	private LoginModel loginModel;
 	private Socket socket = null;
 	private BufferedReader in;
@@ -95,11 +93,10 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 
 	protected void onPostExecute(ArrayList<String> buffer) {
 		super.onPostExecute(buffer);
-		try {
-			Log.d("Antal objekt i buffern",""+buffer.size());
-			for(String result : buffer){
+		Log.d("Antal objekt i buffern",""+buffer.size());
+		for(String result : buffer){
+			try {
 				String message;
-
 				messageFromServer = new JSONObject(result);
 
 				if(messageFromServer.has("auth")){
@@ -145,7 +142,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 								messageFromServer.getString("header"),
 								messageFromServer.get("description").toString(), messageFromServer.getString("eventID").toString(), R.drawable.green_flag_icon);
 					}
-					MapGUI.mapcontroller.addMapObject(incomingEvent);
+					MainView.mapController.addMapObject(incomingEvent);
 					MainView.db.addRow(incomingEvent);	
 				}
 				if(messageFromServer.has("ALL_UNITS")){
@@ -159,31 +156,16 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 				}
 
 				else if(messageFromServer.has("event")){
-					System.out.println("Tar emot event från server.");
-					if(messageFromServer.getBoolean("accepted")){
-						SplashEvent.cd.stopRunning();
-						SplashEvent.mp.stop();
-						MapGUI.mapcontroller.addMapObject(SplashEvent.bufferedEvent);
-						MissionTabView.mc.setActiveMission(SplashEvent.bufferedEvent);
-						MainView.db.addRow(SplashEvent.bufferedEvent);
-						System.out.println("Event har eventID: "+SplashEvent.bufferedEvent.getID());
-						SplashEvent.parentActivity.onBackPressed();
-						//Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+bufferedEvent.getID());
-					}
-					//Sender.send(Sender.ACK_RECIEVED_EVENT+":"+messageFromServer));
-					else{
-						MainView.tabHost.setCurrentTab(1);
-						Intent splashIntent = new Intent(MainView.context, SplashEvent.class);
-						TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
-						//bufferedEvent = new Event(messageFromServer,R.drawable.red_flag_icon);
-						SplashEvent.setBufferedEvent(new Event(messageFromServer,R.drawable.red_flag_icon)); 
-						splashIntent.putExtra("json", messageFromServer.toString());
-						parentActivity.startChildActivity("IncomingEvent", splashIntent);
-					}
+					MainView.tabHost.setCurrentTab(1);
+					Intent splashIntent = new Intent(MainView.context, SplashEvent.class);
+					TabGroupActivity parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent() ;
+					splashIntent.putExtra("json", messageFromServer.toString());
+					parentActivity.startChildActivity("IncomingEvent", splashIntent);
 				}
+				buffer.remove(result);
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 		Log.d("Avslutar","Task färdig");
 	}

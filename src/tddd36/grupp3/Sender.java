@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.reports.Report;
 import tddd36.grupp3.resources.Event;
+import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MissionTabView;
 import android.util.Log;
 
@@ -209,7 +210,7 @@ public class Sender {
 		jsonobject.put("ack", "report");
 		jsonobject.put("user", username);
 		jsonobject.put("pass", password);
-		jsonobject.put("eventID",MissionTabView.mc.getMissionModel().getCurrentEvent().getID());
+		jsonobject.put("eventID",MainView.missionController.getActiveMission().getID());
 		jsonobject.put("seriousEvent", report.getSeriousEvent());
 		jsonobject.put("typeOfInjury", report.getTypeOfInjury());
 		jsonobject.put("threats", report.getThreats());

@@ -10,16 +10,12 @@ import tddd36.grupp3.resources.Contact;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -34,7 +30,6 @@ import android.widget.TextView;
 
 public class SIPView extends ListActivity implements View.OnTouchListener, Observer, OnClickListener{
 
-	public Cursor cur;
 	private ArrayList<Contact> contactList;
 	private String[] contactNames;
 	private ContactAdapter adapter;
@@ -47,7 +42,7 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		setContentView(R.layout.contactlist);
 		addContact = (Button)findViewById(R.id.bAddContact);
 		addContact.setOnClickListener(this);
-
+		
 		contactList = new ArrayList<Contact>();
 		contactList = MainView.db.getAllRowsAsArrayList("contacts");
 		contactNames = new String[contactList.size()];
@@ -61,6 +56,10 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		setListAdapter(adapter);
 		MainView.db.addObserver(this);
 	}
+@Override 
+public void onStart(){
+	super.onStart();
+}
 	/**
 	 * Method invoked when a list item is clicked. Starts a child activity for the SIPTabGroup.java
 	 * so that when the call is ended, the user is taken back to the listactivity itself. 

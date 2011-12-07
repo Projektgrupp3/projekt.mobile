@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.MissionController;
+import tddd36.grupp3.models.MissionModel;
 import tddd36.grupp3.resources.Contact;
 import tddd36.grupp3.resources.Event;
 import android.app.Activity;
@@ -24,14 +25,15 @@ public class UpdateMission extends Activity implements OnClickListener{
 	private Button saveUpdates;
 	private EditText E1,E2,E3,E4,E5,E6,E7 ;
 
-	private Event currentMission = MissionTabView.mc.getMissionModel().getCurrentEvent();
+	private Event currentMission;
+	Gson gson = new Gson();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.updatemission);
-
-		saveUpdates = (Button)findViewById(R.id.bSaveContact);
+		currentMission = gson.fromJson(getIntent().getExtras().getString("mission"), Event.class);
+		saveUpdates = (Button)findViewById(R.id.bUpdateMission);
 		
 		E1 = (EditText)findViewById(R.id.edEventID2);
 		E2 = (EditText)findViewById(R.id.edMissionheader2);
@@ -49,35 +51,28 @@ public class UpdateMission extends Activity implements OnClickListener{
 		E6.setText(currentMission.getTypeOfInjury());
 		E7.setText(currentMission.getPriority());
 		
-		//saveUpdates.setOnClickListener(
+		saveUpdates.setOnClickListener(this);
 	}
 
 	public void onClick(View v) {
-
+		Gson gson = new Gson();
 		if(E1.getText().toString().equals("") ||E2.getText().toString().equals("")||E3.getText().toString().equals("")
 				||E4.getText().toString().equals("")||E5.getText().toString().equals("")
 				||E6.getText().toString().equals("")||E7.getText().toString().equals("")){
-
 			Toast.makeText(getBaseContext(), "Fyll i fält ", Toast.LENGTH_SHORT).show();
-
 		}else{
-			//			Contact newContact = new Contact(edSaveName.getText().toString(), edSaveSip.getText().toString());
-			//			Gson gson = new Gson();
-			//			gson.toJson(newContact);// spara rapporten i databasen för historiken oc h skicka till servern.
-			//			MainView.db.addRow(newContact);
-			//			try {
-			//				// Sends the new contact to the server.
-			//				Sender.sendContact(newContact.getName(), newContact.getSipaddress());
-			//			      } catch (JSONException e) {
-			//			        // TODO Auto-generated catch block
-			//			       e.printStackTrace();
-			//			     }
-			//			Toast.makeText(getBaseContext(),edSaveName.getText().toString() + " har lagts till!" , Toast.LENGTH_SHORT).show();
-			Toast.makeText(getBaseContext(), "OBS! Ej sparat på klient/server", Toast.LENGTH_SHORT).show();
+			currentMission.setID(E1.getText().toString());
+			currentMission.setAccidentType(E2.getText().toString());
+			currentMission.setDescription(E3.getText().toString());
+			currentMission.setAdress(E4.getText().toString());
+			currentMission.setNumberOfInjured(Integer.parseInt(E5.getText().toString()));
+			currentMission.setTypeOfInjury(E6.getText().toString());
+			currentMission.setPriority(E7.getText().toString());
+			MissionController.updateActiveMission(currentMission);
+			Sender.send(gson.toJson(currentMission));
+			Toast.makeText(getBaseContext(), "Skickat till servern test", Toast.LENGTH_SHORT).show();
 			finish();
-
 		}
-
 	}
 
 }

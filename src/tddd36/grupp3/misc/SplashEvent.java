@@ -47,7 +47,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.incomingevent);		
 		
-		parentActivity = (TabGroupActivity) MissionGroupActivity.getTabParent();
+		parentActivity = (TabGroupActivity) MissionGroupActivity.me;
 		
 		mp = MediaPlayer.create(SplashEvent.this, R.raw.warning);
 		mp.start();
@@ -85,32 +85,29 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 					Sender.send(Sender.ACK_REJECTED_EVENT+":"+ev.getID());
 					cd.stopRunning();
 					mp.stop();
-					parentActivity.onBackPressed();
-				}
+					finish();
+				}				
 			}			
 		});
+		
 	}
-
 
 	public void onClick(View v) {
-		cd.stopRunning();
-		mp.stop();
-		if(ev == null){
-			Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
-		}else {
-			MapGUI.mapcontroller.addMapObject(ev);
-			MissionController.setActiveMission(ev);
-			MainView.db.addRow(ev);
-			Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
-		}
-		parentActivity.onBackPressed();
-	}
-
-	public static void setBufferedEvent(Event ev){
-		bufferedEvent = ev;
-	}
-
-	public static Event getBufferedEvent(Event ev){
-		return bufferedEvent;
-	}
+		runOnUiThread(new Runnable(){
+			public void run() {
+				cd.stopRunning();
+				mp.stop();
+				if(ev == null){
+					Toast.makeText(getBaseContext(), "Event Ã¤r tomt", Toast.LENGTH_SHORT).show();
+				}else {
+					MainView.mapController.addMapObject(ev);
+					MissionController.setActiveMission(ev);
+					MainView.db.addRow(ev);
+					Sender.send(Sender.ACK_ACCEPTED_EVENT+":"+ev.getID());
+				}
+				finish();
+			}			
+		});
+		
+	}		
 }

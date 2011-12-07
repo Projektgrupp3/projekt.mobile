@@ -81,8 +81,8 @@
                                 android:id="@+id/eventPriority2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/empty"
+                                android:layout_weight="1"                                
+                                android:text="@string/empty"                                
                                 android:textAppearance="?android:attr/textAppearanceMedium" />
                         </TableRow>
 
@@ -221,28 +221,6 @@
                     </TableLayout>
                 </LinearLayout>
             </ScrollView>
-
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/historytab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <ListView
-                    android:id="@+id/historylist"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" >
-                </ListView>
-
-                <TextView
-                    android:id="@+id/empty"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Laddar.." />
-            </LinearLayout>
 
             <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"

@@ -1,5 +1,6 @@
 package tddd36.grupp3.reports;
 
+
 public class Report {
 
 	private String seriousEvent, typeOfInjury, threats, timeOfDeparture,

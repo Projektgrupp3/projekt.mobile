@@ -82,6 +82,8 @@ public class ClientDatabaseManager extends Observable{
 			Log.e("DB ERROR", e.toString()); 
 			e.printStackTrace(); 
 		}
+		setChanged();
+		notifyObservers(ev);
 	}
 	/**
 	 * Method for adding contact to database
@@ -144,6 +146,8 @@ public class ClientDatabaseManager extends Observable{
 			Log.e("DB Error", e.toString());
 			e.printStackTrace();
 		}
+		setChanged();
+		notifyObservers(ev);
 	}
 	
 
