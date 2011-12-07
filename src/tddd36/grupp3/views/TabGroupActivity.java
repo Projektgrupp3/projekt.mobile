@@ -80,7 +80,6 @@ public class TabGroupActivity extends ActivityGroup {
           Activity current = getLocalActivityManager().getActivity(mIdList.get(length-1));
           current.finish();
       }else if(length == 1){
-    	  Sender.send(Sender.LOG_OUT);
     	  finishActivity();
       }
   }
@@ -91,7 +90,7 @@ public class TabGroupActivity extends ActivityGroup {
 			logout.setMessage("Är du säker på att du vill avsluta?");
 			logout.setButton("Ja", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which){
-					finish();
+					getParent().finish();
 				}
 			});
 			logout.setButton2("Nej", new DialogInterface.OnClickListener() {

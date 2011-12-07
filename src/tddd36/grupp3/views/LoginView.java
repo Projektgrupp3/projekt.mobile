@@ -20,6 +20,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewDebug.FlagToString;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;

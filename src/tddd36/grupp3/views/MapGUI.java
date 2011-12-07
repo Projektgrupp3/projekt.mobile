@@ -302,24 +302,24 @@ public class MapGUI extends MapActivity implements Observer {
 	}
 }
 
-/**
- * Called when the hardware "back"-button was pressed. 
- * Pops a dialog asking the user if it wants to log out.
- */
-public void onBackPressed(){
-	AlertDialog logout = new AlertDialog.Builder(this).create();
-	logout.setMessage("Ã„r du sÃ¤ker pÃ¥ att du vill avsluta?");
-	logout.setButton("Ja", new DialogInterface.OnClickListener() {
-		public void onClick(DialogInterface dialog, int which){
-			Sender.send(Sender.LOG_OUT);
-			finish();
-		}
-	});
-	logout.setButton2("Nej", new DialogInterface.OnClickListener() {
-		public void onClick(DialogInterface dialog, int which) {
-			dialog.dismiss();					
-		}
-	});	
-	logout.show();
-}
+	/**
+	 * Called when the hardware "back"-button was pressed. 
+	 * Pops a dialog asking the user if it wants to log out.
+	 */
+	public void onBackPressed(){
+		AlertDialog logout = new AlertDialog.Builder(this).create();
+		logout.setMessage("Är du säker på att du vill avsluta?");
+		logout.setButton("Ja", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which){
+				finish();
+			}
+		});
+		logout.setButton2("Nej", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();					
+			}
+		});	
+		logout.show();
+	}
+
 }

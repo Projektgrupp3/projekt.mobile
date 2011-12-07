@@ -23,6 +23,7 @@ public class Event extends MapObject{
 	private String description;
 	private static GeoPoint gp;
 	private int icon;
+	private boolean accepted;
 
 	/**
 	 * Konstruktor f�r att l�gga til ett "map-event" s�som ett nedfallet tr�d.

@@ -209,6 +209,6 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	}
 
 	public void onBackPressed(){
-
+		getParent().onBackPressed();
 	}
 }

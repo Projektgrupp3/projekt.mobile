@@ -161,6 +161,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		System.out.println("nu är den i mainviews ondestroy.");
 		unregisterReceiver(callReceiver);
 		unregisterReceiver(QoSManager.myBatteryReceiver);
 		closeLocalProfile();
