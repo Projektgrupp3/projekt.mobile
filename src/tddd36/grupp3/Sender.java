@@ -38,6 +38,7 @@ public class Sender {
 
 	private static final String COM_IP = "130.236.226.103";
 	private static final int COM_PORT = 1560;
+	
 	public static String NETWORK_STATUS;
 
 	private static PrintWriter pw;

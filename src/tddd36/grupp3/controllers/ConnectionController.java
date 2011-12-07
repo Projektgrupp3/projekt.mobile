@@ -11,7 +11,7 @@ import android.util.Log;
 public class ConnectionController extends AsyncTask<Void, Void, Void> {
 	public static final String REQ_ALL_UNITS = "REQ_ALL_UNITS";
 
-	public static final int LISTEN_PORT = 1561;
+	public static final int LISTEN_PORT = 3334;
 	
 	public String serverOutput;
 
