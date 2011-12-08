@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import tddd36.grupp3.misc.NetworkManager;
+import tddd36.grupp3.misc.QoSManager;
 import tddd36.grupp3.reports.Report;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
@@ -37,7 +38,7 @@ public class Sender {
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
 
-	private static final String COM_IP = "130.236.227.129";
+	private static final String COM_IP = "130.236.226.12";
 	private static final int COM_PORT = 1560;
 	
 	public static String NETWORK_STATUS;
@@ -142,7 +143,8 @@ public class Sender {
 
 		String jsonString = jsonobject.toString();
 
-		if(NETWORK_STATUS.equals(NetworkManager.NONE) || NETWORK_STATUS.equals(NetworkManager.MOBILE)){
+		if(NETWORK_STATUS.equals(NetworkManager.NONE) || NETWORK_STATUS.equals(NetworkManager.MOBILE)
+				|| QoSManager.BATTERY_LEVEL.equals(QoSManager.MEDIUM) || QoSManager.BATTERY_LEVEL.equals(QoSManager.HIGH)){
 			Log.d("Buffer", jsonString);
 			buffer.add(jsonString);
 			Log.d("Buffer", ""+buffer.size());
@@ -194,7 +196,8 @@ public class Sender {
 		jsonobject.put("contactName", contactName);
 		String jsonString = jsonobject.toString();
 
-		if(NETWORK_STATUS.equals(NetworkManager.NONE) || NETWORK_STATUS.equals(NetworkManager.MOBILE)){
+		if(NETWORK_STATUS.equals(NetworkManager.NONE) || NETWORK_STATUS.equals(NetworkManager.MOBILE)
+				|| QoSManager.BATTERY_LEVEL.equals(QoSManager.MEDIUM) || QoSManager.BATTERY_LEVEL.equals(QoSManager.HIGH)){
 			Log.d("Buffer", jsonString);
 			buffer.add(jsonString);
 			Log.d("Buffer", ""+buffer.size());

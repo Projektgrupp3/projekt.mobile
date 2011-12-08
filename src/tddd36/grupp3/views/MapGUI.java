@@ -14,6 +14,7 @@ import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.misc.NetworkManager;
+import tddd36.grupp3.misc.QoSManager;
 import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.FloodEvent;
@@ -21,12 +22,17 @@ import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.resources.OtherEvent;
 import tddd36.grupp3.resources.RoadBlockEvent;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -54,7 +60,7 @@ public class MapGUI extends MapActivity implements Observer {
 	private Event o;
 
 	private MapView map;
-	
+
 	private Drawable d;
 
 	static List<Overlay> overlayList;
@@ -67,12 +73,13 @@ public class MapGUI extends MapActivity implements Observer {
 	 * onCreate for MapGUI 
 	 * Sets up the MapView and initiates MapController.
 	 */
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maps);
 		NetworkManager.chkStatus(MapGUI.this);
-		
+
 		d = getResources().getDrawable(R.drawable.pinpoint);
 
 		map = (MapView)findViewById(R.id.mvMain);
@@ -87,9 +94,9 @@ public class MapGUI extends MapActivity implements Observer {
 
 		controller = map.getController();
 		geocoder = new Geocoder(getBaseContext(), Locale.getDefault());	
-		
+
 		MainView.mapController.setMapGUI(this);
-		
+
 		if((myLocation = MainView.mapController.fireCurrentLocation()) != null){
 			controller.animateTo(myLocation);
 		}
@@ -142,7 +149,6 @@ public class MapGUI extends MapActivity implements Observer {
 		compass.enableCompass();
 		compass.enableMyLocation();
 		super.onResume();
-		NetworkManager.chkStatus(MapGUI.this);
 		MainView.mapController.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, MainView.mapController.getMapModel());
 	}
 
@@ -298,9 +304,9 @@ public class MapGUI extends MapActivity implements Observer {
 					return true;
 				}
 			}
-		return false;
+			return false;
+		}
 	}
-}
 
 	/**
 	 * Called when the hardware "back"-button was pressed. 
@@ -308,7 +314,7 @@ public class MapGUI extends MapActivity implements Observer {
 	 */
 	public void onBackPressed(){
 		AlertDialog logout = new AlertDialog.Builder(this).create();
-		logout.setMessage("Är du säker på att du vill avsluta?");
+		logout.setMessage("Ã„r du sÃ¤ker pÃ¥ att du vill avsluta?");
 		logout.setButton("Ja", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which){
 				finish();

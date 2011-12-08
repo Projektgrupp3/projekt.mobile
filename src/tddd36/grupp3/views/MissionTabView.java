@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import tddd36.grupp3.R;
+import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.MissionController;
 import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.reports.VerificationReportActivity;
@@ -47,7 +48,10 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.missiontablayout);
-
+		
+		NetworkManager.chkStatus(this);
+		this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
+		
 		getMissionObjects();
 		getReportObjects();
 

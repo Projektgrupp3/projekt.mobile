@@ -24,10 +24,12 @@ public class ClientDatabaseManager extends Observable{
 	private final int DB_VERSION = 1; // the version of the database
 	private boolean firstRun = true;
 	// the names for our database columns
-	private final String[] TABLE_NAME = {"map","mission","contacts"};
+	private final String[] TABLE_NAME = {"map","mission","contacts","user", "units"};
 	private final String[] TABLE_MAP = {"type","mapobject"};
 	private final String[] TABLE_MISSION = {"type","ID","event"};
 	private final String[] TABLE_CONTACT = {"name","address"};
+	private final String[] TABLE_USER = {"username","password"};
+	private final String[] TABLE_UNITS = {"unit"};
 
 	public ClientDatabaseManager(Context context){
 		ClientDatabaseManager.context = context;
@@ -108,6 +110,44 @@ public class ClientDatabaseManager extends Observable{
 		setChanged();
 		notifyObservers(c);
 	}
+
+	public void addRow(String user, String pass)
+	{
+		ContentValues values = new ContentValues();
+		Gson gson = new Gson();
+
+		values.put(TABLE_USER[0], user);
+		values.put(TABLE_USER[1], pass);
+		try
+		{
+			db.insert(TABLE_NAME[3], null, values);
+		}
+		catch(Exception e)
+		{
+			Log.e("DB ERROR", e.toString()); 
+			e.printStackTrace(); 
+		}
+	}
+	public void addRow(String[] units)
+	{
+		ContentValues values = new ContentValues();
+		Gson gson = new Gson();
+		for(int i = 0; i < units.length ; i++){
+			values.put(TABLE_UNITS[0], units[i]);
+			Log.d("Insatt i databasen:",units[i]);
+
+			try
+			{
+				db.insert(TABLE_NAME[4], null, values);
+			}
+			catch(Exception e)
+			{
+				Log.e("DB ERROR", e.toString()); 
+				e.printStackTrace(); 
+			}
+		}
+	}
+
 	/**
 	 * Method for updating a specific row in the Contacts 
 	 * @param c - Contact to update
@@ -149,20 +189,20 @@ public class ClientDatabaseManager extends Observable{
 		setChanged();
 		notifyObservers(ev);
 	}
-	
 
-public boolean checkRow(String str){
+
+	public boolean checkRow(String str){
 		if(firstRun==true){
 			firstRun = false;
 			return false;
 		}
 		else{
 			Cursor cursor = null;
-			System.out.println("K�r checkRow med str "+str);
+			System.out.println("Kör checkRow med str "+str);
 			cursor = db.query(TABLE_NAME[2], TABLE_CONTACT, null,null,null,null,null);
 			cursor.moveToFirst();
 			while(!cursor.isAfterLast()){
-				System.out.println("Cursor �r "+cursor.getString(1));
+				System.out.println("Cursor är "+cursor.getString(1));
 				if(cursor.getString(1).equals(str)){
 					System.out.println("Adressen "+str+" fanns redan i database");
 					return true;
@@ -214,7 +254,7 @@ public boolean checkRow(String str){
 			if(cursor != null){
 				Gson gson = new Gson();
 				if(cursor.getString(2) != null){
-				return gson.fromJson(cursor.getString(1), Event.class);
+					return gson.fromJson(cursor.getString(1), Event.class);
 				}
 			}
 		}catch(SQLException e){
@@ -224,6 +264,58 @@ public boolean checkRow(String str){
 		}
 		return null;
 	}
+	public String[] getUser(){
+		String[] stuff = new String[2];
+		Cursor cursor = null;
+		try
+		{	
+			cursor = db.query(TABLE_NAME[3], TABLE_USER, null, null, null, null, null);
+			cursor.moveToLast();
+			if(cursor != null){
+				if(cursor.getString(0) != null){
+					//					stuff[0] = cursor.getString(cursor.getColumnIndex(TABLE_USER[0]));
+					stuff[0] = cursor.getString(0);
+				}
+				if(cursor.getString(1) != null){
+					//					stuff[1] = cursor.getString(cursor.getColumnIndex(TABLE_USER[1]));
+					stuff[1] = cursor.getString(1);
+				}
+			}
+		}catch(SQLException e){
+
+		}catch(NullPointerException e){
+
+		}
+		return stuff;
+	}
+	public String[] getUnits(){
+		String[] units = null;
+		Cursor cursor = null;
+		int count = 0;
+		try
+		{	
+			cursor = db.query(TABLE_NAME[4], TABLE_UNITS, null, null, null, null, null);
+			cursor.moveToFirst();
+			units = new String[cursor.getCount()];
+			if(!cursor.isAfterLast()){
+
+				do
+				{
+					units[count] = cursor.getString(0);
+					Log.d("Databas",units[count]);
+					count++;
+				}
+				// move the cursor's pointer up one position.
+				while (cursor.moveToNext());
+			}
+		}catch(SQLException e){
+
+		}catch(NullPointerException e){
+
+		}
+		return units;
+	}
+
 	/**********************************************************************
 	 * RETRIEVING ALL ROWS FROM THE DATABASE TABLE
 	 * 
@@ -379,10 +471,26 @@ public boolean checkRow(String str){
 				TABLE_CONTACT[1] + " TEXT" +
 				");";
 
+			String userTableQueryString = 	
+				"CREATE TABLE " +
+				TABLE_NAME[3] +
+				" (" +
+				TABLE_USER[0] + " TEXT," +
+				TABLE_USER[1] + " TEXT" +
+				");";
+			String unitTableQueryString = 	
+				"CREATE TABLE " +
+				TABLE_NAME[4] +
+				" (" +
+				TABLE_UNITS[0] + " TEXT" +
+				");";
+
 			// execute the query string to the database.
 			db.execSQL(mapTableQueryString);
 			db.execSQL(missionTableQueryString);
 			db.execSQL(contactTableQueryString);
+			db.execSQL(userTableQueryString);
+			db.execSQL(unitTableQueryString);
 		}
 
 
