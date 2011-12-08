@@ -9,14 +9,16 @@ public class MapObject extends OverlayItem {
 	private int icon;
 	private String address;
 	private ObjectType type;
+	private String ID;
 
-	public MapObject(GeoPoint gp, String header, String message, int icon, ObjectType type){
+	public MapObject(GeoPoint gp, String header, String message, int icon, ObjectType type, String ID){
 		super(gp, header, message);
 		this.header = header;
 		this.message = message;
 		this.gp = gp;
 		this.icon = icon;
 		this.type = type;
+		this.setID(ID);
 	}
 
 	public void setGeoPoint(GeoPoint gp){
@@ -56,6 +58,14 @@ public class MapObject extends OverlayItem {
 
 	public void setType(ObjectType type) {
 		this.type = type;
+	}
+
+	public void setID(String iD) {
+		ID = iD;
+	}
+
+	public String getID() {
+		return ID;
 	}
 
 	public String getObjectDescription(){

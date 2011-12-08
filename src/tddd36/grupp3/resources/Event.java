@@ -30,7 +30,7 @@ public class Event extends MapObject{
 	private boolean accepted;
 
 	/**
-	 * Konstruktor f�r att l�gga til ett "map-event" s�som ett nedfallet tr�d.
+	 * Konstruktor för att l�gga til ett "map-event" s�som ett nedfallet tr�d.
 	 * @param gp - Geografiska punkten f�r h�ndelsen
 	 * @param header - H�ndelsens rubrik
 	 * @param description - H�ndelsens fritext beskrivning
@@ -38,7 +38,7 @@ public class Event extends MapObject{
 	 */
 	
 	public Event(GeoPoint gp, String header, String message, String eventID, int icon ) throws JSONException{
-		super(gp, header, message, icon, ObjectType.EVENT);
+		super(gp, header, message, icon, ObjectType.EVENT, eventID);
 		this.eventID = eventID;
 		this.icon = icon;
 		Log.d("JSON", header);
@@ -47,7 +47,7 @@ public class Event extends MapObject{
 
 	public Event(GeoPoint gp, int numberOfInjuried, String accidentType, String priority, 
 			String typeOfInjury, String eventID, String unitID, String description){
-		super(gp, accidentType, description, R.drawable.event_icon, ObjectType.EVENT);
+		super(gp, accidentType, description, R.drawable.event_icon, ObjectType.EVENT, eventID);
 
 		this.numberOfInjured = numberOfInjuried;
 		this.accidentType = accidentType;
@@ -65,7 +65,8 @@ public class Event extends MapObject{
 				event.getInt("tempCoordY"))),
 				event.getString("accidentType"),
 				event.get("description").toString(),
-				icon, ObjectType.EVENT);
+				icon, ObjectType.EVENT,
+				event.getString("event"));
 
 		this.numberOfInjured = event.getInt("numberOfInjured");
 		this.accidentType = event.getString("accidentType");

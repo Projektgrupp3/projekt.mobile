@@ -122,7 +122,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 						String[] separated = list[i].split(",");
 						Contact c = new Contact(separated[0],separated[1]);
 						if(!MainView.db.checkRow(separated[1])){
-							Log.d("ConnectionTask:","Lägger till kontakt:"+separated[0]+" "+separated[1]);
+							Log.d("ConnectionTask:","Lï¿½gger till kontakt:"+separated[0]+" "+separated[1]);
 							MainView.db.addRow(c);
 						}
 					}				
@@ -167,6 +167,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 						Log.d("message from server",messageFromServer.toString());
 						SplashEvent.cd.stopRunning();
 						SplashEvent.mp.stop();
+						SplashEvent.vr.cancel();
 						Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
 						MainView.mapController.addMapObject(ev);
 						MainView.missionController.setActiveMission(ev);

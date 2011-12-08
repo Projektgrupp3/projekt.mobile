@@ -18,7 +18,7 @@ import android.view.Window;
 /**
  * The purpose of this Activity is to manage the activities in a tab.
  * Note: Child Activities can handle Key Presses before they are seen here.
- * @Sjukvården This is a helper method for the SIP Activity Group where history needs to be handled. 
+ * @Sjukvï¿½rden This is a helper method for the SIP Activity Group where history needs to be handled. 
  */
 public class TabGroupActivity extends ActivityGroup {
 
@@ -87,7 +87,7 @@ public class TabGroupActivity extends ActivityGroup {
 	  int length = mIdList.size();
 	  if(length == 1){
 	  		AlertDialog logout = new AlertDialog.Builder(this).create();
-			logout.setMessage("Är du säker på att du vill avsluta?");
+			logout.setMessage("Ã„r du sÃ¤ker pÃ¥ att du vill avsluta?");
 			logout.setButton("Ja", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which){
 					getParent().finish();

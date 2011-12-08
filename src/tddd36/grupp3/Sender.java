@@ -40,9 +40,8 @@ public class Sender {
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
 
-
-	private static final String COM_IP = "130.236.227.153";
-	private static final int COM_PORT = 3333;
+	private static final String COM_IP = "130.236.227.93";
+	private static final int COM_PORT = 1560;
 	
 	public static String NETWORK_STATUS;
 
@@ -61,7 +60,6 @@ public class Sender {
 		try {
 			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 			socket = (SSLSocket) sslsocketfactory.createSocket(COM_IP, COM_PORT);
-			//socket = new Socket(COM_IP, COM_PORT);
 			socket.setEnabledCipherSuites(new String[] { "SSL_DH_anon_WITH_RC4_128_MD5" });
 			pw = new PrintWriter(socket.getOutputStream(), true);
 
@@ -88,7 +86,7 @@ public class Sender {
 		messageToServer = message;
 		String[] splittedMessage = messageToServer.split(":");
 		for(String s: splittedMessage){
-			System.out.println("Sträng: " +s);
+			System.out.println("Strï¿½ng: " +s);
 		}
 
 		jsonobject = new JSONObject();

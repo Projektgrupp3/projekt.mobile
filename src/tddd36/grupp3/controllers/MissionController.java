@@ -7,7 +7,7 @@ import tddd36.grupp3.models.MissionModel;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
 import tddd36.grupp3.views.MissionTabView;
-import tddd36.grupp3.views.UpdateMission;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 
@@ -49,6 +49,7 @@ public class MissionController implements Observer {
 		if(ev != null){
 			mm.setActiveMission(ev);
 			MainView.db.updateRow(ev);
+			Log.d("MissionController", ev.getDescription());
 		}
 	}
 	public static boolean hasActiveMission(){

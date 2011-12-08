@@ -25,7 +25,7 @@ public class ClientDatabaseManager extends Observable{
 	private boolean firstRun = true;
 	// the names for our database columns
 	private final String[] TABLE_NAME = {"map","mission","contacts"};
-	private final String[] TABLE_MAP = {"type","mapobject"};
+	private final String[] TABLE_MAP = {"type","mapobject","id"};
 	private final String[] TABLE_MISSION = {"type","ID","event"};
 	private final String[] TABLE_CONTACT = {"name","address"};
 
@@ -47,7 +47,8 @@ public class ClientDatabaseManager extends Observable{
 		Gson gson = new Gson();
 
 		values.put(TABLE_MAP[0], o.getClass().getName());
-		values.put(TABLE_MAP[1], gson.toJson(o));		
+		values.put(TABLE_MAP[1], gson.toJson(o));
+		values.put(TABLE_MAP[2], o.getID());
 
 		// ask the database object to insert the new data 
 		try
@@ -194,6 +195,13 @@ public boolean checkRow(String str){
 			}
 		}
 	}
+	public void deleteRow(Event activeMission) {
+		try{
+			db.delete(TABLE_NAME[0], TABLE_MAP[2] + " = " + activeMission.getID(),null);
+		}catch(Exception e){
+			
+		}
+	}
 
 	/**********************************************************************
 	 * RETRIEVING ALL ROWS FROM THE DATABASE TABLE
@@ -317,22 +325,13 @@ public boolean checkRow(String str){
 
 		@Override
 		public void onCreate(SQLiteDatabase db)	{
-			// the SQLite query string that will create our 3 column database table.
-			//			String missionTableQueryString = 	
-			//				"create table " +
-			//				TABLE_NAME[1] +
-			//				" (" +
-			//				TABLE_MISSION[0] + " integer primary key autoincrement not null," +
-			//				TABLE_ROW_ONE + " text," +
-			//				TABLE_ROW_TWO + " text" +
-			//				");";
-
 			String mapTableQueryString = 	
 				"CREATE TABLE " +
 				TABLE_NAME[0] +
 				" (" +
 				TABLE_MAP[0] + " TEXT," +
-				TABLE_MAP[1] + " TEXT" +
+				TABLE_MAP[1] + " TEXT," +
+				TABLE_MAP[2] + " TEXT" +
 				");";
 			String missionTableQueryString = 	
 				"CREATE TABLE " +

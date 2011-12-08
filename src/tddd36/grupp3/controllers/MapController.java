@@ -58,4 +58,9 @@ public class MapController implements Observer, Runnable{
 	public GeoPoint fireCurrentLocation() {
 		return mapmodel.fireCurrentLocation();
 	}
+
+	public void removeObject(Event activeMission) {
+			mapmodel.removeObject(activeMission);
+			MainView.db.deleteRow(activeMission);
+	}
 }

@@ -84,7 +84,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		setContentView(R.layout.main);
 		NetworkManager.chkStatus(MainView.this);
 
-		//this.deleteDatabase("client_database"); //Kï¿½R DETTA OM GJORT ï¿½NDRINGAR I DB-koden.
+		this.deleteDatabase("client_database"); //Kï¿½R DETTA OM GJORT ï¿½NDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
 
 		user = getIntent().getExtras().getString("user");
@@ -167,7 +167,6 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		System.out.println("nu är den i mainviews ondestroy.");
 		unregisterReceiver(callReceiver);
 		unregisterReceiver(QoSManager.myBatteryReceiver);
 		closeLocalProfile();
@@ -228,7 +227,6 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 				manager.close(me.getUriString());
 			}
 		} catch (Exception ee) {
-			Log.d("WalkieTalkieActivity/onDestroy", "Failed to close local profile.", ee);
 		}
 	}
 	/**
@@ -264,7 +262,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 			if(hasActiveMission){
 				MissionModel.setStatus(Status.RECIEVED);
 				Sender.send(Sender.ACK_STATUS+":"+Status.RECIEVED.toString()+":"+
-						"Händelse-ID: "+MainView.missionController
+						"HÃ¤ndelse-ID: "+MainView.missionController
 						.getActiveMission().getID());
 			}
 			statusMissionAlert.show();
@@ -273,7 +271,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 			if(hasActiveMission){
 				MissionModel.setStatus(Status.THERE);
 				Sender.send(Sender.ACK_STATUS+":"+Status.THERE.toString()+":"+
-						"Händelse-ID: "+MainView.missionController
+						"HÃ¤ndelse-ID: "+MainView.missionController
 						.getActiveMission().getID());
 			}
 			statusMissionAlert.show();
@@ -282,7 +280,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 			if(hasActiveMission){
 				MissionModel.setStatus(Status.LOADED);
 				Sender.send(Sender.ACK_STATUS+":"+Status.LOADED.toString()+":"+
-						"Händelse-ID: "+MainView.missionController
+						"HÃ¤ndelse-ID: "+MainView.missionController
 						.getActiveMission().getID());
 			}
 			statusMissionAlert.show();
@@ -290,7 +288,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		case R.id.depart:	
 			MissionModel.setStatus(Status.DEPART);
 			Sender.send(Sender.ACK_STATUS+":"+Status.DEPART.toString()+":"+
-					"Händelse-ID: "+MainView.missionController
+					"HÃ¤ndelse-ID: "+MainView.missionController
 					.getActiveMission().getID());
 			statusMissionAlert.show();
 			return true;
@@ -301,8 +299,10 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 				builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						Sender.send(Sender.ACK_STATUS+":"+Status.HOME.toString()+":"+
-								"Händelse-ID: "+MainView.missionController
+								"HÃ¤ndelse-ID: "+MainView.missionController
 								.getActiveMission().getID());
+						MainView.mapController.removeObject(MainView.missionController
+								.getActiveMission());
 						MainView.missionController.setActiveMission(null);
 						MissionModel.setStatus(Status.HOME);
 						statusMissionAlert.show();
@@ -324,7 +324,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 			return true;
 		case R.id.logout:
 			logout = new AlertDialog.Builder(this).create();
-			logout.setMessage("Är du säker på att du vill avsluta?");
+			logout.setMessage("Ã„r du sÃ¤ker pÃ¥ att du vill avsluta?");
 			logout.setButton("Ja", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which){
 					finish();
