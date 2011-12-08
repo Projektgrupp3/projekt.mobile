@@ -16,8 +16,10 @@ import tddd36.grupp3.views.MissionGroupActivity;
 import tddd36.grupp3.views.MissionTabView;
 import tddd36.grupp3.views.TabGroupActivity;
 import android.app.Activity;
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -41,6 +43,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 	public static TabGroupActivity parentActivity;	
 
 	public static MediaPlayer mp;
+	public static Vibrator vr;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -48,8 +51,11 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 		setContentView(R.layout.incomingevent);		
 		
 		parentActivity = (TabGroupActivity) MissionGroupActivity.me;
+		vr = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+		final long[] pattern = {0,1500,100};
+		vr.vibrate(pattern,0);
 		
-		mp = MediaPlayer.create(SplashEvent.this, R.raw.warning);
+		mp = MediaPlayer.create(SplashEvent.this, R.raw.alarm);
 		mp.start();
 		
 		JSONString = (String) getIntent().getExtras().get("json");
@@ -85,6 +91,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 					Sender.send(Sender.ACK_REJECTED_EVENT+":"+ev.getID());
 					cd.stopRunning();
 					mp.stop();
+					vr.cancel();
 					finish();
 				}				
 			}			
@@ -97,6 +104,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 			public void run() {
 				cd.stopRunning();
 				mp.stop();
+				vr.cancel();
 				if(ev == null){
 					Toast.makeText(getBaseContext(), "Event är tomt", Toast.LENGTH_SHORT).show();
 				}else {

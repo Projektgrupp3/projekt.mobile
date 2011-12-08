@@ -185,7 +185,7 @@ public class MapGUI extends MapActivity implements Observer {
 					builder = new AlertDialog.Builder(m.getContext());				
 					alert = builder.create();
 					alert.setTitle("Kartmeny");
-					alert.setMessage("V√§lj n√•got av nedanst√•ende val:");
+					alert.setMessage("V‰lj nÂgot av nedanstÂende val:");
 					alert.setButton("Placera en h√§ndelse", new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int which) {

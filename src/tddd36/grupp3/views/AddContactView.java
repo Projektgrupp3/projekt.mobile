@@ -46,7 +46,7 @@ public class AddContactView extends Activity implements OnClickListener{
 		}else{
 			Contact newContact = new Contact(edSaveName.getText().toString(), edSaveSip.getText().toString());
 			Gson gson = new Gson();
-			gson.toJson(newContact);// spara rapporten i databasen f�r historiken oc h skicka till servern.
+			gson.toJson(newContact);// spara rapporten i databasen för historiken och skicka till servern.
 			MainView.db.addRow(newContact);
 			try {
 				// Sends the new contact to the server.

@@ -9,17 +9,24 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.resources.Event;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class HistoryListView extends ListActivity implements Observer{
+public class HistoryListView extends ListActivity implements Observer, View.OnTouchListener{
 
 	private ArrayList<Event> historyList;
 	private MissionHistoryAdapter historyAdapter;
@@ -33,7 +40,7 @@ public class HistoryListView extends ListActivity implements Observer{
 		historyList = MainView.db.getAllRowsAsArrayList("mission");
 		historyAdapter = new MissionHistoryAdapter(this.getBaseContext(), R.layout.missionhistoryitem, historyList);
 		TextView empty = new TextView(this);
-		empty.setText("Inga ändringar loggade");
+		empty.setText("Inga Ã¤ndringar loggade");
 		getListView().setEmptyView(empty);
 		setListAdapter(historyAdapter);
 
@@ -43,13 +50,23 @@ public class HistoryListView extends ListActivity implements Observer{
 		if(data instanceof Event){
 			runOnUiThread(new Runnable(){
 				public void run() {
-					Log.d("HistoryListView",((Event) data).getDescription());
+					if(!historyList.contains((Event)data)){
 						historyList.add(((Event) data));
 						historyAdapter.notifyDataSetChanged();
+					}
 				}
 			});
 		}
 	}
+	
+	/**
+	 * Method invoked when a list item is clicked. 
+	 */
+	public void onListItemClick(ListView parent, View v, int position, long id){
+		Event ev = historyList.get(position);
+		Toast.makeText(this, ev.getObjectDescription(), Toast.LENGTH_SHORT).show();
+	}
+	
 	/**
 	 * Anonymous inner class for filling the mission history list with history items
 	 * @author Emil
@@ -99,13 +116,13 @@ public class HistoryListView extends ListActivity implements Observer{
 			// Get reference to TextView - Time
 			historyTime = (TextView) row.findViewById(R.id.historyTime);
 			//Set history header
-			historyHeader.setText("Händelse-ID: "+ historyItem.getID());
+			historyHeader.setText("HÃ¤ndelse-ID: "+ historyItem.getID());
 
 			// Set history change description
 			historyChange.setText("Beskrivning: "+historyItem.getMessage());
 
 			// Set history time description
-			historyTime.setText("Senast ändrad: "+ historyItem.getLastChanged());
+			historyTime.setText("Senast Ã¤ndrad: "+ historyItem.getLastChanged());
 
 			return row;
 		}
@@ -114,5 +131,9 @@ public class HistoryListView extends ListActivity implements Observer{
 	@Override
 	public void onBackPressed(){
 		getParent().onBackPressed();
+	}
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

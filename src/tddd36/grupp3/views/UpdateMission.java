@@ -61,7 +61,7 @@ public class UpdateMission extends Activity implements OnClickListener{
 		if(E1.getText().toString().equals("") ||E2.getText().toString().equals("")||E3.getText().toString().equals("")
 				||E4.getText().toString().equals("")||E5.getText().toString().equals("")
 				||E6.getText().toString().equals("")||E7.getText().toString().equals("")){
-			Toast.makeText(getBaseContext(), "Fyll i f‰lt ", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getBaseContext(), "Fyll i f√§lt ", Toast.LENGTH_SHORT).show();
 		}else{
 			currentMission.setID(E1.getText().toString());
 			currentMission.setAccidentType(E2.getText().toString());
@@ -73,7 +73,7 @@ public class UpdateMission extends Activity implements OnClickListener{
 			currentMission.setLastChanged(new SimpleDateFormat("yy:MM:dd:HH:mm:ss").format(new Date()));
 			MissionController.updateActiveMission(currentMission);
 			Sender.send(gson.toJson(currentMission));
-			Toast.makeText(getBaseContext(), "Uppdrag ‰ndrat", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getBaseContext(), "Uppdrag √§ndrat", Toast.LENGTH_SHORT).show();
 			finish();
 		}
 	}
