@@ -1,26 +1,23 @@
 package tddd36.grupp3.views;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.json.JSONException;
 
-import com.google.gson.Gson;
-
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
-import tddd36.grupp3.controllers.MissionController;
-import tddd36.grupp3.models.MissionModel;
-import tddd36.grupp3.resources.Contact;
 import tddd36.grupp3.resources.Event;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 public class UpdateMission extends Activity implements OnClickListener{
 
@@ -72,7 +69,12 @@ public class UpdateMission extends Activity implements OnClickListener{
 			currentMission.setPriority(E7.getText().toString());
 			currentMission.setLastChanged(new SimpleDateFormat("yy:MM:dd:HH:mm:ss").format(new Date()));
 			MainView.missionController.updateActiveMission(currentMission);
-			Sender.send(gson.toJson(currentMission));
+//			Sender.send(gson.toJson(currentMission));
+			try {
+				Sender.send(currentMission);
+				Log.d("SKICKAS",currentMission.toString());
+			} catch (JSONException e) {
+			}
 			Toast.makeText(getBaseContext(), "Uppdrag ändrat", Toast.LENGTH_SHORT).show();
 			finish();
 		}

@@ -3,7 +3,9 @@ package tddd36.grupp3;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -39,7 +41,7 @@ public class Sender {
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
 
-	private static final String COM_IP = "130.236.226.156";
+	private static final String COM_IP = "130.236.226.78";
 	private static final int COM_PORT = 1560;
 	
 	public static String NETWORK_STATUS;
@@ -144,6 +146,16 @@ public class Sender {
 		jsonobject.put("tempCoordY", ev.getLonE6());
 		jsonobject.put("eventID", ev.getID());
 
+		if(ev.getAccidentType() != null){
+			jsonobject.put("accidentType",ev.getAccidentType());
+			jsonobject.put("numberOfInjured",ev.getNumberOfInjured());
+			jsonobject.put("typeOfInjury",ev.getTypeOfInjury());
+			jsonobject.put("priority",ev.getPriority());
+			jsonobject.put("lastChanged",new SimpleDateFormat("yy:MM:dd:HH:mm:ss").format(new Date()));
+			jsonobject.put("req","UPDATE_EVENT");
+			jsonobject.put("unitID", ev.getUnitID());
+		}	
+		
 		String jsonString = jsonobject.toString();
 
 		if(NETWORK_STATUS.equals(NetworkManager.NONE) || NETWORK_STATUS.equals(NetworkManager.MOBILE)

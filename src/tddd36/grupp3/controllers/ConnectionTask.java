@@ -120,7 +120,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 						String[] separated = list[i].split(",");
 						Contact c = new Contact(separated[0],separated[1]);
 						if(!MainView.db.checkRow(separated[1])){
-							Log.d("ConnectionTask:","L�gger till kontakt:"+separated[0]+" "+separated[1]);
+							Log.d("ConnectionTask:","Lägger till kontakt:"+separated[0]+" "+separated[1]);
 							MainView.db.addRow(c);
 						}
 					}				
@@ -157,7 +157,10 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 					loginModel.executeChange();
 					loginModel.notify(allUnits);
 				}
-
+				if(messageFromServer.has("UPDATE_EVENT")){
+						Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
+						MainView.missionController.updateActiveMission(ev);
+					}
 				else if(messageFromServer.has("event")){
 
 					System.out.println("Tar emot event från server.");
