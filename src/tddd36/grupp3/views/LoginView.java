@@ -91,6 +91,7 @@ OnItemSelectedListener {
 						LoginView.db.addRow(username, password);
 					}
 					else {
+						//CPPPPOP
 						String[] temp = LoginView.db.getUser();
 						Log.d(temp[0],temp[1]);
 						username = "" + user.getText();
