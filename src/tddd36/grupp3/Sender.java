@@ -37,7 +37,7 @@ public class Sender {
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
 
-	private static final String COM_IP = "130.236.227.251";
+	private static final String COM_IP = "130.236.227.93";
 
 	private static final int COM_PORT = 1560;
 	
