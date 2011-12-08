@@ -19,6 +19,7 @@ import tddd36.grupp3.resources.Status;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.TabActivity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.net.sip.SipException;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -60,12 +62,30 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	public static MapController mapController;
 	public static MissionController missionController;
 
-	public static WindowManager.LayoutParams lp;
 
+	public static WindowManager.LayoutParams lp;
 	private AlertDialog logout;
 	public Toast statusMissionAlert;
 
-	public static QoSManager QoSManager;
+	//public static QoSManager QoSManager;
+
+	public BroadcastReceiver myBatteryReceiver = new BroadcastReceiver(){
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED)){
+				String powerLeft;
+				int power;
+				powerLeft = String.valueOf(intent.getIntExtra("level",0));
+				power = Integer.parseInt(powerLeft);
+				Log.d("Batterinivå",powerLeft);
+				QoSManager.setActivity(MainView.this);
+				QoSManager.setScreenBrightness(power);
+
+				NetworkManager.chkStatus(MainView.this);
+				MainView.this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
+			}
+		}
+	};
 	/**
 	 * OnCreate-method setting up the tab structure via the static TabHost. 
 	 * Also intializes the SQLite database containing map objects, the users current mission and
@@ -77,9 +97,8 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		NetworkManager.chkStatus(MainView.this);
-
-		this.deleteDatabase("client_database"); //K�R DETTA OM GJORT �NDRINGAR I DB-koden.
-		db = new ClientDatabaseManager(this);
+		this.setTitle("Sjukvården -"+Sender.NETWORK_STATUS);
+		db = LoginView.db;		
 
 		user = getIntent().getExtras().getString("user");
 		pass = getIntent().getExtras().getString("pass");
@@ -133,9 +152,6 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		tabHost.setCurrentTab(2);
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);
-		QoSManager = new QoSManager(getWindow().getAttributes(), this);
-		this.registerReceiver(QoSManager.myBatteryReceiver,
-				new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 	}
 	@SuppressWarnings("unchecked")
 	public Event getCurrentMissionFromDB() {
@@ -161,8 +177,9 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		System.out.println("nu är den i mainviews ondestroy.");
 		unregisterReceiver(callReceiver);
-		unregisterReceiver(QoSManager.myBatteryReceiver);
+		unregisterReceiver(myBatteryReceiver);
 		closeLocalProfile();
 		Sender.send(Sender.LOG_OUT);
 		try {
@@ -171,6 +188,19 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 			e.printStackTrace();
 		}
 		db.close();
+	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		registerReceiver(myBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+		QoSManager.setActivity(MainView.this);
+		MainView.this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
+		
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("android.SipDemo.INCOMING_CALL");
+		callReceiver = new IncomingCallReceiver();
+		this.registerReceiver(callReceiver, filter);
+		initializeManager();
 	}
 	/**
 	 * Method for initializing the SipManager and calls for a new LocalProfile

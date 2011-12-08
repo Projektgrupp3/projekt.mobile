@@ -70,6 +70,7 @@ public class MapGUI extends MapActivity implements Observer {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maps);
 		NetworkManager.chkStatus(MapGUI.this);
+		MapGUI.this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
 		
 		d = getResources().getDrawable(R.drawable.pinpoint);
 

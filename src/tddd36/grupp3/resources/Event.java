@@ -41,6 +41,7 @@ public class Event extends MapObject{
 		super(gp, header, message, icon, ObjectType.EVENT, eventID);
 		this.eventID = eventID;
 		this.icon = icon;
+		this.address = MapModel.getAddress(gp);
 		Log.d("JSON", header);
 		Log.d("JSON", message);
 	}
@@ -171,7 +172,6 @@ public class Event extends MapObject{
 	public String processInput(String typeOfAccident) {
 		return typeOfAccident;
 	}
-
 	@Override
 	public String getObjectDescription(){
 		String objectDesc = super.getObjectDescription();

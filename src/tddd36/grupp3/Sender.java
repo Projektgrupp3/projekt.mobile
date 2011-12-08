@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import tddd36.grupp3.misc.NetworkManager;
+import tddd36.grupp3.misc.QoSManager;
 import tddd36.grupp3.reports.Report;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
@@ -82,10 +83,7 @@ public class Sender {
 	public static void send(String message) {
 
 		messageToServer = message;
-		String[] splittedMessage = messageToServer.split(":");
-		for(String s: splittedMessage){
-			System.out.println("Str�ng: " +s);
-		}
+		String[] splittedMessage = messageToServer.split(":", 2);
 
 		jsonobject = new JSONObject();
 		try {
@@ -106,7 +104,6 @@ public class Sender {
 			else if(messageToServer.startsWith(ACK_STATUS)){
 				jsonobject.put("ack", "status");
 				jsonobject.put("status", splittedMessage[1]);
-				jsonobject.put(splittedMessage[2], splittedMessage[3]);
 			}
 			else {
 				jsonobject.put("req", messageToServer);
@@ -149,7 +146,8 @@ public class Sender {
 
 		String jsonString = jsonobject.toString();
 
-		if(NETWORK_STATUS.equals(NetworkManager.NONE) || NETWORK_STATUS.equals(NetworkManager.MOBILE)){
+		if(NETWORK_STATUS.equals(NetworkManager.NONE) || NETWORK_STATUS.equals(NetworkManager.MOBILE)
+				|| QoSManager.BATTERY_LEVEL.equals(QoSManager.MEDIUM) || QoSManager.BATTERY_LEVEL.equals(QoSManager.HIGH)){
 			Log.d("Buffer", jsonString);
 			buffer.add(jsonString);
 			Log.d("Buffer", ""+buffer.size());
@@ -201,7 +199,8 @@ public class Sender {
 		jsonobject.put("contactName", contactName);
 		String jsonString = jsonobject.toString();
 
-		if(NETWORK_STATUS.equals(NetworkManager.NONE) || NETWORK_STATUS.equals(NetworkManager.MOBILE)){
+		if(NETWORK_STATUS.equals(NetworkManager.NONE) || NETWORK_STATUS.equals(NetworkManager.MOBILE)
+				|| QoSManager.BATTERY_LEVEL.equals(QoSManager.MEDIUM) || QoSManager.BATTERY_LEVEL.equals(QoSManager.HIGH)){
 			Log.d("Buffer", jsonString);
 			buffer.add(jsonString);
 			Log.d("Buffer", ""+buffer.size());
@@ -234,7 +233,7 @@ public class Sender {
 			jsonobject.put("report", ACK_VERIFICATION_REPORT);
 		}
 		String jsonString = jsonobject.toString();
-		
+
 		if(NETWORK_STATUS.equals(NetworkManager.NONE)){
 			Log.d("Buffer", jsonString);
 			buffer.add(jsonString);
@@ -250,9 +249,11 @@ public class Sender {
 		if(!buffer.isEmpty()){
 			establishConnection();
 			for(int i = 0; i < buffer.size(); i++){
+				if(!(buffer.get(i) == null)){
 				pw.println(buffer.get(i));
 				Log.d("Buffer","Skickat från buffern");
 				Log.d("Buffer", buffer.get(i));
+				}
 			}
 			buffer.clear();
 			closeConnection();

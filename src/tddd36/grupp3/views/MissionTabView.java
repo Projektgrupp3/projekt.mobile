@@ -4,13 +4,15 @@ import java.util.Observable;
 import java.util.Observer;
 
 import tddd36.grupp3.R;
-import tddd36.grupp3.controllers.MissionController;
+import tddd36.grupp3.Sender;
 import tddd36.grupp3.misc.NetworkManager;
+import tddd36.grupp3.misc.QoSManager;
 import tddd36.grupp3.reports.VerificationReportActivity;
 import tddd36.grupp3.reports.WindowReportActivity;
 import tddd36.grupp3.resources.Event;
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -50,6 +52,9 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 
 		getMissionObjects();
 		getReportObjects();
+		
+		NetworkManager.chkStatus(this);
+		MissionTabView.this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
 
 		// This code runs the first time the application is run. 
 		MainView.missionController.setMissionView(this);
@@ -80,6 +85,8 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	@Override
 	public void onResume(){
 		super.onResume();
+		QoSManager.setActivity(MissionTabView.this);
+		MissionTabView.this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
 	}
 
 	private void getMissionObjects() {		

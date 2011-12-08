@@ -14,6 +14,7 @@ public class NetworkManager {
 
 	public NetworkManager(){
 	}
+
 	public NetworkManager(Activity activity){
 		NetworkManager.activity = activity;
 	}
@@ -21,8 +22,10 @@ public class NetworkManager {
 	public static void chkStatus(Activity activity)
 	{
 		NetworkManager.activity = activity;
+
 		final ConnectivityManager connMgr = (ConnectivityManager)
 		activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+
 
 		final android.net.NetworkInfo wifi =
 			connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -31,16 +34,19 @@ public class NetworkManager {
 			connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
 		if(wifi.isAvailable()){
+			NETWORK_STATUS = WIFI;
 			Sender.NETWORK_STATUS = WIFI;
 			Sender.sendBuffer();
 		}
 		else if(mobile.isAvailable()){
 			if(Sender.NETWORK_STATUS != MOBILE){
+				NETWORK_STATUS = MOBILE;
 				Sender.NETWORK_STATUS = MOBILE;
 				Sender.send("AUTH");
 			}
 		}
 		else{
+			NETWORK_STATUS = NONE;
 			Sender.NETWORK_STATUS = NONE;
 		}	
 	}

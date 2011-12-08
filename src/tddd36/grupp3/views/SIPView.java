@@ -6,6 +6,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import tddd36.grupp3.R;
+import tddd36.grupp3.Sender;
+import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.resources.Contact;
 import android.app.ListActivity;
 import android.content.Context;
@@ -24,7 +26,7 @@ import android.widget.TextView;
 /**
  * The SIPView tab. Contains the list of contacts and the methods needed for setting up a new call 
  * when a contact item is pressed. 
- * @author Projektgrupp 3 - Sjukvården
+ * @author Projektgrupp 3 - Sjukvï¿½rden
  *
  */
 
@@ -42,6 +44,9 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 		setContentView(R.layout.contactlist);
 		addContact = (Button)findViewById(R.id.bAddContact);
 		addContact.setOnClickListener(this);
+		
+		NetworkManager.chkStatus(this);
+		SIPView.this.setTitle("SjukvÃ¥rden - "+Sender.NETWORK_STATUS);
 		
 		contactList = new ArrayList<Contact>();
 		contactList = MainView.db.getAllRowsAsArrayList("contacts");
@@ -78,8 +83,8 @@ public void onStart(){
 				public void run(){
 					contactList.add((Contact)arg1);
 					adapter.notifyDataSetChanged();
-					// Följande 7 rader måste köras så att det går
-					// å klicka på kontakterna
+					// Fï¿½ljande 7 rader mï¿½ste kï¿½ras sï¿½ att det gï¿½r
+					// ï¿½ klicka pï¿½ kontakterna
 					contactNames = new String[contactList.size()];
 					int index = 0;
 					for(Contact c : contactList){
@@ -101,7 +106,7 @@ public void onStart(){
 	/**
 	 * Anonymous inner class for setting up a list of contacts and the structure of
 	 * a contact item within the list itself.
-	 * @author Projektgrupp 3 - Sjukvården
+	 * @author Projektgrupp 3 - Sjukvï¿½rden
 	 *
 	 */
 	public class ContactAdapter extends ArrayAdapter<Contact>{
