@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.json.JSONException;
-
+//JADJJWAJDJDW
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.LoginController;
