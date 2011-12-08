@@ -27,7 +27,7 @@ public class Event extends MapObject{
 	private String lastChanged;
 	private static GeoPoint gp;
 	private int icon;
-	private boolean accepted;
+	private boolean accepted, isActive;
 
 	/**
 	 * Konstruktor för att l�gga til ett "map-event" s�som ett nedfallet tr�d.
@@ -80,7 +80,8 @@ public class Event extends MapObject{
 		this.unitID = event.getString("unitID");
 		this.description = event.getString("description");
 		lastChanged = new SimpleDateFormat("yy:MM:dd:HH:mm:ss").format(new Date());
-
+		isActive = true;
+		
 		Log.d("JSON", "Event ID: "+eventID);
 		Log.d("JSON", event.getString("accidentType"));
 		Log.d("JSON", event.get("description").toString());
@@ -197,5 +198,12 @@ public class Event extends MapObject{
 
 	public void setLastChanged(String lastChanged) {
 		this.lastChanged = lastChanged;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean state){
+		isActive = state;
 	}
 }

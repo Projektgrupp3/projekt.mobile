@@ -2,6 +2,7 @@ package tddd36.grupp3.models;
 
 import java.util.ArrayList;
 
+import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.MapObject;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -72,6 +73,24 @@ public class MapObjectList extends ItemizedOverlay<OverlayItem>{
 		});
 		dialog.show();
 		return true;
+	}
+
+	public void updateMapObject(final Event activeMission) {
+		((Activity)c).runOnUiThread(new Runnable(){
+			public void run() {
+				String oId = activeMission.getID();
+				for(OverlayItem oi:pinpoints){
+					if(((MapObject)oi).getID().equals(oId)){
+						pinpoints.remove(oi);
+						pinpoints.add(activeMission);
+						setLastFocusedIndex(-1);
+						populate();
+						return;
+					}
+				}
+			}
+
+		});
 	}
 
 

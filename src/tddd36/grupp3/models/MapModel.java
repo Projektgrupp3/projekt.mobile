@@ -195,6 +195,19 @@ public class MapModel extends Observable implements LocationListener{
 			notifyObservers(null);
 		}
 	}
+	
+	public void removeObject(Event activeMission) {
+		if(activeMission != null && event != null){
+			event.remove(activeMission);
+			setChanged();
+			notifyObservers(null);
+			Log.d("MapModel", "Tar bort event");
+		}
+	}
+
+	public void updateMapObject(Event activeMission) {
+		event.updateMapObject(activeMission);
+	}
 
 	public static String getAddress(GeoPoint gp){
 		if(Sender.NETWORK_STATUS == NetworkManager.WIFI){
@@ -213,14 +226,4 @@ public class MapModel extends Observable implements LocationListener{
 		}
 		return "";
 	}
-
-	public void removeObject(Event activeMission) {
-		if(activeMission != null && event != null){
-			event.remove(activeMission);
-			setChanged();
-			notifyObservers(null);
-			Log.d("MapModel", "Tar bort event");
-		}
-	}
-
 }
