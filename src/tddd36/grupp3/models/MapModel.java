@@ -28,6 +28,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -181,9 +182,10 @@ public class MapModel extends Observable implements LocationListener{
 				else if(o instanceof Event){
 					if(event == null){
 						event = new MapObjectList(d, mapgui);
-						event.add(o);
-						notifyObservers(event);
 					}
+					Log.d("MapModel", "Event tillagt");
+					event.add(o);
+					notifyObservers(event);
 				}
 
 			}
@@ -210,6 +212,15 @@ public class MapModel extends Observable implements LocationListener{
 			return addressString;
 		}
 		return "";
+	}
+
+	public void removeObject(Event activeMission) {
+		if(activeMission != null && event != null){
+			event.remove(activeMission);
+			setChanged();
+			notifyObservers(null);
+			Log.d("MapModel", "Tar bort event");
+		}
 	}
 
 }

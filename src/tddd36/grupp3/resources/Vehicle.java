@@ -8,7 +8,7 @@ public class Vehicle extends MapObject {
 	private int capacity;
 
 	public Vehicle(GeoPoint gp, String header, String message, int capacity) {
-		super(gp, header, message, R.drawable.ambulance_icon, ObjectType.VEHICLE);		
+		super(gp, header, message, R.drawable.ambulance_icon, ObjectType.VEHICLE,"");		
 		this.capacity = capacity;		
 	}	
 

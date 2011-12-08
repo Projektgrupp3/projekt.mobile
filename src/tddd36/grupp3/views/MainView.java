@@ -84,7 +84,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		setContentView(R.layout.main);
 		NetworkManager.chkStatus(MainView.this);
 
-		//this.deleteDatabase("client_database"); //K�R DETTA OM GJORT �NDRINGAR I DB-koden.
+		this.deleteDatabase("client_database"); //K�R DETTA OM GJORT �NDRINGAR I DB-koden.
 		db = new ClientDatabaseManager(this);
 
 		user = getIntent().getExtras().getString("user");
@@ -301,6 +301,8 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 						Sender.send(Sender.ACK_STATUS+":"+Status.HOME.toString()+":"+
 								"Händelse-ID: "+MainView.missionController
 								.getActiveMission().getID());
+						MainView.mapController.removeObject(MainView.missionController
+								.getActiveMission());
 						MainView.missionController.setActiveMission(null);
 						MissionModel.setStatus(Status.HOME);
 						statusMissionAlert.show();

@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 import tddd36.grupp3.resources.MapObject;
 import tddd36.grupp3.views.MapGUI;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
@@ -41,6 +43,22 @@ public class MapObjectList extends ItemizedOverlay<OverlayItem>{
 	public void add(MapObject item){
 		pinpoints.add(item);
 		this.populate();
+	}
+	
+	public void remove(final MapObject item){
+		((Activity)c).runOnUiThread(new Runnable(){
+			public void run() {
+				String oId = item.getID();
+				for(int i = 0; i < pinpoints.size(); i++){
+					if(((MapObject)pinpoints.get(i)).getID().equals(oId)){
+						pinpoints.remove(i);
+						setLastFocusedIndex(-1);
+						populate();
+						return;
+					}
+				}
+			}
+		});
 	}
 	
 	@Override

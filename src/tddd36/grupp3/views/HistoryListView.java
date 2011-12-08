@@ -119,7 +119,7 @@ public class HistoryListView extends ListActivity implements Observer, View.OnTo
 			historyHeader.setText("Händelse-ID: "+ historyItem.getID());
 
 			// Set history change description
-			historyChange.setText("Beskrivning: "+historyItem.getMessage());
+			historyChange.setText("Beskrivning: "+historyItem.getDescription());
 
 			// Set history time description
 			historyTime.setText("Senast ändrad: "+ historyItem.getLastChanged());
