@@ -36,10 +36,11 @@ public class MissionController implements Observer {
 	}
 	public void setActiveMission(Event ev){
 		if(mm != null){
-			if(ev != null){
+			if(ev.isActive()){
 				mm.setActiveMission(ev);
 				MainView.db.addRow(ev);
 			}else{
+				MainView.db.updateRow(ev);
 				mm.setActiveMission(null);
 			}
 		}
@@ -52,7 +53,7 @@ public class MissionController implements Observer {
 			Log.d("MissionController", ev.getDescription());
 		}
 	}
-	public static boolean hasActiveMission(){
+	public boolean hasActiveMission(){
 		return mm.hasActiveMission();
 	}
 	public MissionModel getMissionModel() {

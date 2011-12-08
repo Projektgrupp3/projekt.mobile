@@ -35,7 +35,7 @@ public class MissionModel extends Observable{
 	private void getCurrentMissionFromDB() {
 		ArrayList<Event> events = MainView.db.getAllRowsAsArrayList("mission");
 		if(events.size() > 0){
-			if(events.get(0) != null){
+			if(events.get(0) != null && events.get(0).isActive()){
 				currentEvent = events.get(0);
 				setChanged();
 				notifyObservers(currentEvent);

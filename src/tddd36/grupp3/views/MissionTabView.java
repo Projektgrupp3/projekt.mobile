@@ -167,7 +167,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	public void onClick(View v) {
 		Intent intent;
 		TabGroupActivity parentActivity = (TabGroupActivity) getParent();
-		Toast noActiveMission = Toast.makeText(getBaseContext(), "Du har inget uppdrag att rapportera.", Toast.LENGTH_SHORT);
+		Toast noActiveMission = Toast.makeText(getBaseContext(), "Du har inget aktivt uppdrag.", Toast.LENGTH_SHORT);
 		if(v == gotoaddressbtn){
 			GeoPoint gp = MainView.missionController.getActiveMissionAddress();   
 			if(gp!=null){

@@ -269,7 +269,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		boolean hasActiveMission = MissionController.hasActiveMission();
+		boolean hasActiveMission = MainView.missionController.hasActiveMission();
 		if(hasActiveMission){
 			statusMissionAlert = Toast.makeText(this, "Status: "+item.getTitle(), Toast.LENGTH_SHORT);
 		} else{
@@ -322,12 +322,12 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 				builder.setMessage("Vill du avsluta ditt nuvarande uppdrag?");
 				builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
+						Event ev = MainView.missionController.getActiveMission();
+						ev.setActive(false);
 						Sender.send(Sender.ACK_STATUS+":"+Status.HOME.toString()+":"+
-								"Händelse-ID: "+MainView.missionController
-								.getActiveMission().getID());
-						MainView.mapController.removeObject(MainView.missionController
-								.getActiveMission());
-						MainView.missionController.setActiveMission(null);
+								"Händelse-ID: "+ev.getID());
+						MainView.mapController.removeObject(ev);
+						MainView.missionController.setActiveMission(ev);
 						MissionModel.setStatus(Status.HOME);
 						statusMissionAlert.show();
 					}});

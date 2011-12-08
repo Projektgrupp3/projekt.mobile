@@ -56,7 +56,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 		vr.vibrate(pattern,0);
 		
 		mp = MediaPlayer.create(SplashEvent.this, R.raw.alarm);
-		mp.start();
+		//mp.start();
 		
 		JSONString = (String) getIntent().getExtras().get("json");
 
