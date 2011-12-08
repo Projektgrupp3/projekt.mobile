@@ -4,24 +4,20 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.json.JSONException;
-//JADJJWAJDJDW
+
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.LoginController;
 import tddd36.grupp3.database.ClientDatabaseManager;
 import tddd36.grupp3.misc.NetworkManager;
-import tddd36.grupp3.misc.QoSManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewDebug.FlagToString;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
