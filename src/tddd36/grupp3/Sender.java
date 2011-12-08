@@ -83,7 +83,7 @@ public class Sender {
 	public static void send(String message) {
 
 		messageToServer = message;
-		String[] splittedMessage = messageToServer.split(":", 2);
+		String[] splittedMessage = messageToServer.split(":");
 
 		jsonobject = new JSONObject();
 		try {
