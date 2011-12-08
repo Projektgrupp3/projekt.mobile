@@ -19,13 +19,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 public class LoginView extends Activity implements Observer,
 OnItemSelectedListener {
@@ -36,7 +36,7 @@ OnItemSelectedListener {
 	private Button login;
 	private ProgressDialog loginwait;
 	public static ClientDatabaseManager db;
-
+	
 	LoginController logincontroller;
 	private boolean authenticated;
 	public int counter = 0;
@@ -57,6 +57,8 @@ OnItemSelectedListener {
 		setContentView(R.layout.login);
 		NetworkManager.chkStatus(LoginView.this);
 		this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
+		
+		Log.d("GITHUB","E BASTE");
 
 		pass = (EditText) findViewById(R.id.editText2);
 		user = (EditText) findViewById(R.id.editText1);
