@@ -26,6 +26,9 @@ import tddd36.grupp3.views.TabGroupActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+/**
+ * 
+ */
 
 import com.google.android.maps.GeoPoint;
 
