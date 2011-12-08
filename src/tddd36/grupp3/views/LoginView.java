@@ -193,7 +193,7 @@ OnItemSelectedListener {
 		super.onDestroy();
 		loginwait.dismiss();
 	}
-
+//IOAJDHIOAIOHDAOIHDOIHAWDHIOAWOHIDHIOQWADHIOAOIHOIHQDHOIAWHIODOHI
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
 		spinnerPosition = spinner.getSelectedItemPosition();
