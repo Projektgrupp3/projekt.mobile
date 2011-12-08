@@ -3,14 +3,12 @@ package tddd36.grupp3.models;
 import java.util.ArrayList;
 
 import tddd36.grupp3.resources.MapObject;
-import tddd36.grupp3.views.MapGUI;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;

@@ -1,11 +1,8 @@
 package tddd36.grupp3.views;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.util.ArrayList;
-
-import org.json.JSONException;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
@@ -15,10 +12,8 @@ import tddd36.grupp3.controllers.MissionController;
 import tddd36.grupp3.database.ClientDatabaseManager;
 import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.misc.QoSManager;
-import tddd36.grupp3.misc.SplashEvent;
 import tddd36.grupp3.models.MapModel;
 import tddd36.grupp3.models.MissionModel;
-import tddd36.grupp3.resources.Contact;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.Status;
 import android.app.AlertDialog;
@@ -33,14 +28,13 @@ import android.net.sip.SipException;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TabHost;
-import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
+import android.widget.Toast;
 /**
  * TabActivity for showing the Tab-structure of application. 
  * Also contains some support calls for intializing the SIP-part of the

@@ -1,25 +1,18 @@
 package tddd36.grupp3.views;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.resources.Event;
-import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -115,6 +108,7 @@ public class HistoryListView extends ListActivity implements Observer, View.OnTo
 
 			// Get reference to TextView - Time
 			historyTime = (TextView) row.findViewById(R.id.historyTime);
+			
 			//Set history header
 			historyHeader.setText("Händelse-ID: "+ historyItem.getID());
 

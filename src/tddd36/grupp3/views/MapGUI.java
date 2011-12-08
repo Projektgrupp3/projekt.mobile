@@ -12,7 +12,6 @@ import org.json.JSONException;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
-import tddd36.grupp3.controllers.MapController;
 import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.models.MapObjectList;
 import tddd36.grupp3.resources.Event;
@@ -51,7 +50,6 @@ public class MapGUI extends MapActivity implements Observer {
 	private long pressStop;
 	private static final CharSequence[] points = {"Hinder på vägen", "Översvämning","Fritext"};
 	private int x, y,lat = 0, lon = 0;
-	private Event o;
 
 	private MapView map;
 	

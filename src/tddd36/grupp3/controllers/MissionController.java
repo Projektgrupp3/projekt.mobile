@@ -45,7 +45,7 @@ public class MissionController implements Observer {
 		}
 	}
 
-	public static void updateActiveMission(Event ev){
+	public void updateActiveMission(Event ev){
 		if(ev != null){
 			mm.setActiveMission(ev);
 			MainView.db.updateRow(ev);

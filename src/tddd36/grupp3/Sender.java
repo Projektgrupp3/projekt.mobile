@@ -2,7 +2,6 @@ package tddd36.grupp3;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -16,7 +15,6 @@ import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.reports.Report;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
-import tddd36.grupp3.views.MissionTabView;
 import android.util.Log;
 
 /**
@@ -40,7 +38,7 @@ public class Sender {
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
 
-	private static final String COM_IP = "130.236.227.93";
+	private static final String COM_IP = "130.236.226.156";
 	private static final int COM_PORT = 1560;
 	
 	public static String NETWORK_STATUS;
@@ -86,7 +84,7 @@ public class Sender {
 		messageToServer = message;
 		String[] splittedMessage = messageToServer.split(":");
 		for(String s: splittedMessage){
-			System.out.println("Sträng: " +s);
+			System.out.println("Strï¿½ng: " +s);
 		}
 
 		jsonobject = new JSONObject();
