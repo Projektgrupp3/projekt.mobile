@@ -3,7 +3,6 @@ package tddd36.grupp3.controllers;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.Socket;
 import java.util.ArrayList;
 
 import javax.net.ssl.SSLSocket;
@@ -21,7 +20,6 @@ import tddd36.grupp3.resources.FloodEvent;
 import tddd36.grupp3.resources.OtherEvent;
 import tddd36.grupp3.resources.RoadBlockEvent;
 import tddd36.grupp3.views.MainView;
-import tddd36.grupp3.views.MapGUI;
 import tddd36.grupp3.views.MissionGroupActivity;
 import tddd36.grupp3.views.SIPView;
 import tddd36.grupp3.views.TabGroupActivity;
