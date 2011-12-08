@@ -72,6 +72,7 @@ public class UpdateMission extends Activity implements OnClickListener{
 			currentMission.setPriority(E7.getText().toString());
 			currentMission.setLastChanged(new SimpleDateFormat("yy:MM:dd:HH:mm:ss").format(new Date()));
 			MainView.missionController.updateActiveMission(currentMission);
+			MainView.mapController.updateMapObject(currentMission);
 			Sender.send(gson.toJson(currentMission));
 			Toast.makeText(getBaseContext(), "Uppdrag ändrat", Toast.LENGTH_SHORT).show();
 			finish();

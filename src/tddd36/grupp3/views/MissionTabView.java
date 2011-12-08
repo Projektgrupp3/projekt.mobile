@@ -126,10 +126,8 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 				updateMissionView(update);
 		}else if(data instanceof Event){	
 			Event ev = (Event)data;
-			System.out.println("I Update är antal skadade:" +ev.getNumberOfInjured());
 			updateMissionView(ev);		
 		}else if(data == null){
-			System.out.println("Nu raderade den uppdraget ur vyn");
 			clearMissionView();
 		}
 	}
@@ -152,7 +150,6 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		missiondescription.setText(missiontext[6]);
 	}
 
-
 	public void updateMissionView(final Event event){
 		runOnUiThread(new Runnable(){
 			public void run() {
@@ -170,14 +167,15 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	public void onClick(View v) {
 		Intent intent;
 		TabGroupActivity parentActivity = (TabGroupActivity) getParent();
+		Toast noActiveMission = Toast.makeText(getBaseContext(), "Du har inget uppdrag att rapportera.", Toast.LENGTH_SHORT);
 		if(v == gotoaddressbtn){
 			GeoPoint gp = MainView.missionController.getActiveMissionAddress();   
 			if(gp!=null){
 				MainView.tabHost.setCurrentTab(0);
 				MapGUI.controller.animateTo(gp);
-			}else{
-				Toast.makeText(getBaseContext(), "Du har ingen uppdrags adress att gå till.", Toast.LENGTH_SHORT).show();
-			}
+			}else
+				noActiveMission.show();
+			
 		}else if(v == verificationreportbtn){
 
 			if(MainView.missionController.getActiveMission() != null){
@@ -185,7 +183,8 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 				parentActivity.startChildActivity("VerificationReport", intent);
 			}
 			else
-				Toast.makeText(getBaseContext(), "Du har inget uppdrag att rapportera.", Toast.LENGTH_SHORT).show();
+				noActiveMission.show();
+			
 
 		}
 		else if(v == windowreportbtn){
@@ -195,8 +194,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 				parentActivity.startChildActivity("WindowReport", intent);
 			}
 			else
-				Toast.makeText(getBaseContext(), "Du har inget uppdrag att rapportera.", Toast.LENGTH_SHORT).show();
-
+				noActiveMission.show();
 		}
 		else if(v == changedescbtn){
 			if(MainView.missionController.getActiveMission() != null){
@@ -207,7 +205,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 				parentActivity.startChildActivity("UpdateMission", intent);
 			}
 			else
-				Toast.makeText(getBaseContext(), "Du har inget uppdrag att ändra.", Toast.LENGTH_SHORT).show();
+				noActiveMission.show();
 		}
 	}
 	@Override

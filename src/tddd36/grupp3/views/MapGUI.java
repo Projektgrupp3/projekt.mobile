@@ -116,7 +116,7 @@ public class MapGUI extends MapActivity implements Observer {
 				}
 			}
 		}else if(data == null){
-			Toast.makeText(getBaseContext(), "null", Toast.LENGTH_SHORT).show();
+			//Noop
 		}
 		map.postInvalidate();
 	}
@@ -184,7 +184,7 @@ public class MapGUI extends MapActivity implements Observer {
 					builder = new AlertDialog.Builder(m.getContext());				
 					alert = builder.create();
 					alert.setTitle("Kartmeny");
-					alert.setMessage("V�lj n�got av nedanst�ende val:");
+					alert.setMessage("Välj något av nedanstående alternativ:");
 					alert.setButton("Placera en händelse", new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int which) {
@@ -307,7 +307,7 @@ public class MapGUI extends MapActivity implements Observer {
 	 */
 	public void onBackPressed(){
 		AlertDialog logout = new AlertDialog.Builder(this).create();
-		logout.setMessage("�r du s�ker p� att du vill avsluta?");
+		logout.setMessage("Är du säker på att du vill avsluta?");
 		logout.setButton("Ja", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which){
 				finish();

@@ -365,5 +365,5 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
+	}	
 }

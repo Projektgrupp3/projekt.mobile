@@ -63,4 +63,9 @@ public class MapController implements Observer, Runnable{
 			mapmodel.removeObject(activeMission);
 			MainView.db.deleteRow(activeMission);
 	}
+
+	public void updateMapObject(Event activeMission) {
+		MainView.db.updateRow(activeMission);
+		mapmodel.updateMapObject(activeMission);
+	}
 }

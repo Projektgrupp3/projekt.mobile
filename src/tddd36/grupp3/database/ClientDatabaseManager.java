@@ -181,7 +181,10 @@ public class ClientDatabaseManager extends Observable{
 		values.put(TABLE_MISSION[1], ev.getID());
 		values.put(TABLE_MISSION[2], gson.toJson(ev));
 
-		try {db.update(TABLE_NAME[1], values, TABLE_MISSION[1] + " = '" + ev.getID()+"'", null);}
+		try {
+			db.update(TABLE_NAME[1], values, TABLE_MISSION[1] + " = '" + ev.getID()+"'", null);
+			db.update(TABLE_NAME[0], values, TABLE_MAP[2] + " = '" + ev.getID()+"'", null);
+		}
 		catch (Exception e)
 		{
 			Log.e("DB Error", e.toString());
@@ -215,7 +218,7 @@ public boolean checkRow(String str){
 			// ask the database manager to delete the event of given id
 			try
 			{
-				db.delete(TABLE_NAME[1], TABLE_MISSION[0] + " = " + str, null);
+				db.delete(TABLE_NAME[1], TABLE_MISSION[0] + " = '" + str +"'", null);
 			}
 			catch (Exception e)
 			{
@@ -237,7 +240,7 @@ public boolean checkRow(String str){
 	}
 	public void deleteRow(Event activeMission) {
 		try{
-			db.delete(TABLE_NAME[0], TABLE_MAP[2] + " = " + activeMission.getID(),null);
+			db.delete(TABLE_NAME[0], TABLE_MAP[2] + " = '" + activeMission.getID()+"'",null);
 		}catch(Exception e){
 			
 		}
