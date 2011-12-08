@@ -164,6 +164,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 
 					System.out.println("Tar emot event från server.");
 					if(messageFromServer.getBoolean("accepted")){
+						Log.d("message from server",messageFromServer.toString());
 						SplashEvent.cd.stopRunning();
 						SplashEvent.mp.stop();
 						Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
