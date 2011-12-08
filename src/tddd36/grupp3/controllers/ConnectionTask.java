@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javax.net.ssl.SSLSocket;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,7 +34,7 @@ import com.google.android.maps.GeoPoint;
 public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> {
 
 	private LoginModel loginModel;
-	private Socket socket = null;
+	private SSLSocket socket = null;
 	private BufferedReader in;
 	private ConnectionController cc;
 	private JSONObject messageFromServer;
@@ -45,7 +47,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 	public ConnectionTask(LoginModel lm) {
 		this.loginModel = lm;
 	}
-	public ConnectionTask(Socket socket, ConnectionController cc, LoginModel lm) {
+	public ConnectionTask(SSLSocket socket, ConnectionController cc, LoginModel lm) {
 		this.socket = socket;
 		this.cc = cc;
 		this.loginModel = lm;
