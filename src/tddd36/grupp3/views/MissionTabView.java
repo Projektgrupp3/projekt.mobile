@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
+import tddd36.grupp3.misc.JournalActivity;
 import tddd36.grupp3.misc.NetworkManager;
 import tddd36.grupp3.misc.QoSManager;
 import tddd36.grupp3.reports.VerificationReportActivity;
@@ -42,7 +43,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 
 	private TextView missionheader, missiondescription, missionaddress, 
 	missioneventid, missioninjuries, missionpriority, missiontypeofaccident;
-	private Button changedescbtn, gotoaddressbtn, verificationreportbtn, windowreportbtn;
+	private Button changedescbtn, gotoaddressbtn, verificationreportbtn, windowreportbtn, patientjournalbtn;
 
 
 	@Override
@@ -108,6 +109,8 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		verificationreportbtn.setOnClickListener(this);
 		windowreportbtn = (Button)findViewById(R.id.windowreportbtn);
 		windowreportbtn.setOnClickListener(this);
+		patientjournalbtn = (Button)findViewById(R.id.patientjournalbtn);
+		patientjournalbtn.setOnClickListener(this);
 	}
 
 	public void onTabChanged(String tabName) {
@@ -148,6 +151,10 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 		missioninjuries.setText(missiontext[4]);
 		missiontypeofaccident.setText(missiontext[5]);
 		missiondescription.setText(missiontext[6]);
+	}
+	
+	public void setJournal(String[] journal){
+
 	}
 
 	public void updateMissionView(final Event event){
@@ -203,6 +210,14 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 				String missionExtra = gson.toJson(MainView.missionController.getActiveMission());
 				intent.putExtra("mission", missionExtra);
 				parentActivity.startChildActivity("UpdateMission", intent);
+			}
+			else
+				noActiveMission.show();
+		}
+		else if(v == patientjournalbtn){
+			if(MainView.missionController.getActiveMission() != null){
+				intent = new Intent(getParent(), JournalActivity.class);
+				parentActivity.startChildActivity("PatientJournal", intent);
 			}
 			else
 				noActiveMission.show();

@@ -3,6 +3,8 @@ package tddd36.grupp3.controllers;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.json.JSONObject;
+
 import tddd36.grupp3.models.MissionModel;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.views.MainView;
@@ -66,5 +68,8 @@ public class MissionController implements Observer {
 	public void setMissionTabView(MissionTabView missionTabView) {
 		this.mv = missionTabView;
 		this.mm.setMissionTabView(missionTabView);
+	}
+	public void setActiveJournal(JSONObject obj){
+		this.mm.setActiveJournal(obj);
 	}
 }

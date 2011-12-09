@@ -3,7 +3,11 @@ package tddd36.grupp3.models;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import tddd36.grupp3.controllers.MissionController;
+import tddd36.grupp3.misc.Journal;
 import tddd36.grupp3.resources.Event;
 import tddd36.grupp3.resources.Status;
 import tddd36.grupp3.views.MainView;
@@ -16,7 +20,7 @@ import com.google.android.maps.GeoPoint;
 public class MissionModel extends Observable{
 
 	private static Event currentEvent;
-
+	private static Journal currentJournal;
 	private static Status status;
 
 	ArrayList<Event> currentMissionFromDB;
@@ -144,5 +148,16 @@ public class MissionModel extends Observable{
 	public void setMissionTabView(MissionTabView missionTabView) {
 		this.mv = missionTabView;
 		addObserver(mv);
+	}
+
+	public void setActiveJournal(JSONObject obj) {
+		try {
+			currentJournal = new Journal(obj.getString("Name"),obj.getString("SSN"),obj.getString("Address"),
+					obj.getString("Bloodtype"),obj.getString("Allergies"),obj.getString("Warning"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		setChanged();
+		notifyObservers(currentJournal);
 	}
 }

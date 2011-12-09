@@ -81,8 +81,8 @@
                                 android:id="@+id/eventPriority2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"                                
-                                android:text="@string/empty"                                
+                                android:layout_weight="1"
+                                android:text="@string/empty"
                                 android:textAppearance="?android:attr/textAppearanceMedium" />
                         </TableRow>
 
@@ -229,12 +229,12 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/textView1"
+                    android:id="@+id/reportTextView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="53dp"
+                    android:layout_marginTop="10dp"
                     android:text="Välj att skapa: "
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -244,8 +244,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/verificationreportbtn"
                     android:layout_alignRight="@+id/verificationreportbtn"
-                    android:layout_below="@+id/textView1"
-                    android:layout_marginTop="50dp"
+                    android:layout_below="@+id/reportTextView1"
+                    android:paddingTop="5dp"
                     android:text="Vindruterapport" />
 
                 <Button
@@ -253,9 +253,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/windowreportbtn"
+                      android:paddingTop="5dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
                     android:text="Verifieringsrapport" />
+
+                <TextView
+                    android:id="@+id/textView1337"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/verificationreportbtn"
+                    android:layout_centerHorizontal="true"
+                      android:paddingTop="5dp"
+                    android:text="Välj att hämta: "
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Button
+                    android:id="@+id/patientjournalbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView1337"
+                      android:paddingTop="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Patientjournal" />
             </RelativeLayout>
         </FrameLayout>
     </LinearLayout>

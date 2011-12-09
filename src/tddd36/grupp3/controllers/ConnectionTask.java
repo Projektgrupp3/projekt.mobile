@@ -161,6 +161,9 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 						Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
 						MainView.missionController.updateActiveMission(ev);
 					}
+				if(messageFromServer.has("JOURNAL")){
+					MainView.missionController.setActiveJournal(messageFromServer);
+				}
 				else if(messageFromServer.has("event")){
 
 					System.out.println("Tar emot event från server.");

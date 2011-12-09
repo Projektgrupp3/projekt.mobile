@@ -40,7 +40,7 @@ public class Sender {
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
 
-	private static final String COM_IP = "130.236.227.8";
+	private static final String COM_IP = "130.236.226.13";
 	private static final int COM_PORT = 1560;
 	
 	public static String NETWORK_STATUS;
@@ -82,7 +82,6 @@ public class Sender {
 	}
 
 	public static void send(String message) {
-
 		messageToServer = message;
 		String[] splittedMessage = messageToServer.split(":");
 
@@ -106,6 +105,7 @@ public class Sender {
 				jsonobject.put("ack", "status");
 				jsonobject.put("status", splittedMessage[1]);
 			}
+
 			else {
 				jsonobject.put("req", messageToServer);
 			}

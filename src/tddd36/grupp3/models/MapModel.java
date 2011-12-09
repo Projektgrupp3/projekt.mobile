@@ -39,7 +39,7 @@ public class MapModel extends Observable implements LocationListener{
 
 	private Drawable d;
 	private MapObjectList vehicles,hospital,event, roadblock, flood, otherevent, mapevent;
-	public static final String GPS_FAILED = "Kunde inte h�mta GPS-status";
+	public static final String GPS_FAILED = "Kunde inte hämta GPS-status";
 
 	static MapGUI mapgui;
 	private LocationManager lm;

@@ -199,6 +199,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+                <activity
+            android:label="@string/app_name"
+            android:name="tddd36.grupp3.misc.JournalActivity" >
+            <intent-filter >
+                <action android:name="tddd36.grupp3.misc.JOURNALACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:label="@string/app_name"
             android:name="tddd36.grupp3.reports.WindowReportActivity" >

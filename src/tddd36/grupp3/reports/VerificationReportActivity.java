@@ -67,7 +67,7 @@ public class VerificationReportActivity extends Activity implements OnClickListe
 				E5.getText().toString().equals("") ||
 				E6.getText().toString().equals("") ){
 
-			Toast.makeText(getBaseContext(), "Fyll i f�lt ", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getBaseContext(), "Fyll i fält ", Toast.LENGTH_SHORT).show();
 
 		}
 		else{

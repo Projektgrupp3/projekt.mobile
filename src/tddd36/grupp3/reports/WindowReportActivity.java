@@ -64,7 +64,7 @@ public class WindowReportActivity extends Activity implements OnClickListener {
 				|| E4.getText().toString().equals("")
 				|| E5.getText().toString().equals("")) {
 
-			Toast.makeText(getBaseContext(), "Fyll i f�lt ",
+			Toast.makeText(getBaseContext(), "Fyll i fält ",
 					Toast.LENGTH_SHORT).show();
 
 		} else {
