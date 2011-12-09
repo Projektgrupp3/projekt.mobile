@@ -6,8 +6,8 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import tddd36.grupp3.R;
 import tddd36.grupp3.models.MapModel;
+import tddd36.grupp3.R;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;

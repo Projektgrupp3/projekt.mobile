@@ -57,8 +57,6 @@ OnItemSelectedListener {
 		setContentView(R.layout.login);
 		NetworkManager.chkStatus(LoginView.this);
 		this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
-		
-		Log.d("GITHUB","E BASTE");
 
 		pass = (EditText) findViewById(R.id.editText2);
 		user = (EditText) findViewById(R.id.editText1);

@@ -32,13 +32,13 @@ public class Sender {
 	public static final String REQ_MAP_OBJECTS = "REQ_MAP_OBJECTS";
 	public static final String REQ_ALL_CONTACTS ="REQ_ALL_CONTACTS";
 	public static final String REQ_CONTACT = "REQ_CONTACT";
+	public static final String REQ_JOURNAL = "REQ_JOURNAL";
 	public static final String UPDATE_MAP_OBJECT = "UPDATE_MAP_OBJECT";
 	public static final String ACK_RECIEVED_EVENT = "ACK_RECIEVED_EVENT";
 	public static final String ACK_ACCEPTED_EVENT = "ACK_ACCEPTED_EVENT";
 	public static final String ACK_REJECTED_EVENT = "ACK_REJECTED_EVENT";
 	public static final String ACK_STATUS = "ACK_STATUS";
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
-	public static final String REQ_JOURNAL = "REQ_JOURNAL";
 	public static final String LOG_OUT = "LOG_OUT";
 
 	private static final String COM_IP = "130.236.226.13";
@@ -107,8 +107,8 @@ public class Sender {
 				jsonobject.put("status", splittedMessage[1]);
 			}
 			else if(messageToServer.startsWith(REQ_JOURNAL)){
-				jsonobject.put("req", splittedMessage[0]);
-				jsonobject.put("ssn", splittedMessage[1]);
+				jsonobject.put("req", "REQ_JOURNAL");
+				jsonobject.put("identifier", splittedMessage[1]);
 			}
 			else {
 				jsonobject.put("req", messageToServer);

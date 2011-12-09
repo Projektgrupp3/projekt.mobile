@@ -111,7 +111,7 @@ public class ClientDatabaseManager extends Observable{
 		setChanged();
 		notifyObservers(c);
 	}
-	
+
 	public void addRow(String user, String pass)
 	{
 		ContentValues values = new ContentValues();
@@ -131,24 +131,25 @@ public class ClientDatabaseManager extends Observable{
 	}
 	public void addRow(String[] units)
 	{
+		Cursor cur = null;
 		ContentValues values = new ContentValues();
-		Gson gson = new Gson();
-		for(int i = 0; i < units.length ; i++){
-			values.put(TABLE_UNITS[0], units[i]);
-			Log.d("Insatt i databasen:",units[i]);
-
-			try
-			{
-				db.insert(TABLE_NAME[4], null, values);
+		for(String unit: units){
+			cur = db.query(TABLE_NAME[4], TABLE_UNITS, TABLE_UNITS[0] + " = '" + unit+"'", null, null,null,null);
+			cur.moveToFirst();
+			if(cur.getCount() == 0){
+				values.put(TABLE_UNITS[0], unit);
+				try{
+					db.insert(TABLE_NAME[4], null, values);
+				}catch(Exception e){
+					Log.e("DB ERROR", e.toString()); 
+					e.printStackTrace(); 
+				}
 			}
-			catch(Exception e)
-			{
-				Log.e("DB ERROR", e.toString()); 
-				e.printStackTrace(); 
-			}
+			values = new ContentValues();
 		}
+		cur.close();
 	}
-	
+
 	/**
 	 * Method for updating a specific row in the Contacts 
 	 * @param c - Contact to update
@@ -194,17 +195,17 @@ public class ClientDatabaseManager extends Observable{
 		notifyObservers(ev);
 	}	
 
-public boolean checkRow(String str){
-			Cursor cursor = null;
-			cursor = db.query(TABLE_NAME[2], TABLE_CONTACT, null,null,null,null,null);
-			cursor.moveToFirst();
-			if(!cursor.isAfterLast()){
-				do{
-					if(cursor.getString(1).equals(str)){
-						return true;
-					}
-				}while(cursor.moveToNext());
-			}
+	public boolean checkRow(String str){
+		Cursor cursor = null;
+		cursor = db.query(TABLE_NAME[2], TABLE_CONTACT, null,null,null,null,null);
+		cursor.moveToFirst();
+		if(!cursor.isAfterLast()){
+			do{
+				if(cursor.getString(1).equals(str)){
+					return true;
+				}
+			}while(cursor.moveToNext());
+		}
 		return false;
 	}
 
@@ -242,7 +243,7 @@ public boolean checkRow(String str){
 		try{
 			db.delete(TABLE_NAME[0], TABLE_MAP[2] + " = '" + activeMission.getID()+"'",null);
 		}catch(Exception e){
-			
+
 		}
 	}
 	public String[] getUser(){
@@ -252,13 +253,11 @@ public boolean checkRow(String str){
 		{	
 			cursor = db.query(TABLE_NAME[3], TABLE_USER, null, null, null, null, null);
 			cursor.moveToLast();
-			if(cursor != null){
+			if(cursor.getCount() != 0){
 				if(cursor.getString(0) != null){
-					//					stuff[0] = cursor.getString(cursor.getColumnIndex(TABLE_USER[0]));
 					stuff[0] = cursor.getString(0);
 				}
 				if(cursor.getString(1) != null){
-					//					stuff[1] = cursor.getString(cursor.getColumnIndex(TABLE_USER[1]));
 					stuff[1] = cursor.getString(1);
 				}
 			}
@@ -442,7 +441,7 @@ public boolean checkRow(String str){
 				TABLE_CONTACT[0] + " TEXT," +
 				TABLE_CONTACT[1] + " TEXT" +
 				");";
-			
+
 			String userTableQueryString = 	
 				"CREATE TABLE " +
 				TABLE_NAME[3] +
