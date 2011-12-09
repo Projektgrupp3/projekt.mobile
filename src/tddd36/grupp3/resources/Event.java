@@ -190,7 +190,7 @@ public class Event extends MapObject{
 		else{
 			return objectDesc + 
 			"ID: "+eventID +"\n"+
-			"Adress: " +address + "\n";
+			"Adress: " +address;
 		}
 	}
 
