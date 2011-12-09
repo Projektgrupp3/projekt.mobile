@@ -10,6 +10,7 @@ import tddd36.grupp3.Sender;
 import tddd36.grupp3.controllers.LoginController;
 import tddd36.grupp3.database.ClientDatabaseManager;
 import tddd36.grupp3.misc.NetworkManager;
+import tddd36.grupp3.misc.QoSManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -36,7 +37,7 @@ OnItemSelectedListener {
 	private Button login;
 	private ProgressDialog loginwait;
 	public static ClientDatabaseManager db;
-	
+
 	LoginController logincontroller;
 	private boolean authenticated;
 	public int counter = 0;
@@ -88,13 +89,18 @@ OnItemSelectedListener {
 					}
 					else {
 						String[] temp = LoginView.db.getUser();
-						Log.d(temp[0],temp[1]);
-						username = "" + user.getText();
-						password = ""+pass.getText();
-						if(username.equals(temp[0]) && Integer.toString(password.hashCode()).equals(temp[1])){
-							Sender.send(username, "" + password,
-									Sender.REQ_ALL_UNITS);
-							chooseUnit();
+						if(temp.length>0){
+							username = "" + user.getText();
+							password = ""+pass.getText();
+							if(username.equals(temp[0]) && Integer.toString(password.hashCode()).equals(temp[1])){
+								Sender.send(username, "" + password,
+										Sender.REQ_ALL_UNITS);
+								chooseUnit();
+							}else{
+								Toast.makeText(getBaseContext(), "Denna enhet har inte registrerats\n"+
+													"hos sambandscentralen tidigare. \n"+
+													"Offline-inloggning misslyckades.", Toast.LENGTH_SHORT).show();
+							}
 						}
 					}	
 				} catch (JSONException e) {
@@ -187,6 +193,13 @@ OnItemSelectedListener {
 	protected void onDestroy() {
 		super.onDestroy();
 		loginwait.dismiss();
+	}
+	@Override
+	protected void onResume(){
+		super.onResume();
+		QoSManager.setActivity(LoginView.this);
+		NetworkManager.chkStatus(LoginView.this);
+		LoginView.this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
 	}
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {

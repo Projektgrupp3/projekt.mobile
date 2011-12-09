@@ -85,7 +85,7 @@ public class MissionTabView extends TabActivity implements OnClickListener, OnTa
 	@Override
 	public void onResume(){
 		super.onResume();
-		QoSManager.setActivity(MissionTabView.this);
+		NetworkManager.chkStatus(MissionTabView.this);
 		MissionTabView.this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
 	}
 

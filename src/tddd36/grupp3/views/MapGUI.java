@@ -142,6 +142,7 @@ public class MapGUI extends MapActivity implements Observer {
 		compass.enableMyLocation();
 		super.onResume();
 		NetworkManager.chkStatus(MapGUI.this);
+		MapGUI.this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
 		MainView.mapController.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5000, MainView.mapController.getMapModel());
 	}
 

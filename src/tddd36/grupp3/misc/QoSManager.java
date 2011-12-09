@@ -32,26 +32,22 @@ public class QoSManager{
 			lp.screenBrightness = 0.05f;
 			activity.getWindow().setAttributes(lp);
 			BATTERY_LEVEL = VERY_LOW;
-			Toast.makeText(activity,"Väldigt låg batterinivå",Toast.LENGTH_LONG).show();
 		}
 
 		else if(power<=10 && power >5){
 			lp.screenBrightness = 0.2f;
 			activity.getWindow().setAttributes(lp);
 			BATTERY_LEVEL = LOW;
-			Toast.makeText(activity,"Låg batterinivå",Toast.LENGTH_LONG).show();
 		}
 		else if(power>10 && power <=25){
 			lp.screenBrightness = 0.3f;
 			activity.getWindow().setAttributes(lp);
 			BATTERY_LEVEL = MEDIUM;
-			Toast.makeText(activity,"Ok batterinivå",Toast.LENGTH_LONG).show();
 		}
 		else if(power> 25){
 			lp.screenBrightness = 0.7f;
 			activity.getWindow().setAttributes(lp);
 			BATTERY_LEVEL = HIGH;
-			Toast.makeText(activity,"Hög batterinivå",Toast.LENGTH_LONG).show();
 		}
 	}
 }

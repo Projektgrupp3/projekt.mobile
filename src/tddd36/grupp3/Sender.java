@@ -40,9 +40,9 @@ public class Sender {
 	public static final String ACK_CHOSEN_UNIT = "ACK_CHOSEN_UNIT";
 	public static final String LOG_OUT = "LOG_OUT";
 
-	private static final String COM_IP = "130.236.227.8";
+	private static final String COM_IP = "130.236.227.237";
 	private static final int COM_PORT = 1560;
-	
+
 	public static String NETWORK_STATUS;
 
 	private static PrintWriter pw;
@@ -154,7 +154,7 @@ public class Sender {
 			jsonobject.put("req","UPDATE_EVENT");
 			jsonobject.put("unitID", ev.getUnitID());
 		}	
-		
+
 		String jsonString = jsonobject.toString();
 
 		if(NETWORK_STATUS.equals(NetworkManager.NONE) || NETWORK_STATUS.equals(NetworkManager.MOBILE)
@@ -261,9 +261,11 @@ public class Sender {
 			establishConnection();
 			for(int i = 0; i < buffer.size(); i++){
 				if(!(buffer.get(i) == null)){
-				pw.println(buffer.get(i));
-				Log.d("Buffer","Skickat från buffern");
-				Log.d("Buffer", buffer.get(i));
+					if(pw != null){
+						pw.println(buffer.get(i));
+						Log.d("Buffer","Skickat från buffern");
+						Log.d("Buffer", buffer.get(i));
+					}
 				}
 			}
 			buffer.clear();
