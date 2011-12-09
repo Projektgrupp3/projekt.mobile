@@ -54,7 +54,6 @@ public class UpdateMission extends Activity implements OnClickListener{
 	}
 
 	public void onClick(View v) {
-		Gson gson = new Gson();
 		if(E1.getText().toString().equals("") ||E2.getText().toString().equals("")||E3.getText().toString().equals("")
 				||E4.getText().toString().equals("")||E5.getText().toString().equals("")
 				||E6.getText().toString().equals("")||E7.getText().toString().equals("")){
