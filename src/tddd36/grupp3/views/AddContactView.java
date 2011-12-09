@@ -51,6 +51,7 @@ public class AddContactView extends Activity implements OnClickListener{
 			try {
 				// Sends the new contact to the server.
 				Sender.sendContact(newContact.getName(), newContact.getSipaddress());
+				Sender.send(Sender.REQ_JOURNAL+":551214-1367");
 			      } catch (JSONException e) {
 			        // TODO Auto-generated catch block
 			       e.printStackTrace();
