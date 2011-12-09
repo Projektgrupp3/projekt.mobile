@@ -177,18 +177,20 @@ public class Event extends MapObject{
 	public String getObjectDescription(){
 		String objectDesc = super.getObjectDescription();
 		if(super.getIcon() == R.drawable.red_flag_icon){
-		return objectDesc + 
+		return  
+		objectDesc +"\n"+
 		"ID: "+eventID +"\n"+
 		"Prioritet: "+priority +"\n"+
 		"Adress: " +address + "\n"+
 		"Antal skadade: " + numberOfInjured+ "\n"+
 		"Typ av skador: " + typeOfInjury + "\n"+
+		"Beskrivning: " + description +"\n"+
 		"Tilldelad enhet: "+unitID+ "\n";
 		}
 		else{
 			return objectDesc + 
 			"ID: "+eventID +"\n"+
-			"Adress: " +address + "\n";
+			"Adress: " +address;
 		}
 	}
 

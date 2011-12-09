@@ -22,7 +22,6 @@ import android.util.Log;
 
 /**
  * KLIENT-SENDER-KLASS
- * @author Emil
  *
  */
 public class Sender {
