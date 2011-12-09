@@ -153,7 +153,7 @@ public class MissionModel extends Observable{
 	public void setActiveJournal(JSONObject obj) {
 		try {
 			currentJournal = new Journal(obj.getString("Name"),obj.getString("SSN"),obj.getString("Address"),
-					obj.getString("Bloodtype"),obj.getString("Allergies"),obj.getString("Warning"));
+					obj.getString("BloodType"),obj.getString("Allergies"),obj.getString("Warning"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
