@@ -37,6 +37,9 @@ public class MapObject extends OverlayItem {
 	public String getHeader(){
 		return header;
 	}
+	public void setHeader(String header){
+		this.header = header;
+	}
 	public String getMessage(){
 		return message;
 	}
@@ -69,9 +72,8 @@ public class MapObject extends OverlayItem {
 	}
 
 	public String getObjectDescription(){
-		return "Objekt: "+getTitle()+"\n"+
-		"Beskrivning: "+getMessage()+"\n"+
-		"Latitud: "+getLatE6()+"\n"+
-		"Longitud: "+getLonE6()+"\n";
+			return "Objekt: "+ getHeader()+"\n"+
+			"Latitud: "+getLatE6()+"\n"+
+			"Longitud: "+getLonE6();		
 	}
 }

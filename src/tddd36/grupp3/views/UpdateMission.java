@@ -64,6 +64,7 @@ public class UpdateMission extends Activity implements OnClickListener{
 			Toast.makeText(getBaseContext(), "Fyll i fält ", Toast.LENGTH_SHORT).show();
 		}else{
 			currentMission.setID(E1.getText().toString());
+			currentMission.setHeader(E2.getText().toString());
 			currentMission.setAccidentType(E2.getText().toString());
 			currentMission.setDescription(E3.getText().toString());
 			currentMission.setAdress(E4.getText().toString());
