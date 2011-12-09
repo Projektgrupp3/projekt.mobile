@@ -64,7 +64,7 @@ public class MapObjectList extends ItemizedOverlay<OverlayItem>{
 	public boolean onTap(int index){
 		final MapObject clicked = (MapObject) pinpoints.get(index);
 		AlertDialog dialog = new AlertDialog.Builder(c).create();
-		dialog.setTitle(clicked.getTitle());
+		dialog.setTitle(clicked.getHeader());
 		dialog.setMessage(clicked.getObjectDescription());
 		dialog.setButton("OK", new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
@@ -89,7 +89,6 @@ public class MapObjectList extends ItemizedOverlay<OverlayItem>{
 					}
 				}
 			}
-
 		});
 	}
 
