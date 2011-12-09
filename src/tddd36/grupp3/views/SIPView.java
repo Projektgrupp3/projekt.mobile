@@ -8,6 +8,7 @@ import java.util.Observer;
 import tddd36.grupp3.R;
 import tddd36.grupp3.Sender;
 import tddd36.grupp3.misc.NetworkManager;
+import tddd36.grupp3.misc.QoSManager;
 import tddd36.grupp3.resources.Contact;
 import android.app.ListActivity;
 import android.content.Context;
@@ -22,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * The SIPView tab. Contains the list of contacts and the methods needed for setting up a new call 
@@ -64,6 +66,12 @@ public class SIPView extends ListActivity implements View.OnTouchListener, Obser
 @Override 
 public void onStart(){
 	super.onStart();
+}
+@Override
+public void onResume(){
+	super.onResume();
+	NetworkManager.chkStatus(SIPView.this);
+	SIPView.this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
 }
 	/**
 	 * Method invoked when a list item is clicked. Starts a child activity for the SIPTabGroup.java

@@ -78,10 +78,12 @@ public class MapModel extends Observable implements LocationListener{
 	public void insertMapObjectsFromDB(){
 		mapObjectsFromDB = new ArrayList<MapObject>();
 		mapObjectsFromDB = MainView.db.getAllRowsAsArrayList("map");
-		for(MapObject o: mapObjectsFromDB){
-			if(o != null){
-				addMapObject(o);
-			}else return;
+		if(!mapObjectsFromDB.isEmpty()){
+			for(MapObject o: mapObjectsFromDB){
+				if(o != null){
+					addMapObject(o);
+				}else return;
+			}
 		}
 	}
 
@@ -195,7 +197,7 @@ public class MapModel extends Observable implements LocationListener{
 			notifyObservers(null);
 		}
 	}
-	
+
 	public void removeObject(Event activeMission) {
 		if(activeMission != null && event != null){
 			event.remove(activeMission);

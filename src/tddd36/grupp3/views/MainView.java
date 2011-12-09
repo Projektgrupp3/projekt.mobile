@@ -82,6 +82,9 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 				QoSManager.setScreenBrightness(power);
 
 				NetworkManager.chkStatus(MainView.this);
+				if(Sender.NETWORK_STATUS.equals(NetworkManager.NONE)){
+					Toast.makeText(MainView.this, "Kontakt med nätverket förlorad.", Toast.LENGTH_LONG).show();
+				}
 				MainView.this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
 			}
 		}
@@ -98,21 +101,22 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		setContentView(R.layout.main);
 		NetworkManager.chkStatus(MainView.this);
 		this.setTitle("Sjukvården -"+Sender.NETWORK_STATUS);
+		if(Sender.NETWORK_STATUS.equals(NetworkManager.NONE)){
+			Toast.makeText(this, "Du är inloggad i Offline-läge.", Toast.LENGTH_SHORT).show();
+		}
 		db = LoginView.db;		
 
 		user = getIntent().getExtras().getString("user");
 		pass = getIntent().getExtras().getString("pass");
-		
-        System.setProperty("javax.net.ssl.keyStore","assets/clientKeyStore.key");
-	    System.setProperty("javax.net.ssl.keyStorePassword","starwars");
-	    System.setProperty("javax.net.ssl.trustStore","client/serverTrustStore");
-	    System.setProperty("javax.net.ssl.trustStorePassword","starwars");
+
+		System.setProperty("javax.net.ssl.keyStore","assets/clientKeyStore.key");
+		System.setProperty("javax.net.ssl.keyStorePassword","starwars");
+		System.setProperty("javax.net.ssl.trustStore","client/serverTrustStore");
+		System.setProperty("javax.net.ssl.trustStorePassword","starwars");
 
 
 		mapController = new MapController(MainView.this);
 		missionController = new MissionController(MainView.this);
-		//missionController.setActiveMission(getCurrentMissionFromDB());
-
 		context = getBaseContext();
 
 		// Sipstuff
@@ -195,7 +199,7 @@ public class MainView extends TabActivity implements OnTabChangeListener{
 		registerReceiver(myBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 		QoSManager.setActivity(MainView.this);
 		MainView.this.setTitle("Sjukvården - "+Sender.NETWORK_STATUS);
-		
+
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.SipDemo.INCOMING_CALL");
 		callReceiver = new IncomingCallReceiver();

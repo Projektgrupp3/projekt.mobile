@@ -247,7 +247,7 @@ public class ClientDatabaseManager extends Observable{
 		}
 	}
 	public String[] getUser(){
-		String[] stuff = new String[2];
+		String[] user = new String[2];
 		Cursor cursor = null;
 		try
 		{	
@@ -255,10 +255,10 @@ public class ClientDatabaseManager extends Observable{
 			cursor.moveToLast();
 			if(cursor.getCount() != 0){
 				if(cursor.getString(0) != null){
-					stuff[0] = cursor.getString(0);
+					user[0] = cursor.getString(0);
 				}
 				if(cursor.getString(1) != null){
-					stuff[1] = cursor.getString(1);
+					user[1] = cursor.getString(1);
 				}
 			}
 		}catch(SQLException e){
@@ -266,7 +266,7 @@ public class ClientDatabaseManager extends Observable{
 		}catch(NullPointerException e){
 
 		}
-		return stuff;
+		return user;
 	}
 	public String[] getUnits(){
 		String[] units = null;
