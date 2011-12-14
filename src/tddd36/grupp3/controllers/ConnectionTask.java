@@ -39,6 +39,7 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 	private boolean authenticated;
 	private SIPView sip;
 	ArrayList<String> buffer = new ArrayList<String>();
+	private Event tempevent;
 
 	private static GeoPoint gp;
 
@@ -172,7 +173,8 @@ public class ConnectionTask extends AsyncTask<Void, Integer, ArrayList<String>> 
 						SplashEvent.cd.stopRunning();
 						SplashEvent.mp.stop();
 						SplashEvent.vr.cancel();
-						Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
+						Event ev = SplashEvent.bufferedEvent;
+//						Event ev = new Event(messageFromServer, R.drawable.red_flag_icon);
 						MainView.mapController.addMapObject(ev);
 						MainView.missionController.setActiveMission(ev);
 						MainView.db.addRow(ev);

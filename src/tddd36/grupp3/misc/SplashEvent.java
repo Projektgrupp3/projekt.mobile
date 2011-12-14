@@ -63,6 +63,7 @@ public class SplashEvent extends Activity implements OnClickListener, Observer {
 		try {
 			JSONObject json = new JSONObject(JSONString);
 			ev = new Event(json, R.drawable.red_flag_icon);
+			bufferedEvent = ev;
 			Toast.makeText(getBaseContext(), "Inkommande larm!", Toast.LENGTH_SHORT).show();
 		} catch (JsonSyntaxException e) {
 			// TODO Auto-generated catch block
